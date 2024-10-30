@@ -8,11 +8,12 @@
 
 class CLUTTERENGINE_API Application {
 public:
-    Application();
+    Application(int width, int height, std::string name);
     void Run();
+	Window* GetWindow() { return window; }
     ~Application();
 private:
-    void Init();
+    void Init(int width, int height, std::string name);
     void Shutdown();
     Window* window = nullptr;
 };

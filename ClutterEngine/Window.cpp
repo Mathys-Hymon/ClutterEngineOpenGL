@@ -1,8 +1,7 @@
 #include "pch.h"
-
+#include "Window.h"
 #include<glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "Window.h"
 
 
 GLFWwindow* window;
@@ -39,6 +38,16 @@ Window::Window(unsigned int width, unsigned int height, const std::string& title
     }
 
     glViewport(0, 0, width, height);
+}
+
+GLFWwindow* Window::getRef() const
+{
+    return window;
+}
+
+void Window::ResizeViewport(unsigned int startWidth, unsigned int startHeight, unsigned int width, unsigned int height)
+{
+	glViewport(startWidth, startHeight, width, height);
 }
 
 Window::~Window()
