@@ -1,14 +1,9 @@
 #include "pch.h"
 #include<glad/glad.h>
-#include "Application.h"
+#include <Application/Application.h>	
 #include <GLFW/glfw3.h>
 
-
-#include<filesystem>
-namespace fs = std::filesystem;
-
-std::string parentDir = (fs::current_path().fs::path::parent_path()).string();
-std::string contentDir = parentDir + "/FistOpenGL/Content/";
+using namespace clt;
 
 
 Application::Application(int width, int height, std::string name)
@@ -19,19 +14,22 @@ Application::Application(int width, int height, std::string name)
 
 void Application::Init(int width, int height, std::string name)
 {
-	window = new Window(width, height, name);
+	mWindow = new Window(width, height, name);
 }
 
 
 void Application::Run()
 {
+	while (!GetWindow()->ShouldClose())
+	{
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);		 // Define the background Color
 		glClear(GL_COLOR_BUFFER_BIT);				 // Clear the background color and depth
 		glDepthFunc(GL_LESS);
 
-		window->SwapBuffers();
+		mWindow->SwapBuffers();
 
 		glfwPollEvents();
+	}
 }
 
 Application::~Application()
@@ -42,6 +40,6 @@ Application::~Application()
 
 void Application::Shutdown()
 {
-	window->~Window();
+	mWindow->~Window();
 	glfwTerminate();
 }

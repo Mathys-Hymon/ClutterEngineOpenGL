@@ -1,9 +1,9 @@
 #include "pch.h"
-#include "Window.h"
+#include <Window/Window.h>
 #include<glad/glad.h>
 #include <GLFW/glfw3.h>
 
-
+using namespace clt;
 GLFWwindow* window;
 
 Window::Window(unsigned int width, unsigned int height, const std::string& title)
@@ -23,26 +23,21 @@ Window::Window(unsigned int width, unsigned int height, const std::string& title
     window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 
     if (window == nullptr) {
-        std::cerr << "Failed to create GLFW Window" << std::endl;
+        CLUTTER_ERROR("Failed to create GLFW Window");
         glfwTerminate();
     }
-
+    CLUTTER_LOG("GLFW Window Created");
     glfwMakeContextCurrent(window);
 
     gladLoadGL();
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        std::cerr << "Failed to initialize GLAD" << std::endl;
+        CLUTTER_ERROR("Failed to initialise GLAD");
         glfwTerminate();
         return;
     }
-
+    CLUTTER_LOG("GLAD initialised successfully");
     glViewport(0, 0, width, height);
-}
-
-GLFWwindow* Window::getRef() const
-{
-    return window;
 }
 
 void Window::ResizeViewport(unsigned int startWidth, unsigned int startHeight, unsigned int width, unsigned int height)
