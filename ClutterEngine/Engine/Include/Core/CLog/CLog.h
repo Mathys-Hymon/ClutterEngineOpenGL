@@ -8,13 +8,13 @@
 #define YELLOW  "\033[33m"
 #define GREEN   "\033[92m"
 
+// Error handling
 #define CLUTTER_ERROR(message)\
 {\
 std::stringstream m;\
 m << RED << "CLUTTER ENGINE Error: " << message << RESET << std::endl;\
 throw std::runtime_error(m.str());\
 }
-
 // Warning handling
 
 #define CLUTTER_WARNING(message)\

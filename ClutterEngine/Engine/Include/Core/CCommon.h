@@ -6,5 +6,3 @@
 #else
 #define CLUTTER_API __declspec(dllimport)
 #endif
-
-#include <string>

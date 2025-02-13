@@ -4,10 +4,7 @@
 
 int main()
 {
-    std::cout << "Clutter Editor" << std::endl;
-    clt::Application app(800, 800, "Editor Window");
-
-    app.Run();
+    clt::Application app(800, 800, "Space Invader");
 
     return 0;
     

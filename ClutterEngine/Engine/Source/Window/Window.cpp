@@ -4,9 +4,8 @@
 #include <GLFW/glfw3.h>
 
 using namespace clt;
-GLFWwindow* window;
 
-Window::Window(unsigned int width, unsigned int height, const std::string& title)
+Window::Window(uint32 pWidth, uint32 pHeight,std::string pName) : mName(pName), mDimensions(pWidth, pHeight)
 {
 
     // Initialize GLFW
@@ -20,14 +19,14 @@ Window::Window(unsigned int width, unsigned int height, const std::string& title
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 
-    window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+    mGlfwWindow = glfwCreateWindow(pWidth, pHeight, pName.c_str(), NULL, NULL);
 
-    if (window == nullptr) {
+    if (mGlfwWindow == nullptr) {
         CLUTTER_ERROR("Failed to create GLFW Window");
         glfwTerminate();
     }
     CLUTTER_LOG("GLFW Window Created");
-    glfwMakeContextCurrent(window);
+    glfwMakeContextCurrent(mGlfwWindow);
 
     gladLoadGL();
 
@@ -37,7 +36,11 @@ Window::Window(unsigned int width, unsigned int height, const std::string& title
         return;
     }
     CLUTTER_LOG("GLAD initialised successfully");
-    glViewport(0, 0, width, height);
+    glViewport(0, 0, pWidth, pHeight);
+}
+
+Window::~Window()
+{
 }
 
 void Window::ResizeViewport(unsigned int startWidth, unsigned int startHeight, unsigned int width, unsigned int height)
@@ -45,17 +48,17 @@ void Window::ResizeViewport(unsigned int startWidth, unsigned int startHeight, u
 	glViewport(startWidth, startHeight, width, height);
 }
 
-Window::~Window()
-{
-    glfwDestroyWindow(window);
-}
-
 bool Window::ShouldClose() const
 {
-    return glfwWindowShouldClose(window);
+    return glfwWindowShouldClose(mGlfwWindow);
 }
 
 void Window::SwapBuffers() const
 {
-    glfwSwapBuffers(window);
+    glfwSwapBuffers(mGlfwWindow);
+}
+
+void Window::Close()
+{
+    glfwDestroyWindow(mGlfwWindow);
 }
