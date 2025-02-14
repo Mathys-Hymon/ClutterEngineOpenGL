@@ -2,7 +2,7 @@
 #include "cmath"
 #include "Vector2.h"
 #include "string"
-#include "../../DebugClass/Log.h"
+#include <Core/CLog/CLog.h>
 
 /**
  * @brief A 3D vector structure.
@@ -547,7 +547,7 @@ struct Vector3
     /**
      * @brief Normalizes the vector to a unit vector.
      */
-    inline void Normalize()
+    inline void Normalized()
     {
         (*this) /= Length();
     }

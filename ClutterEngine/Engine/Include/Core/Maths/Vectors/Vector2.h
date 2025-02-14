@@ -10,8 +10,8 @@ struct Vector2
     float x = 0; ///< The x-coordinate of the vector.
     float y = 0; ///< The y-coordinate of the vector.
 
-    static const Vector2 Zero; ///< A vector with both coordinates set to zero.
-    static const Vector2 One;  ///< A vector with both coordinates set to one.
+    static const Vector2 ZERO; ///< A vector with both coordinates set to zero.
+    static const Vector2 ONE;  ///< A vector with both coordinates set to one.
 
     /**
      * @brief Default constructor initializing the vector to (0,0).
@@ -105,27 +105,26 @@ struct Vector2
         y /= length;
     }
 
-    /**
-     * @brief Subtracts two vectors.
-     * @param left The left vector.
-     * @param right The right vector.
-     * @return The result of the subtraction.
-     */
-    friend Vector2 operator-(Vector2& left, Vector2 right)
+    friend bool operator==(Vector2& left, Vector2& right)
     {
-        return { left.x - right.x, left.y - right.y };
+        return (left.x == right.x && left.y == right.y);
     }
 
-    /**
-     * @brief Subtracts two vectors.
-     * @param left The left vector.
-     * @param right The right vector.
-     * @return The result of the subtraction.
-     */
-    friend Vector2 operator-(Vector2 left, Vector2& right)
+    friend bool operator!=(Vector2& left, Vector2& right)
     {
-        return { left.x - right.x, left.y - right.y };
+        return (left.x != right.x && left.y != right.y);
     }
+
+    friend bool operator==(Vector2& left, const Vector2& right)
+    {
+        return (left.x == right.x && left.y == right.y);
+    }
+
+    friend bool operator!=(Vector2& left, const Vector2& right)
+    {
+        return (left.x != right.x && left.y != right.y);
+    }
+
 
     /**
      * @brief Subtracts two vectors.
@@ -144,7 +143,7 @@ struct Vector2
      * @param right The scalar.
      * @return The result of the subtraction.
      */
-    friend Vector2 operator-(Vector2& left, float right)
+    friend Vector2 operator-(Vector2 left, float right)
     {
         return { left.x - right, left.y - right };
     }
@@ -166,7 +165,7 @@ struct Vector2
      * @param right The scalar.
      * @return The result of the addition.
      */
-    friend Vector2 operator+(Vector2& left, float right)
+    friend Vector2 operator+(Vector2 left, float right)
     {
         return { left.x + right, left.y + right };
     }
@@ -177,7 +176,7 @@ struct Vector2
      * @param right The vector.
      * @return The result of the multiplication.
      */
-    friend Vector2 operator*(float scalar, Vector2& right)
+    friend Vector2 operator*(float scalar, Vector2 right)
     {
         return { scalar * right.x, scalar * right.y };
     }
@@ -188,7 +187,7 @@ struct Vector2
      * @param scalar The scalar.
      * @return The result of the multiplication.
      */
-    friend Vector2 operator*(Vector2& left, float scalar)
+    friend Vector2 operator*(Vector2 left, float scalar)
     {
         return { left.x * scalar, left.y * scalar };
     }

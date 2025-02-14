@@ -8,6 +8,7 @@
 #define YELLOW  "\033[33m"
 #define GREEN   "\033[92m"
 
+
 // Error handling
 #define CLUTTER_ERROR(message)\
 {\
@@ -28,3 +29,4 @@ std::wclog << GREEN << "CLUTTER ENGINE Info: " << message << RESET << std::endl;
 // Log handling
 #define CLUTTER_LOG(message)\
 std::wclog << "CLUTTER ENGINE Log: " << message << std::endl;
+

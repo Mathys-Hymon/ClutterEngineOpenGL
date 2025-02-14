@@ -10,8 +10,6 @@ Application::Application(int pWidth, int pHeight, std::string pName)
 	Init(pWidth, pHeight, pName);
 
 	CLUTTER_INFO("Application created");
-
-	Run();
 }
 
 void Application::Init(int pWidth, int pHeight, std::string pName)
@@ -27,7 +25,8 @@ void Application::Run()
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);		 // Define the background Color
 		glClear(GL_COLOR_BUFFER_BIT);				 // Clear the background color and depth
 		glDepthFunc(GL_LESS);
-		Tick();
+
+		Update();
 		Render();
 
 		mWindow->SwapBuffers();
@@ -39,14 +38,6 @@ void Application::Run()
 Application::~Application()
 {
 	Shutdown();
-}
-
-void Application::Tick()
-{
-}
-
-void Application::Render()
-{
 }
 
 

@@ -140,6 +140,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Content\Include\Game\DoorsAndButtonsApp.cpp" />
+    <ClCompile Include="Content\Include\Game\DoorsAndButtonsApp.h" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

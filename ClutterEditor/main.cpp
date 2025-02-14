@@ -1,10 +1,11 @@
-#include <Application/Application.h>
+#include <Game/DoorsAndButtonsApp.h>
 #include <string>
 #include <iostream>
 
 int main()
 {
-    clt::Application app(800, 800, "Space Invader");
+    DoorsAndButtonsApp app(800, 800, "Doors and Buttons");
+    app.Run();
 
     return 0;
     

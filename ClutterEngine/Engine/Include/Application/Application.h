@@ -6,18 +6,18 @@ namespace clt
     class CLUTTER_API Application {
     public:
         Application(int pWidth, int pHeight, std::string pName);
-        ~Application();
+        virtual ~Application();
 
         void Shutdown();
 
-        Window* GetWindow() { return mWindow; }
-
-    private:
-        void Init(int width, int height, std::string name);
+        Window* GetWindow() const { return mWindow; }
         void Run();
 
-        void Tick();
-        void Render();
+    protected:
+        void Init(int width, int height, std::string name);
+
+        virtual void Update() = 0;
+        virtual void Render() = 0;
 
         Window* mWindow = nullptr;
     };

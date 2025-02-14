@@ -5,7 +5,7 @@ VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClutterEngine", "ClutterEngine\ClutterEngine.vcxproj", "{B3007EB2-F9D6-4035-8CAF-B7084EBC84FC}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClutterEditor", "ClutterEditor\ClutterEditor.vcxproj", "{7CCB562D-C8FA-4087-B088-8531B62F0777}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExempleGame", "ClutterEditor\ClutterEditor.vcxproj", "{7CCB562D-C8FA-4087-B088-8531B62F0777}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
