@@ -1,10 +1,10 @@
 #pragma once
 #include <Core/CCommon.h>
-#include <GLFW/glfw3.h>
 #include <Window/Window.h>
 
 namespace clt
 {
+	class GraphicComponent;
 	class CLUTTER_API Renderer
 	{
 	public:
@@ -15,12 +15,14 @@ namespace clt
 
 		bool Initialize(Window& pWindow);
 
+		void AddGraphicComponent(GraphicComponent* pComp);
+		void RemoveGraphicComponent(GraphicComponent* pComp);
+		
 		void BeginDraw();
 		void Draw();
 		void EndDraw();
 
 
 	private:
-		
 	};
 }

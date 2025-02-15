@@ -3,7 +3,7 @@
 
 using namespace clt;
 
-CLevel::CLevel(std::string pTitle) : mTitle(pTitle), mRenderer(nullptr)
+CLevel::CLevel(std::string pTitle) : mTitle(pTitle), mRenderer(nullptr), mUpdatingActors(false)
 {
 }
 
@@ -40,6 +40,7 @@ void CLevel::AddActor(Actor* pActor)
 		size_t hashCode = typeid(*pActor).hash_code();
 
 		mActors[hashCode].push_back(pActor);
+		pActor->mLevel = this;
 	}
 }
 
@@ -75,10 +76,13 @@ void CLevel::UpdateActors()
 	{
 		size_t typeHash = typeid(pActor).hash_code();
 		mActors[typeHash].push_back(pActor);
+		pActor->mLevel = this;
 	}
+	mPendingActors.clear();
 
 	for (Actor* pActor : mDeadActors)
 	{
 		delete pActor;
 	}
+	mDeadActors.clear();
 }

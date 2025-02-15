@@ -156,7 +156,9 @@
     <ClInclude Include="Engine\Include\Application\Application.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Actor.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Component.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\GraphicComponent.h" />
     <ClInclude Include="Engine\Include\Core\CCommon.h" />
+    <ClInclude Include="Engine\Include\Core\CEngine.h" />
     <ClInclude Include="Engine\Include\Core\CLog\CLog.h" />
     <ClInclude Include="Engine\Include\Core\CPrerequisites.h" />
     <ClInclude Include="Engine\Include\Core\Maths\Maths.h" />
@@ -173,6 +175,7 @@
     <ClInclude Include="Engine\Include\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Source\Core\CEngine.cpp" />
     <ClCompile Include="Engine\Include\Levels\CLevel.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Actor.cpp" />
     <ClCompile Include="Engine\Source\Graphics\Renderer.cpp" />

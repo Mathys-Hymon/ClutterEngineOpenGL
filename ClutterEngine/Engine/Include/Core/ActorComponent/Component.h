@@ -13,8 +13,8 @@ namespace clt
 
     public:
 
-        Component(int pUpdateOrder = 0) : mUpdateOrder(pUpdateOrder), mOwner(nullptr) {};
-        ~Component() {};
+        Component(Actor* pOwner, int pUpdateOrder = 0) : mUpdateOrder(pUpdateOrder), mOwner(pOwner) {};
+        virtual ~Component() = default;
 
         virtual void Start() {};
         virtual void Update() {};

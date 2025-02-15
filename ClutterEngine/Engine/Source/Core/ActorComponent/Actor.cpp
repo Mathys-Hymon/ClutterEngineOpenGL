@@ -3,7 +3,7 @@
 
 using namespace clt;
 
-Actor::Actor() : mState(ActorState::Active), mScene(nullptr), mIsUpdatingComponents(false)
+Actor::Actor() : mState(ActorState::Active), mLevel(nullptr), mIsUpdatingComponents(false)
 {
 }
 

@@ -24,7 +24,7 @@ namespace clt
 
     protected:
         ActorState mState; ///< The state of the actor.
-        CLevel* mScene; ///< The scene the actor is attached to.
+        CLevel* mLevel; ///< The scene the actor is attached to.
         Transform2D mTransform;
 
         std::unordered_map<size_t, Component*> mComponents;
@@ -43,7 +43,7 @@ namespace clt
         template<typename T>
         void RemoveComponent();
 
-        void AttachScene(CLevel* pScene) { mScene = pScene; };
+        void AttachScene(CLevel* pScene) { mLevel = pScene; };
 
         Transform2D getTransform() const { return mTransform; };
         Vector2 GetPosition() const { return mTransform.location; };
@@ -59,7 +59,7 @@ namespace clt
         void AddActorLocationOffset(Vector2 locOffset) { mTransform.location += locOffset; };
         void AddActorRotationOffset(float rotOffset) { mTransform.rotation += rotOffset; };
 
-        CLevel& GetScene() const { return *mScene; };
+        CLevel& GetLevel() const { return *mLevel; };
 
         friend CLevel;
 

@@ -16,18 +16,18 @@ Application::Application(int pWidth, int pHeight, std::string pName) : mName(pNa
 
 void Application::Init(int pWidth, int pHeight, std::string pName)
 {
-	mWindow = std::make_unique<Window>(pWidth, pHeight, pName);
+	mEngine = std::make_unique<CEngine>();
+	mEngine->Init(pWidth, pHeight, pName);
 }
 
 void Application::Run()
 {
 	while (!GetWindow()->ShouldClose())
 	{
-		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);		 // Define the background Color
-		glClear(GL_COLOR_BUFFER_BIT);				 // Clear the background color and depth
-		glDepthFunc(GL_LESS);
+		Update();
+		Render();
 
-		mWindow->SwapBuffers();
+		GetWindow()->SwapBuffers();
 
 		glfwPollEvents();
 	}
@@ -41,6 +41,9 @@ void Application::Update()
 
 void Application::Render()
 {
+	GetRenderer()->BeginDraw();
+	GetRenderer()->Draw();
+	GetRenderer()->EndDraw();
 }
 
 Application::~Application()
@@ -50,5 +53,5 @@ Application::~Application()
 
 void Application::Close()
 {
-	mWindow->Close();
+	mEngine->Close();
 }
