@@ -11,53 +11,59 @@ enum class ActorState {
     Dead
 };
 
-class CLevel;
-class CLUTTER_API Actor
+namespace clt
 {
+    class CLevel;
+    class CLUTTER_API Actor
+    {
 
-    void InternalUpdate();
-    void AddComponentInternal(Component* pComponent);
+        void InternalUpdate();
+        void AddComponentInternal(Component* pComponent);
 
-    bool mIsUpdatingComponents;
+        bool mIsUpdatingComponents;
 
-protected:
-    ActorState mState; ///< The state of the actor.
-    CLevel* mScene; ///< The scene the actor is attached to.
-    Transform2D mTransform;
- 
-    std::unordered_map<size_t, Component*> mComponents;
-    std::vector<Component*> mComponentsByUpdateOrder;
-    std::vector<Component*> mComponentsToAdd;
-    std::vector<Component*> mComponentsToRemove;
+    protected:
+        ActorState mState; ///< The state of the actor.
+        CLevel* mScene; ///< The scene the actor is attached to.
+        Transform2D mTransform;
 
-public:
-    Actor();
-    ~Actor();
+        std::unordered_map<size_t, Component*> mComponents;
+        std::vector<Component*> mComponentsByUpdateOrder;
+        std::vector<Component*> mComponentsToAdd;
+        std::vector<Component*> mComponentsToRemove;
 
-    virtual void Update() {};
+    public:
+        Actor();
+        ~Actor();
 
-    void AddComponent(Component* pComponent);
+        virtual void Update() {};
 
-    template<typename T>
-    void RemoveComponent();
+        void AddComponent(Component* pComponent);
 
-    void AttachScene(CLevel* pScene) { mScene = pScene; };
+        template<typename T>
+        void RemoveComponent();
 
-    Transform2D getTransform() const { return mTransform; };
-    Vector2 GetPosition() const { return mTransform.location; };
-    Vector2 GetScale() const { return mTransform.scale; };
+        void AttachScene(CLevel* pScene) { mScene = pScene; };
 
-    virtual void OnCollision(Actor* other) {};
-    virtual void OnCollisionEnd(Actor* other) {};
+        Transform2D getTransform() const { return mTransform; };
+        Vector2 GetPosition() const { return mTransform.location; };
+        Vector2 GetScale() const { return mTransform.scale; };
 
-    void SetActorLocation(Vector2 loc) { mTransform.location = loc; };
-    void SetActorScale(Vector2 scale)  { mTransform.scale = scale; };
-    void SetActorRotation(float rot)   { mTransform.rotation = rot; };
+        virtual void OnCollision(Actor* other) {};
+        virtual void OnCollisionEnd(Actor* other) {};
 
-    void AddActorLocationOffset(Vector2 locOffset) { mTransform.location += locOffset; };
-    void AddActorRotationOffset(float rotOffset) { mTransform.rotation += rotOffset; };
+        void SetActorLocation(Vector2 loc) { mTransform.location = loc; };
+        void SetActorScale(Vector2 scale) { mTransform.scale = scale; };
+        void SetActorRotation(float rot) { mTransform.rotation = rot; };
 
-    CLevel& GetScene() const { return *mScene; };
+        void AddActorLocationOffset(Vector2 locOffset) { mTransform.location += locOffset; };
+        void AddActorRotationOffset(float rotOffset) { mTransform.rotation += rotOffset; };
 
-};
+        CLevel& GetScene() const { return *mScene; };
+
+        friend CLevel;
+
+    };
+}
+
 

@@ -1,6 +1,8 @@
 #include "pch.h"
 #include <Core/ActorComponent/Actor.h>
 
+using namespace clt;
+
 Actor::Actor() : mState(ActorState::Active), mScene(nullptr), mIsUpdatingComponents(false)
 {
 }
@@ -29,7 +31,7 @@ void Actor::AddComponent(Component* pComponent)
 	{
 		pComponent->mOwner = this;
 
-		if (mIsUpdatingComponents)	mComponentsToAdd.push_back(pComponent);
+		if (mIsUpdatingComponents)	mComponentsToAdd.emplace_back(pComponent);
 		else						AddComponentInternal(pComponent);
 	}
 }
@@ -90,7 +92,7 @@ void Actor::InternalUpdate()
 		if (it != mComponentsByUpdateOrder.end()) 
 		{
 			std::iter_swap(it, mComponentsByUpdateOrder.end() - 1);
-			mComponentsToRemove.emplace_back(pComponent);
+			mComponentsByUpdateOrder.pop_back();
 		}
 	}
 }

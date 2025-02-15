@@ -5,8 +5,23 @@
 
 namespace clt
 {
+    class CLevelManager;
     class CLevel
     {
+        bool mUpdatingActors;
+        void UpdateActors();
+
+    protected:
+        std::string mTitle; ///< The title of the scene.
+        Renderer* mRenderer; ///< The renderer used for drawing the scene.
+        //PhysicEngine* mPhysic;
+
+        std::unordered_map < size_t, std::vector<Actor*> > mActors;
+        std::vector<Actor*> mPendingActors;
+        std::vector<Actor*> mDeadActors;
+
+        virtual void Update() {};
+
     public:
 
         static CLevel* ActiveScene;
@@ -14,28 +29,27 @@ namespace clt
         CLevel(std::string pTitle = "Scene");
         ~CLevel();
 
-        //virtual void Load() {};
-        //virtual void SetRenderer(Renderer* pRenderer);
-        //virtual void Tick();
-        //virtual void Render();
-        //virtual void Close();
-        //virtual void Unload();
+        //template<typename T>
+        //std::vector<T*> GetAllActorsOfClass();
 
-        //void AddActor(Actor* pActor);
-        //void RemoveActor(Actor* pActor);
-        //void updateActors();
+        //template<typename T>
+        //T* GetActorOfClass();
+
+        virtual void Load() {};
+
+        void SetRenderer(Renderer* pRenderer) { mRenderer = pRenderer; };
+        void InternalUpdate();
+        //void Render();
+
+        virtual void Close() {};
+
+        void Unload();
+
+        void AddActor(Actor* pActor);
+        void RemoveActor(Actor* pActor);
 
         Renderer& GetRenderer() const { return *mRenderer; };
 
-    protected:
-        std::string mTitle; ///< The title of the scene.
-        std::shared_ptr<Renderer> mRenderer; ///< The renderer used for drawing the scene.
-        //PhysicEngine* mPhysic;
-
-        bool mUpdatingActors;
-
-        std::vector<Actor*> mPendingActors;
-        std::vector<Actor*> mDeadActors;
-        std::vector<Actor*> mActors;
+        friend CLevelManager;
     };
 }
