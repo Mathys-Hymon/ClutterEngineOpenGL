@@ -173,7 +173,7 @@
     <ClInclude Include="Engine\Include\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\Include\Core\ActorComponent\Component.cpp" />
+    <ClCompile Include="Engine\Include\Levels\CLevel.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Actor.cpp" />
     <ClCompile Include="Engine\Source\Graphics\Renderer.cpp" />
     <ClCompile Include="Engine\Source\Application\Application.cpp" />

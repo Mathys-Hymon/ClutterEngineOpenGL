@@ -104,7 +104,7 @@
     <ClCompile Include="Engine\Source\Core\ActorComponent\Actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Include\Core\ActorComponent\Component.cpp">
+    <ClCompile Include="Engine\Include\Levels\CLevel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -3,13 +3,8 @@
 #include <Core/Maths/Transforms/Transform2D.h>
 #include <unordered_map>
 #include <vector>
-#include <memory>
-#include <typeinfo>
-#include <stdexcept>
 
-/**
- * @brief An enumeration representing the state of an actor.
- */
+
 enum class ActorState {
     Active,
     Paused,
@@ -19,17 +14,21 @@ enum class ActorState {
 class CLevel;
 class CLUTTER_API Actor
 {
+
+    void InternalUpdate();
+    void AddComponentInternal(Component* pComponent);
+
+    bool mIsUpdatingComponents;
+
 protected:
     ActorState mState; ///< The state of the actor.
     CLevel* mScene; ///< The scene the actor is attached to.
     Transform2D mTransform;
  
-    std::unordered_map<size_t, std::shared_ptr<Component>> mComponents;
+    std::unordered_map<size_t, Component*> mComponents;
     std::vector<Component*> mComponentsByUpdateOrder;
     std::vector<Component*> mComponentsToAdd;
     std::vector<Component*> mComponentsToRemove;
-
-    void InternalUpdate();
 
 public:
     Actor();

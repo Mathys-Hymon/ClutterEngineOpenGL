@@ -14,16 +14,16 @@ namespace clt
         CLevel(std::string pTitle = "Scene");
         ~CLevel();
 
-        virtual void Load() {};
-        virtual void SetRenderer(Renderer* pRenderer);
-        virtual void Tick();
-        virtual void Render();
-        virtual void Close();
-        virtual void Unload();
+        //virtual void Load() {};
+        //virtual void SetRenderer(Renderer* pRenderer);
+        //virtual void Tick();
+        //virtual void Render();
+        //virtual void Close();
+        //virtual void Unload();
 
-        void AddActor(Actor* pActor);
-        void RemoveActor(Actor* pActor);
-        void updateActors();
+        //void AddActor(Actor* pActor);
+        //void RemoveActor(Actor* pActor);
+        //void updateActors();
 
         Renderer& GetRenderer() const { return *mRenderer; };
 

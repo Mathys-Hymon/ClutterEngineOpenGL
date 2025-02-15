@@ -11,7 +11,7 @@ protected:
 
 public:
 
-    Component(int pUpdateOrder = 0);
+    Component(int pUpdateOrder = 0) : mUpdateOrder(pUpdateOrder), mOwner(nullptr) {};
     ~Component() {};
 
     virtual void Start() {};

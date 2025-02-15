@@ -1,10 +1,11 @@
 #pragma once
+#include <Core/CCommon.h>
 #include <GLFW/glfw3.h>
 #include <Window/Window.h>
 
 namespace clt
 {
-	class Renderer
+	class CLUTTER_API Renderer
 	{
 	public:
 		Renderer();

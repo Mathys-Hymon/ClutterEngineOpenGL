@@ -1,21 +1,50 @@
 #include "pch.h"
 #include <Core/ActorComponent/Actor.h>
 
-Actor::Actor() : mState(ActorState::Active), mScene(nullptr)
+Actor::Actor() : mState(ActorState::Active), mScene(nullptr), mIsUpdatingComponents(false)
 {
 }
 
 Actor::~Actor()
 {
+	for (auto& pair : mComponents) {
+		delete pair.second;
+	}
+	mComponents.clear();
+	mComponentsByUpdateOrder.clear();
+	mComponentsToAdd.clear();
+	mComponentsToRemove.clear();
 }
 
 void Actor::AddComponent(Component* pComponent)
 {
-	pComponent->mOwner = this;
-
 	size_t hashCode = typeid(pComponent).hash_code();
-	if (mComponents.find(hashCode) != mComponents.end()) CLUTTER_ERROR("A component of this type already exists in the Actor.")
-	else mComponentsToAdd.push_back(pComponent);
+
+	if (mComponents.find(hashCode) != mComponents.end())
+	{
+		CLUTTER_ERROR("A component of this type already exists in the Actor.");
+		delete pComponent;
+	}
+	else
+	{
+		pComponent->mOwner = this;
+
+		if (mIsUpdatingComponents)	mComponentsToAdd.push_back(pComponent);
+		else						AddComponentInternal(pComponent);
+	}
+}
+
+void Actor::AddComponentInternal(Component* pComponent)
+{
+	size_t hashCode = typeid(*pComponent).hash_code();
+	mComponents[hashCode] = pComponent;
+
+	mComponentsByUpdateOrder.push_back(pComponent);
+
+	std::sort(mComponentsByUpdateOrder.begin(), mComponentsByUpdateOrder.end(),
+		[](Component* a, Component* b) {
+			return a->GetUpdateOrder() < b->GetUpdateOrder();
+		});
 }
 
 template<typename T>
@@ -35,27 +64,17 @@ void Actor::InternalUpdate()
 	Update();
 
 		//Update Components
+	mIsUpdatingComponents = true;
 	for (Component* pComponent : mComponentsByUpdateOrder)
 	{
 		if(pComponent->IsEnable()) pComponent->Update();
 	}
+	mIsUpdatingComponents = false;
 
 		// Add new Components to actor
 	for (Component* pComponent : mComponentsToAdd)
 	{
-		size_t hashCode = typeid(*pComponent).hash_code();
-		mComponents[hashCode] = std::unique_ptr<Component>(pComponent);
-
-		mComponentsByUpdateOrder.push_back(pComponent);
-	}
-
-		// Sort Components by Update order
-	if (!mComponentsToAdd.empty())
-	{
-		std::sort(mComponentsByUpdateOrder.begin(), mComponentsByUpdateOrder.end(),
-			[](Component* a, Component* b) {
-				return a->GetUpdateOrder() < b->GetUpdateOrder();
-			});
+		AddComponentInternal(pComponent);
 	}
 
 	mComponentsToAdd.clear();
