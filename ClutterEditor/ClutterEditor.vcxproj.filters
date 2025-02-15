@@ -18,11 +18,5 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Content\Include\Game\DoorsAndButtonsApp.h">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Content\Include\Game\DoorsAndButtonsApp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

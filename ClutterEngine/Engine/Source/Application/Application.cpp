@@ -5,18 +5,19 @@
 
 using namespace clt;
 
-Application::Application(int pWidth, int pHeight, std::string pName)
+Application::Application(int pWidth, int pHeight, std::string pName) : mName(pName)
 {
 	Init(pWidth, pHeight, pName);
 
 	CLUTTER_INFO("Application created");
+
+	Run();
 }
 
 void Application::Init(int pWidth, int pHeight, std::string pName)
 {
-	mWindow = new Window(pWidth, pHeight, pName);
+	mWindow = std::make_unique<Window>(pWidth, pHeight, pName);
 }
-
 
 void Application::Run()
 {
@@ -26,23 +27,28 @@ void Application::Run()
 		glClear(GL_COLOR_BUFFER_BIT);				 // Clear the background color and depth
 		glDepthFunc(GL_LESS);
 
-		Update();
-		Render();
-
 		mWindow->SwapBuffers();
 
 		glfwPollEvents();
 	}
+
+
+}
+
+void Application::Update()
+{
+}
+
+void Application::Render()
+{
 }
 
 Application::~Application()
 {
-	Shutdown();
 }
 
 
-void Application::Shutdown()
+void Application::Close()
 {
 	mWindow->Close();
-	glfwTerminate();
 }

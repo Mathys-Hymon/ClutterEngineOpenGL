@@ -61,4 +61,5 @@ void Window::SwapBuffers() const
 void Window::Close()
 {
     glfwDestroyWindow(mGlfwWindow);
+    glfwTerminate();
 }

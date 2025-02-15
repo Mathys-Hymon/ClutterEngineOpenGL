@@ -1,11 +1,10 @@
-#include <Game/DoorsAndButtonsApp.h>
+#include <Application/Application.h>
 #include <string>
 #include <iostream>
 
 int main()
 {
-    DoorsAndButtonsApp app(800, 800, "Doors and Buttons");
-    app.Run();
+    clt::Application app(800, 800, "Doors and Buttons");
 
     return 0;
     

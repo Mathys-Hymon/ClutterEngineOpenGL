@@ -24,7 +24,7 @@
     <ProjectGuid>{7ccb562d-c8fa-4087-b088-8531b62f0777}</ProjectGuid>
     <RootNamespace>ClutterEditor</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>ExempleGame</ProjectName>
+    <ProjectName>DoorsAndButtons</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -140,8 +140,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Content\Include\Game\DoorsAndButtonsApp.cpp" />
-    <ClCompile Include="Content\Include\Game\DoorsAndButtonsApp.h" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

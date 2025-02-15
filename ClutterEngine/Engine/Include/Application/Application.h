@@ -4,21 +4,25 @@
 namespace clt
 {
     class CLUTTER_API Application {
-    public:
-        Application(int pWidth, int pHeight, std::string pName);
-        virtual ~Application();
+        
+        std::string mName;
+        std::unique_ptr<Window> mWindow;
 
-        void Shutdown();
+        void Init(int pWidth, int pHeight, std::string pName);
 
-        Window* GetWindow() const { return mWindow; }
         void Run();
 
-    protected:
-        void Init(int width, int height, std::string name);
+        void Update();
 
-        virtual void Update() = 0;
-        virtual void Render() = 0;
+        void Render();
 
-        Window* mWindow = nullptr;
+    public:
+
+        Application(int pWidth, int pHeight, std::string pName = "Clutter Editor");
+        ~Application();
+
+        void Close();
+
+        Window* GetWindow() const { return mWindow.get(); }
     };
 }

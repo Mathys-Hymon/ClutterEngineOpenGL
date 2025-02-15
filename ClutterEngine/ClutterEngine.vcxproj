@@ -154,8 +154,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Include\Application\Application.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Actor.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Component.h" />
     <ClInclude Include="Engine\Include\Core\CCommon.h" />
-    <ClInclude Include="Engine\Include\Core\CEngine.h" />
     <ClInclude Include="Engine\Include\Core\CLog\CLog.h" />
     <ClInclude Include="Engine\Include\Core\CPrerequisites.h" />
     <ClInclude Include="Engine\Include\Core\Maths\Maths.h" />
@@ -165,11 +166,16 @@
     <ClInclude Include="Engine\Include\Core\Maths\Vectors\Vector2.h" />
     <ClInclude Include="Engine\Include\Core\Maths\Vectors\Vector3.h" />
     <ClInclude Include="Engine\Include\Graphics\Renderer.h" />
+    <ClInclude Include="Engine\Include\Levels\CLevel.h" />
+    <ClInclude Include="Engine\Include\Levels\CLevelManager.h" />
     <ClInclude Include="Libraries\include\PCH\framework.h" />
     <ClInclude Include="Libraries\include\PCH\pch.h" />
     <ClInclude Include="Engine\Include\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Include\Core\ActorComponent\Component.cpp" />
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Actor.cpp" />
+    <ClCompile Include="Engine\Source\Graphics\Renderer.cpp" />
     <ClCompile Include="Engine\Source\Application\Application.cpp" />
     <ClCompile Include="Libraries\include\PCH\dllmain.cpp" />
     <ClCompile Include="Libraries\include\PCH\glad.c">
