@@ -6,7 +6,7 @@
 namespace clt
 {
     class CLevelManager;
-    class CLevel
+    class CLUTTER_API CLevel
     {
         bool mUpdatingActors;
         void UpdateActors();
