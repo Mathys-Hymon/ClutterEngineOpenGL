@@ -21,8 +21,6 @@ namespace clt
 
 		void Update();
 
-		void Close();
-
 		Window* GetWindow() const { return mWindow.get(); }
 		Renderer* GetRenderer() const { return mRenderer.get(); }
 		CLevelManager* GetLevelManager() const { return mLevelManager.get(); }

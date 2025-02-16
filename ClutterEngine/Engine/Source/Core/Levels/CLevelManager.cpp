@@ -9,10 +9,15 @@ CLevelManager::CLevelManager(std::vector<CLevel*>& pLevels) : mActualLevel(pLeve
 	{
 		mLevels.emplace(level->mTitle, level);
 	}
+
+	mActualLevel->Load();
 }
 
 CLevelManager::~CLevelManager()
 {
+	mActualLevel->Close();
+	mActualLevel->Unload();
+
     for (auto& pair : mLevels)
     {
 		delete pair.second;

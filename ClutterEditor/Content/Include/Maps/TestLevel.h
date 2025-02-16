@@ -7,4 +7,8 @@ class TestLevel : public clt::CLevel
 public:
 	TestLevel(std::string pName = "TestLevel");
 	~TestLevel();
+
+	void Load() override;
+	void Update() override;
+	void Close() override;
 };

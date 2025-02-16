@@ -14,8 +14,3 @@ void CEngine::Update()
 {
 	mLevelManager->Update();
 }
-
-void CEngine::Close()
-{
-	mWindow->Close();
-}

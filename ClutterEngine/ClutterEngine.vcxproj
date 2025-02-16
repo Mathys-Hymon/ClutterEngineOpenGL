@@ -161,6 +161,7 @@
     <ClInclude Include="Engine\Include\Core\CEngine.h" />
     <ClInclude Include="Engine\Include\Core\CLog\CLog.h" />
     <ClInclude Include="Engine\Include\Core\CPrerequisites.h" />
+    <ClInclude Include="Engine\Include\Core\Levels\TemplateLevel\CTemplateLevel.h" />
     <ClInclude Include="Engine\Include\Core\Maths\Maths.h" />
     <ClInclude Include="Engine\Include\Core\Maths\Rectangle.h" />
     <ClInclude Include="Engine\Include\Core\Maths\Transforms\Transform.h" />

@@ -20,7 +20,7 @@ namespace clt
         std::vector<Actor*> mPendingActors;
         std::vector<Actor*> mDeadActors;
 
-        virtual void Update() {};
+        virtual void Update() = 0;
 
     public:
 
@@ -35,13 +35,13 @@ namespace clt
         //template<typename T>
         //T* GetActorOfClass();
 
-        virtual void Load() {};
+        virtual void Load() = 0;
 
         void SetRenderer(Renderer* pRenderer) { mRenderer = pRenderer; };
         void InternalUpdate();
         //void Render();
 
-        virtual void Close() {};
+        virtual void Close() = 0;
 
         void Unload();
 

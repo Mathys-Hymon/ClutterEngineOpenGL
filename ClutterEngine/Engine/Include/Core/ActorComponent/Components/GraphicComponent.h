@@ -1,6 +1,6 @@
 #pragma once
 #include <Core/ActorComponent/Component.h>
-#include <Levels/CLevel.h>
+#include <Core/Levels/CLevel.h>
 #include <Graphics/Renderer.h>
 #include <Core/ActorComponent/Actor.h>
 

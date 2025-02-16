@@ -9,6 +9,7 @@ CLevel::CLevel(std::string pTitle) : mTitle(pTitle), mRenderer(nullptr), mUpdati
 
 CLevel::~CLevel()
 {
+	Unload();
 }
 
 void CLevel::InternalUpdate()

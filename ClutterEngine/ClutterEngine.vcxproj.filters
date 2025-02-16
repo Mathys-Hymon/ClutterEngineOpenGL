@@ -87,6 +87,9 @@
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\GraphicComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Include\Core\Levels\TemplateLevel\CTemplateLevel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Libraries\include\PCH\dllmain.cpp">

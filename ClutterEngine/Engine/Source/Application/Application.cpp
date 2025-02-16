@@ -1,7 +1,7 @@
 #include "pch.h"
 #include<glad/glad.h>
 #include <Application/Application.h>	
-#include <Core/Levels/CLevel.h>
+#include <Core/Levels/TemplateLevel/CTemplateLevel.h>
 #include <GLFW/glfw3.h>
 
 using namespace clt;
@@ -10,10 +10,9 @@ Application::Application(int pWidth, int pHeight, std::string pName, std::vector
 {
 	mEngine = std::make_unique<CEngine>();
 
-	if (pLevels.empty()) pLevels.push_back(new CLevel);
+	if (pLevels.empty()) pLevels.push_back(new CTemplateLevel());
 
 	mEngine->Init(pWidth, pHeight, pName, pLevels);
-
 	CLUTTER_INFO("Application created");
 
 	Run();
@@ -30,8 +29,6 @@ void Application::Run()
 
 		glfwPollEvents();
 	}
-
-
 }
 
 void Application::Update()
@@ -48,10 +45,4 @@ void Application::Render()
 
 Application::~Application()
 {
-}
-
-
-void Application::Close()
-{
-	mEngine->Close();
 }
