@@ -6,9 +6,16 @@
 namespace clt
 {
     class CLevelManager;
+    /**
+     * @brief Represents a level in the game engine.
+     */
     class CLUTTER_API CLevel
     {
-        bool mUpdatingActors;
+        bool mUpdatingActors; ///< Indicates if actors are currently being updated.
+        
+        /**
+         * @brief Updates all actors in the level.
+         */
         void UpdateActors();
 
     protected:
@@ -16,17 +23,28 @@ namespace clt
         Renderer* mRenderer; ///< The renderer used for drawing the scene.
         //PhysicEngine* mPhysic;
 
-        std::unordered_map < size_t, std::vector<Actor*> > mActors;
-        std::vector<Actor*> mPendingActors;
-        std::vector<Actor*> mDeadActors;
+        std::unordered_map < size_t, std::vector<Actor*> > mActors; ///< Map of actors categorized by their type.
+        std::vector<Actor*> mPendingActors; ///< List of actors pending to be added to the level.
+        std::vector<Actor*> mDeadActors; ///< List of actors pending to be removed from the level.
 
+        /**
+         * @brief Updates the level. Must be implemented by derived classes.
+         */
         virtual void Update() = 0;
 
     public:
 
-        static CLevel* ActiveScene;
+        static CLevel* ActiveScene; ///< Pointer to the currently active scene.
 
+        /**
+         * @brief Constructs a new level with the given title.
+         * @param pTitle The title of the scene.
+         */
         CLevel(std::string pTitle = "Scene");
+
+        /**
+         * @brief Destroys the level and cleans up resources.
+         */
         ~CLevel();
 
         //template<typename T>
@@ -35,19 +53,50 @@ namespace clt
         //template<typename T>
         //T* GetActorOfClass();
 
+        /**
+         * @brief Loads the level. Must be implemented by derived classes.
+         */
         virtual void Load() = 0;
 
+        /**
+         * @brief Sets the renderer for the level.
+         * @param pRenderer Pointer to the renderer.
+         */
         void SetRenderer(Renderer* pRenderer) { mRenderer = pRenderer; };
+
+        /**
+         * @brief Internal update function called by the engine.
+         */
         void InternalUpdate();
+
         //void Render();
 
+        /**
+         * @brief Closes the level. Must be implemented by derived classes.
+         */
         virtual void Close() = 0;
 
+        /**
+         * @brief Unloads the level and cleans up resources.
+         */
         void Unload();
 
+        /**
+         * @brief Adds an actor to the level.
+         * @param pActor Pointer to the actor to be added.
+         */
         void AddActor(Actor* pActor);
+
+        /**
+         * @brief Removes an actor from the level.
+         * @param pActor Pointer to the actor to be removed.
+         */
         void RemoveActor(Actor* pActor);
 
+        /**
+         * @brief Gets the renderer for the level.
+         * @return Reference to the renderer.
+         */
         Renderer& GetRenderer() const { return *mRenderer; };
 
         friend CLevelManager;

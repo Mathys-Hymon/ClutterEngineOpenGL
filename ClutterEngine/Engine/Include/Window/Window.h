@@ -5,28 +5,74 @@ class GLFWwindow;
 
 namespace clt
 {
+    /**
+     * @brief A class representing a window in the Clutter Engine.
+     */
     class CLUTTER_API Window {
     public:
-        Window(uint32 pWidth, uint32 pHeight,std::string pName = "Clutter Engine");
+        /**
+         * @brief Constructs a new Window object.
+         * @param pWidth The width of the window.
+         * @param pHeight The height of the window.
+         * @param pName The name of the window. Default is "Clutter Engine".
+         */
+        Window(uint32 pWidth, uint32 pHeight, std::string pName = "Clutter Engine");
+
+        /**
+         * @brief Deleted copy constructor to prevent copying.
+         */
         Window(const Window&) = delete;
 
+        /**
+         * @brief Destroys the Window object.
+         */
         ~Window();
 
+        /**
+         * @brief Deleted assignment operator to prevent copying.
+         */
         void operator=(const Window&) = delete;
 
+        /**
+         * @brief Gets the dimensions of the window.
+         * @return A Vector2 representing the dimensions of the window.
+         */
         inline Vector2 GetDimensions() const { return mDimensions; };
+
+        /**
+         * @brief Gets the GLFW window object.
+         * @return A pointer to the GLFWwindow.
+         */
         inline GLFWwindow* GetGLFWWindow() const { return mGlfwWindow; }
 
+        /**
+         * @brief Resizes the viewport of the window.
+         * @param startWidth The starting width of the viewport.
+         * @param startHeight The starting height of the viewport.
+         * @param width The new width of the viewport.
+         * @param height The new height of the viewport.
+         */
         void ResizeViewport(unsigned int startWidth, unsigned int startHeight, unsigned int width, unsigned int height);
+
+        /**
+         * @brief Checks if the window should close.
+         * @return True if the window should close, false otherwise.
+         */
         bool ShouldClose() const;
+
+        /**
+         * @brief Swaps the front and back buffers of the window.
+         */
         void SwapBuffers() const;
 
+        /**
+         * @brief Closes the window.
+         */
         void Close();
 
     private:
-
-        GLFWwindow* mGlfwWindow;
-        Vector2 mDimensions;
-        std::string mName;
+        GLFWwindow* mGlfwWindow; ///< The GLFW window object.
+        Vector2 mDimensions; ///< The dimensions of the window.
+        std::string mName; ///< The name of the window.
     };
 }

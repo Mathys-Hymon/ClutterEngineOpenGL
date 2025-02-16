@@ -1,23 +1,43 @@
-#pragma once
-#include <Core/ActorComponent/Component.h>
-#include <Core/Levels/CLevel.h>
-#include <Graphics/Renderer.h>
-#include <Core/ActorComponent/Actor.h>
+#pragma once  
+#include <Core/ActorComponent/Component.h>  
+#include <Core/Levels/CLevel.h>  
+#include <Graphics/Renderer.h>  
+#include <Core/ActorComponent/Actor.h>  
 
-namespace clt
-{
-	class GraphicComponent : public Component
-	{
-	protected:
-		int mDrawOrder;
+namespace clt  
+{  
+/**  
+ * @class GraphicComponent  
+ * @brief A component responsible for graphical representation of an actor.  
+ */  
+class GraphicComponent : public Component  
+{  
+protected:  
+	/**  
+  * @brief The order in which the component should be drawn.  
+  */  
+	int mDrawOrder;  
 
-	public:
-		GraphicComponent(Actor* pOwner, int pDrawOrder = 0) : mDrawOrder(pDrawOrder), Component(pOwner, pDrawOrder) 
-		{ 
-			pOwner->GetLevel().GetRenderer().AddGraphicComponent(this);
-		};
-		virtual ~GraphicComponent() = default;
+public:  
+	/**  
+  * @brief Constructor for GraphicComponent.  
+  * @param pOwner Pointer to the owner actor.  
+  * @param pDrawOrder The draw order of the component. Default is 0.  
+  */  
+	GraphicComponent(Actor* pOwner, int pDrawOrder = 0) : mDrawOrder(pDrawOrder), Component(pOwner, pDrawOrder)  
+	{  
+		pOwner->GetLevel().GetRenderer().AddGraphicComponent(this);  
+	};  
 
-		int GetDrawOrder() const { return mDrawOrder; };
-	};
+	/**  
+  * @brief Destructor for GraphicComponent.  
+  */  
+	virtual ~GraphicComponent() = default;  
+
+	/**  
+  * @brief Gets the draw order of the component.  
+  * @return The draw order.  
+  */  
+	int GetDrawOrder() const { return mDrawOrder; };  
+};  
 }

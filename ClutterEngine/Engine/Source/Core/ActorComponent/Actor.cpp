@@ -1,98 +1,101 @@
-#include "pch.h"
-#include <Core/ActorComponent/Actor.h>
+#include "pch.h"                                      // Include precompiled header
+#include <Core/ActorComponent/Actor.h>                // Include Actor header
 
-using namespace clt;
+using namespace clt;                                  // Use clt namespace
 
+// Constructor
 Actor::Actor() : mState(ActorState::Active), mLevel(nullptr), mIsUpdatingComponents(false)
 {
 }
 
+// Destructor
 Actor::~Actor()
 {
-	for (auto& pair : mComponents) {
-		delete pair.second;
-	}
-	mComponents.clear();
-	mComponentsByUpdateOrder.clear();
-	mComponentsToAdd.clear();
-	mComponentsToRemove.clear();
+   for (auto& pair : mComponents) {                 // Delete all components
+       delete pair.second;
+   }
+   mComponents.clear();                             // Clear all component containers
+   mComponentsByUpdateOrder.clear();
+   mComponentsToAdd.clear();
+   mComponentsToRemove.clear();
 }
 
+// Add a component to the actor
 void Actor::AddComponent(Component* pComponent)
 {
-	size_t hashCode = typeid(pComponent).hash_code();
+   size_t hashCode = typeid(pComponent).hash_code();
 
-	if (mComponents.find(hashCode) != mComponents.end())
-	{
-		CLUTTER_ERROR("A component of this type already exists in the Actor.");
-		delete pComponent;
-	}
-	else
-	{
-		pComponent->mOwner = this;
+   if (mComponents.find(hashCode) != mComponents.end())
+   {
+       CLUTTER_ERROR("A component of this type already exists in the Actor.");
+       delete pComponent;
+   }
+   else
+   {
+       pComponent->mOwner = this;
 
-		if (mIsUpdatingComponents)	mComponentsToAdd.emplace_back(pComponent);
-		else						AddComponentInternal(pComponent);
-	}
+       if (mIsUpdatingComponents) mComponentsToAdd.emplace_back(pComponent);
+       else AddComponentInternal(pComponent);
+   }
 }
 
+// Internal method to add a component
 void Actor::AddComponentInternal(Component* pComponent)
 {
-	size_t hashCode = typeid(*pComponent).hash_code();
-	mComponents[hashCode] = pComponent;
+   size_t hashCode = typeid(*pComponent).hash_code();
+   mComponents[hashCode] = pComponent;
 
-	mComponentsByUpdateOrder.push_back(pComponent);
+   mComponentsByUpdateOrder.push_back(pComponent);
 
-	std::sort(mComponentsByUpdateOrder.begin(), mComponentsByUpdateOrder.end(),
-		[](Component* a, Component* b) {
-			return a->GetUpdateOrder() < b->GetUpdateOrder();
-		});
+   std::sort(mComponentsByUpdateOrder.begin(), mComponentsByUpdateOrder.end(), // Sort components by update order
+       [](Component* a, Component* b) {
+           return a->GetUpdateOrder() < b->GetUpdateOrder();
+       });
 }
 
+// Remove a component from the actor
 template<typename T>
 inline void Actor::RemoveComponent()
 {
-	static_assert(std::is_base_of<Component, T>::value, "T must be a Component");
+   static_assert(std::is_base_of<Component, T>::value, "T must be a Component");
 
-	size_t hashCode = typeid(T).hash_code();
-	auto it = mComponents.find(hashCode);
-	if (it != mComponents.end()) {
-		mComponentsToRemove.push_back(it->second.get());
-	}
+   size_t hashCode = typeid(T).hash_code();
+   auto it = mComponents.find(hashCode);
+   if (it != mComponents.end()) {
+       mComponentsToRemove.push_back(it->second.get());
+   }
 }
 
+// Internal update method
 void Actor::InternalUpdate()
 {
-	Update();
+   Update();                                        // Update the actor
 
-		//Update Components
-	mIsUpdatingComponents = true;
-	for (Component* pComponent : mComponentsByUpdateOrder)
-	{
-		if(pComponent->IsEnable()) pComponent->Update();
-	}
-	mIsUpdatingComponents = false;
+   mIsUpdatingComponents = true;                    // Update components
+   for (Component* pComponent : mComponentsByUpdateOrder)
+   {
+       if(pComponent->IsEnable()) pComponent->Update();
+   }
+   mIsUpdatingComponents = false;
 
-		// Add new Components to actor
-	for (Component* pComponent : mComponentsToAdd)
-	{
-		AddComponentInternal(pComponent);
-	}
+   for (Component* pComponent : mComponentsToAdd)   // Add new components to actor
+   {
+       AddComponentInternal(pComponent);
+   }
 
-	mComponentsToAdd.clear();
+   mComponentsToAdd.clear();
 
-		//Delete Components
-	for (Component* pComponent : mComponentsToRemove)
-	{
-		size_t hashCode = typeid(*pComponent).hash_code();
-		mComponents.erase(hashCode);
+   for (Component* pComponent : mComponentsToRemove) // Delete components
+   {
+       size_t hashCode = typeid(*pComponent).hash_code();
+       mComponents.erase(hashCode);
 
-		std::vector<Component*>::iterator it = std::find(mComponentsByUpdateOrder.begin(), mComponentsByUpdateOrder.end(), pComponent);
+       std::vector<Component*>::iterator it = std::find(mComponentsByUpdateOrder.begin(), mComponentsByUpdateOrder.end(), pComponent);
 
-		if (it != mComponentsByUpdateOrder.end()) 
-		{
-			std::iter_swap(it, mComponentsByUpdateOrder.end() - 1);
-			mComponentsByUpdateOrder.pop_back();
-		}
-	}
+       if (it != mComponentsByUpdateOrder.end()) 
+       {
+           std::iter_swap(it, mComponentsByUpdateOrder.end() - 1);
+           mComponentsByUpdateOrder.pop_back();
+       }
+   }
 }
