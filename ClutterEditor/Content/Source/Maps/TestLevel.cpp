@@ -2,7 +2,7 @@
 #include <Core/ActorComponent/Actor.h>
 #include <Core/ActorComponent/Components/GraphicComponent.h>
 
-TestLevel::TestLevel(std::string pName) : clt::CLevel(pName)
+TestLevel::TestLevel(std::string pName) : clt::Level(pName)
 {
 
 }

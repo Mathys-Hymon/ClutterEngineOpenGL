@@ -1,7 +1,7 @@
 #pragma once
 #include <Core/CCommon.h>
 #include <Window/Window.h>
-#include <Core/Levels/CLevelManager.h>
+#include <Core/Levels/LevelManager.h>
 #include <Graphics/Renderer.h>
 
 #include <memory>
@@ -16,7 +16,7 @@ namespace clt
 	{
 		std::unique_ptr<Window> mWindow; ///< The window instance.
 		std::unique_ptr<Renderer> mRenderer; ///< The renderer instance.
-		std::unique_ptr<CLevelManager> mLevelManager; ///< The level manager instance.
+		std::unique_ptr<LevelManager> mLevelManager; ///< The level manager instance.
 	public:
 	/**
    * @brief Default constructor.
@@ -35,7 +35,7 @@ namespace clt
    * @param pName The name of the window.
    * @param pLevels The levels to be managed by the level manager.
    */
-		void Init(int pWidth, int pHeight, std::string pName, std::vector<CLevel*> pLevels);
+		void Init(int pWidth, int pHeight, std::string pName, std::vector<Level*> pLevels);
 
 		/**
    * @brief Updates the engine state.
@@ -58,6 +58,6 @@ namespace clt
    * @brief Gets the level manager instance.
    * @return A pointer to the level manager instance.
    */
-		CLevelManager* GetLevelManager() const { return mLevelManager.get(); }
+		LevelManager* GetLevelManager() const { return mLevelManager.get(); }
 	};
 }

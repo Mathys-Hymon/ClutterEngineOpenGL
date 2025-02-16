@@ -15,7 +15,7 @@ enum class ActorState {
 
 namespace clt
 {
-    class CLevel;
+    class Level;
     class CLUTTER_API Actor
     {
         /**
@@ -33,7 +33,7 @@ namespace clt
 
     protected:
         ActorState mState; ///< The state of the actor.
-        CLevel* mLevel; ///< The scene the actor is attached to.
+        Level* mLevel; ///< The scene the actor is attached to.
         Transform2D mTransform; ///< The transform of the actor.
 
         std::unordered_map<size_t, Component*> mComponents; ///< Map of components by their ID.
@@ -73,7 +73,7 @@ namespace clt
          * @brief Attaches the actor to a scene.
          * @param pScene The scene to attach to.
          */
-        void AttachScene(CLevel* pScene) { mLevel = pScene; };
+        void AttachScene(Level* pScene) { mLevel = pScene; };
 
         /**
          * @brief Gets the transform of the actor.
@@ -139,8 +139,8 @@ namespace clt
          * @brief Gets the level the actor is attached to.
          * @return The level the actor is attached to.
          */
-        CLevel& GetLevel() const { return *mLevel; };
+        Level& GetLevel() const { return *mLevel; };
 
-        friend CLevel;
+        friend Level;
     };
 }

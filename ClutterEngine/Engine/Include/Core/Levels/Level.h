@@ -5,11 +5,11 @@
 
 namespace clt
 {
-    class CLevelManager;
+    class LevelManager;
     /**
      * @brief Represents a level in the game engine.
      */
-    class CLUTTER_API CLevel
+    class CLUTTER_API Level
     {
         bool mUpdatingActors; ///< Indicates if actors are currently being updated.
         
@@ -34,18 +34,18 @@ namespace clt
 
     public:
 
-        static CLevel* ActiveScene; ///< Pointer to the currently active scene.
+        static Level* ActiveScene; ///< Pointer to the currently active scene.
 
         /**
          * @brief Constructs a new level with the given title.
          * @param pTitle The title of the scene.
          */
-        CLevel(std::string pTitle = "Scene");
+        Level(std::string pTitle = "Scene");
 
         /**
          * @brief Destroys the level and cleans up resources.
          */
-        ~CLevel();
+        ~Level();
 
         //template<typename T>
         //std::vector<T*> GetAllActorsOfClass();
@@ -99,6 +99,6 @@ namespace clt
          */
         Renderer& GetRenderer() const { return *mRenderer; };
 
-        friend CLevelManager;
+        friend LevelManager;
     };
 }

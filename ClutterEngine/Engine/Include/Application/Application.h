@@ -3,7 +3,7 @@
 
 namespace clt
 {
-    class CLevel;
+    class Level;
     class CLUTTER_API Application {
         
         std::string mName;
@@ -17,7 +17,7 @@ namespace clt
 
     public:
 
-        Application(int pWidth = 800, int pHeight = 600, std::string pName = "Clutter Editor", std::vector<CLevel*> pLevels = {});
+        Application(int pWidth = 800, int pHeight = 600, std::string pName = "Clutter Editor", std::vector<Level*> pLevels = {});
         ~Application();
 
         void Close();

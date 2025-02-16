@@ -157,11 +157,13 @@
     <ClInclude Include="Engine\Include\Core\ActorComponent\Actor.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Component.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\GraphicComponent.h" />
+    <ClInclude Include="Engine\Include\Core\Assets\Assets.h" />
+    <ClInclude Include="Engine\Include\Core\Assets\AssetsType\Texture.h" />
     <ClInclude Include="Engine\Include\Core\CCommon.h" />
     <ClInclude Include="Engine\Include\Core\CEngine.h" />
     <ClInclude Include="Engine\Include\Core\CLog\CLog.h" />
     <ClInclude Include="Engine\Include\Core\CPrerequisites.h" />
-    <ClInclude Include="Engine\Include\Core\Levels\TemplateLevel\CTemplateLevel.h" />
+    <ClInclude Include="Engine\Include\Core\Levels\TemplateLevel\TemplateLevel.h" />
     <ClInclude Include="Engine\Include\Core\Maths\Maths.h" />
     <ClInclude Include="Engine\Include\Core\Maths\Rectangle.h" />
     <ClInclude Include="Engine\Include\Core\Maths\Transforms\Transform.h" />
@@ -169,8 +171,8 @@
     <ClInclude Include="Engine\Include\Core\Maths\Vectors\Vector2.h" />
     <ClInclude Include="Engine\Include\Core\Maths\Vectors\Vector3.h" />
     <ClInclude Include="Engine\Include\Graphics\Renderer.h" />
-    <ClInclude Include="Engine\Include\Core\Levels\CLevel.h" />
-    <ClInclude Include="Engine\Include\Core\Levels\CLevelManager.h" />
+    <ClInclude Include="Engine\Include\Core\Levels\Level.h" />
+    <ClInclude Include="Engine\Include\Core\Levels\LevelManager.h" />
     <ClInclude Include="Libraries\include\PCH\framework.h" />
     <ClInclude Include="Libraries\include\PCH\pch.h" />
     <ClInclude Include="Engine\Include\Window\Window.h" />

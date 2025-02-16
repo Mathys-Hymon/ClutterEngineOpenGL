@@ -1,16 +1,16 @@
 #include "pch.h"
 #include<glad/glad.h>
 #include <Application/Application.h>	
-#include <Core/Levels/TemplateLevel/CTemplateLevel.h>
+#include <Core/Levels/TemplateLevel/TemplateLevel.h>
 #include <GLFW/glfw3.h>
 
 using namespace clt;
 
-Application::Application(int pWidth, int pHeight, std::string pName, std::vector<CLevel*> pLevels) : mName(pName)
+Application::Application(int pWidth, int pHeight, std::string pName, std::vector<Level*> pLevels) : mName(pName)
 {
 	mEngine = std::make_unique<CEngine>();
 
-	if (pLevels.empty()) pLevels.push_back(new CTemplateLevel());
+	if (pLevels.empty()) pLevels.push_back(new TemplateLevel());
 
 	mEngine->Init(pWidth, pHeight, pName, pLevels);
 	CLUTTER_INFO("Application created");

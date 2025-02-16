@@ -1,8 +1,8 @@
 #pragma once
-#include <Core/Levels/CLevel.h>
+#include <Core/Levels/Level.h>
 #include <string>
 
-class TestLevel : public clt::CLevel
+class TestLevel : public clt::Level
 {
 public:
 	TestLevel(std::string pName = "TestLevel");

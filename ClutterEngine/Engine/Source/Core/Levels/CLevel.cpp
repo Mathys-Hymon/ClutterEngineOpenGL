@@ -1,24 +1,24 @@
 #include "pch.h"
-#include <Core/Levels/CLevel.h>
+#include <Core/Levels/Level.h>
 
 using namespace clt;
 
-CLevel::CLevel(std::string pTitle) : mTitle(pTitle), mRenderer(nullptr), mUpdatingActors(false)
+Level::Level(std::string pTitle) : mTitle(pTitle), mRenderer(nullptr), mUpdatingActors(false)
 {
 }
 
-CLevel::~CLevel()
+Level::~Level()
 {
 	Unload();
 }
 
-void CLevel::InternalUpdate()
+void Level::InternalUpdate()
 {
 	UpdateActors();
 	Update();
 }
 
-void CLevel::Unload()
+void Level::Unload()
 {
 	for (auto& pair : mActors) {
 		for (Actor* pActor : pair.second) {
@@ -28,7 +28,7 @@ void CLevel::Unload()
 	mActors.clear();
 }
 
-void CLevel::AddActor(Actor* pActor)
+void Level::AddActor(Actor* pActor)
 {
 	if (!pActor) CLUTTER_ERROR("Cannot add a null Actor.");
 
@@ -45,7 +45,7 @@ void CLevel::AddActor(Actor* pActor)
 	}
 }
 
-void CLevel::RemoveActor(Actor* pActor)
+void Level::RemoveActor(Actor* pActor)
 {
 	if (!pActor) CLUTTER_ERROR("Cannot remove a null Actor.");
 	size_t typeHash = typeid(pActor).hash_code();
@@ -61,7 +61,7 @@ void CLevel::RemoveActor(Actor* pActor)
 	}
 }
 
-void CLevel::UpdateActors()
+void Level::UpdateActors()
 {
 	mUpdatingActors = true;
 	for (auto& pair : mActors)

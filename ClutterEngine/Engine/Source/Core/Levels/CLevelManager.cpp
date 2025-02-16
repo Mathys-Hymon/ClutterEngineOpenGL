@@ -1,11 +1,11 @@
 #include "pch.h"
-#include <Core/Levels/CLevelManager.h>
+#include <Core/Levels/LevelManager.h>
 
 using namespace clt;
 
-CLevelManager::CLevelManager(std::vector<CLevel*>& pLevels) : mActualLevel(pLevels[0]), mLevels({})
+LevelManager::LevelManager(std::vector<Level*>& pLevels) : mActualLevel(pLevels[0]), mLevels({})
 {
-	for (CLevel* level : pLevels)
+	for (Level* level : pLevels)
 	{
 		mLevels.emplace(level->mTitle, level);
 	}
@@ -13,7 +13,7 @@ CLevelManager::CLevelManager(std::vector<CLevel*>& pLevels) : mActualLevel(pLeve
 	mActualLevel->Load();
 }
 
-CLevelManager::~CLevelManager()
+LevelManager::~LevelManager()
 {
 	mActualLevel->Close();
 	mActualLevel->Unload();
@@ -25,7 +25,7 @@ CLevelManager::~CLevelManager()
 	mLevels.clear();
 }
 
-void CLevelManager::Update()
+void LevelManager::Update()
 {
 	if(mActualLevel)	mActualLevel->InternalUpdate();
 }

@@ -69,10 +69,10 @@
     <ClInclude Include="Engine\Include\Core\Maths\Transforms\Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\Levels\CLevelManager.h">
+    <ClInclude Include="Engine\Include\Core\Levels\LevelManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\Levels\CLevel.h">
+    <ClInclude Include="Engine\Include\Core\Levels\Level.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Include\Core\ActorComponent\Actor.h">
@@ -87,7 +87,13 @@
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\GraphicComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\Levels\TemplateLevel\CTemplateLevel.h">
+    <ClInclude Include="Engine\Include\Core\Levels\TemplateLevel\TemplateLevel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Include\Core\Assets\Assets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Include\Core\Assets\AssetsType\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
