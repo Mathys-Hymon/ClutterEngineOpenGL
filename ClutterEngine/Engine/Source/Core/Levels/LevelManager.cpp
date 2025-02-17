@@ -3,10 +3,11 @@
 
 using namespace clt;
 
-LevelManager::LevelManager(std::vector<Level*>& pLevels) : mActualLevel(pLevels[0]), mLevels({})
+LevelManager::LevelManager(std::vector<Level*>& pLevels, Renderer* pRenderer) : mActualLevel(pLevels[0]), mLevels({})
 {
 	for (Level* level : pLevels)
 	{
+		level->SetRenderer(pRenderer);
 		mLevels.emplace(level->mTitle, level);
 	}
 

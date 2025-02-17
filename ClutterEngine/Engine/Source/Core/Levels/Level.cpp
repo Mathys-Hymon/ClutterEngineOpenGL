@@ -28,20 +28,26 @@ void Level::Unload()
 	mActors.clear();
 }
 
-void Level::AddActor(Actor* pActor)
+Actor* Level::AddActor(Actor* pActor)
 {
-	if (!pActor) CLUTTER_ERROR("Cannot add a null Actor.");
-
-	if (mUpdatingActors)
-	{
-		mPendingActors.push_back(pActor);
-	}
+	if			(!pActor) CLUTTER_ERROR("Cannot add a null Actor.")
 	else
 	{
-		size_t hashCode = typeid(*pActor).hash_code();
+		pActor->AttachLevel(this);
 
-		mActors[hashCode].push_back(pActor);
-		pActor->mLevel = this;
+		if (mUpdatingActors)
+		{
+			mPendingActors.emplace_back(pActor);
+		}
+		else
+		{
+			size_t hashCode = typeid(*pActor).hash_code();
+
+			mActors[hashCode].emplace_back(pActor);
+
+            size_t lastIndex = mActors[hashCode].size() - 1;
+            return mActors[hashCode][lastIndex];
+		}
 	}
 }
 

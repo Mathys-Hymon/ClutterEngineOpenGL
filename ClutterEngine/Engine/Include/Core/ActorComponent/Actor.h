@@ -32,6 +32,7 @@ namespace clt
         bool mIsUpdatingComponents; ///< Flag indicating if components are being updated.
 
     protected:
+        std::string mName;
         ActorState mState; ///< The state of the actor.
         Level* mLevel; ///< The scene the actor is attached to.
         Transform2D mTransform; ///< The transform of the actor.
@@ -45,7 +46,7 @@ namespace clt
         /**
          * @brief Constructor for the Actor class.
          */
-        Actor();
+        Actor(std::string pName);
 
         /**
          * @brief Destructor for the Actor class.
@@ -73,7 +74,7 @@ namespace clt
          * @brief Attaches the actor to a scene.
          * @param pScene The scene to attach to.
          */
-        void AttachScene(Level* pScene) { mLevel = pScene; };
+        void AttachLevel(Level* pScene);
 
         /**
          * @brief Gets the transform of the actor.

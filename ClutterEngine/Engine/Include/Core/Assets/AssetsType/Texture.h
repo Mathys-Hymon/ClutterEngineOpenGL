@@ -1,6 +1,5 @@
 #pragma once
 #include <Core/CCommon.h>
-#include <glad/glad.h>
 #include <string>
 
 namespace clt
@@ -11,7 +10,7 @@ namespace clt
   */
 	class CLUTTER_API Texture
 	{
-		GLuint mID; ///< OpenGL texture ID
+		u32 mID; ///< OpenGL texture ID
 		int mWidth; ///< Width of the texture
 		int mHeight; ///< Height of the texture
 		int mChannels; ///< Number of color channels in the texture
@@ -23,9 +22,9 @@ namespace clt
    * @param pHeight Height of the texture
    * @param pChannels Number of color channels in the texture
    */
-		Texture(GLuint pID, int pWidth, int pHeight, int pChannels);
+		Texture(u32 pID, int pWidth, int pHeight, int pChannels);
 
-		friend class AssetManager;
+		friend class Assets;
 
 	public:
 		/**
@@ -37,7 +36,7 @@ namespace clt
    * @brief Binds the texture to a specified slot.
    * @param slot The slot to bind the texture to (default is 0).
    */
-		void Bind(GLuint slot = 0) const;
+		void Bind(u32 slot = 0) const;
 
 		/**
    * @brief Unbinds the texture.
@@ -60,6 +59,6 @@ namespace clt
    * @brief Gets the OpenGL texture ID.
    * @return The OpenGL texture ID.
    */
-		inline GLuint GetID() const { return mID; };
+		inline u32 GetID() const { return mID; };
 	};
 }

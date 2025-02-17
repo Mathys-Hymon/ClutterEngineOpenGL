@@ -1,7 +1,6 @@
 #pragma once
 #include "Graphics/Renderer.h"
 #include "Core/ActorComponent/Actor.h"
-//#include "EngineContent/Assets/Assets.h"
 
 namespace clt
 {
@@ -50,9 +49,6 @@ namespace clt
         //template<typename T>
         //std::vector<T*> GetAllActorsOfClass();
 
-        //template<typename T>
-        //T* GetActorOfClass();
-
         /**
          * @brief Loads the level. Must be implemented by derived classes.
          */
@@ -85,7 +81,7 @@ namespace clt
          * @brief Adds an actor to the level.
          * @param pActor Pointer to the actor to be added.
          */
-        void AddActor(Actor* pActor);
+        Actor* AddActor(Actor* pActor);
 
         /**
          * @brief Removes an actor from the level.

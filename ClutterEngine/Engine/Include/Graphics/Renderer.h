@@ -1,17 +1,21 @@
 #pragma once
 #include <Core/CCommon.h>
+#include <Core/Assets/Assets.h>
+#include <vector>
 #include <Window/Window.h>
 
 namespace clt
 {
 	class GraphicComponent;
-	
 	/**
   * @class Renderer
   * @brief Responsible for rendering graphical components.
   */
 	class CLUTTER_API Renderer
 	{
+		std::vector<GraphicComponent*> mComponents;
+		Assets* mAssets;
+
 	public:
 		/**
    * @brief Constructor for Renderer.
@@ -23,17 +27,11 @@ namespace clt
    */
 		Renderer(const Renderer&) = delete;
 
+		~Renderer() {};
 		/**
    * @brief Deleted copy assignment operator.
    */
 		Renderer& operator=(const Renderer&) = delete;
-
-		/**
-   * @brief Initializes the renderer with a window.
-   * @param pWindow Reference to the window to initialize with.
-   * @return True if initialization is successful, false otherwise.
-   */
-		bool Initialize(Window& pWindow);
 
 		/**
    * @brief Adds a graphic component to the renderer.
@@ -61,7 +59,5 @@ namespace clt
    * @brief Ends the drawing process.
    */
 		void EndDraw();
-
-	private:
 	};
 }

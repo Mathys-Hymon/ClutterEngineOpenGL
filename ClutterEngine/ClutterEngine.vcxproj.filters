@@ -119,13 +119,19 @@
     <ClCompile Include="Engine\Source\Core\ActorComponent\Actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\Levels\CLevel.cpp">
+    <ClCompile Include="Engine\Source\Core\Levels\Level.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Source\Core\CEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\Levels\CLevelManager.cpp">
+    <ClCompile Include="Engine\Source\Core\Levels\LevelManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Source\Core\Assets\AssetsType\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Source\Core\Assets\Assets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

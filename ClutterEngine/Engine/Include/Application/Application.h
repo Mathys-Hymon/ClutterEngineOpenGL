@@ -20,8 +20,6 @@ namespace clt
         Application(int pWidth = 800, int pHeight = 600, std::string pName = "Clutter Editor", std::vector<Level*> pLevels = {});
         ~Application();
 
-        void Close();
-
         Window* GetWindow() const { return mEngine->GetWindow(); }
         Renderer* GetRenderer() const { return mEngine->GetRenderer(); }
     };

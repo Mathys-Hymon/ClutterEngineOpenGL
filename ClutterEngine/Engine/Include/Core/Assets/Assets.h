@@ -4,7 +4,7 @@
 
 namespace clt
 {
-	class Assets
+	class CLUTTER_API Assets
 	{
 		static Assets* sInstance;
 
@@ -15,8 +15,8 @@ namespace clt
 	public:
 		static Assets& Get();
 
-		void LoadTexture(const std::string& path);
-		Texture* GetTexture(const std::string& path);
+		void LoadTexture(const std::string& path, const std::string& name);
+		Texture* GetTexture(const std::string& name);
 
 		void ClearTextures();
 	};

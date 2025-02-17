@@ -178,9 +178,11 @@
     <ClInclude Include="Engine\Include\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\Source\Core\Levels\CLevelManager.cpp" />
+    <ClCompile Include="Engine\Source\Core\Assets\Assets.cpp" />
+    <ClCompile Include="Engine\Source\Core\Assets\AssetsType\Texture.cpp" />
+    <ClCompile Include="Engine\Source\Core\Levels\LevelManager.cpp" />
     <ClCompile Include="Engine\Source\Core\CEngine.cpp" />
-    <ClCompile Include="Engine\Source\Core\Levels\CLevel.cpp" />
+    <ClCompile Include="Engine\Source\Core\Levels\Level.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Actor.cpp" />
     <ClCompile Include="Engine\Source\Graphics\Renderer.cpp" />
     <ClCompile Include="Engine\Source\Application\Application.cpp" />

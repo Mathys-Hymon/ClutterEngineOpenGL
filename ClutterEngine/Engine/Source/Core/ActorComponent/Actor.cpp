@@ -4,7 +4,7 @@
 using namespace clt;                                  // Use clt namespace
 
 // Constructor
-Actor::Actor() : mState(ActorState::Active), mLevel(nullptr), mIsUpdatingComponents(false)
+Actor::Actor(std::string pName) : mState(ActorState::Active), mLevel(nullptr), mIsUpdatingComponents(false), mName(pName)
 {
 }
 
@@ -32,11 +32,14 @@ void Actor::AddComponent(Component* pComponent)
    }
    else
    {
-       pComponent->mOwner = this;
-
        if (mIsUpdatingComponents) mComponentsToAdd.emplace_back(pComponent);
        else AddComponentInternal(pComponent);
    }
+}
+
+void clt::Actor::AttachLevel(Level* pLevel)
+{
+    mLevel = pLevel;
 }
 
 // Internal method to add a component
@@ -44,6 +47,8 @@ void Actor::AddComponentInternal(Component* pComponent)
 {
    size_t hashCode = typeid(*pComponent).hash_code();
    mComponents[hashCode] = pComponent;
+
+   pComponent->mOwner = this;
 
    mComponentsByUpdateOrder.push_back(pComponent);
 
