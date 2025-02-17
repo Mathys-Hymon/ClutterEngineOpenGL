@@ -4,13 +4,20 @@
 
 namespace clt
 {
+	class Renderer;
 	class CLUTTER_API Assets
 	{
 		static Assets* sInstance;
 
+		Renderer* mRenderer;
+
 		std::unordered_map<std::string, Texture*> mTextures;
 		Assets() = default;
 		~Assets();
+
+		void SetRenderer(Renderer* pRenderer) { mRenderer = pRenderer; };
+
+		friend Renderer;
 
 	public:
 		static Assets& Get();

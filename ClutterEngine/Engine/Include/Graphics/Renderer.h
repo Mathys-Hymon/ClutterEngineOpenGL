@@ -1,11 +1,14 @@
 #pragma once
 #include <Core/CCommon.h>
 #include <Core/Assets/Assets.h>
+#include <Core/Maths/CRectangle.h>
+#include <unordered_set>
 #include <vector>
 #include <Window/Window.h>
 
 namespace clt
 {
+	class SpriteComponent;
 	class GraphicComponent;
 	/**
   * @class Renderer
@@ -13,8 +16,9 @@ namespace clt
   */
 	class CLUTTER_API Renderer
 	{
+		std::unordered_set<Texture*> mBindedTextures;
+
 		std::vector<GraphicComponent*> mComponents;
-		Assets* mAssets;
 
 	public:
 		/**
@@ -27,11 +31,13 @@ namespace clt
    */
 		Renderer(const Renderer&) = delete;
 
-		~Renderer() {};
+		~Renderer();
 		/**
    * @brief Deleted copy assignment operator.
    */
 		Renderer& operator=(const Renderer&) = delete;
+
+		void RegisterTextureUsage(Texture* pTexture);
 
 		/**
    * @brief Adds a graphic component to the renderer.
@@ -54,6 +60,8 @@ namespace clt
    * @brief Draws all added graphic components.
    */
 		void Draw();
+
+		void DrawSprite(const class Actor& pActor, const class Texture& pTexture, CRectangle pRect, Vector2 pOrigin) const;
 
 		/**
    * @brief Ends the drawing process.

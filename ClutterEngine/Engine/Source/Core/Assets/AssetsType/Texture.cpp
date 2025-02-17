@@ -23,3 +23,9 @@ void Texture::UnBind() const
 {
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
+
+void Texture::UpdateInfo(int& rWidth, int& rHeight)
+{
+	rWidth = mWidth;
+	rHeight = mHeight;
+}

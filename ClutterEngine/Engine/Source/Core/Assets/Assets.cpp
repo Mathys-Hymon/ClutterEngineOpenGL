@@ -1,6 +1,7 @@
 #include "pch.h"
 #include <Core/CCommon.h>
 #include <Core/Assets/Assets.h>
+#include <Graphics/Renderer.h>
 #include <glad/glad.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
@@ -11,7 +12,6 @@ Assets* Assets::sInstance = nullptr;
 
 Assets::~Assets()
 {
-    ClearTextures();
 }
 
 Assets& Assets::Get()
@@ -31,7 +31,7 @@ void Assets::LoadTexture(const std::string& path, const std::string& name)
     if (!data) CLUTTER_ERROR("Failed to load texture " + path)
     else
     {
-        CLUTTER_WARNING(("Texture " + path + " loaded sucessfully ").c_str());
+        CLUTTER_LOG(("Texture " + path + " loaded sucessfully ").c_str());
     }
 
     GLuint textureID;
@@ -57,9 +57,10 @@ Texture* Assets::GetTexture(const std::string& name)
     auto it = mTextures.find(name);
     if (it == mTextures.end())
     {
-        const char* tempText = ("Unable to find Texture: " + name).c_str();
+        CLUTTER_WARNING(("Unable to find Texture: " + name).c_str());
         return nullptr;
     }
+    mRenderer->RegisterTextureUsage(it->second);
     return it->second;
 }
 
@@ -70,4 +71,5 @@ void Assets::ClearTextures()
         delete pair.second;
     }
     mTextures.clear();
+    delete sInstance;
 }

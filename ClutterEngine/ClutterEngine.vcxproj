@@ -157,6 +157,7 @@
     <ClInclude Include="Engine\Include\Core\ActorComponent\Actor.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Component.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\GraphicComponent.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\SpriteComponent.h" />
     <ClInclude Include="Engine\Include\Core\Assets\Assets.h" />
     <ClInclude Include="Engine\Include\Core\Assets\AssetsType\Texture.h" />
     <ClInclude Include="Engine\Include\Core\CCommon.h" />
@@ -165,7 +166,7 @@
     <ClInclude Include="Engine\Include\Core\CPrerequisites.h" />
     <ClInclude Include="Engine\Include\Core\Levels\TemplateLevel\TemplateLevel.h" />
     <ClInclude Include="Engine\Include\Core\Maths\Maths.h" />
-    <ClInclude Include="Engine\Include\Core\Maths\Rectangle.h" />
+    <ClInclude Include="Engine\Include\Core\Maths\CRectangle.h" />
     <ClInclude Include="Engine\Include\Core\Maths\Transforms\Transform.h" />
     <ClInclude Include="Engine\Include\Core\Maths\Transforms\Transform2D.h" />
     <ClInclude Include="Engine\Include\Core\Maths\Vectors\Vector2.h" />
@@ -178,6 +179,7 @@
     <ClInclude Include="Engine\Include\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\SpriteComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\Assets\Assets.cpp" />
     <ClCompile Include="Engine\Source\Core\Assets\AssetsType\Texture.cpp" />
     <ClCompile Include="Engine\Source\Core\Levels\LevelManager.cpp" />

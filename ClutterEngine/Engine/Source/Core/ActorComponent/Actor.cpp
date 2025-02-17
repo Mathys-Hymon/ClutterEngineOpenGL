@@ -4,7 +4,7 @@
 using namespace clt;                                  // Use clt namespace
 
 // Constructor
-Actor::Actor(std::string pName) : mState(ActorState::Active), mLevel(nullptr), mIsUpdatingComponents(false), mName(pName)
+Actor::Actor(std::string pName = "Actor") : mState(ActorState::Active), mLevel(nullptr), mIsUpdatingComponents(false), mName(pName)
 {
 }
 
@@ -23,7 +23,7 @@ Actor::~Actor()
 // Add a component to the actor
 void Actor::AddComponent(Component* pComponent)
 {
-   size_t hashCode = typeid(pComponent).hash_code();
+   size_t hashCode = typeid(*pComponent).hash_code();
 
    if (mComponents.find(hashCode) != mComponents.end())
    {

@@ -10,7 +10,7 @@ namespace clt
 * @class GraphicComponent  
 * @brief A component responsible for graphical representation of an actor.  
 */  
-class GraphicComponent : public Component  
+class CLUTTER_API GraphicComponent : public Component  
 {  
 protected:  
 /**  
@@ -32,7 +32,7 @@ GraphicComponent(Actor* pOwner, int pDrawOrder = 0) : mDrawOrder(pDrawOrder), Co
 /**
  * @brief Destructor for GraphicComponent.
  */
-virtual ~GraphicComponent() 
+virtual ~GraphicComponent()
 {
 	mOwner->GetLevel().GetRenderer().RemoveGraphicComponent(this);
 };
@@ -42,7 +42,7 @@ virtual ~GraphicComponent()
  * @param pRenderer Reference to the renderer.  
  */  
 
-virtual void Draw(Renderer& pRenderer) {};
+virtual void Draw(Renderer& pRenderer) = 0;
 
 /**  
  * @brief Gets the draw order of the component.  

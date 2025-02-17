@@ -43,6 +43,8 @@ namespace clt
    */
 		void UnBind() const;
 
+		void UpdateInfo(int& rWidth, int& rHeight);
+
 		/**
    * @brief Gets the width of the texture.
    * @return The width of the texture.

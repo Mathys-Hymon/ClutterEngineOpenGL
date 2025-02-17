@@ -16,7 +16,7 @@ enum Face
 /**
  * @brief A structure representing a rectangle.
  */
-struct Rectangle
+struct CRectangle
 {
     Vector2 location;   ///< The location of the rectangle.
     Vector2 dimensions; ///< The dimensions of the rectangle.

@@ -17,7 +17,6 @@ LevelManager::LevelManager(std::vector<Level*>& pLevels, Renderer* pRenderer) : 
 LevelManager::~LevelManager()
 {
 	mActualLevel->Close();
-	mActualLevel->Unload();
 
     for (auto& pair : mLevels)
     {
