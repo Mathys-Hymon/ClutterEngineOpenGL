@@ -17,8 +17,6 @@ void TestLevel::Load()
 	auto* player = AddActor(new clt::Actor("zizi"));
 
 	player->AddComponent(new clt::SpriteComponent(player, *clt::Assets::Get().GetTexture("theBlock")));
-
-	player->AddComponent(new clt::SpriteComponent(player, *clt::Assets::Get().GetTexture("theBlock")));
 	player->SetActorLocation({ 250,250 });
 
 }
