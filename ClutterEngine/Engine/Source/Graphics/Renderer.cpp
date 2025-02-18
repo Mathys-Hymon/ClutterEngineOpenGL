@@ -1,12 +1,11 @@
 #include "pch.h"  
-#include <glad/glad.h>  
-#include <sstream>  
-#include <fstream>  
+#include <glad/glad.h>
 #include<Graphics/Renderer.h>  
 #include<Core/ActorComponent/Actor.h>  
-#include<Core/ActorComponent/Components/Graphics/SpriteComponent.h>  
+#include<Core/ActorComponent/Components/Graphics/SpriteComponent.h>
+#include<Graphics/Shader.h>
 
-using namespace clt;  
+using namespace clt;
 
 Renderer::Renderer()  
 {  
@@ -14,95 +13,52 @@ Renderer::Renderer()
    if (gladLoadGL()) CLUTTER_LOG("GLAD initialised successfully")  
    else CLUTTER_ERROR("Cant initialise GLAD");  
 
-   Assets::Get().SetRenderer(this);  
+   Assets::Get().SetRenderer(this);
 
    // File paths for vertex and fragment shaders  
-   const auto vert_file_path = "Content/Shaders/triangle.vert";  
-   const auto frag_file_path = "Content/Shaders/triangle.frag";
+   const auto vert_file_path = "Content/Shaders/sprite.vert";
+   const auto frag_file_path = "Content/Shaders/sprite.frag";
 
-   std::string vert_code;  
-   std::string frag_code;  
+   auto shader = Shader();
 
-   try  
-   {  
-       // Read shader files  
-       std::ifstream vert_file(vert_file_path);  
-       std::ifstream frag_file(frag_file_path);  
-       std::stringstream vert_sstream, frag_sstream;  
+   shader.Load(vert_file_path, frag_file_path);
 
-       vert_sstream << vert_file.rdbuf();  
-       frag_sstream << frag_file.rdbuf();  
+   Texture texture = *Assets::Get().LoadTexture("Content/Resources/Sprites/theBlock.png", "TheBlock");
 
-       vert_file.close();  
-       frag_file.close();  
+   shader.Use();
 
-       vert_code = vert_sstream.str();  
-       frag_code = frag_sstream.str();  
-   }  
-   catch (std::exception e)  
-   {  
-       CLUTTER_ERROR("shader files failed to load");  
-   }  
+   shader.SetInt("image", 0);
 
-   auto vert_code_c_str = vert_code.c_str();  
-   auto frag_code_c_str = frag_code.c_str();  
+   texture.Bind();
 
-   GLuint vertexShader, fragShader, program;  
+   // set up vertex data
+   GLfloat vertices[] = {
+       // first triangle
+           // pos         // coords
+           -0.5f, -0.5f,   0.0f,  0.0f, // bot left 
+            0.5f,  0.5f,   1.0f,  1.0f, // top right 
+           -0.5f,  0.5f,   0.0f,  1.0f, // top left 
+           // second triangle
+               // pos         // coords
+           -0.5f, -0.5f,   0.0f,  0.0f, // bot left 
+            0.5f, -0.5f,   1.0f,  0.0f, // bot right 
+            0.5f,  0.5f,   1.0f,  1.0f  // top right 
+   };
 
-   GLint success;  
-   GLchar info_log[512];  
+   GLuint vbo, vao;
 
-   // Create and compile vertex shader  
-   vertexShader = glCreateShader(GL_VERTEX_SHADER);  
-   glShaderSource(vertexShader, 1, &vert_code_c_str, nullptr);  
-   glCompileShader(vertexShader);  
+   glGenVertexArrays(1, &vao);
+   glGenBuffers(1, &vbo);
 
-   // Check for vertex shader compilation errors  
-   glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);  
-   if (!success)  
-   {  
-       glGetShaderInfoLog(vertexShader, 512, nullptr, info_log);  
-       std::string error_message = "Vertex shader compilation failure, vertexShader = " + std::string(vert_code_c_str) + "\n" + std::string(info_log);  
-       CLUTTER_ERROR(error_message.c_str());  
-   }
-   else CLUTTER_LOG("Vertex shader compiled succesfully");
+   glBindVertexArray(vao);
+   glBindBuffer(GL_ARRAY_BUFFER, vbo);
+   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-   success = 0;  
-   // Create and compile fragment shader  
-   fragShader = glCreateShader(GL_FRAGMENT_SHADER);  
-   glShaderSource(fragShader, 1, &frag_code_c_str, nullptr);  
-   glCompileShader(fragShader);  
+   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (GLvoid*)0);
+   glEnableVertexAttribArray(0);
 
-   // Check for fragment shader compilation errors  
-   glGetShaderiv(fragShader, GL_COMPILE_STATUS, &success);  
-   if (!success)
-   {
-       glGetShaderInfoLog(fragShader, 512, nullptr, info_log);
-       std::string error_message = "Fragment shader compilation failure, fragShader = " + std::string(frag_code_c_str) + "\n" + std::string(info_log);
-       CLUTTER_ERROR(error_message.c_str());
-   }
-   else CLUTTER_LOG("Fragment shader compiled succesfully");
-
-   program = glCreateProgram();  
-
-   glAttachShader(program, vertexShader);  
-   glAttachShader(program, fragShader);  
-
-   glLinkProgram(program);  
-
-   glGetProgramiv(program, GL_LINK_STATUS, &success);  
-   if (!success)
-   {
-       glGetProgramInfoLog(program, 512, nullptr, info_log);
-       std::string error_message = "Program linking failure:\n" + std::string(info_log);
-       CLUTTER_ERROR(error_message.c_str());
-   }
-   else CLUTTER_INFO("Shader Program linked");
-
-   glDeleteShader(vertexShader);
-   glDeleteShader(fragShader);
-
-   glUseProgram(program);
+   glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (GLvoid*)(2 * sizeof(float)));
+   glEnableVertexAttribArray(1);
 }  
 
 Renderer::~Renderer()  
@@ -145,20 +101,21 @@ void Renderer::BeginDraw()
 {  
    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);         // Define the background Color  
    glClear(GL_COLOR_BUFFER_BIT);                 // Clear the background color and depth  
-   glDepthFunc(GL_LESS);  
 
-   for (Texture* tex : mBindedTextures)  
-   {  
-       tex->Bind();  
-   }  
+   //for (Texture* tex : mBindedTextures)  
+   //{  
+   //    tex->Bind();  
+   //}  
 }  
 
 void Renderer::Draw()  
 {  
-   for (GraphicComponent* comp : mComponents)  
-   {  
-       comp->Draw(*this);  
-   }  
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+   //for (GraphicComponent* comp : mComponents)  
+   //{  
+   //    comp->Draw(*this);  
+   //}  
 }  
 
 void Renderer::DrawSprite(const Actor& pActor, const Texture& pTexture, CRectangle pRect, Vector2 pOrigin) const  
@@ -167,8 +124,8 @@ void Renderer::DrawSprite(const Actor& pActor, const Texture& pTexture, CRectang
 
 void Renderer::EndDraw()  
 {  
-   for (Texture* tex : mBindedTextures)  
-   {  
-       tex->UnBind();  
-   }  
+   //for (Texture* tex : mBindedTextures)  
+   //{  
+   //    tex->UnBind();  
+   //}  
 }

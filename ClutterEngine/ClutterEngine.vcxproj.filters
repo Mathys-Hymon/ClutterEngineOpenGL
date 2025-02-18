@@ -99,6 +99,9 @@
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\SpriteComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Include\Graphics\Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Libraries\include\PCH\dllmain.cpp">
@@ -140,9 +143,12 @@
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\SpriteComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Source\Graphics\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Content\Shaders\triangle.vert" />
-    <None Include="Content\Shaders\triangle.frag" />
+    <None Include="Content\Shaders\sprite.vert" />
+    <None Include="Content\Shaders\sprite.frag" />
   </ItemGroup>
 </Project>

@@ -78,6 +78,14 @@
     <IncludePath>Libraries\include;Libraries\include\PCH;$(IncludePath)</IncludePath>
     <LibraryPath>Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>Libraries\include;Libraries\include\PCH;$(IncludePath)</IncludePath>
+    <LibraryPath>Libraries\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>Libraries\include;Libraries\include\PCH;$(IncludePath)</IncludePath>
+    <LibraryPath>Libraries\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -174,11 +182,13 @@
     <ClInclude Include="Engine\Include\Graphics\Renderer.h" />
     <ClInclude Include="Engine\Include\Core\Levels\Level.h" />
     <ClInclude Include="Engine\Include\Core\Levels\LevelManager.h" />
+    <ClInclude Include="Engine\Include\Graphics\Shader.h" />
     <ClInclude Include="Libraries\include\PCH\framework.h" />
     <ClInclude Include="Libraries\include\PCH\pch.h" />
     <ClInclude Include="Engine\Include\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Source\Graphics\Shader.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\SpriteComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\Assets\Assets.cpp" />
     <ClCompile Include="Engine\Source\Core\Assets\AssetsType\Texture.cpp" />
@@ -202,8 +212,8 @@
     <ClCompile Include="Engine\Source\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Content\Shaders\triangle.frag" />
-    <None Include="Content\Shaders\triangle.vert" />
+    <None Include="Content\Shaders\sprite.frag" />
+    <None Include="Content\Shaders\sprite.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

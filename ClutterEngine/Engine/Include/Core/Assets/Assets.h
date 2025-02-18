@@ -22,7 +22,7 @@ namespace clt
 	public:
 		static Assets& Get();
 
-		void LoadTexture(const std::string& path, const std::string& name);
+		Texture* LoadTexture(const std::string& path, const std::string& name);
 		Texture* GetTexture(const std::string& name);
 
 		void ClearTextures();

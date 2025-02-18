@@ -4,9 +4,6 @@
 #include <Core/Levels/TemplateLevel/TemplateLevel.h>
 #include <GLFW/glfw3.h>
 
-#include <sstream>
-#include <fstream>
-
 using namespace clt;
 
 Application::Application(int pWidth, int pHeight, std::string pName, std::vector<Level*> pLevels) : mName(pName)

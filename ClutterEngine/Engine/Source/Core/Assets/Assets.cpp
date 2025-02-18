@@ -20,36 +20,44 @@ Assets& Assets::Get()
     return *sInstance;
 }
 
-void Assets::LoadTexture(const std::string& path, const std::string& name)
+Texture* Assets::LoadTexture(const std::string& path, const std::string& name)
 {
-    if (mTextures.find(name) != mTextures.end()) return;
+    if (mTextures.find(name) != mTextures.end()) return GetTexture(name);
 
-    stbi_set_flip_vertically_on_load(true);
     int width, height, channels;
-    unsigned char* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+    stbi_set_flip_vertically_on_load(true);
 
-    if (!data) CLUTTER_ERROR("Failed to load texture " + path)
+    unsigned char* data = stbi_load(path.c_str(), &width, &height, &channels, STBI_rgb_alpha);
+
+    if (!data)
+    {
+        CLUTTER_ERROR("Failed to load texture " + path);
+        return nullptr;
+    }
     else
     {
         CLUTTER_LOG(("Texture " + path + " loaded sucessfully ").c_str());
     }
 
-    GLuint textureID;
+    GLuint textureID = 0;
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_2D, textureID);
-
-    GLenum format = channels == 4 ? GL_RGBA : GL_RGB;
-    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    GLenum format = channels == 4 ? GL_RGBA : GL_RGB;
+    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
     glGenerateMipmap(GL_TEXTURE_2D);
 
+    glBindTexture(GL_TEXTURE_2D, 0);
     stbi_image_free(data);
 
     mTextures[name] = new Texture(textureID, width, height, channels);
+
+    return mTextures[name];
 }
 
 Texture* Assets::GetTexture(const std::string& name)

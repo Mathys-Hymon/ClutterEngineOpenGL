@@ -12,7 +12,7 @@ SpriteComponent::~SpriteComponent()
 {
 }
 
-void clt::SpriteComponent::SetTexture(const Texture& pTexture)
+void SpriteComponent::SetTexture(const Texture& pTexture)
 {
 	mTexture = pTexture;
 	mTexture.UpdateInfo(mTexWidth, mTexHeight);
