@@ -201,6 +201,10 @@
     </ClCompile>
     <ClCompile Include="Engine\Source\Window\Window.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\Shaders\triangle.frag" />
+    <None Include="Content\Shaders\triangle.vert" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

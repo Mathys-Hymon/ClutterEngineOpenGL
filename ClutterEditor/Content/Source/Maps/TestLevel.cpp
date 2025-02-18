@@ -13,8 +13,8 @@ TestLevel::~TestLevel()
 
 void TestLevel::Load()
 {
-	clt::Assets::Get().LoadTexture("Content/Sprites/theBlock.png", "theBlock");
-	auto* player = AddActor(new clt::Actor("zizi"));
+	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/theBlock.png", "theBlock");
+	auto* player = AddActor(new clt::Actor("test"));
 
 	player->AddComponent(new clt::SpriteComponent(player, *clt::Assets::Get().GetTexture("theBlock")));
 	player->SetActorLocation({ 250,250 });

@@ -141,4 +141,8 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\Shaders\triangle.vert" />
+    <None Include="Content\Shaders\triangle.frag" />
+  </ItemGroup>
 </Project>

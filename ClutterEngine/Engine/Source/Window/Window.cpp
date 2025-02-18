@@ -8,17 +8,20 @@ using namespace clt;
 Window::Window(u32 pWidth, u32 pHeight,std::string pName) : mName(pName), mDimensions(pWidth, pHeight)  
 {  
    // Initialize GLFW  
-   glfwInit();  
+    if (!glfwInit())
+    {
+        CLUTTER_ERROR("GLFW failed to init !");
+    }
 
    // Set the GLFW Version of OpenGL  
-   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);  
-   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);  
+   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);  
+   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);  
 
    // Define if GLFW use the core profile  
-   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  
+   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
    // Create a GLFW window  
-   mGlfwWindow = glfwCreateWindow(pWidth, pHeight, pName.c_str(), NULL, NULL);  
+   mGlfwWindow = glfwCreateWindow(pWidth, pHeight, pName.c_str(), nullptr, nullptr);
 
    // Check if the window creation failed  
    if (mGlfwWindow == nullptr) {  
