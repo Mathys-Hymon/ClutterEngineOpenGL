@@ -24,10 +24,13 @@ public:
  * @param pOwner Pointer to the owner actor.  
  * @param pDrawOrder The draw order of the component. Default is 0.  
  */  
-GraphicComponent(Actor* pOwner, int pDrawOrder = 0) : mDrawOrder(pDrawOrder), Component(pOwner, pDrawOrder)  
-{  
-	pOwner->GetLevel().GetRenderer().AddGraphicComponent(this);  
-};  
+GraphicComponent(int pDrawOrder = 0) : mDrawOrder(pDrawOrder), Component(pDrawOrder)  {};  
+
+virtual void SetOwner(Actor* pOwner) override 
+{
+	mOwner = pOwner;
+	pOwner->GetLevel().GetRenderer().AddGraphicComponent(this);
+};
 
 /**
  * @brief Destructor for GraphicComponent.

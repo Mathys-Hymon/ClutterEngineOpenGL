@@ -7,7 +7,7 @@
 
 using namespace clt;
 
-Renderer::Renderer()  
+Renderer::Renderer() : mVBO(0), mVAO(0), mAttribSize(0)
 {  
    // Initialize GLAD to load OpenGL functions  
    if (gladLoadGL()) CLUTTER_LOG("GLAD initialised successfully")  
@@ -19,17 +19,10 @@ Renderer::Renderer()
    const auto vert_file_path = "Content/Shaders/sprite.vert";
    const auto frag_file_path = "Content/Shaders/sprite.frag";
 
-   auto shader = Shader();
+   mShader = Shader();
 
-   shader.Load(vert_file_path, frag_file_path);
-
-   Texture texture = *Assets::Get().LoadTexture("Content/Resources/Sprites/theBlock.png", "TheBlock");
-
-   shader.Use();
-
-   shader.SetInt("image", 0);
-
-   texture.Bind();
+   mShader.Load(vert_file_path, frag_file_path);
+   mShader.Use();
 
    // set up vertex data
    GLfloat vertices[] = {
@@ -45,13 +38,11 @@ Renderer::Renderer()
             0.5f,  0.5f,   1.0f,  1.0f  // top right 
    };
 
-   GLuint vbo, vao;
+   glGenVertexArrays(1, &mVAO);
+   glGenBuffers(1, &mVBO);
 
-   glGenVertexArrays(1, &vao);
-   glGenBuffers(1, &vbo);
-
-   glBindVertexArray(vao);
-   glBindBuffer(GL_ARRAY_BUFFER, vbo);
+   glBindVertexArray(mVAO);
+   glBindBuffer(GL_ARRAY_BUFFER, mVBO);
    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (GLvoid*)0);
@@ -102,20 +93,23 @@ void Renderer::BeginDraw()
    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);         // Define the background Color  
    glClear(GL_COLOR_BUFFER_BIT);                 // Clear the background color and depth  
 
-   //for (Texture* tex : mBindedTextures)  
-   //{  
-   //    tex->Bind();  
-   //}  
+   for (Texture* tex : mBindedTextures)  
+   {  
+       tex->Bind();  
+   }  
 }  
 
-void Renderer::Draw()  
+void Renderer::Draw()
 {  
+    mShader.Use();
+
+    glBindVertexArray(mVAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);
 
-   //for (GraphicComponent* comp : mComponents)  
-   //{  
-   //    comp->Draw(*this);  
-   //}  
+   for (GraphicComponent* comp : mComponents)  
+   {  
+       comp->Draw(*this);  
+   }  
 }  
 
 void Renderer::DrawSprite(const Actor& pActor, const Texture& pTexture, CRectangle pRect, Vector2 pOrigin) const  
@@ -123,9 +117,9 @@ void Renderer::DrawSprite(const Actor& pActor, const Texture& pTexture, CRectang
 }  
 
 void Renderer::EndDraw()  
-{  
-   //for (Texture* tex : mBindedTextures)  
-   //{  
-   //    tex->UnBind();  
-   //}  
+{
+   for (Texture* tex : mBindedTextures)  
+   {  
+       tex->UnBind();  
+   }  
 }

@@ -14,7 +14,7 @@ Texture::~Texture()
 
 void Texture::Bind(GLuint slot) const
 {
-	glActiveTexture(GL_TEXTURE0 + slot);
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, mID);
 }
 

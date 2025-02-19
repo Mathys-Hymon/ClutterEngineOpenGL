@@ -1,6 +1,7 @@
 #pragma once
 #include <Core/ActorComponent/Components/GraphicComponent.h>
 #include <Core/Assets/AssetsType/Texture.h>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace clt
 {
@@ -11,7 +12,7 @@ namespace clt
 		Texture& mTexture;
 
 	public:
-		SpriteComponent(Actor* pOwner, Texture& pTexture, int DrawOrder = 0);
+		SpriteComponent(Texture& pTexture, int DrawOrder = 0);
 		SpriteComponent() = delete;
 		SpriteComponent(const SpriteComponent&) = delete;
 		SpriteComponent& operator = (const SpriteComponent&) = delete;

@@ -48,7 +48,7 @@ void Actor::AddComponentInternal(Component* pComponent)
    size_t hashCode = typeid(*pComponent).hash_code();
    mComponents[hashCode] = pComponent;
 
-   pComponent->mOwner = this;
+   pComponent->SetOwner(this);
 
    mComponentsByUpdateOrder.push_back(pComponent);
 

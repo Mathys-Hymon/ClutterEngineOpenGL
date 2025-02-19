@@ -3,7 +3,7 @@
 
 using namespace clt;
 
-SpriteComponent::SpriteComponent(Actor* pOwner, Texture& pTexture, int DrawOrder) : GraphicComponent(pOwner, DrawOrder), mTexture(pTexture), mTexHeight(pTexture.GetHeight()), mTexWidth(pTexture.GetWidth())
+SpriteComponent::SpriteComponent(Texture& pTexture, int DrawOrder) : GraphicComponent(DrawOrder), mTexture(pTexture), mTexHeight(pTexture.GetHeight()), mTexWidth(pTexture.GetWidth())
 {
 
 }

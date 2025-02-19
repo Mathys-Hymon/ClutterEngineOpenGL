@@ -9,10 +9,17 @@ namespace clt
      */
     class CLUTTER_API Component
     {
+
     protected:
         bool mIsEnable = true; ///< Indicates if the component is active.
         int mUpdateOrder = 0; ///< The order in which the component is updated.
         Actor* mOwner; ///< The actor that owns this component.
+
+        Vector2 mRelativePosition = Vector2::ZERO;
+        Vector2 mRelativeScale = Vector2::ONE;
+        float mRelativeRotation = 0.0f;
+
+        virtual void SetOwner(Actor* pOwner) { mOwner = pOwner; };
 
     public:
         /**
@@ -20,7 +27,7 @@ namespace clt
          * @param pOwner The actor that owns this component.
          * @param pUpdateOrder The order in which the component is updated.
          */
-        Component(Actor* pOwner, int pUpdateOrder = 0) : mUpdateOrder(pUpdateOrder), mOwner(pOwner) {};
+        Component(int pUpdateOrder = 0) : mUpdateOrder(pUpdateOrder), mOwner(nullptr) {};
 
         /**
          * @brief Virtual destructor for Component.
@@ -59,6 +66,18 @@ namespace clt
          * @return The update order of the component.
          */
         int GetUpdateOrder() const { return mUpdateOrder; }
+
+        void SetRelativePosition(const Vector2& loc) { mRelativePosition = loc; };
+        void SetRelativeScale(const Vector2& scale)  { mRelativeScale = scale;  };
+        void SetRelativeRotation(float rot)          { mRelativeRotation = rot; };
+
+        Vector2 GetRelativePosition() const { return mRelativePosition; };
+        Vector2 GetRelativeScale()    const { return mRelativeScale;    };
+        float GetRelativeRotation()   const { return mRelativeRotation; };
+
+        //Vector2 GetWorldPosition() const { return mRelativePosition + mOwner->GetPosition(); };
+        //Vector2 GetWorldScale()    const { return mRelativeScale    + mOwner->GetScale();    };
+        //float   GetWorldRotation() const { return mRelativeRotation + mOwner->GetRotation(); };
 
         friend Actor;
     };

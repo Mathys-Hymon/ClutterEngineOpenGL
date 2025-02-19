@@ -102,6 +102,9 @@
     <ClInclude Include="Engine\Include\Graphics\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Include\Graphics\Sprite\SpriteBatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Libraries\include\PCH\dllmain.cpp">
@@ -146,9 +149,8 @@
     <ClCompile Include="Engine\Source\Graphics\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Content\Shaders\sprite.vert" />
-    <None Include="Content\Shaders\sprite.frag" />
+    <ClCompile Include="Engine\Source\Core\Maths\Vectors\Vector2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

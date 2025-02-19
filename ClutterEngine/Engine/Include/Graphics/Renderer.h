@@ -1,6 +1,7 @@
 #pragma once
 #include <Core/CCommon.h>
 #include <Core/Assets/Assets.h>
+#include <Graphics/Shader.h>
 #include <Core/Maths/CRectangle.h>
 #include <unordered_set>
 #include <vector>
@@ -17,8 +18,11 @@ namespace clt
 	class CLUTTER_API Renderer
 	{
 		std::unordered_set<Texture*> mBindedTextures;
-
 		std::vector<GraphicComponent*> mComponents;
+
+		GLuint mVAO, mVBO, mAttribSize;
+		std::vector<GLfloat> mBuffers;
+		Shader mShader;
 
 	public:
 		/**
