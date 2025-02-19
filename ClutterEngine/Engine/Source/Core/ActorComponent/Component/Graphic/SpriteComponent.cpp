@@ -3,16 +3,16 @@
 
 using namespace clt;
 
-SpriteComponent::SpriteComponent(Texture& pTexture, int DrawOrder) : GraphicComponent(DrawOrder), mTexture(pTexture), mTexHeight(pTexture.GetHeight()), mTexWidth(pTexture.GetWidth())
+SpriteComponent::SpriteComponent(Texture* pTexture, int DrawOrder) : GraphicComponent(DrawOrder), mTexture(pTexture), mTexHeight(pTexture->GetHeight()), mTexWidth(pTexture->GetWidth())
     {}
 
 SpriteComponent::~SpriteComponent() {}
 
-void SpriteComponent::SetTexture(const Texture& pTexture)
+void SpriteComponent::SetTexture(Texture* pTexture)
 {
     mOwner->GetLevel().GetRenderer().RemoveSpriteComponent(this);
 	mTexture = pTexture;
-	mTexture.UpdateInfo(mTexWidth, mTexHeight);
+	mTexture->UpdateInfo(mTexWidth, mTexHeight);
 
     mOwner->GetLevel().GetRenderer().AddSpriteComponent(this);
 }

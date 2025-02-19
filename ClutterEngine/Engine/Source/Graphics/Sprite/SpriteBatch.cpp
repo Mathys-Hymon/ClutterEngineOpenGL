@@ -51,7 +51,11 @@ void SpriteBatch::AddSprite(SpriteComponent* comp)
 
 void SpriteBatch::RemoveSprite(SpriteComponent* comp)
 {
-    mComponents.erase(std::remove(mComponents.begin(), mComponents.end(), comp), mComponents.end());
+    auto it = std::find(mComponents.begin(), mComponents.end(), comp);
+    if (it != mComponents.end())
+    {
+        mComponents.erase(it);
+    }
 }
 
 void SpriteBatch::Draw(Shader& pShader)

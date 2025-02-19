@@ -63,19 +63,18 @@ void Renderer::RemoveGraphicComponent(GraphicComponent* pComp)
 
 void Renderer::AddSpriteComponent(SpriteComponent* pComp)
 {
-    Texture* tex = &pComp->GetTexture();
+    Texture* tex = pComp->GetTexture();
 
     if (mSpriteBatches.find(tex) == mSpriteBatches.end())
     {
         mSpriteBatches[tex] = new SpriteBatch(tex);
     }
-
     mSpriteBatches[tex]->AddSprite(pComp);
 }
 
 void Renderer::RemoveSpriteComponent(SpriteComponent* pComp)
 {
-    Texture* tex = &pComp->GetTexture();
+    Texture* tex = pComp->GetTexture();
 
     if (mSpriteBatches.find(tex) != mSpriteBatches.end())
     {

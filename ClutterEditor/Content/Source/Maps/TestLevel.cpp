@@ -1,7 +1,8 @@
 #include <Maps/TestLevel.h>
 #include <Core/ActorComponent/Actor.h>
 #include <Core/Assets/Assets.h>
-#include <Core/ActorComponent/Components/Graphics/SpriteComponent.h>
+//#include <Core/Assets/AssetsType/Texture.h>
+#include <Core/ActorComponent/Components/Graphics/FlipbookComponent.h>
 
 clt::Actor* player;
 
@@ -15,12 +16,19 @@ TestLevel::~TestLevel()
 
 void TestLevel::Load()
 {
-	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/player.png", "theBlock", true);
+	std::vector<clt::Texture*> textures;
+
+	for (int i = 0; i <= 4; i++)
+	{
+		std::string tempPath = std::to_string(i) + "_playerjumpv2.png";
+		
+		textures.push_back(clt::Assets::Get().LoadTexture("Content/Resources/Sprites/" + tempPath, tempPath + "_playerjumpSprite", true));
+	}
+
+	//clt::Assets::Get().LoadTexture("Content/Resources/Sprites/player.png", "theBlock", true);
 	player = AddActor(new clt::Actor("test"));
 
-	player->AddComponent(new clt::SpriteComponent(*clt::Assets::Get().GetTexture("theBlock")));
-
-
+	player->AddComponent(new clt::FlipbookComponent(textures));
 }
 
 void TestLevel::Update()

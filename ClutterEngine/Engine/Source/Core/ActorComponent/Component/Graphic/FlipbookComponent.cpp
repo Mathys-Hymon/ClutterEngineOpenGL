@@ -4,7 +4,7 @@
 
 using namespace clt;
 
-FlipbookComponent::FlipbookComponent(const std::vector<Texture*>& pTexture, int pDrawOrder) : SpriteComponent(*pTexture[0], pDrawOrder), mCurrentFrame(0.0f), mAnimFps(0.0f)
+FlipbookComponent::FlipbookComponent(const std::vector<Texture*>& pTexture, int pDrawOrder) : SpriteComponent(pTexture[0], pDrawOrder), mCurrentFrame(0.0f), mAnimFps(10.0f)
 {
 	SetFlipbookTextures(pTexture);
 }
@@ -21,9 +21,9 @@ FlipbookComponent::~FlipbookComponent()
 void FlipbookComponent::SetFlipbookTextures(const std::vector<Texture*> pTextures)
 {
 	mFlipbookTextures = pTextures;
-	if (mFlipbookTextures.size() > 0)
+	if (mFlipbookTextures.size() > 0 && mOwner)
 	{
-		SetTexture(*mFlipbookTextures[0]);
+		SetTexture(mFlipbookTextures[0]);
 	}
 }
 
@@ -43,5 +43,5 @@ void FlipbookComponent::Update()
 	{
 		mCurrentFrame -= mFlipbookTextures.size();
 	}
-	SetTexture(*mFlipbookTextures[static_cast<int>(mCurrentFrame)]);
+	SetTexture(mFlipbookTextures[static_cast<int>(mCurrentFrame)]);
 }
