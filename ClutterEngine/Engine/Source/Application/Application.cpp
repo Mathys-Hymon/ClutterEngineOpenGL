@@ -1,6 +1,7 @@
 #include "pch.h"
 #include<glad/glad.h>
 #include <Application/Application.h>	
+#include <Core/Timer.h>
 #include <Core/Levels/TemplateLevel/TemplateLevel.h>
 #include <GLFW/glfw3.h>
 
@@ -22,12 +23,14 @@ void Application::Run()
 {
 	while (!GetWindow()->ShouldClose())
 	{
+		Timer::ComputeDeltaTime();
 		Update();
 		Render();
 
 		GetWindow()->SwapBuffers();
 
 		glfwPollEvents();
+		//Timer::DelayTime();
 	}
 }
 
@@ -43,6 +46,4 @@ void Application::Render()
 	GetRenderer()->EndDraw();
 }
 
-Application::~Application()
-{
-}
+Application::~Application()	{}

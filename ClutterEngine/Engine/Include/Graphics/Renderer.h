@@ -3,9 +3,9 @@
 #include <Core/Assets/Assets.h>
 #include <Graphics/Shader.h>
 #include <Core/Maths/CRectangle.h>
-#include <unordered_set>
+#include <Graphics/Sprite/SpriteBatch.h>
+#include <unordered_map>
 #include <vector>
-#include <Window/Window.h>
 
 namespace clt
 {
@@ -17,7 +17,8 @@ namespace clt
   */
 	class CLUTTER_API Renderer
 	{
-		std::unordered_set<Texture*> mBindedTextures;
+		//std::unordered_set<Texture*> mBindedTextures;
+		std::unordered_map<Texture*, SpriteBatch*> mSpriteBatches;
 		std::vector<GraphicComponent*> mComponents;
 
 		GLuint mVAO, mVBO, mAttribSize;
@@ -41,8 +42,6 @@ namespace clt
    */
 		Renderer& operator=(const Renderer&) = delete;
 
-		void RegisterTextureUsage(Texture* pTexture);
-
 		/**
    * @brief Adds a graphic component to the renderer.
    * @param pComp Pointer to the graphic component to add.
@@ -54,6 +53,10 @@ namespace clt
    * @param pComp Pointer to the graphic component to remove.
    */
 		void RemoveGraphicComponent(GraphicComponent* pComp);
+
+		void AddSpriteComponent(SpriteComponent* pComp);
+
+		void RemoveSpriteComponent(SpriteComponent* pComp);
 		
 		/**
    * @brief Begins the drawing process.
@@ -64,8 +67,6 @@ namespace clt
    * @brief Draws all added graphic components.
    */
 		void Draw();
-
-		void DrawSprite(const class Actor& pActor, const class Texture& pTexture, CRectangle pRect, Vector2 pOrigin) const;
 
 		/**
    * @brief Ends the drawing process.

@@ -44,6 +44,8 @@ namespace clt
          */
         virtual void Update() {};
 
+        virtual void Unload() {};
+
         /**
          * @brief Enables or disables the component.
          * @param pEnable True to enable the component, false to disable it.

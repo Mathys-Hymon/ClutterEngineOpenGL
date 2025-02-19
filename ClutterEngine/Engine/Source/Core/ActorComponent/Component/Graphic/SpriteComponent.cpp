@@ -4,22 +4,27 @@
 using namespace clt;
 
 SpriteComponent::SpriteComponent(Texture& pTexture, int DrawOrder) : GraphicComponent(DrawOrder), mTexture(pTexture), mTexHeight(pTexture.GetHeight()), mTexWidth(pTexture.GetWidth())
-{
+    {}
 
-}
-
-SpriteComponent::~SpriteComponent()
-{
-}
+SpriteComponent::~SpriteComponent() {}
 
 void SpriteComponent::SetTexture(const Texture& pTexture)
 {
+    mOwner->GetLevel().GetRenderer().RemoveSpriteComponent(this);
 	mTexture = pTexture;
 	mTexture.UpdateInfo(mTexWidth, mTexHeight);
+
+    mOwner->GetLevel().GetRenderer().AddSpriteComponent(this);
 }
 
-void SpriteComponent::Draw(Renderer& pRenderer)
+glm::mat4 SpriteComponent::GetTransform() const
 {
-	Vector2 origin{ mTexWidth / 2.0f, mTexHeight / 2.0f };
-	pRenderer.DrawSprite(*mOwner, mTexture, CRectangle(), origin);
+    Transform2D actorTransform = mOwner->getTransform();
+
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(actorTransform.location.x + mRelativePosition.x, actorTransform.location.y + mRelativePosition.y, 0.0f));
+    model = glm::rotate(model, glm::radians(actorTransform.rotation + mRelativeRotation), glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::scale(model, glm::vec3(actorTransform.scale.x + mRelativeScale.x, actorTransform.scale.y + mRelativeScale.y, 1.0f));
+
+    return model;
 }

@@ -7,17 +7,20 @@
 
 namespace clt
 {
+	class SpriteComponent;
 	class CLUTTER_API SpriteBatch
 	{
 		Texture* mTexture;
 		GLuint mVAO, mVBO;
-		std::vector<glm::mat4> mTransform;
+		std::vector<SpriteComponent*> mComponents;
 
 	public:
 		SpriteBatch(Texture* texture);
 		~SpriteBatch();
 
-		void AddSprite(const glm::mat4& pTransform);
-		void Draw(Shader& shader);
+		void AddSprite(SpriteComponent* comp);
+		void RemoveSprite(SpriteComponent* comp);
+		void Draw(Shader& pShader);
+		void EndDraw();
 	};
 }

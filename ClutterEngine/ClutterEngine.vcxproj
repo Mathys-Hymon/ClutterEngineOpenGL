@@ -165,6 +165,7 @@
     <ClInclude Include="Engine\Include\Core\ActorComponent\Actor.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Component.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\GraphicComponent.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\FlipbookComponent.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\SpriteComponent.h" />
     <ClInclude Include="Engine\Include\Core\Assets\Assets.h" />
     <ClInclude Include="Engine\Include\Core\Assets\AssetsType\Texture.h" />
@@ -179,6 +180,7 @@
     <ClInclude Include="Engine\Include\Core\Maths\Transforms\Transform2D.h" />
     <ClInclude Include="Engine\Include\Core\Maths\Vectors\Vector2.h" />
     <ClInclude Include="Engine\Include\Core\Maths\Vectors\Vector3.h" />
+    <ClInclude Include="Engine\Include\Core\Timer.h" />
     <ClInclude Include="Engine\Include\Graphics\Renderer.h" />
     <ClInclude Include="Engine\Include\Core\Levels\Level.h" />
     <ClInclude Include="Engine\Include\Core\Levels\LevelManager.h" />
@@ -189,6 +191,9 @@
     <ClInclude Include="Engine\Include\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\FlipbookComponent.cpp" />
+    <ClCompile Include="Engine\Source\Core\Timer.cpp" />
+    <ClCompile Include="Engine\Source\Graphics\Sprite\SpriteBatch.cpp" />
     <ClCompile Include="Engine\Source\Core\Maths\Vectors\Vector2.cpp" />
     <ClCompile Include="Engine\Source\Graphics\Shader.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\SpriteComponent.cpp" />

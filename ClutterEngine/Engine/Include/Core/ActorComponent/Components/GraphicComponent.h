@@ -35,11 +35,12 @@ virtual void SetOwner(Actor* pOwner) override
 /**
  * @brief Destructor for GraphicComponent.
  */
-virtual ~GraphicComponent()
+virtual ~GraphicComponent() = default;
+
+virtual void Unload() override
 {
 	mOwner->GetLevel().GetRenderer().RemoveGraphicComponent(this);
-};
-
+}
 /**  
  * @brief Draws the component using the provided renderer.  
  * @param pRenderer Reference to the renderer.  

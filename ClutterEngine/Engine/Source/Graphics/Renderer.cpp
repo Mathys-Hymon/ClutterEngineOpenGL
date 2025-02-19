@@ -20,46 +20,19 @@ Renderer::Renderer() : mVBO(0), mVAO(0), mAttribSize(0)
    const auto frag_file_path = "Content/Shaders/sprite.frag";
 
    mShader = Shader();
-
    mShader.Load(vert_file_path, frag_file_path);
-   mShader.Use();
-
-   // set up vertex data
-   GLfloat vertices[] = {
-       // first triangle
-           // pos         // coords
-           -0.5f, -0.5f,   0.0f,  0.0f, // bot left 
-            0.5f,  0.5f,   1.0f,  1.0f, // top right 
-           -0.5f,  0.5f,   0.0f,  1.0f, // top left 
-           // second triangle
-               // pos         // coords
-           -0.5f, -0.5f,   0.0f,  0.0f, // bot left 
-            0.5f, -0.5f,   1.0f,  0.0f, // bot right 
-            0.5f,  0.5f,   1.0f,  1.0f  // top right 
-   };
-
-   glGenVertexArrays(1, &mVAO);
-   glGenBuffers(1, &mVBO);
-
-   glBindVertexArray(mVAO);
-   glBindBuffer(GL_ARRAY_BUFFER, mVBO);
-   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (GLvoid*)0);
-   glEnableVertexAttribArray(0);
-
-   glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (GLvoid*)(2 * sizeof(float)));
-   glEnableVertexAttribArray(1);
 }  
 
 Renderer::~Renderer()  
 {  
-   Assets::Get().ClearTextures();  
-}  
+    // Nettoyer les SpriteBatch
+    for (auto& pair : mSpriteBatches)
+    {
+        delete pair.second;
+    }
+    mSpriteBatches.clear();
 
-void Renderer::RegisterTextureUsage(Texture* pTexture)  
-{  
-   mBindedTextures.insert(pTexture);  
+   Assets::Get().ClearTextures();  
 }  
 
 void Renderer::AddGraphicComponent(GraphicComponent* pComp)  
@@ -86,40 +59,59 @@ void Renderer::RemoveGraphicComponent(GraphicComponent* pComp)
    std::vector<GraphicComponent*>::iterator gc;  
    gc = std::find(mComponents.begin(), mComponents.end(), pComp);  
    mComponents.erase(gc);  
-}  
+}
+
+void Renderer::AddSpriteComponent(SpriteComponent* pComp)
+{
+    Texture* tex = &pComp->GetTexture();
+
+    if (mSpriteBatches.find(tex) == mSpriteBatches.end())
+    {
+        mSpriteBatches[tex] = new SpriteBatch(tex);
+    }
+
+    mSpriteBatches[tex]->AddSprite(pComp);
+}
+
+void Renderer::RemoveSpriteComponent(SpriteComponent* pComp)
+{
+    Texture* tex = &pComp->GetTexture();
+
+    if (mSpriteBatches.find(tex) != mSpriteBatches.end())
+    {
+        mSpriteBatches[tex]->RemoveSprite(pComp);
+    }
+}
 
 void Renderer::BeginDraw()  
 {  
    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);         // Define the background Color  
    glClear(GL_COLOR_BUFFER_BIT);                 // Clear the background color and depth  
 
-   for (Texture* tex : mBindedTextures)  
-   {  
-       tex->Bind();  
-   }  
+   mShader.Use();
 }  
 
 void Renderer::Draw()
 {  
-    mShader.Use();
-
-    glBindVertexArray(mVAO);
-    glDrawArrays(GL_TRIANGLES, 0, 6);
-
    for (GraphicComponent* comp : mComponents)  
    {  
        comp->Draw(*this);  
    }  
+
+   for (auto& pair : mSpriteBatches)
+   {
+       pair.second->Draw(mShader);
+   }
 }  
 
-void Renderer::DrawSprite(const Actor& pActor, const Texture& pTexture, CRectangle pRect, Vector2 pOrigin) const  
-{  
-}  
+//void Renderer::DrawSprite(const Actor& pActor, const Texture& pTexture, CRectangle pRect, Vector2 pOrigin) const  
+//{  
+//}  
 
 void Renderer::EndDraw()  
 {
-   for (Texture* tex : mBindedTextures)  
-   {  
-       tex->UnBind();  
-   }  
+    for (auto& pair : mSpriteBatches)
+    {
+        pair.second->Draw(mShader);
+    }
 }

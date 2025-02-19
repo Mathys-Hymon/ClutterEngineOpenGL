@@ -19,11 +19,25 @@ namespace clt
 
 		virtual ~SpriteComponent();
 
+		virtual void SetOwner(Actor* pOwner) override
+		{
+			mOwner = pOwner;
+			pOwner->GetLevel().GetRenderer().AddSpriteComponent(this);
+
+		};
+
+		virtual void Unload() override
+		{
+			mOwner->GetLevel().GetRenderer().RemoveSpriteComponent(this);
+		};
+
 		virtual void SetTexture(const Texture& pTexture);
-		virtual void Draw(Renderer& pRenderer) override;
+		virtual void Draw(Renderer& pRenderer) override {};
 
 		int GetTexWidth() const { return mTexWidth; };
 		int GetTexHeight() const { return mTexHeight; };
+		Texture& GetTexture() const { return mTexture; };
+		glm::mat4 GetTransform() const;
 	};
 
 }

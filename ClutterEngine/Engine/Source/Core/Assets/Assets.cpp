@@ -70,7 +70,6 @@ Texture* Assets::GetTexture(const std::string& name)
         CLUTTER_WARNING(("Unable to find Texture: " + name).c_str());
         return nullptr;
     }
-    mRenderer->RegisterTextureUsage(it->second);
     return it->second;
 }
 
