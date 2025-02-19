@@ -10,11 +10,11 @@ SpriteComponent::~SpriteComponent() {}
 
 void SpriteComponent::SetTexture(Texture* pTexture)
 {
-    mOwner->GetLevel().GetRenderer().RemoveSpriteComponent(this);
+    mOwner->GetLevel()->GetRenderer().RemoveSpriteComponent(this);
 	mTexture = pTexture;
 	mTexture->UpdateInfo(mTexWidth, mTexHeight);
 
-    mOwner->GetLevel().GetRenderer().AddSpriteComponent(this);
+    mOwner->GetLevel()->GetRenderer().AddSpriteComponent(this);
 }
 
 glm::mat4 SpriteComponent::GetTransform() const

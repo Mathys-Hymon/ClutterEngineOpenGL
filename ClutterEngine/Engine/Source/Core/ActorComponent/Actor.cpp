@@ -1,5 +1,6 @@
 #include "pch.h"                                      // Include precompiled header
 #include <Core/ActorComponent/Actor.h>                // Include Actor header
+#include <Core/ActorComponent/Component.h>
 
 using namespace clt;                                  // Use clt namespace
 

@@ -29,7 +29,7 @@ GraphicComponent(int pDrawOrder = 0) : mDrawOrder(pDrawOrder), Component(pDrawOr
 virtual void SetOwner(Actor* pOwner) override 
 {
 	mOwner = pOwner;
-	pOwner->GetLevel().GetRenderer().AddGraphicComponent(this);
+	pOwner->GetLevel()->GetRenderer().AddGraphicComponent(this);
 };
 
 /**
@@ -39,7 +39,7 @@ virtual ~GraphicComponent() = default;
 
 virtual void Unload() override
 {
-	mOwner->GetLevel().GetRenderer().RemoveGraphicComponent(this);
+	mOwner->GetLevel()->GetRenderer().RemoveGraphicComponent(this);
 }
 /**  
  * @brief Draws the component using the provided renderer.  

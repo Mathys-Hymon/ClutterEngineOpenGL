@@ -28,7 +28,8 @@ void TestLevel::Load()
 	//clt::Assets::Get().LoadTexture("Content/Resources/Sprites/player.png", "theBlock", true);
 	player = AddActor(new clt::Actor("test"));
 
-	player->AddComponent(new clt::FlipbookComponent(textures));
+	player->AddComponent(new clt::FlipbookComponent(textures, false));
+
 }
 
 void TestLevel::Update()

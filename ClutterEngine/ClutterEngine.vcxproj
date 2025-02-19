@@ -165,6 +165,7 @@
     <ClInclude Include="Engine\Include\Core\ActorComponent\Actor.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Component.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\GraphicComponent.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\CameraComponent.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\FlipbookComponent.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\SpriteComponent.h" />
     <ClInclude Include="Engine\Include\Core\Assets\Assets.h" />
@@ -191,6 +192,7 @@
     <ClInclude Include="Engine\Include\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\CameraComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\FlipbookComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\Timer.cpp" />
     <ClCompile Include="Engine\Source\Graphics\Sprite\SpriteBatch.cpp" />

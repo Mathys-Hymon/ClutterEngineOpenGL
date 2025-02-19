@@ -1,5 +1,6 @@
 #pragma once
 #include <Core/CCommon.h>
+#include <Core/ActorComponent/Actor.h>
 
 namespace clt
 {

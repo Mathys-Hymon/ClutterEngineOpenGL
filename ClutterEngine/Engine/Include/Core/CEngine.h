@@ -15,7 +15,7 @@ namespace clt
 	class CLUTTER_API CEngine
 	{
 		std::unique_ptr<Window> mWindow; ///< The window instance.
-		std::shared_ptr<Renderer> mRenderer; ///< The renderer instance.
+		std::unique_ptr<Renderer> mRenderer; ///< The renderer instance.
 		std::unique_ptr<LevelManager> mLevelManager; ///< The level manager instance.
 	public:
 	/**

@@ -9,6 +9,7 @@
 
 namespace clt
 {
+	class CEngine;
 	class SpriteComponent;
 	class GraphicComponent;
 	/**
@@ -25,11 +26,13 @@ namespace clt
 		std::vector<GLfloat> mBuffers;
 		Shader mShader;
 
+		CEngine& mEngine;
+
 	public:
 		/**
    * @brief Constructor for Renderer.
    */
-		Renderer();
+		Renderer(CEngine* pEngine);
 
 		/**
    * @brief Deleted copy constructor.
@@ -72,5 +75,7 @@ namespace clt
    * @brief Ends the drawing process.
    */
 		void EndDraw();
+
+		const CEngine& GetEngine() const { return mEngine; };
 	};
 }

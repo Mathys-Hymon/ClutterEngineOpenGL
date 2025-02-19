@@ -1,5 +1,5 @@
 #pragma once
-#include "Component.h"
+#include <Core/CCommon.h>
 #include <Core/Maths/Transforms/Transform2D.h>
 #include <unordered_map>
 #include <vector>
@@ -15,6 +15,7 @@ enum class ActorState {
 
 namespace clt
 {
+    class Component;
     class Level;
     class CLUTTER_API Actor
     {
@@ -141,7 +142,7 @@ namespace clt
          * @brief Gets the level the actor is attached to.
          * @return The level the actor is attached to.
          */
-        Level& GetLevel() const { return *mLevel; };
+        Level* GetLevel() const { return mLevel; };
 
         friend Level;
     };

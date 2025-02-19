@@ -1,5 +1,7 @@
 #pragma once
 #include <Core/ActorComponent/Components/GraphicComponent.h>
+#include <Graphics/Renderer.h>
+#include <Core/Levels/Level.h>
 #include <Core/Assets/AssetsType/Texture.h>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -21,14 +23,14 @@ namespace clt
 
 		virtual void SetOwner(Actor* pOwner) override
 		{
-			mOwner = pOwner;
-			pOwner->GetLevel().GetRenderer().AddSpriteComponent(this);
+			Component::SetOwner(pOwner);
+			pOwner->GetLevel()->GetRenderer().AddSpriteComponent(this);
 
 		};
 
 		virtual void Unload() override
 		{
-			mOwner->GetLevel().GetRenderer().RemoveSpriteComponent(this);
+			mOwner->GetLevel()->GetRenderer().RemoveSpriteComponent(this);
 		};
 
 		virtual void SetTexture(Texture* pTexture);
