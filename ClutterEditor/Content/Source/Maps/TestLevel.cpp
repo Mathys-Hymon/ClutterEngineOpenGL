@@ -41,8 +41,7 @@ void TestLevel::Load()
 void TestLevel::Update()
 {
 	//player->AddActorLocationOffset({0.001f, 0});
-	player->SetActorScale(100);
-	//cam->SetActorLocation({ 0, 0 });
+	cam->AddActorLocationOffset({-0.2f, -0.2f});
 	//std::cout << cam->GetRelativePosition().ToString() << std::endl;
 }
 
