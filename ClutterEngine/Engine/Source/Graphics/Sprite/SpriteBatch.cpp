@@ -1,8 +1,7 @@
 #include "pch.h"
 #include <Graphics/Sprite/SpriteBatch.h>
 #include <Core/ActorComponent/Components/Graphics/SpriteComponent.h>
-#include <glm/gtx/string_cast.hpp> // Add this include for glm::to_string
-#include <iostream> // Add this include for std::cout
+#include <iostream>
 
 using namespace clt;
 
@@ -15,8 +14,8 @@ SpriteBatch::SpriteBatch(Texture* texture) : mTexture(texture)
             -0.5f, -0.5f,   0.0f,  0.0f, // bot left 
              0.5f,  0.5f,   1.0f,  1.0f, // top right 
             -0.5f,  0.5f,   0.0f,  1.0f, // top left 
-            // second triangle
-                // pos         // coords
+
+             // pos         // coords
             -0.5f, -0.5f,   0.0f,  0.0f, // bot left 
              0.5f, -0.5f,   1.0f,  0.0f, // bot right 
              0.5f,  0.5f,   1.0f,  1.0f  // top right 

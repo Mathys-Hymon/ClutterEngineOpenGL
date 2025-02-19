@@ -70,12 +70,12 @@ void CameraComponent::UpdateProjectionMatrix()
 	if (mProjectionMode == ProjectionMode::Orthographic)
 	{
 		mProjection = glm::ortho(
-			0.0f,           // Left
-			mViewSize.x,    // Right
-			mViewSize.y,    // Bottom
-			0.0f,           // Top
-			-1.0f,          // Near
-			mFarPlane       // Far
+			-mViewSize.x / 2,    // Left
+			 mViewSize.x / 2,    // Right
+			 mViewSize.y / 2,    // Bottom
+			-mViewSize.y / 2,    // Top
+			-1.0f,				 // Near
+			 mFarPlane			 // Far
 		);
 	}
 	else    // PERSPECTIVE PROJECTION

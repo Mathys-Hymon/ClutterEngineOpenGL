@@ -33,15 +33,15 @@ void TestLevel::Load()
 
 	cam = AddActor(new clt::Actor("Camera"));
 
-	cam->AddComponent(new clt::CameraComponent());
+	player->AddComponent(new clt::CameraComponent());
 	player->AddComponent(new clt::FlipbookComponent(textures, true));
 
 }
 
 void TestLevel::Update()
 {
-	//player->AddActorLocationOffset({0.001f, 0});
-	cam->AddActorLocationOffset({-0.2f, -0.2f});
+	player->AddActorLocationOffset({0.001f, 0});
+	//cam->AddActorLocationOffset({-0.2f, -0.2f});
 	//std::cout << cam->GetRelativePosition().ToString() << std::endl;
 }
 
