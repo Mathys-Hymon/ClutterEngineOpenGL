@@ -22,7 +22,7 @@ Actor::~Actor()
 }
 
 // Add a component to the actor
-void Actor::AddComponent(Component* pComponent)
+Component* Actor::AddComponent(Component* pComponent)
 {
    size_t hashCode = typeid(*pComponent).hash_code();
 
@@ -30,11 +30,15 @@ void Actor::AddComponent(Component* pComponent)
    {
        CLUTTER_ERROR("A component of this type already exists in the Actor.");
        delete pComponent;
+
+       return nullptr;
    }
    else
    {
        if (mIsUpdatingComponents) mComponentsToAdd.emplace_back(pComponent);
        else AddComponentInternal(pComponent);
+
+       return pComponent;
    }
 }
 

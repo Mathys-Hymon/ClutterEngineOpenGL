@@ -1,10 +1,11 @@
 #include <Maps/TestLevel.h>
 #include <Core/ActorComponent/Actor.h>
 #include <Core/Assets/Assets.h>
-//#include <Core/Assets/AssetsType/Texture.h>
 #include <Core/ActorComponent/Components/Graphics/FlipbookComponent.h>
+#include <Core/ActorComponent/Components/Graphics/CameraComponent.h>
 
 clt::Actor* player;
+clt::Actor* cam;
 
 TestLevel::TestLevel(std::string pName) : clt::Level(pName)
 {
@@ -22,20 +23,27 @@ void TestLevel::Load()
 	{
 		std::string tempPath = std::to_string(i) + "_playerjumpv2.png";
 		
-		textures.push_back(clt::Assets::Get().LoadTexture("Content/Resources/Sprites/" + tempPath, tempPath + "_playerjumpSprite", true));
+		textures.push_back(clt::Assets::Get().LoadTexture("Content/Resources/Sprites/" + tempPath, tempPath + "_playerjumpSprite", clt::TextureFilter::NEAREST));
 	}
+
+	//player = 
 
 	//clt::Assets::Get().LoadTexture("Content/Resources/Sprites/player.png", "theBlock", true);
 	player = AddActor(new clt::Actor("test"));
 
-	player->AddComponent(new clt::FlipbookComponent(textures, false));
+	cam = AddActor(new clt::Actor("Camera"));
+
+	cam->AddComponent(new clt::CameraComponent());
+	player->AddComponent(new clt::FlipbookComponent(textures, true));
 
 }
 
 void TestLevel::Update()
 {
-	player->AddActorLocationOffset({ 0.1,1 });
-	//std::cout << player->GetPosition().ToString() << std::endl;
+	//player->AddActorLocationOffset({0.001f, 0});
+	player->SetActorScale(100);
+	//cam->SetActorLocation({ 0, 0 });
+	//std::cout << cam->GetRelativePosition().ToString() << std::endl;
 }
 
 void TestLevel::Close()

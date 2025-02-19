@@ -4,6 +4,12 @@
 
 namespace clt
 {
+	enum class TextureFilter
+	{
+		NEAREST,
+		LINEAR
+	};
+
 	class Renderer;
 	class CLUTTER_API Assets
 	{
@@ -22,7 +28,7 @@ namespace clt
 	public:
 		static Assets& Get();
 
-		Texture* LoadTexture(const std::string& path, const std::string& name, bool nearest);
+		Texture* LoadTexture(const std::string& path, const std::string& name, TextureFilter pTexFilter = TextureFilter::LINEAR);
 		Texture* GetTexture(const std::string& name);
 
 		void ClearTextures();

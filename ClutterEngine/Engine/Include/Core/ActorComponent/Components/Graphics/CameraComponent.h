@@ -18,6 +18,7 @@ namespace clt
 		float mFov;
 		float mNearPlane;
 		float mFarPlane;
+		float mZoom;
 
 		Vector2 mViewSize;
 
@@ -26,11 +27,18 @@ namespace clt
 
 		virtual void SetOwner(Actor* pOwner) override;
 
+		static CameraComponent* ACTIVE_CAMERA;
+
 	public:
 
-		CameraComponent(ProjectionMode pProjectionMode = ProjectionMode::Orthographic, float pFOV = 90.0f, float pNearPlane = 0.1f, float pFarPlane = 100.0f);
+		CameraComponent(float pFOV = 90.0f, ProjectionMode pProjectionMode = ProjectionMode::Orthographic, float pNearPlane = 0.1f, float pFarPlane = 100.0f);
 
 		virtual void Update() override;
+
+		void SetFOV(float pFOV);
+		void SetProjectionMode(ProjectionMode pProjectionMode);
+		void SetActive(CameraComponent* cam);
+		static CameraComponent* GetActiveCamera();
 
 		const glm::mat4& GetViewMatrix() const { return mView; }
 		const glm::mat4& GetProjectionMatrix() const { return mProjection; }

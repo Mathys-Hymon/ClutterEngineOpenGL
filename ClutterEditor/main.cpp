@@ -3,7 +3,7 @@
 
 int main()
 {
-    clt::Application app(800, 800, "Doors and Buttons", {new TestLevel()});
+    clt::Application app(1280.0f, 720.0f, "Doors and Buttons", {new TestLevel()});
 
     return 0;
 }

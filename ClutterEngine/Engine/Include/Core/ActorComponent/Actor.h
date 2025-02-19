@@ -63,7 +63,7 @@ namespace clt
          * @brief Adds a component to the actor.
          * @param pComponent The component to add.
          */
-        void AddComponent(Component* pComponent);
+        Component* AddComponent(Component* pComponent);
 
         /**
          * @brief Removes a component of type T from the actor.
@@ -119,7 +119,7 @@ namespace clt
          * @param scale The new scale.
          */
         void SetActorScale(Vector2 scale) { mTransform.scale = scale; };
-
+        void SetActorScale(float scale) { mTransform.scale = {scale, scale}; };
         /**
          * @brief Sets the rotation of the actor.
          * @param rot The new rotation.

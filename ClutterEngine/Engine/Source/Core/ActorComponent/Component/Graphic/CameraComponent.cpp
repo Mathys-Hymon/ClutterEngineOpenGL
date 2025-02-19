@@ -6,26 +6,63 @@
 
 using namespace clt;
 
+CameraComponent* CameraComponent::ACTIVE_CAMERA = nullptr;
 
 void CameraComponent::SetOwner(Actor* pOwner)
 {
 	Component::SetOwner(pOwner);
 
-	mViewSize = mOwner->GetLevel()->GetRenderer().GetEngine().GetWindow()->GetDimensions();
+	if (!ACTIVE_CAMERA)
+	{
+		ACTIVE_CAMERA = this;
+	}
 
-	UpdateProjectionMatrix();
+	mViewSize = mOwner->GetLevel()->GetRenderer().GetEngine().GetWindow()->GetDimensions();
 	UpdateViewMatrix();
+	UpdateProjectionMatrix();
 }
 
-CameraComponent::CameraComponent(ProjectionMode pMode, float pFOV, float pNearPlane, float pFarPlane) : mProjectionMode(pMode), mFov(pFOV), mNearPlane(pNearPlane), mFarPlane(pFarPlane) {}
+CameraComponent::CameraComponent(float pFOV, ProjectionMode pMode, float pNearPlane, float pFarPlane) : mProjectionMode(pMode), mFov(pFOV), mNearPlane(pNearPlane), mFarPlane(pFarPlane), mZoom(1.0f) {}
 
 void CameraComponent::Update()
 {
-	UpdateViewMatrix();
+	if (ACTIVE_CAMERA == this)
+	{
+		UpdateViewMatrix();
+	}
+}
+
+void CameraComponent::SetFOV(float pFOV)
+{
+	mFov = pFOV;
+	UpdateProjectionMatrix();
+}
+
+void CameraComponent::SetProjectionMode(ProjectionMode pProjectionMode)
+{
+	mProjectionMode = pProjectionMode;
+	UpdateProjectionMatrix();
+}
+
+void CameraComponent::SetActive(CameraComponent* cam)
+{
+	ACTIVE_CAMERA = cam;
+}
+
+CameraComponent* CameraComponent::GetActiveCamera()
+{
+	return ACTIVE_CAMERA;
 }
 
 void CameraComponent::UpdateViewMatrix()
 {
+	Vector2 tempPos = mOwner->GetPosition() + mRelativePosition;
+	glm::vec2 pos = tempPos.ToGlm();
+
+	mView = glm::mat4(1.0f);
+	mView = glm::translate(mView, glm::vec3(-pos.x, -pos.y, 0.0f));
+	mView = glm::rotate(mView, glm::radians(-mRelativeRotation), glm::vec3(0.0f, 0.0f, 1.0f));
+	mView = glm::scale(mView, glm::vec3(mZoom, mZoom, 1.0f));
 }
 
 void CameraComponent::UpdateProjectionMatrix()
@@ -33,16 +70,18 @@ void CameraComponent::UpdateProjectionMatrix()
 	if (mProjectionMode == ProjectionMode::Orthographic)
 	{
 		mProjection = glm::ortho(
-			-mViewSize.x / 2.0f,
-			 mViewSize.x / 2.0f,
-			-mViewSize.y / 2.0f,
-			 mViewSize.y / 2.0f,
-			-1.0f, 1.0f
+			0.0f,           // Left
+			mViewSize.x,    // Right
+			mViewSize.y,    // Bottom
+			0.0f,           // Top
+			-1.0f,          // Near
+			mFarPlane       // Far
 		);
 	}
 	else    // PERSPECTIVE PROJECTION
 	{
 		float aspectRatio = mViewSize.x / mViewSize.y;
+
 		mProjection = glm::perspective(
 			glm::radians(mFov),			// FOV
 			aspectRatio,			   // Aspect Ratio

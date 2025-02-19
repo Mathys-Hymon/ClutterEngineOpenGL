@@ -3,9 +3,11 @@
 #include<Graphics/Renderer.h>  
 #include<Core/ActorComponent/Actor.h>  
 #include<Core/ActorComponent/Components/Graphics/SpriteComponent.h>
+#include <Core/ActorComponent/Components/Graphics/CameraComponent.h>
 #include <Core/CEngine.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include<Graphics/Shader.h>
+#include <glm/gtx/string_cast.hpp>
 
 using namespace clt;
 
@@ -103,6 +105,18 @@ void Renderer::BeginDraw()
 
 void Renderer::Draw()
 {  
+    CameraComponent* camera = CameraComponent::GetActiveCamera();
+
+    if (camera)
+    {
+        mShader.SetMat4("view", camera->GetViewMatrix());
+        mShader.SetMat4("projection", camera->GetProjectionMatrix());
+    }
+    else
+    {
+        CLUTTER_WARNING("No main camera active !");
+    }
+
   for (GraphicComponent* comp : mComponents)  
   {  
       comp->Draw(*this);  

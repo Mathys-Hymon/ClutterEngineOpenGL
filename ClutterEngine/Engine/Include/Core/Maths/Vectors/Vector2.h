@@ -1,5 +1,6 @@
 #pragma once
 #include "cmath"
+#include <glm/glm.hpp>
 #include "string"
 
 /**
@@ -233,6 +234,11 @@ struct Vector2
     {
         if (x < right.x - acceptance || x > right.x + acceptance || y < right.y - acceptance || y > right.y + acceptance) return false;
         else return true;
+    }
+
+    inline glm::vec2 ToGlm()
+    {
+        return glm::vec2(x, y);
     }
 
     /**
