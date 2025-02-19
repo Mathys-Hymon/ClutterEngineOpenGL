@@ -5,7 +5,7 @@
 #include <Core/ActorComponent/Components/Graphics/CameraComponent.h>
 
 clt::Actor* player;
-clt::Actor* cam;
+clt::Actor* camera;
 
 TestLevel::TestLevel(std::string pName) : clt::Level(pName)
 {
@@ -30,19 +30,16 @@ void TestLevel::Load()
 
 	//clt::Assets::Get().LoadTexture("Content/Resources/Sprites/player.png", "theBlock", true);
 	player = AddActor(new clt::Actor("test"));
+	camera = AddActor(new clt::Actor("camera"));
 
-	cam = AddActor(new clt::Actor("Camera"));
-
-	player->AddComponent(new clt::CameraComponent());
+	camera->AddComponent(new clt::CameraComponent());
 	player->AddComponent(new clt::FlipbookComponent(textures, true));
 
 }
 
 void TestLevel::Update()
 {
-	player->AddActorLocationOffset({0.001f, 0});
-	//cam->AddActorLocationOffset({-0.2f, -0.2f});
-	//std::cout << cam->GetRelativePosition().ToString() << std::endl;
+	player->AddActorLocationOffset({0.5f, 0.5f });
 }
 
 void TestLevel::Close()

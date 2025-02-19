@@ -10,7 +10,7 @@ SpriteBatch::SpriteBatch(Texture* texture) : mTexture(texture)
     // set up vertex data
     GLfloat vertices[] = {
         // first triangle
-            // pos         // coords
+             // pos         // coords
             -0.5f, -0.5f,   0.0f,  0.0f, // bot left 
              0.5f,  0.5f,   1.0f,  1.0f, // top right 
             -0.5f,  0.5f,   0.0f,  1.0f, // top left 
