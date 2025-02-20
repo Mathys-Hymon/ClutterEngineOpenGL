@@ -26,9 +26,7 @@ void TestLevel::Load()
 		textures.push_back(clt::Assets::Get().LoadTexture("Content/Resources/Sprites/" + tempPath, tempPath + "_playerjumpSprite", clt::TextureFilter::NEAREST));
 	}
 
-	//player = 
 
-	//clt::Assets::Get().LoadTexture("Content/Resources/Sprites/player.png", "theBlock", true);
 	player = AddActor(new clt::Actor("test"));
 	camera = AddActor(new clt::Actor("camera"));
 

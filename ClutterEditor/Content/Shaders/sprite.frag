@@ -8,4 +8,6 @@ uniform sampler2D image;
 void main()
 {    
     color = texture(image, TexCoords);
+
+    if(color.a < 0.1) discard;
 }

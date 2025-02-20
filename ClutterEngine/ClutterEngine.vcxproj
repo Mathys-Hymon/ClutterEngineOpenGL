@@ -187,11 +187,15 @@
     <ClInclude Include="Engine\Include\Core\Levels\LevelManager.h" />
     <ClInclude Include="Engine\Include\Graphics\Shader.h" />
     <ClInclude Include="Engine\Include\Graphics\Sprite\SpriteBatch.h" />
+    <ClInclude Include="Engine\Include\Input\Input.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Movements\PlayerControllerComponent.h" />
+    <ClInclude Include="Engine\Include\Input\InputData.h" />
     <ClInclude Include="Libraries\include\PCH\framework.h" />
     <ClInclude Include="Libraries\include\PCH\pch.h" />
     <ClInclude Include="Engine\Include\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Source\Core\Input\Input.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\CameraComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\FlipbookComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\Timer.cpp" />
