@@ -12,11 +12,20 @@ namespace clt
 	class CLUTTER_API Input
 	{
 	public:
-		struct AxisMapping {
+		struct AxisMapping 
+		{
 			EKey positiveKey;
 			EKey negativeKey;
 		};
 
+		struct VectMapping 
+		{
+			EKey XpositiveKey;
+			EKey XNegativeKey;
+
+			EKey YpositiveKey;
+			EKey YNegativeKey;
+		};
 		/**
 	  * @brief Struct representing an action mapped to a key.
 	  */
@@ -33,6 +42,9 @@ namespace clt
 
 		std::unordered_map<std::string, AxisMapping> mAxisMap;
 		std::unordered_map<std::string, std::vector<std::function<void(float)>>> mAxisCallbacks;
+
+		std::unordered_map<std::string, VectMapping> mVectMap;
+		std::unordered_map<std::string, std::vector<std::function<void(Vector2)>>> mVectCallbacks;
 
 		/**
    * @brief Default constructor.
@@ -82,5 +94,9 @@ namespace clt
 
 		void RegisterAxisCallback(const std::string& axisName, std::function<void(float)> callback);
 		void MapKeysToAxis(EKey positiveKey, EKey negativeKey, const std::string& axisName);
+
+
+		void RegisterVectCallback(const std::string& VectName, std::function<void(Vector2)> callback);
+		void MapKeysToVect(EKey XPositiveKey, EKey XNegativeKey, EKey YPositiveKey, EKey YNegativeKey, const std::string& VectName);
 	};
 }

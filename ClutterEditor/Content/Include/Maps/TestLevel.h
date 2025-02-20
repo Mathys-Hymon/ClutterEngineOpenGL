@@ -12,5 +12,5 @@ public:
 	void Update() override;
 	void Close() override;
 
-	void TestMovement(float value);
+	void Movements(Vector2 value);
 };

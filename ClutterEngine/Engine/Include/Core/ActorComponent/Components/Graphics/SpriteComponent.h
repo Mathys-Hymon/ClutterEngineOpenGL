@@ -11,6 +11,7 @@ namespace clt
 	{
 	protected:
 		int mTexWidth, mTexHeight;
+		bool mFlipX, mFlipY;
 		Texture* mTexture;
 
 	public:
@@ -35,6 +36,9 @@ namespace clt
 
 		virtual void SetTexture(Texture* pTexture);
 		virtual void Draw(Renderer& pRenderer) override {};
+
+		void SetFlipX(bool pFlip)  { mFlipX = pFlip;  };
+		void SetFlipY(bool pFlipY) { mFlipY = pFlipY; };
 
 		int GetTexWidth() const { return mTexWidth; };
 		int GetTexHeight() const { return mTexHeight; };

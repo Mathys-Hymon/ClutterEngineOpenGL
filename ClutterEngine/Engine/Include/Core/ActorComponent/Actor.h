@@ -71,6 +71,22 @@ namespace clt
         template<typename T>
         void RemoveComponent();
 
+        template<typename T>
+        T* GetComponentOfType()
+        {
+            static_assert(std::is_base_of<Component, T>::value, "T must be a Component");
+
+            size_t hashCode = typeid(T).hash_code();
+            auto it = mComponents.find(hashCode);
+            if (it != mComponents.end()) {
+                return static_cast<T*>(it->second);
+            }
+            else
+            {
+                return nullptr;
+            }
+        };
+
         /**
          * @brief Attaches the actor to a scene.
          * @param pScene The scene to attach to.

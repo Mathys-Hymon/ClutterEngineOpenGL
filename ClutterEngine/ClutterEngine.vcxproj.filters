@@ -117,10 +117,19 @@
     <ClInclude Include="Engine\Include\Input\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Movements\PlayerControllerComponent.h">
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Movements\PlayerController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Include\Input\InputData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Include\Physics\Physics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Physics\RigidBody2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\Collider2DComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

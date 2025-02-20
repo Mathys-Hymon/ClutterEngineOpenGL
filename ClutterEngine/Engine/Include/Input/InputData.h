@@ -2,8 +2,6 @@
 #include <Core/CCommon.h>  
 #include <GLFW/glfw3.h>  
 
-namespace clt  
-{  
   enum class CLUTTER_API EKey {  
 
       A = GLFW_KEY_A,  
@@ -136,5 +134,4 @@ namespace clt
       Pressed,  
       Held,  
       Released  
-  };  
-}
+  };

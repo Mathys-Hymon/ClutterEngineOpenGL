@@ -4,7 +4,6 @@
 
 namespace clt
 {
-    class Actor;
     /**
      * @brief Base class for all components attached to an Actor.
      */
@@ -77,6 +76,10 @@ namespace clt
         Vector2 GetRelativePosition() const { return mRelativePosition; };
         Vector2 GetRelativeScale()    const { return mRelativeScale;    };
         float GetRelativeRotation()   const { return mRelativeRotation; };
+
+        Vector2 GetWorldPosition() const  { return mOwner->GetPosition() + mRelativePosition; };
+        Vector2 GetWorldScale() const     { return mOwner->GetScale() * mRelativeScale;       };
+        float GetWorldRotation() const    { return mOwner->GetRotation() + mRelativeRotation; };
 
         //Vector2 GetWorldPosition() const { return mRelativePosition + mOwner->GetPosition(); };
         //Vector2 GetWorldScale()    const { return mRelativeScale    + mOwner->GetScale();    };

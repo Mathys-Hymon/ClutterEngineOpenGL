@@ -30,7 +30,7 @@ struct Vector2
      * @brief Adds the components of another vector to this vector.
      * @param right The vector to add.
      */
-    inline void operator+=(Vector2& right)
+    inline void operator+=(Vector2 right)
     {
         x += right.x;
         y += right.y;
@@ -50,7 +50,7 @@ struct Vector2
      * @brief Subtracts the components of another vector from this vector.
      * @param right The vector to subtract.
      */
-    inline void operator-=(Vector2& right)
+    inline void operator-=(Vector2 right)
     {
         x -= right.x;
         y -= right.y;
@@ -70,7 +70,7 @@ struct Vector2
      * @brief Multiplies the components of this vector by another vector.
      * @param multiplier The vector to multiply by.
      */
-    inline void operator*=(Vector2& multiplyer)
+    inline void operator*=(Vector2 multiplyer)
     {
         x *= multiplyer.x;
         y *= multiplyer.y;
@@ -90,7 +90,7 @@ struct Vector2
      * @brief Divides the components of this vector by another vector.
      * @param divider The vector to divide by.
      */
-    inline void operator/=(Vector2& divider)
+    inline void operator/=(Vector2 divider)
     {
         x /= divider.x;
         y /= divider.y;
@@ -106,22 +106,18 @@ struct Vector2
         y /= length;
     }
 
-    friend bool operator==(Vector2& left, Vector2& right)
+    inline void operator=(Vector2 newVec)
+    {
+        x = newVec.x;
+        y = newVec.y;
+    }
+
+    friend bool operator==(Vector2 left, Vector2 right)
     {
         return (left.x == right.x && left.y == right.y);
     }
 
-    friend bool operator!=(Vector2& left, Vector2& right)
-    {
-        return (left.x != right.x && left.y != right.y);
-    }
-
-    friend bool operator==(Vector2& left, const Vector2& right)
-    {
-        return (left.x == right.x && left.y == right.y);
-    }
-
-    friend bool operator!=(Vector2& left, const Vector2& right)
+    friend bool operator!=(Vector2 left, Vector2 right)
     {
         return (left.x != right.x && left.y != right.y);
     }
@@ -133,7 +129,7 @@ struct Vector2
      * @param right The right vector.
      * @return The result of the subtraction.
      */
-    friend Vector2 operator-(Vector2& left, Vector2& right)
+    friend Vector2 operator-(Vector2 left, Vector2 right)
     {
         return { left.x - right.x, left.y - right.y };
     }
@@ -193,13 +189,18 @@ struct Vector2
         return { left.x * scalar, left.y * scalar };
     }
 
+    friend Vector2 operator*(Vector2 left, Vector2 right)
+    {
+        return { left.x * right.x, left.y * right.y };
+    }
+
     /**
      * @brief Divides a scalar by a vector.
      * @param scalar The scalar.
      * @param right The vector.
      * @return The result of the division.
      */
-    friend Vector2 operator/(float scalar, Vector2& right)
+    friend Vector2 operator/(float scalar, Vector2 right)
     {
         return { scalar / right.x, scalar / right.y };
     }
@@ -210,9 +211,14 @@ struct Vector2
      * @param scalar The scalar.
      * @return The result of the division.
      */
-    friend Vector2 operator/(Vector2& left, float scalar)
+    friend Vector2 operator/(Vector2 left, float scalar)
     {
         return { left.x / scalar, left.y / scalar };
+    }
+
+    friend Vector2 operator/(Vector2 left, Vector2 right)
+    {
+        return { left.x / right.x, left.y / right.y };
     }
 
     /**
