@@ -137,22 +137,4 @@ namespace clt
       Held,  
       Released  
   };  
-
-
-  // STRUCTS
-
-
-  struct CLUTTER_API AxisMapping {
-      EKey positiveKey;
-      EKey negativeKey;
-  };
-
-  /**
-* @brief Struct representing an action mapped to a key.
-*/
-  struct CLUTTER_API Action {
-      std::string name;  /**< Name of the action */
-      EInputState state;  /**< State of the input */
-      std::vector<std::function<void()>> callbacks;  /**< List of callbacks to be executed */
-  };
 }

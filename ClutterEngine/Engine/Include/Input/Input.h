@@ -10,6 +10,23 @@ namespace clt
   */
 	class CLUTTER_API Input
 	{
+	public:
+		struct AxisMapping {
+			EKey positiveKey;
+			EKey negativeKey;
+		};
+
+		/**
+	  * @brief Struct representing an action mapped to a key.
+	  */
+		struct Action {
+			std::string name;  /**< Name of the action */
+			EInputState state;  /**< State of the input */
+			std::vector<std::function<void()>> callbacks;  /**< List of callbacks to be executed */
+		};
+
+	private:
+
 		std::unordered_map<EKey, Action> mKeyActionMap;  /**< Map of key codes to actions */
 		std::unordered_map<EKey, bool> mPreviousKeyStates;  /**< Map of previous key states */
 
