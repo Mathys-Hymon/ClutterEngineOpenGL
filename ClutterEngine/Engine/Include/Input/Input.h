@@ -1,6 +1,7 @@
 #pragma once
 #include "InputData.h"
 #include <unordered_map>
+#include <Window/Window.h>
 #include <functional>
 
 namespace clt
@@ -62,7 +63,7 @@ namespace clt
    * @brief Updates the state of the input manager.
    * @param pWindow Pointer to the GLFW window.
    */
-		void Update(GLFWwindow* pWindow);
+		void Update(Window* pWindow);
 
 		/**
    * @brief Maps a key to an action.

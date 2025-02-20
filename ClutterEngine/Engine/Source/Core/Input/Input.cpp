@@ -30,13 +30,16 @@ void Input::MapKeysToAxis(EKey positiveKey, EKey negativeKey, const std::string&
 	mAxisMap[axisName] = { positiveKey, negativeKey };
 }
 
-void Input::Update(GLFWwindow* pWindow)
+void Input::Update(Window* pWindow)
 {
+	GLFWwindow* pGLFWindow = pWindow->GetGLFWWindow();
+
 			// INPUT MAPPING
+
 
 	for (auto& [key, action] : mKeyActionMap)
 	{
-		bool isKeyPressed = glfwGetKey(pWindow, static_cast<int>(key)) == GLFW_PRESS;
+		bool isKeyPressed = glfwGetKey(pGLFWindow, static_cast<int>(key)) == GLFW_PRESS;
 		bool wasKeyPressed = mPreviousKeyStates[key];
 
 		EInputState currentState = EInputState::Held;
@@ -59,24 +62,24 @@ void Input::Update(GLFWwindow* pWindow)
 		}
 		mPreviousKeyStates[key] = isKeyPressed;
 
+	}
 
-			// AXIS MAPPING
+	// AXIS MAPPING
 
-		for (const auto& [axisName, axisMapping] : mAxisMap)
+	for (const auto& [axisName, axisMapping] : mAxisMap)
+	{
+		float axisValue = 0.0f;
+
+		if (glfwGetKey(pGLFWindow, static_cast<int>(axisMapping.positiveKey)) == GLFW_PRESS)
+			axisValue += 1.0f;
+		if (glfwGetKey(pGLFWindow, static_cast<int>(axisMapping.negativeKey)) == GLFW_PRESS)
+			axisValue -= 1.0f;
+
+		if (mAxisCallbacks.find(axisName) != mAxisCallbacks.end())
 		{
-			float axisValue = 0.0f;
-
-			if (glfwGetKey(pWindow, static_cast<int>(axisMapping.positiveKey)) == GLFW_PRESS)
-				axisValue += 1.0f;
-			if (glfwGetKey(pWindow, static_cast<int>(axisMapping.negativeKey)) == GLFW_PRESS)
-				axisValue -= 1.0f;
-
-			if (mAxisCallbacks.find(axisName) != mAxisCallbacks.end())
+			for (const auto& callback : mAxisCallbacks[axisName])
 			{
-				for (const auto& callback : mAxisCallbacks[axisName])
-				{
-					callback(axisValue);
-				}
+				callback(axisValue);
 			}
 		}
 	}

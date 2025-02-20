@@ -43,7 +43,7 @@ namespace clt
          * @brief Gets the GLFW window object.
          * @return A pointer to the GLFWwindow.
          */
-        inline GLFWwindow* GetGLFWWindow() const { return mGlfwWindow; }
+        GLFWwindow* GetGLFWWindow() const { return mGlfwWindow; }
 
         /**
          * @brief Resizes the viewport of the window.

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include <Core/CEngine.h>
+#include <Input/Input.h>
 
 using namespace clt;
 
@@ -13,5 +14,6 @@ void CEngine::Init(int pWidth, int pHeight, std::string pName, std::vector<Level
 
 void CEngine::Update()
 {
+	Input::Get().Update(mWindow.get());
 	mLevelManager->Update();
 }

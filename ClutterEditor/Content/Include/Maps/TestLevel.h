@@ -11,4 +11,6 @@ public:
 	void Load() override;
 	void Update() override;
 	void Close() override;
+
+	void TestMovement(float value);
 };

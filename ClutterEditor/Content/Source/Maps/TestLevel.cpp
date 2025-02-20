@@ -1,6 +1,7 @@
 #include <Maps/TestLevel.h>
 #include <Core/ActorComponent/Actor.h>
 #include <Core/Assets/Assets.h>
+#include <Input/Input.h>
 #include <Core/ActorComponent/Components/Graphics/FlipbookComponent.h>
 #include <Core/ActorComponent/Components/Graphics/CameraComponent.h>
 
@@ -26,6 +27,9 @@ void TestLevel::Load()
 		textures.push_back(clt::Assets::Get().LoadTexture("Content/Resources/Sprites/" + tempPath, tempPath + "_playerjumpSprite", clt::TextureFilter::NEAREST));
 	}
 
+	clt::Input::Get().MapKeysToAxis(clt::EKey::W, clt::EKey::S, "Vertical");
+
+	clt::Input::Get().RegisterAxisCallback("Vertical", [this](float value) { this->TestMovement(value); });
 
 	player = AddActor(new clt::Actor("test"));
 	camera = AddActor(new clt::Actor("camera"));
@@ -37,9 +41,14 @@ void TestLevel::Load()
 
 void TestLevel::Update()
 {
-	player->AddActorLocationOffset({0.5f, 0.5f });
+	
 }
 
 void TestLevel::Close()
 {
+}
+
+void TestLevel::TestMovement(float value)
+{
+	player->AddActorLocationOffset({ 0, value });
 }
