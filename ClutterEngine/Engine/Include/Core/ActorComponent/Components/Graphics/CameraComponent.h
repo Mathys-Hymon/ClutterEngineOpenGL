@@ -25,7 +25,7 @@ namespace clt
 		void UpdateViewMatrix();
 		void UpdateProjectionMatrix();
 
-		virtual void SetOwner(Actor* pOwner) override;
+		virtual void Start() override;
 
 		static CameraComponent* ACTIVE_CAMERA;
 

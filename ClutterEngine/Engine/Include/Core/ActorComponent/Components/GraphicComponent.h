@@ -26,11 +26,10 @@ public:
  */  
 GraphicComponent(int pDrawOrder = 0) : mDrawOrder(pDrawOrder), Component(pDrawOrder)  {};  
 
-virtual void SetOwner(Actor* pOwner) override 
+virtual void Start() override
 {
-	mOwner = pOwner;
-	pOwner->GetLevel()->GetRenderer().AddGraphicComponent(this);
-};
+	mOwner->GetLevel()->GetRenderer().AddGraphicComponent(this);
+}
 
 /**
  * @brief Destructor for GraphicComponent.

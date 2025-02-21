@@ -3,10 +3,6 @@
 
 using namespace clt;
 
-void AABBCollider::CollisionEnter(std::vector<Collider2DComponent*> pColliders)
-{
-}
-
 AABBCollider::AABBCollider(Vector2 pBoxExtend)
 {
 }

@@ -19,12 +19,8 @@ namespace clt
 		FlipbookComponent& operator = (const FlipbookComponent&) = delete;
 
 		virtual ~FlipbookComponent();
-
-		virtual void SetOwner(Actor* pOwner) override
-		{
-			mOwner = pOwner;
-			SetTexture(mFlipbookTextures[0]);
-		};
+		
+		virtual void Start() override { SetTexture(mFlipbookTextures[0]);}
 
 		float GetFlipbookFps() const { return mAnimFps; }
 

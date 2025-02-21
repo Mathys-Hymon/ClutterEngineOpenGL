@@ -19,7 +19,11 @@ namespace clt
         Vector2 mRelativeScale = Vector2::ONE;
         float mRelativeRotation = 0.0f;
 
-        virtual void SetOwner(Actor* pOwner) { mOwner = pOwner; };
+        void SetOwner(Actor* pOwner) 
+        { 
+            mOwner = pOwner; 
+            Start();
+        };
 
     public:
         /**

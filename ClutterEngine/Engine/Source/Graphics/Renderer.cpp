@@ -19,15 +19,6 @@ Renderer::Renderer(CEngine* pEngine) : mVBO(0), mVAO(0), mAttribSize(0), mEngine
 
   Assets::Get().SetRenderer(this);
 
-  glm::mat4 projection = glm::ortho(
-      0.0f,             // Left
-      500.0f,           // Right
-      500.0f,           // Bottom
-      0.0f,             // Top (0 en haut pour un système de coordonnées 2D classique)
-      -1.0f,            // Near
-      1.0f              // Far
-  );
-
   // File paths for vertex and fragment shaders  
   const auto vert_file_path = "Content/Shaders/sprite.vert";
   const auto frag_file_path = "Content/Shaders/sprite.frag";
@@ -128,11 +119,7 @@ void Renderer::Draw()
   {
       pair.second->Draw(mShader);
   }
-}  
-
-//void Renderer::DrawSprite(const Actor& pActor, const Texture& pTexture, CRectangle pRect, Vector2 pOrigin) const  
-//{  
-//}  
+} 
 
 void Renderer::EndDraw()  
 {

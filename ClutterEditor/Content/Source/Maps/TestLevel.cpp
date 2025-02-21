@@ -3,6 +3,7 @@
 #include <Core/Assets/Assets.h>
 #include <Input/Input.h>
 #include <Core/ActorComponent/Components/Graphics/FlipbookComponent.h>
+#include <Core/ActorComponent/Components/Movements/PlayerController.h>
 #include <Core/ActorComponent/Components/Graphics/CameraComponent.h>
 
 clt::Actor* player;
@@ -25,14 +26,13 @@ void TestLevel::Load()
 
 	clt::Input::Get().MapKeysToVect( EKey::A, EKey::D,EKey::W, EKey::S, "PlayerMovement");
 
-	clt::Input::Get().RegisterVectCallback("PlayerMovement", [this](Vector2 value) { this->Movements(value); });
-
-	player = AddActor(new clt::Actor("test"));
+	player = AddActor(new clt::Actor("player"));
 	camera = AddActor(new clt::Actor("camera"));
 
 	camera->AddComponent(new clt::CameraComponent());
-	player->AddComponent(new clt::FlipbookComponent(textures, true));
 
+	player->AddComponent(new clt::FlipbookComponent(textures, true));
+	player->AddComponent(new clt::PlayerController("PlayerMovement"));
 
 	player->GetComponentOfType<clt::FlipbookComponent>()->SetRelativeScale({ 5, 5 });
 }
@@ -45,29 +45,3 @@ void TestLevel::Update()
 void TestLevel::Close()
 {
 }
-
-void TestLevel::Movements(Vector2 value)
-{
-	player->AddActorLocationOffset(value * 2);
-
-	if (value.x < 0)
-	{
-		player->GetComponentOfType<clt::FlipbookComponent>()->SetFlipX(true);
-		player->GetComponentOfType<clt::FlipbookComponent>()->Play();
-	}
-	else if (value.x > 0)
-	{
-		player->GetComponentOfType<clt::FlipbookComponent>()->SetFlipX(false);
-		player->GetComponentOfType<clt::FlipbookComponent>()->Play();
-	}
-	else if (value.y != 0)
-	{
-
-		player->GetComponentOfType<clt::FlipbookComponent>()->Play();
-	}
-	else
-	{
-		player->GetComponentOfType<clt::FlipbookComponent>()->Pause();
-	}
-}
-

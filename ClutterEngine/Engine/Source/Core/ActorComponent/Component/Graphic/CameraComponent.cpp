@@ -8,10 +8,11 @@ using namespace clt;
 
 CameraComponent* CameraComponent::ACTIVE_CAMERA = nullptr;
 
-void CameraComponent::SetOwner(Actor* pOwner)
-{
-	Component::SetOwner(pOwner);
 
+CameraComponent::CameraComponent(float pFOV, ProjectionMode pMode, float pNearPlane, float pFarPlane) : mProjectionMode(pMode), mFov(pFOV), mNearPlane(pNearPlane), mFarPlane(pFarPlane), mZoom(1.0f) {}
+
+void CameraComponent::Start()
+{
 	if (!ACTIVE_CAMERA)
 	{
 		ACTIVE_CAMERA = this;
@@ -22,7 +23,6 @@ void CameraComponent::SetOwner(Actor* pOwner)
 	UpdateProjectionMatrix();
 }
 
-CameraComponent::CameraComponent(float pFOV, ProjectionMode pMode, float pNearPlane, float pFarPlane) : mProjectionMode(pMode), mFov(pFOV), mNearPlane(pNearPlane), mFarPlane(pFarPlane), mZoom(1.0f) {}
 
 void CameraComponent::Update()
 {
@@ -90,3 +90,4 @@ void CameraComponent::UpdateProjectionMatrix()
 		);
 	}
 }
+

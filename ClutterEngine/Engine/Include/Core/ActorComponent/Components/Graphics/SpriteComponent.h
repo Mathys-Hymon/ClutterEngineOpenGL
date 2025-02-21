@@ -22,12 +22,7 @@ namespace clt
 
 		virtual ~SpriteComponent();
 
-		virtual void SetOwner(Actor* pOwner) override
-		{
-			Component::SetOwner(pOwner);
-			pOwner->GetLevel()->GetRenderer().AddSpriteComponent(this);
-
-		};
+		virtual void Start() override;
 
 		virtual void Unload() override
 		{

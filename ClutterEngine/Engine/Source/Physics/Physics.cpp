@@ -30,7 +30,6 @@ void Physics::Update()
 				collisionCollider.push_back(tempCollider);
 			}
 		}
-		mColliders[i]->CollisionEnter(collisionCollider);
 
 	}
 }

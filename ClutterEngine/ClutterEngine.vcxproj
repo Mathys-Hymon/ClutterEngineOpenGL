@@ -194,12 +194,16 @@
     <ClInclude Include="Engine\Include\Input\Input.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Movements\PlayerController.h" />
     <ClInclude Include="Engine\Include\Input\InputData.h" />
+    <ClInclude Include="Engine\Include\Physics\Collision\CollisionEvent.h" />
+    <ClInclude Include="Engine\Include\Physics\Collision\ICollisionListener.h" />
     <ClInclude Include="Engine\Include\Physics\Physics.h" />
     <ClInclude Include="Libraries\include\PCH\framework.h" />
     <ClInclude Include="Libraries\include\PCH\pch.h" />
     <ClInclude Include="Engine\Include\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Movement\PlayerController.cpp" />
+    <ClCompile Include="Engine\Source\Physics\Collisions\CollisionEvent.cpp" />
     <ClCompile Include="Engine\Source\Physics\Physics.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\AABBCollider.cpp" />
     <ClCompile Include="Engine\Source\Input\Input.cpp">

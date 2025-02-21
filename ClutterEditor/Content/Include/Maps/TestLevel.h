@@ -11,6 +11,4 @@ public:
 	void Load() override;
 	void Update() override;
 	void Close() override;
-
-	void Movements(Vector2 value);
 };

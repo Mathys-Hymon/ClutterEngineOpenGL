@@ -8,6 +8,11 @@ SpriteComponent::SpriteComponent(Texture* pTexture, int DrawOrder) : GraphicComp
 
 SpriteComponent::~SpriteComponent() {}
 
+void SpriteComponent::Start()
+{
+    mOwner->GetLevel()->GetRenderer().AddSpriteComponent(this);
+}
+
 void SpriteComponent::SetTexture(Texture* pTexture)
 {
     mOwner->GetLevel()->GetRenderer().RemoveSpriteComponent(this);

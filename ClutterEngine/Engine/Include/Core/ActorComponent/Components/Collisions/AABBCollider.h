@@ -8,8 +8,6 @@ namespace clt
 	{
 		Vector2 mBoxExtend;
 
-		virtual void CollisionEnter(std::vector<Collider2DComponent*> pColliders) override;
-
 	public:
 		 AABBCollider(Vector2 pBoxExtend = {32,32});
 		~AABBCollider() = default;
