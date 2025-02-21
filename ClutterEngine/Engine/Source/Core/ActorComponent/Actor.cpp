@@ -84,7 +84,7 @@ void Actor::InternalUpdate()
    mIsUpdatingComponents = true;                    // Update components
    for (Component* pComponent : mComponentsByUpdateOrder)
    {
-       if(pComponent->IsEnable()) pComponent->Update();
+       if(pComponent->IsActive()) pComponent->Update();
    }
    mIsUpdatingComponents = false;
 

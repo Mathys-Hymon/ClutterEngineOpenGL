@@ -66,7 +66,6 @@ void SpriteBatch::Draw(Shader& pShader)
     for (SpriteComponent* comp : mComponents)
     {
         glm::mat4 tempTransform = comp->GetTransform();
-        //std::cout << glm::to_string(tempTransform) << std::endl;
         pShader.SetMat4("model", tempTransform);
         glDrawArrays(GL_TRIANGLES, 0, 6);
     }

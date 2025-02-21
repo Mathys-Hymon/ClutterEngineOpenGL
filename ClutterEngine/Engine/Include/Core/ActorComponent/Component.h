@@ -11,7 +11,7 @@ namespace clt
     {
 
     protected:
-        bool mIsEnable = true; ///< Indicates if the component is active.
+        bool mIsActive = true; ///< Indicates if the component is active.
         int mUpdateOrder = 0; ///< The order in which the component is updated.
         Actor* mOwner; ///< The actor that owns this component.
 
@@ -50,7 +50,7 @@ namespace clt
          * @brief Enables or disables the component.
          * @param pEnable True to enable the component, false to disable it.
          */
-        void Enable(bool pEnable) { mIsEnable = pEnable; };
+        void SetActive(bool pActive) { mIsActive = pActive; };
 
         /**
          * @brief Called when the component is destroyed.
@@ -61,7 +61,7 @@ namespace clt
          * @brief Checks if the component is enabled.
          * @return True if the component is enabled, false otherwise.
          */
-        bool IsEnable() const { return mIsEnable; }
+        bool IsActive() const { return mIsActive; }
 
         /**
          * @brief Gets the update order of the component.
@@ -78,12 +78,8 @@ namespace clt
         float GetRelativeRotation()   const { return mRelativeRotation; };
 
         Vector2 GetWorldPosition() const  { return mOwner->GetPosition() + mRelativePosition; };
-        Vector2 GetWorldScale() const     { return mOwner->GetScale() * mRelativeScale;       };
-        float GetWorldRotation() const    { return mOwner->GetRotation() + mRelativeRotation; };
-
-        //Vector2 GetWorldPosition() const { return mRelativePosition + mOwner->GetPosition(); };
-        //Vector2 GetWorldScale()    const { return mRelativeScale    + mOwner->GetScale();    };
-        //float   GetWorldRotation() const { return mRelativeRotation + mOwner->GetRotation(); };
+        Vector2 GetWorldScale()    const  { return mOwner->GetScale() * mRelativeScale;       };
+        float GetWorldRotation()   const  { return mOwner->GetRotation() + mRelativeRotation; };
 
         friend Actor;
     };

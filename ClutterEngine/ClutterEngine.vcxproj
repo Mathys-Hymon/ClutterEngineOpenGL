@@ -164,7 +164,9 @@
     <ClInclude Include="Engine\Include\Application\Application.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Actor.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Component.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\AABBCollider.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\Collider2DComponent.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\HitResult.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\GraphicComponent.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\CameraComponent.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\FlipbookComponent.h" />
@@ -198,7 +200,9 @@
     <ClInclude Include="Engine\Include\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\Source\Core\Input\Input.cpp">
+    <ClCompile Include="Engine\Source\Physics\Physics.cpp" />
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\AABBCollider.cpp" />
+    <ClCompile Include="Engine\Source\Input\Input.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>

@@ -132,6 +132,12 @@
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\Collider2DComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\AABBCollider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\HitResult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Libraries\include\PCH\dllmain.cpp">
@@ -191,7 +197,13 @@
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\CameraComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\Input\Input.cpp">
+    <ClCompile Include="Engine\Source\Input\Input.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\AABBCollider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Source\Physics\Physics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

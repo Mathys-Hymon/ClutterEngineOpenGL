@@ -7,6 +7,7 @@ namespace clt
 	{
 		Vector2 mVelocity	  = Vector2::ZERO;
 		Vector2 mAcceleration = Vector2::ZERO;
+		Vector2 mGravity;
 
 	public:
 		float mMass = 1.0f;

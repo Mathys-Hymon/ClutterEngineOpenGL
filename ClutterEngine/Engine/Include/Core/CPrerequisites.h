@@ -1,6 +1,7 @@
 #pragma once
 #include <Core/CLog/CLog.h>
 #include <Core/Maths/Vectors/Vector2.h>
+#include <Core/Maths/Vectors/Vector3.h>
 #include <filesystem>
 #include <stdlib.h>
 #include <stdexcept>

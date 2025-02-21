@@ -21,8 +21,8 @@ glm::mat4 SpriteComponent::GetTransform() const
 {
     Transform2D actorTransform = mOwner->getTransform();
 
-    float xMultiplyer = mFlipX ? -100 : 100;
-    float yMultiplyer = mFlipY ? -100 : 100;
+    float xMultiplyer = mFlipX ? -mTexHeight : mTexHeight;
+    float yMultiplyer = mFlipY ? -mTexWidth : mTexWidth;
 
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(actorTransform.location.x + mRelativePosition.x, actorTransform.location.y + mRelativePosition.y, 0.0f));

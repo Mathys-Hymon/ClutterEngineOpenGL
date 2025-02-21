@@ -3,11 +3,16 @@
 
 namespace clt
 {
-	class Collider2DComponent : public Component
+	class Physics;
+	class CLUTTER_API Collider2DComponent : public Component
 	{
+		virtual void CollisionEnter(std::vector<Collider2DComponent*> pColliders) = 0;
+	protected:
 		bool mTrigger = false;
-		bool mStatic  = false;
 
-		virtual float GetBoundingRadius() const = 0;
+	public:
+		virtual bool CheckCollision(Collider2DComponent* pOther) = 0;
+
+		friend Physics;
 	};
 }

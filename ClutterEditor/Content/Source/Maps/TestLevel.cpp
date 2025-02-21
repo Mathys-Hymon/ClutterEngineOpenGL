@@ -33,6 +33,8 @@ void TestLevel::Load()
 	camera->AddComponent(new clt::CameraComponent());
 	player->AddComponent(new clt::FlipbookComponent(textures, true));
 
+
+	player->GetComponentOfType<clt::FlipbookComponent>()->SetRelativeScale({ 5, 5 });
 }
 
 void TestLevel::Update()
@@ -56,6 +58,11 @@ void TestLevel::Movements(Vector2 value)
 	else if (value.x > 0)
 	{
 		player->GetComponentOfType<clt::FlipbookComponent>()->SetFlipX(false);
+		player->GetComponentOfType<clt::FlipbookComponent>()->Play();
+	}
+	else if (value.y != 0)
+	{
+
 		player->GetComponentOfType<clt::FlipbookComponent>()->Play();
 	}
 	else
