@@ -2,14 +2,14 @@
 #include <unordered_map>
 #include <Core/Assets/AssetsType/Texture.h>
 
+enum class TextureFilter
+{
+	NEAREST,
+	LINEAR
+};
+
 namespace clt
 {
-	enum class TextureFilter
-	{
-		NEAREST,
-		LINEAR
-	};
-
 	class Renderer;
 	class CLUTTER_API Assets
 	{

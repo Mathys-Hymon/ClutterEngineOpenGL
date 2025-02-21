@@ -114,6 +114,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>Engine\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -151,6 +152,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>Engine\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -165,6 +167,7 @@
     <ClInclude Include="Engine\Include\Core\ActorComponent\Actor.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Component.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\AABBCollider.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\CircleCollider.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\Collider2DComponent.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\HitResult.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\GraphicComponent.h" />
@@ -202,6 +205,7 @@
     <ClInclude Include="Engine\Include\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\CircleCollider.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Movement\PlayerController.cpp" />
     <ClCompile Include="Engine\Source\Physics\Collisions\CollisionEvent.cpp" />
     <ClCompile Include="Engine\Source\Physics\Physics.cpp" />

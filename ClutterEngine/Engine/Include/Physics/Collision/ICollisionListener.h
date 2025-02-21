@@ -8,6 +8,6 @@ namespace clt
 	{
 	public :
 		virtual ~ICollisionListener() = default;
-		virtual void OnNotify(hitResult result) = 0;
+		virtual void OnTriggerEnter(hitResult result) = 0;
 	};
 }

@@ -5,31 +5,31 @@ using namespace clt;
 
 void Physics::AddCollider(Collider2DComponent* pCollider)
 {
-	mColliders.emplace_back(pCollider);
+
 }
 
 void Physics::RemoveCollider(Collider2DComponent* pCollider)
 {
-	std::vector<Collider2DComponent*>::iterator gc;
-	gc = std::find(mColliders.begin(), mColliders.end(), pCollider);
-	mColliders.erase(gc);
+	std::map<Collider2DComponent*, CollisionEvent*>::iterator it;
+	for (it = mColliderEvent.begin(); it != mColliderEvent.end(); it++)
+	{
+		delete it->second;
+	}
+	mColliderEvent.clear();
+}
+
+void Physics::SubscribeTo(Collider2DComponent* pCollider, ICollisionListener* pListener)
+{
+	size_t hasCollider = mColliderEvent.count(pCollider);
+
+	if (!hasCollider)
+	{
+		mColliderEvent[pCollider] = new CollisionEvent();
+	}
+	mColliderEvent[pCollider]->Subscribe(pListener);
 }
 
 void Physics::Update()
 {
-	for (int i = 0; i < mColliders.size(); i++)
-	{
-		std::vector<Collider2DComponent*> collisionCollider;
-
-		for (int j = 0; j < mColliders.size(); j++)
-		{
-			Collider2DComponent* tempCollider = mColliders[j];
-
-			if (j != i && mColliders[i]->CheckCollision(tempCollider))
-			{
-				collisionCollider.push_back(tempCollider);
-			}
-		}
-
-	}
+	std::cout << mColliderEvent.size() << std::endl;
 }

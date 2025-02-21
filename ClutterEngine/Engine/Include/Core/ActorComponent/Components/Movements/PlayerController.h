@@ -5,7 +5,7 @@
 namespace clt
 {
 	class FlipbookComponent;
-	class CLUTTER_API PlayerController : public Component, public ICollisionListener
+	class CLUTTER_API PlayerController : public Component , public ICollisionListener
 	{
 		float mSpeed;
 		FlipbookComponent* mSprite;
@@ -14,7 +14,7 @@ namespace clt
 		PlayerController(std::string pMovementCallback, std::string pJumpCallback = "", float pSpeed = 2);
 		~PlayerController() = default;
 
-		virtual void OnNotify(hitResult result) override;
+		virtual void OnTriggerEnter(hitResult result) override;
 
 		virtual void Start() override;
 

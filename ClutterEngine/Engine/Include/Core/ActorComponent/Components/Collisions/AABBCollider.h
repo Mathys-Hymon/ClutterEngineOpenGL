@@ -1,5 +1,4 @@
 #pragma once
-#include <Core/CCommon.h>
 #include <Core/ActorComponent/Components/Collisions/Collider2DComponent.h>
 
 namespace clt
@@ -8,10 +7,14 @@ namespace clt
 	{
 		Vector2 mBoxExtend;
 
+		bool CheckBoxCollision(Collider2DComponent* pOther);
+		bool CheckBoxSphereCollision(Collider2DComponent* pOther);
+
 	public:
-		 AABBCollider(Vector2 pBoxExtend = {32,32});
+		 AABBCollider(Vector2 pBoxExtend = {64,64});
 		~AABBCollider() = default;
 
 		virtual bool CheckCollision(Collider2DComponent* pOther) override;
+
 	};
 }

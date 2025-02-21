@@ -27,6 +27,6 @@ void CollisionEvent::Notify(hitResult result)
 {
 	for (ICollisionListener* listener : mListeners)
 	{
-		listener->OnNotify(result);
+		listener->OnTriggerEnter(result);
 	}	
 }

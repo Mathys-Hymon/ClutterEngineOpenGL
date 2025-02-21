@@ -15,7 +15,7 @@ PlayerController::PlayerController(std::string pMovementCallback, std::string pJ
 	}
 }
 
-void PlayerController::OnNotify(hitResult result)
+void PlayerController::OnTriggerEnter(hitResult result)
 {
 
 }
@@ -27,7 +27,7 @@ void PlayerController::Start()
 
 void PlayerController::Movement(Vector2 pDirection)
 {
-	mOwner->AddActorLocationOffset(pDirection * 2);
+	mOwner->AddActorLocationOffset(pDirection * mSpeed);
 
 	if(mSprite)
 	{
@@ -43,7 +43,6 @@ void PlayerController::Movement(Vector2 pDirection)
 		}
 		else if (pDirection.y != 0)
 		{
-
 			mSprite->Play();
 		}
 		else
