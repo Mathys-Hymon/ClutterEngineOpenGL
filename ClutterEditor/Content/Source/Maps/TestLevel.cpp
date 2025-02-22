@@ -25,7 +25,7 @@ void TestLevel::Load()
 	textures.emplace_back(clt::Assets::Get().LoadTexture("Content/Resources/Sprites/0_playerWalk.png", "0_PlayerWalk", TextureFilter::NEAREST));
 	textures.emplace_back(clt::Assets::Get().LoadTexture("Content/Resources/Sprites/1_playerWalk.png", "1_PlayerWalk", TextureFilter::NEAREST));
 
-	clt::Input::Get().MapKeysToVect( EKey::A, EKey::D,EKey::W, EKey::S, "PlayerMovement");
+	clt::Input::Get().MapKeysToAxis( EKey::A, EKey::D, "PlayerMovement");
 	clt::Input::Get().MapKeyToAction(EKey::Space, "Jump", EInputState::Pressed);
 
 	player = AddActor(new clt::Actor("player"));

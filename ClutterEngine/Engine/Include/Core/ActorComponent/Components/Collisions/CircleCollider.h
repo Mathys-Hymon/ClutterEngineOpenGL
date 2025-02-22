@@ -7,6 +7,8 @@ namespace clt
 	{
 		float mRadius;
 
+		bool CheckCircleVsCircle(CircleCollider* pOther, hitResult& outResult) const;
+
 	public:
 		 CircleCollider(float pRadius = 32);
 		~CircleCollider() = default;

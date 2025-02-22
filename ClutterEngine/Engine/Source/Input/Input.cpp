@@ -30,9 +30,14 @@ void Input::MapKeysToAxis(EKey positiveKey, EKey negativeKey, const std::string&
 	mAxisMap[axisName] = { positiveKey, negativeKey };
 }
 
-void Input::RegisterVectCallback(const std::string& VectName, std::function<void(Vector2)> callback)
+bool Input::RegisterVectCallback(const std::string& VectName, std::function<void(Vector2)> callback)
 {
-	mVectCallbacks[VectName].push_back(callback);
+	if (mVectCallbacks.count(VectName))
+	{
+		mVectCallbacks[VectName].push_back(callback);
+		return true;
+	}
+	return false;
 }
 
 void Input::MapKeysToVect(EKey XPositiveKey, EKey XNegativeKey, EKey YPositiveKey, EKey YNegativeKey, const std::string& VectName)

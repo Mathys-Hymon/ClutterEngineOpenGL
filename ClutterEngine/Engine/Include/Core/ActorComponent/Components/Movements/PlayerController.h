@@ -16,9 +16,15 @@ namespace clt
 
 		virtual void OnCollisionEnter(const hitResult& result) override;
 
+		virtual void OnCollisionStay(const hitResult& result) override;
+
+		virtual void OnCollisionExit(const hitResult& result) override;
+
 		virtual void Start() override;
 
 		virtual void Movement(Vector2 pDirection);
+
+		virtual void Movement(float pDirection);
 
 		virtual void Jump();
 	};

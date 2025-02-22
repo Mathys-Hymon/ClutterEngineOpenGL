@@ -6,9 +6,11 @@
 using namespace clt;
 
 PlayerController::PlayerController(std::string pMovementCallback, std::string pJumpCallback, float pSpeed) : Component(), mSpeed(pSpeed), mSprite(nullptr)
-{
-	Input::Get().RegisterVectCallback(pMovementCallback, [this](Vector2 value) { this->Movement(value); });
-
+ {
+	if(!Input::Get().RegisterVectCallback(pMovementCallback, [this](Vector2 value) { this->Movement(value); }));
+	{
+		Input::Get().RegisterAxisCallback(pMovementCallback, [this](float value) { this->Movement(value); });
+	}
 	if (!pJumpCallback.empty())
 	{
 		Input::Get().RegisterActionCallback(pJumpCallback, [this](void) { this->Jump(); });
@@ -16,6 +18,16 @@ PlayerController::PlayerController(std::string pMovementCallback, std::string pJ
 }
 
 void PlayerController::OnCollisionEnter(const hitResult& result)
+{
+
+}
+
+void PlayerController::OnCollisionStay(const hitResult& result)
+{
+
+}
+
+void PlayerController::OnCollisionExit(const hitResult& result)
 {
 
 }
@@ -42,6 +54,28 @@ void PlayerController::Movement(Vector2 pDirection)
 		}
 		else if (pDirection.y != 0)
 		{
+			mSprite->Play();
+		}
+		else
+		{
+			mSprite->Pause();
+		}
+	}
+}
+
+void PlayerController::Movement(float pDirection)
+{
+	mOwner->AddActorLocationOffset({pDirection * mSpeed, 0});
+	if (mSprite)
+	{
+		if (pDirection < 0)
+		{
+			mSprite->SetFlipX(true);
+			mSprite->Play();
+		}
+		else if (pDirection > 0)
+		{
+			mSprite->SetFlipX(false);
 			mSprite->Play();
 		}
 		else

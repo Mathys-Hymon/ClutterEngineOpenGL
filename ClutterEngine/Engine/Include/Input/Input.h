@@ -96,7 +96,7 @@ namespace clt
 		void MapKeysToAxis(EKey positiveKey, EKey negativeKey, const std::string& axisName);
 
 
-		void RegisterVectCallback(const std::string& VectName, std::function<void(Vector2)> callback);
+		bool RegisterVectCallback(const std::string& VectName, std::function<void(Vector2)> callback);
 		void MapKeysToVect(EKey XPositiveKey, EKey XNegativeKey, EKey YPositiveKey, EKey YNegativeKey, const std::string& VectName);
 	};
 }
