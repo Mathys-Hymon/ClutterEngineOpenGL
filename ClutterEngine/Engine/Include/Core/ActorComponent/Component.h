@@ -15,9 +15,7 @@ namespace clt
         int mUpdateOrder = 0; ///< The order in which the component is updated.
         Actor* mOwner; ///< The actor that owns this component.
 
-        Vector2 mRelativePosition = Vector2::ZERO;
-        Vector2 mRelativeScale = Vector2::ONE;
-        float mRelativeRotation = 0.0f;
+        Transform2D mRelativeTransform;
 
         void SetOwner(Actor* pOwner) 
         { 
@@ -73,17 +71,19 @@ namespace clt
          */
         int GetUpdateOrder() const { return mUpdateOrder; }
 
-        void SetRelativePosition(const Vector2& loc) { mRelativePosition = loc; };
-        void SetRelativeScale(const Vector2& scale)  { mRelativeScale = scale;  };
-        void SetRelativeRotation(float rot)          { mRelativeRotation = rot; };
+        void SetRelativePosition(const Vector2& loc)      { mRelativeTransform.location = loc; };
+        void SetRelativeScale(const Vector2& scale)       { mRelativeTransform.scale = scale;  };
+        void SetRelativeRotation(float rot)               { mRelativeTransform.rotation = rot; };
+        void SetRelativeTransform(Transform2D& transform) { mRelativeTransform = transform;    };
 
-        Vector2 GetRelativePosition() const { return mRelativePosition; };
-        Vector2 GetRelativeScale()    const { return mRelativeScale;    };
-        float GetRelativeRotation()   const { return mRelativeRotation; };
+        Vector2 GetRelativePosition()      const { return mRelativeTransform.location; };
+        Vector2 GetRelativeScale()         const { return mRelativeTransform.scale;    };
+        float GetRelativeRotation()        const { return mRelativeTransform.rotation; };
+        Transform2D GetRelativeTransform() const { return mRelativeTransform;          };
 
-        Vector2 GetWorldPosition() const  { return mOwner->GetPosition() + mRelativePosition; };
-        Vector2 GetWorldScale()    const  { return mOwner->GetScale() * mRelativeScale;       };
-        float GetWorldRotation()   const  { return mOwner->GetRotation() + mRelativeRotation; };
+        Vector2 GetWorldPosition() const  { return mOwner->GetPosition() + mRelativeTransform.location; };
+        Vector2 GetWorldScale()    const  { return mOwner->GetScale() * mRelativeTransform.scale;       };
+        float GetWorldRotation()   const  { return mOwner->GetRotation() + mRelativeTransform.rotation; };
 
         friend Actor;
     };

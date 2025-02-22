@@ -23,10 +23,10 @@ void CollisionEvent::UnSubscribe(ICollisionListener* pListener)
 	}
 }
 
-void CollisionEvent::Notify(hitResult result)
+void CollisionEvent::Notify(hitResult& result)
 {
 	for (ICollisionListener* listener : mListeners)
 	{
-		listener->OnTriggerEnter(result);
+		listener->OnCollisionEnter(result);
 	}	
 }

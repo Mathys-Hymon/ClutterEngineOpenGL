@@ -3,21 +3,12 @@
 
 using namespace clt;
 
-CircleCollider::CircleCollider()
+CircleCollider::CircleCollider(float pRadius) : mRadius(pRadius)
 {
+	mType = Type::Circle;
 }
 
-bool CircleCollider::CheckCollision(Collider2DComponent* pOther)
-{
-	return false;
-}
-
-bool CircleCollider::CheckSphereCollision(Collider2DComponent* pOther)
-{
-	return false;
-}
-
-bool CircleCollider::CheckSphereBoxCollision(Collider2DComponent* pOther)
+bool CircleCollider::CheckCollision(Collider2DComponent* pOther, hitResult& outResult) const
 {
 	return false;
 }

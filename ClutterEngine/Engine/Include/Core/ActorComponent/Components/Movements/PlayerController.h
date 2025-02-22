@@ -14,7 +14,7 @@ namespace clt
 		PlayerController(std::string pMovementCallback, std::string pJumpCallback = "", float pSpeed = 2);
 		~PlayerController() = default;
 
-		virtual void OnTriggerEnter(hitResult result) override;
+		virtual void OnCollisionEnter(const hitResult& result) override;
 
 		virtual void Start() override;
 

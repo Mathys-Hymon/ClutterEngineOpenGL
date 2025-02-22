@@ -15,7 +15,7 @@ PlayerController::PlayerController(std::string pMovementCallback, std::string pJ
 	}
 }
 
-void PlayerController::OnTriggerEnter(hitResult result)
+void PlayerController::OnCollisionEnter(const hitResult& result)
 {
 
 }
@@ -28,7 +28,6 @@ void PlayerController::Start()
 void PlayerController::Movement(Vector2 pDirection)
 {
 	mOwner->AddActorLocationOffset(pDirection * mSpeed);
-
 	if(mSprite)
 	{
 		if (pDirection.x < 0)

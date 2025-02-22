@@ -1,30 +1,15 @@
 #include "pch.h"
 #include <Core/ActorComponent/Components/Collisions/AABBCollider.h>
+#include <Core/ActorComponent/Components/Collisions/CircleCollider.h>
 
 using namespace clt;
 
-AABBCollider::AABBCollider(Vector2 pBoxExtend)
+AABBCollider::AABBCollider(Vector2 pBoxExtend) : mBoxExtend(pBoxExtend)
 {
+	mType = Type::AABB;
 }
 
-bool AABBCollider::CheckCollision(Collider2DComponent* pOther)
-{
-	if (dynamic_cast<AABBCollider*>(pOther))
-	{
-		return CheckBoxCollision(pOther);
-	}
-	else
-	{
-		return CheckBoxSphereCollision(pOther);
-	}
-}
-
-bool AABBCollider::CheckBoxCollision(Collider2DComponent* pOther)
-{
-	return false;
-}
-
-bool AABBCollider::CheckBoxSphereCollision(Collider2DComponent* pOther)
+bool AABBCollider::CheckCollision(Collider2DComponent* pOther, hitResult& outResult) const
 {
 	return false;
 }

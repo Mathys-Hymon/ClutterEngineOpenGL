@@ -5,13 +5,12 @@ namespace clt
 {
 	class CLUTTER_API CircleCollider : public Collider2DComponent
 	{
-		bool CheckSphereCollision(Collider2DComponent* pOther);
-		bool CheckSphereBoxCollision(Collider2DComponent* pOther);
+		float mRadius;
 
 	public:
-		 CircleCollider();
+		 CircleCollider(float pRadius = 32);
 		~CircleCollider() = default;
 
-		virtual bool CheckCollision(Collider2DComponent* pOther) override;
+		bool CheckCollision(Collider2DComponent* pOther, hitResult& outResult) const override;
 	};
 }

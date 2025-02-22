@@ -15,6 +15,6 @@ namespace clt
 		void Subscribe(ICollisionListener* pListener);
 		void UnSubscribe(ICollisionListener* pListener);
 
-		void Notify(hitResult result);
+		void Notify(hitResult& result);
 	};
 }

@@ -56,12 +56,12 @@ CameraComponent* CameraComponent::GetActiveCamera()
 
 void CameraComponent::UpdateViewMatrix()
 {
-	Vector2 tempPos = mOwner->GetPosition() + mRelativePosition;
+	Vector2 tempPos = mOwner->GetPosition() + mRelativeTransform.location;
 	glm::vec2 pos = tempPos.ToGlm();
 
 	mView = glm::mat4(1.0f);
 	mView = glm::translate(mView, glm::vec3(pos.x, pos.y, 0.0f));
-	mView = glm::rotate(mView, glm::radians(-mRelativeRotation), glm::vec3(0.0f, 0.0f, 1.0f));
+	mView = glm::rotate(mView, glm::radians(-mRelativeTransform.rotation), glm::vec3(0.0f, 0.0f, 1.0f));
 	mView = glm::scale(mView, glm::vec3(-mZoom, -mZoom, 1.0f));
 }
 

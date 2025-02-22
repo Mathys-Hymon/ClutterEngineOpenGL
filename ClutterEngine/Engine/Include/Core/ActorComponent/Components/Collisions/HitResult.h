@@ -1,12 +1,19 @@
 #pragma once
 #include <Core/CCommon.h>
 
-struct CLUTTER_API hitResult
+namespace clt
 {
-	bool Hit;
-	class Actor* HitActor;
-	class Component* HitComponent;
-
-	Vector2 hitLocation;
-	Vector2 hitNormal;
-};
+    class Actor;
+    class Collider2DComponent;
+    struct CLUTTER_API hitResult
+    {
+        bool IsColliding = false;
+        Actor* ActorA = nullptr;
+        Actor* ActorB = nullptr;
+        Collider2DComponent* ColliderA = nullptr;
+        Collider2DComponent* ColliderB = nullptr;
+        Vector2 Point;
+        Vector2 Normal;
+        float Penetration = 0.0f;
+    };
+}

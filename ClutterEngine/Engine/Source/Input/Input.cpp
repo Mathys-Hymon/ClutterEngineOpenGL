@@ -46,7 +46,6 @@ void Input::Update(Window* pWindow)
 
 			// INPUT MAPPING
 
-
 	for (auto& [key, action] : mKeyActionMap)
 	{
 		bool isKeyPressed = glfwGetKey(pGLFWindow, static_cast<int>(key)) == GLFW_PRESS;
@@ -71,7 +70,6 @@ void Input::Update(Window* pWindow)
 			}
 		}
 		mPreviousKeyStates[key] = isKeyPressed;
-
 	}
 
 	// AXIS MAPPING
@@ -100,25 +98,47 @@ void Input::Update(Window* pWindow)
 	{
 		Vector2 vectValue = { 0.0f, 0.0f };
 
+		bool isVectorPressed = false;
+
 		if (glfwGetKey(pGLFWindow, static_cast<int>(vectMapping.XpositiveKey)) == GLFW_PRESS)
+		{
+			isVectorPressed = true;
 			vectValue.x += 1.0f;
+		}
+
 		if (glfwGetKey(pGLFWindow, static_cast<int>(vectMapping.XNegativeKey)) == GLFW_PRESS)
+		{
+			isVectorPressed = true;
 			vectValue.x -= 1.0f;
+		}
 
 		if (glfwGetKey(pGLFWindow, static_cast<int>(vectMapping.YpositiveKey)) == GLFW_PRESS)
+		{
+			isVectorPressed = true;
 			vectValue.y += 1.0f;
+		}
+
 		if (glfwGetKey(pGLFWindow, static_cast<int>(vectMapping.YNegativeKey)) == GLFW_PRESS)
+		{
+			isVectorPressed = true;
 			vectValue.y -= 1.0f;
+		}
 
-		if(vectValue.Length() > 0)
-		vectValue.Normalize();
-
+		if(vectValue.Length() > 0)	vectValue.Normalize();
+		
 		if (mVectCallbacks.find(vectName) != mVectCallbacks.end())
 		{
-			for (const auto& callback : mVectCallbacks[vectName])
+			if (isVectorPressed || mPreviousKeyStates[vectMapping.XpositiveKey])
 			{
-				callback(vectValue);
+				mPreviousKeyStates[vectMapping.XpositiveKey] = true;
+
+				for (const auto& callback : mVectCallbacks[vectName])
+				{
+					callback(vectValue);
+				}
+				if (!isVectorPressed) mPreviousKeyStates[vectMapping.XpositiveKey] = false;
 			}
+
 		}
 	}
 }
