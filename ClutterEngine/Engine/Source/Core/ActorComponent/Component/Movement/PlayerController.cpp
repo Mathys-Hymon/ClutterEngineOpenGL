@@ -5,7 +5,7 @@
 
 using namespace clt;
 
-PlayerController::PlayerController(std::string pMovementCallback, std::string pJumpCallback, float pSpeed) : Component(), mSpeed(pSpeed), mSprite(nullptr)
+PlayerController::PlayerController(std::string pMovementCallback, std::string pJumpCallback, float pSpeed) : Component(), mSpeed(pSpeed), mSprite(nullptr), mAirControl(0.2f)
  {
 	if(!Input::Get().RegisterVectCallback(pMovementCallback, [this](Vector2 value) { this->Movement(value); }));
 	{
@@ -67,7 +67,8 @@ void PlayerController::Movement(Vector2 pDirection)
 
 void PlayerController::Movement(float pDirection)
 {
-	mRb->AddVelocity({ pDirection, 0 });
+	if(mRb->isGrounded)	mRb->AddVelocity({ pDirection * mSpeed, 0 });
+	else mRb->AddVelocity({ pDirection * mSpeed * mAirControl, 0 });
 	if (mSprite)
 	{
 		if (pDirection < 0)

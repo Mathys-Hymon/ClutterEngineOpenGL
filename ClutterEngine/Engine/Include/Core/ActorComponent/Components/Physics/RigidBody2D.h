@@ -10,10 +10,11 @@ namespace clt
 	{
 		Vector2 mVelocity; ///< The velocity of the rigid body.
 		Vector2 mAcceleration; ///< The acceleration of the rigid body.
-		float mGravityScale; ///< The scale of gravity applied to the rigid body.
 
 	public:
 
+		float mGravityScale; ///< The scale of gravity applied to the rigid body.
+		float mGroundFriction;
 		/**
    * @brief Constructs a RigidBody2D with an optional update order.
    * @param pUpdadeOrder The update order of the component.

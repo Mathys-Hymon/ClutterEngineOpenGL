@@ -5,7 +5,7 @@
 
 using namespace clt;
 
-Collider2DComponent::Collider2DComponent()
+Collider2DComponent::Collider2DComponent() : mFriction(2)
 {
 }
 

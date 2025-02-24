@@ -28,6 +28,8 @@ namespace clt
 		Type mType; ///< The type of the collider.
 
 	public:
+
+		float mFriction;
 		/**
    * @brief Constructor for Collider2DComponent.
    */

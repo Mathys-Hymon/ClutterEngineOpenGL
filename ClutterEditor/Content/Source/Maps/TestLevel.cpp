@@ -47,7 +47,7 @@ void TestLevel::Load()
 	player->AddComponent(new clt::FlipbookComponent(textures, true));
 	player->AddComponent(new clt::AABBCollider({64,64}));
 	player->AddComponent(new clt::RigidBody2D());
-	player->AddComponent(new clt::PlayerController("PlayerMovement", "Jump", 4));
+	player->AddComponent(new clt::PlayerController("PlayerMovement", "Jump", 10));
 
 	player->GetComponentOfType<clt::FlipbookComponent>()->SetRelativeScale({ 5, 5 });
 }

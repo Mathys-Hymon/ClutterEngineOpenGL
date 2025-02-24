@@ -11,11 +11,14 @@ namespace clt
     */  
    class CLUTTER_API PlayerController : public Component, public ICollisionListener  
    {  
-       float mSpeed; ///< Speed of the player.  
        FlipbookComponent* mSprite; ///< Pointer to the player's sprite component.  
        RigidBody2D* mRb; ///< Pointer to the player's rigid body component.  
 
    public:  
+
+       float mSpeed; ///< Speed of the player.  
+       float mAirControl;
+
        /**  
         * @brief Constructor for PlayerController.  
         * @param pMovementCallback Callback function for movement.  

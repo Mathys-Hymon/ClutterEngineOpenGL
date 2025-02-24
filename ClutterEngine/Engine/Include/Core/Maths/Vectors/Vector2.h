@@ -67,17 +67,6 @@ struct Vector2
     }
 
     /**
-    * @brief Calculates the dot product of two vectors.
-    * @param left The left vector.
-    * @param right The right vector.
-    * @return The dot product of the two vectors.
-    */
-    static float Dot(const Vector2& left, const Vector2& right)
-    {
-       return left.x * right.x + left.y * right.y;
-    }
-
-    /**
      * @brief Multiplies the components of this vector by another vector.
      * @param multiplier The vector to multiply by.
      */
@@ -260,33 +249,27 @@ struct Vector2
 
     /**
      * @brief Normalizes the vector to a unit vector.
-     */
-    inline void Normalize()
-    {
-        (*this) /= Length();
-    }
-
-    /**
-     * @brief Returns a normalized version of the vector.
-     * @param temp The vector to normalize.
      * @return The normalized vector.
      */
-    friend Vector2 Normalize(Vector2 temp)
+    inline Vector2 Normalized()
     {
-        return temp / temp.Length();
+        float length = Length();
+        if (length == 0) return Vector2(0, 0); // Handle division by zero
+        Vector2 temp = *this;
+        temp /= length;
+        return temp;
     }
 
     /**
-     * @brief Calculates the dot product of two vectors.
-     * @param left The left vector.
-     * @param right The right vector.
-     * @return The dot product of the two vectors.
-     */
-    friend float Dot(Vector2& left, Vector2& right)
+* @brief Calculates the dot product of two vectors.
+* @param left The left vector.
+* @param right The right vector.
+* @return The dot product of the two vectors.
+*/
+    static float Dot(const Vector2& left, const Vector2& right)
     {
         return left.x * right.x + left.y * right.y;
     }
-
     /**
      * @brief Clamps the vector components to the given range.
      * @param minValue The minimum value.

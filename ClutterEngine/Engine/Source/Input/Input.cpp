@@ -129,7 +129,7 @@ void Input::Update(Window* pWindow)
 			vectValue.y -= 1.0f;
 		}
 
-		if(vectValue.Length() > 0)	vectValue.Normalize();
+		if(vectValue.Length() > 0)	vectValue.Normalized();
 		
 		if (mVectCallbacks.find(vectName) != mVectCallbacks.end())
 		{

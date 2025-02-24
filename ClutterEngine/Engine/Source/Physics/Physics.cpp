@@ -64,7 +64,12 @@ void Physics::Update()
 		if (rb->mIsKinematic || !rb->IsActive()) continue;
 
 		if(!rb->isGrounded) rb->AddVelocity(mGravity * rb->GetGravityScale() * Timer::deltaTime);
-		
+		else
+		{
+			Vector2 velocity = rb->GetVelocity();
+			velocity.x *= (1.0f - rb->mGroundFriction * Timer::deltaTime);
+			rb->SetVelocity(velocity);
+		}
 		rb->GetOwner()->AddActorLocationOffset(rb->GetVelocity() * Timer::deltaTime);
 	}
 
@@ -108,12 +113,41 @@ void Physics::ResolveCollisions()
 			{
 				result.ActorA->AddActorLocationOffset(correction * -1.0f);
 				rbA->SetVelocity(Vector2(rbA->GetVelocity().x, 0.0f));
+
+				float combinedFriction = result.ColliderA->mFriction * result.ColliderB->mFriction;
+
+				Vector2 normal =  result.Normal.Normalized();
+				Vector2 tangent = Vector2(normal.y, -normal.x).Normalized();
+
+				Vector2 velocity = rbA->GetVelocity();
+				float velocityNormal = Vector2::Dot(velocity, normal);
+				float velocityTangent = Vector2::Dot(velocity, tangent);
+
+				velocityTangent *= (1.0f - combinedFriction * Timer::deltaTime);
+				velocity = normal * velocityNormal + tangent * velocityTangent;
+				rbA->SetVelocity(velocity);
+
 				if (result.Normal.y > 0.5f) rbA->isGrounded = true;
+
 			}
 			else if (!rbA && rbB && !rbB->mIsKinematic && rbB->IsActive())
 			{
 				result.ActorB->AddActorLocationOffset(correction);
 				rbB->SetVelocity(Vector2(rbB->GetVelocity().x, 0.0f));
+
+				float combinedFriction = result.ColliderB->mFriction * result.ColliderA->mFriction;
+
+				Vector2 normal = result.Normal.Normalized();
+				Vector2 tangent = Vector2(normal.y, -normal.x).Normalized();
+
+				Vector2 velocity = rbB->GetVelocity();
+				float velocityNormal = Vector2::Dot(velocity, normal);
+				float velocityTangent = Vector2::Dot(velocity, tangent);
+
+				velocityTangent *= (1.0f - combinedFriction * Timer::deltaTime);
+				velocity = normal * velocityNormal + tangent * velocityTangent;
+				rbB->SetVelocity(velocity);
+
 				if (result.Normal.y > 0.5f) rbB->isGrounded = true;
 			}
 
