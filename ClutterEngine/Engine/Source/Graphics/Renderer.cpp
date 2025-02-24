@@ -1,13 +1,7 @@
 #include "pch.h"  
-#include <glad/glad.h>
-#include<Graphics/Renderer.h>  
-#include<Core/ActorComponent/Actor.h>  
+#include<Graphics/Renderer.h>
 #include<Core/ActorComponent/Components/Graphics/SpriteComponent.h>
-#include <Core/ActorComponent/Components/Graphics/CameraComponent.h>
-#include <Core/CEngine.h>
-#include <glm/gtc/matrix_transform.hpp>
-#include<Graphics/Shader.h>
-#include <glm/gtx/string_cast.hpp>
+#include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
 
 using namespace clt;
 

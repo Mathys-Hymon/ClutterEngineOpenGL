@@ -4,8 +4,6 @@
 #include <Graphics/Shader.h>
 #include <Core/Maths/CRectangle.h>
 #include <Graphics/Sprite/SpriteBatch.h>
-#include <unordered_map>
-#include <vector>
 
 namespace clt
 {

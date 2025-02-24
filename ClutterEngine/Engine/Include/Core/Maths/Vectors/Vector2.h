@@ -1,4 +1,12 @@
 #pragma once
+/**
+ * @brief Linearly interpolates between two vectors.
+ * @param current The current vector.
+ * @param target The target vector.
+ * @param deltaTime The time step.
+ * @param interpSpeed The interpolation speed.
+ * @return The interpolated vector.
+ */
 #include "cmath"
 #include <glm/glm.hpp>
 #include "string"
@@ -25,6 +33,8 @@ struct Vector2
      * @param pY The y-coordinate.
      */
     Vector2(float pX, float pY) : x(pX), y(pY) {}
+
+    Vector2(float pXY) : x(pXY), y(pXY) {}
 
     /**
      * @brief Adds the components of another vector to this vector.
@@ -282,6 +292,23 @@ struct Vector2
 
         if ((*this).y < minValue)  (*this).y = minValue;
         if ((*this).y > maxValue)  (*this).y = maxValue;
+    }
+
+    static float Clamp(float value, float minValue, float maxValue)
+    {
+        if (value < minValue) return minValue;
+        if (value > maxValue) return maxValue;
+        return value;
+    }
+
+    static Vector2 VInterp(const Vector2& current, const Vector2& target, float deltaTime, float interpSpeed)
+    {
+        if (interpSpeed <= 0.0f)
+        {
+            return target;
+        }
+        Vector2 result = current + (target - current) * Clamp(deltaTime * interpSpeed, 0.0f, 1.0f);
+        return result;
     }
 
     /**

@@ -34,6 +34,7 @@ namespace clt
         * @param pBoxExtend The extension of the bounding box.
         */
         AABBCollider(Vector2 pBoxExtend = {32,32});
+        AABBCollider(float pBoxExtend);
 
         /**
         * @brief Default destructor.

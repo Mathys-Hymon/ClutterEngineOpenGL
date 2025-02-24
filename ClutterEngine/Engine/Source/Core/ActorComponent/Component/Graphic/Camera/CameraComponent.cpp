@@ -1,5 +1,5 @@
 #include "pch.h"
-#include <Core/ActorComponent/Components/Graphics/CameraComponent.h>
+#include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
 #include <Core/CEngine.h>
 #include <Core/Levels/Level.h>
 #include <glm/gtc/matrix_transform.hpp>
@@ -9,7 +9,7 @@ using namespace clt;
 CameraComponent* CameraComponent::ACTIVE_CAMERA = nullptr;
 
 
-CameraComponent::CameraComponent(float pFOV, ProjectionMode pMode, float pNearPlane, float pFarPlane) : mProjectionMode(pMode), mFov(pFOV), mNearPlane(pNearPlane), mFarPlane(pFarPlane), mZoom(1.0f) {}
+CameraComponent::CameraComponent(ProjectionMode pMode, float pFOV, float pNearPlane, float pFarPlane) : mProjectionMode(pMode), mFov(pFOV), mNearPlane(pNearPlane), mFarPlane(pFarPlane), mZoom(1.0f) {}
 
 void CameraComponent::SetOwner(Actor* pOwner)
 {

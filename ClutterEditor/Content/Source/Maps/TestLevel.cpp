@@ -5,7 +5,8 @@
 #include <Core/ActorComponent/Components/Graphics/AnimatorComponent.h>
 #include <Core/ActorComponent/Components/Collisions/AABBCollider.h>
 #include <Core/ActorComponent/Components/Movements/PlayerController.h>
-#include <Core/ActorComponent/Components/Graphics/CameraComponent.h>
+#include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
+#include <Core/ActorComponent/Components/Graphics/Camera/SpringArmComponent.h>
 #include <Core/ActorComponent/Components/Physics/RigidBody2D.h>
 
 clt::Actor* player;
@@ -44,20 +45,21 @@ void TestLevel::Load()
 
 	camera->AddComponent(new clt::CameraComponent());
 
-	block->AddComponent(new clt::AABBCollider());
+	block->AddComponent(new clt::AABBCollider({16,16}));
 	block->AddComponent(new clt::SpriteComponent(clt::Assets::Get().GetTexture("tile")));
 	block->SetActorLocation({ 0, -300 });
-	block->SetActorScale({20,3});
+	block->SetActorScale({50,3});
 
 	player->AddComponent(new clt::AnimatorComponent("walk", runAnim));
 	player->GetComponentOfType<clt::AnimatorComponent>()->AddNewAnim("jump", jumpAnim, false);
 	player->GetComponentOfType<clt::AnimatorComponent>()->GetAnim("jump")->SetFlipbookFps(7);
 
-	player->AddComponent(new clt::AABBCollider({64,64}));
+	player->AddComponent(new clt::AABBCollider({16,16}));
 	player->AddComponent(new clt::RigidBody2D());
+	player->AddComponent(new clt::SpringArmComponent(camera, 10));
 	player->AddComponent(new clt::PlayerController("PlayerMovement", "Jump", 10));
 
-	player->GetComponentOfType<clt::AnimatorComponent>()->SetRelativeScale({ 5, 5 });
+	player->SetActorScale(5);
 }
 
 void TestLevel::Update()

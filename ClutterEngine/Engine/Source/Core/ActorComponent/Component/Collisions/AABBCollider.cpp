@@ -9,6 +9,11 @@ AABBCollider::AABBCollider(Vector2 pBoxExtend) : mBoxExtend(pBoxExtend)
 	mType = Type::AABB;
 }
 
+AABBCollider::AABBCollider(float pBoxExtend) : mBoxExtend(pBoxExtend)
+{
+    mType = Type::AABB;
+}
+
 bool AABBCollider::CheckCollision(Collider2DComponent* pOther, hitResult& outResult) const
 {
 	if (pOther->GetType() == Type::AABB)

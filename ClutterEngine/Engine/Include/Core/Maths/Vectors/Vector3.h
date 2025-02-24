@@ -29,6 +29,9 @@ struct Vector3
      */
     Vector3(float pX, float pY, float pZ = 0) : x(pX), y(pY), z(pZ) {}
 
+
+    Vector3(float pXYZ) : x(pXYZ), y(pXYZ), z(pXYZ) {}
+
     /**
      * @brief Adds the components of another vector to this vector.
      * @param right The vector to add.
