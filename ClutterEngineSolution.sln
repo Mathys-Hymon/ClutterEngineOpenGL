@@ -5,7 +5,11 @@ VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClutterEngine", "ClutterEngine\ClutterEngine.vcxproj", "{B3007EB2-F9D6-4035-8CAF-B7084EBC84FC}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExempleGame", "ClutterEditor\ClutterEditor.vcxproj", "{7CCB562D-C8FA-4087-B088-8531B62F0777}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Games", "Games", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BowlingGame", "BowlingGame\BowlingGame.vcxproj", "{3BC83492-8A83-473D-A3D8-6FA686114999}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DoorsAndButtons", "DoorsAndButtons\DoorsAndButtons.vcxproj", "{7CCB562D-C8FA-4087-B088-8531B62F0777}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +27,14 @@ Global
 		{B3007EB2-F9D6-4035-8CAF-B7084EBC84FC}.Release|x64.Build.0 = Release|x64
 		{B3007EB2-F9D6-4035-8CAF-B7084EBC84FC}.Release|x86.ActiveCfg = Release|Win32
 		{B3007EB2-F9D6-4035-8CAF-B7084EBC84FC}.Release|x86.Build.0 = Release|Win32
+		{3BC83492-8A83-473D-A3D8-6FA686114999}.Debug|x64.ActiveCfg = Debug|x64
+		{3BC83492-8A83-473D-A3D8-6FA686114999}.Debug|x64.Build.0 = Debug|x64
+		{3BC83492-8A83-473D-A3D8-6FA686114999}.Debug|x86.ActiveCfg = Debug|Win32
+		{3BC83492-8A83-473D-A3D8-6FA686114999}.Debug|x86.Build.0 = Debug|Win32
+		{3BC83492-8A83-473D-A3D8-6FA686114999}.Release|x64.ActiveCfg = Release|x64
+		{3BC83492-8A83-473D-A3D8-6FA686114999}.Release|x64.Build.0 = Release|x64
+		{3BC83492-8A83-473D-A3D8-6FA686114999}.Release|x86.ActiveCfg = Release|Win32
+		{3BC83492-8A83-473D-A3D8-6FA686114999}.Release|x86.Build.0 = Release|Win32
 		{7CCB562D-C8FA-4087-B088-8531B62F0777}.Debug|x64.ActiveCfg = Debug|x64
 		{7CCB562D-C8FA-4087-B088-8531B62F0777}.Debug|x64.Build.0 = Debug|x64
 		{7CCB562D-C8FA-4087-B088-8531B62F0777}.Debug|x86.ActiveCfg = Debug|Win32
@@ -34,6 +46,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3BC83492-8A83-473D-A3D8-6FA686114999} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{7CCB562D-C8FA-4087-B088-8531B62F0777} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {430C7A7D-03A3-4492-9C3E-62C5BA0D1EE8}

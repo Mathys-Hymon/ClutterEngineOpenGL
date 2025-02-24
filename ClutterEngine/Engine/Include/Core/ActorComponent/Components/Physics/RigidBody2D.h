@@ -19,7 +19,7 @@ namespace clt
    * @brief Constructs a RigidBody2D with an optional update order.
    * @param pUpdadeOrder The update order of the component.
    */
-		RigidBody2D(int pUpdadeOrder = 0);
+		RigidBody2D(float pMass = 1, int pUpdadeOrder = 0);
 
 		/**
    * @brief Default destructor.

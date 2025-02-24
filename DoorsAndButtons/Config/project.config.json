@@ -1,0 +1,26 @@
+{
+  "project": {
+    "name": "Doors and Buttons",
+    "version": "1.0.0",
+    "engineVersion": "0.0.1",
+    "defaultScene": "Maps/TestLevel.h",
+    "mode": "2D"
+  },
+  "input": {
+    "action": {
+
+    },
+    "axis": {
+
+    },
+    "axis2D": {
+
+    }
+  },
+  "render": {
+    "resolution": [ 1920, 1080 ],
+    "fullscreen": false,
+    "vsync": true,
+    "shadowQuality": "High"
+  }
+}

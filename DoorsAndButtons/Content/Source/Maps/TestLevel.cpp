@@ -12,6 +12,7 @@
 clt::Actor* player;
 clt::Actor* camera;
 clt::Actor* block;
+clt::Actor* crate;
 
 TestLevel::TestLevel(std::string pName) : clt::Level(pName)
 {
@@ -36,14 +37,22 @@ void TestLevel::Load()
 	}
 
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/tile.png", "tile", TextureFilter::NEAREST);
+	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/crate.png", "crate", TextureFilter::NEAREST);
 
 	clt::Input::Get().MapKeysToAxis( EKey::A, EKey::D, "PlayerMovement");
 	clt::Input::Get().MapKeyToAction(EKey::Space, "Jump", EInputState::Pressed);
 	player = AddActor(new clt::Actor("player"));
 	camera = AddActor(new clt::Actor("camera"));
 	block = AddActor(new clt::Actor("block"));
+	crate = AddActor(new clt::Actor("crate"));
 
 	camera->AddComponent(new clt::CameraComponent());
+
+	crate->AddComponent(new clt::AABBCollider({16,16}));
+	crate->AddComponent(new clt::RigidBody2D());
+	crate->AddComponent(new clt::SpriteComponent(clt::Assets::Get().GetTexture("crate")));
+	crate->SetActorScale(4);
+	crate->SetActorLocation({ 100, 0 });
 
 	block->AddComponent(new clt::AABBCollider({16,16}));
 	block->AddComponent(new clt::SpriteComponent(clt::Assets::Get().GetTexture("tile")));
