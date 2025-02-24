@@ -26,8 +26,9 @@ public:
  */  
 GraphicComponent(int pDrawOrder = 0) : mDrawOrder(pDrawOrder), Component(pDrawOrder)  {};  
 
-virtual void Start() override
+virtual void SetOwner(Actor* pOwner) override
 {
+	Component::SetOwner(pOwner);
 	mOwner->GetLevel()->GetRenderer().AddGraphicComponent(this);
 }
 

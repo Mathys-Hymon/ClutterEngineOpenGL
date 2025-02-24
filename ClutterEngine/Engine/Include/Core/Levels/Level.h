@@ -4,6 +4,7 @@
 
 namespace clt
 {
+    class Physics;
     class LevelManager;
     /**
      * @brief Represents a level in the game engine.
@@ -20,7 +21,7 @@ namespace clt
     protected:
         std::string mTitle; ///< The title of the scene.
         Renderer* mRenderer; ///< The renderer used for drawing the scene.
-        //PhysicEngine* mPhysic;
+        Physics* mPhysics;
 
         std::unordered_map < size_t, std::vector<Actor*> > mActors; ///< Map of actors categorized by their type.
         std::vector<Actor*> mPendingActors; ///< List of actors pending to be added to the level.
@@ -58,7 +59,11 @@ namespace clt
          * @brief Sets the renderer for the level.
          * @param pRenderer Pointer to the renderer.
          */
-        void SetRenderer(Renderer* pRenderer) { mRenderer = pRenderer; };
+        void SetManager(Renderer* pRenderer, Physics* pPhysics) 
+        { 
+            mRenderer = pRenderer; 
+            mPhysics = pPhysics;
+        };
 
         /**
          * @brief Internal update function called by the engine.
@@ -94,6 +99,7 @@ namespace clt
          * @return Reference to the renderer.
          */
         Renderer& GetRenderer() const { return *mRenderer; };
+        Physics& GetPhysics()   const { return *mPhysics;  };
 
         friend LevelManager;
     };

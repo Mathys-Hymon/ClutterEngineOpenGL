@@ -1,31 +1,69 @@
-#pragma once
-#include <Core/ActorComponent/Component.h>
-#include <Physics/Collision/ICollisionListener.h>
+#pragma once  
+#include <Core/ActorComponent/Component.h>  
+#include <Physics/Collision/ICollisionListener.h>  
+#include <Core/ActorComponent/Components/Physics/RigidBody2D.h>  
 
-namespace clt
-{
-	class FlipbookComponent;
-	class CLUTTER_API PlayerController : public Component , public ICollisionListener
-	{
-		float mSpeed;
-		FlipbookComponent* mSprite;
+namespace clt  
+{  
+   class FlipbookComponent;  
+   /**  
+    * @brief PlayerController class responsible for handling player movements and collisions.  
+    */  
+   class CLUTTER_API PlayerController : public Component, public ICollisionListener  
+   {  
+       float mSpeed; ///< Speed of the player.  
+       FlipbookComponent* mSprite; ///< Pointer to the player's sprite component.  
+       RigidBody2D* mRb; ///< Pointer to the player's rigid body component.  
 
-	public:
-		PlayerController(std::string pMovementCallback, std::string pJumpCallback = "", float pSpeed = 2);
-		~PlayerController() = default;
+   public:  
+       /**  
+        * @brief Constructor for PlayerController.  
+        * @param pMovementCallback Callback function for movement.  
+        * @param pJumpCallback Callback function for jump.  
+        * @param pSpeed Speed of the player.  
+        */  
+       PlayerController(std::string pMovementCallback, std::string pJumpCallback = "", float pSpeed = 2);  
+       ~PlayerController() = default;  
 
-		virtual void OnCollisionEnter(const hitResult& result) override;
+       /**  
+        * @brief Called when a collision starts.  
+        * @param result The result of the collision.  
+        */  
+       virtual void OnCollisionEnter(const hitResult& result) override;  
 
-		virtual void OnCollisionStay(const hitResult& result) override;
+       /**  
+        * @brief Called when a collision stays.  
+        * @param result The result of the collision.  
+        */  
+       virtual void OnCollisionStay(const hitResult& result) override;  
 
-		virtual void OnCollisionExit(const hitResult& result) override;
+       /**  
+        * @brief Called when a collision ends.  
+        * @param result The result of the collision.  
+        */  
+       virtual void OnCollisionExit(const hitResult& result) override;  
 
-		virtual void Start() override;
+       /**  
+        * @brief Sets the owner of the component.  
+        * @param pOwner Pointer to the owner actor.  
+        */  
+       virtual void SetOwner(Actor* pOwner) override;  
 
-		virtual void Movement(Vector2 pDirection);
+       /**  
+        * @brief Handles player movement in a given direction.  
+        * @param pDirection The direction vector for movement.  
+        */  
+       virtual void Movement(Vector2 pDirection);  
 
-		virtual void Movement(float pDirection);
+       /**  
+        * @brief Handles player movement in a given direction.  
+        * @param pDirection The direction scalar for movement.  
+        */  
+       virtual void Movement(float pDirection);  
 
-		virtual void Jump();
-	};
+       /**  
+        * @brief Handles player jump action.  
+        */  
+       virtual void Jump();  
+   };  
 }

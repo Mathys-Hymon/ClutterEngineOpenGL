@@ -32,9 +32,11 @@ void PlayerController::OnCollisionExit(const hitResult& result)
 
 }
 
-void PlayerController::Start()
+void PlayerController::SetOwner(Actor* pOwner)
 {
+	Component::SetOwner(pOwner);
 	mSprite = mOwner->GetComponentOfType<FlipbookComponent>();
+	mRb = mOwner->GetComponentOfType<RigidBody2D>();
 }
 
 void PlayerController::Movement(Vector2 pDirection)
@@ -65,7 +67,7 @@ void PlayerController::Movement(Vector2 pDirection)
 
 void PlayerController::Movement(float pDirection)
 {
-	mOwner->AddActorLocationOffset({pDirection * mSpeed, 0});
+	mRb->AddVelocity({ pDirection, 0 });
 	if (mSprite)
 	{
 		if (pDirection < 0)
@@ -87,5 +89,8 @@ void PlayerController::Movement(float pDirection)
 
 void PlayerController::Jump()
 {
-	std::cout << "jump" << std::endl;
+	if (mRb->isGrounded)
+	{
+		mRb->AddVelocity({ 0, 200 });
+	}
 }

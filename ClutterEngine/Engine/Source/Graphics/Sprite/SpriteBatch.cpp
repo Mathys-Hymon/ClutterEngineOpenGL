@@ -71,9 +71,9 @@ void SpriteBatch::Draw(Shader& pShader)
     }
 
     glBindVertexArray(0);
+    mTexture->UnBind();
 }
 
 void SpriteBatch::EndDraw()
 {
-    mTexture->UnBind();
 }

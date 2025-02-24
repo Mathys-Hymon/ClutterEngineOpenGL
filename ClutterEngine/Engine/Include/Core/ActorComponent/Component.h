@@ -17,7 +17,7 @@ namespace clt
 
         Transform2D mRelativeTransform;
 
-        void SetOwner(Actor* pOwner) 
+        virtual void SetOwner(Actor* pOwner) 
         { 
             mOwner = pOwner; 
             Start();
@@ -39,7 +39,7 @@ namespace clt
         /**
          * @brief Called when the component is started.
          */
-        virtual void Start() {};
+        void Start() {};
 
         /**
          * @brief Called every frame to update the component.
@@ -81,9 +81,12 @@ namespace clt
         float GetRelativeRotation()        const { return mRelativeTransform.rotation; };
         Transform2D GetRelativeTransform() const { return mRelativeTransform;          };
 
-        Vector2 GetWorldPosition() const  { return mOwner->GetPosition() + mRelativeTransform.location; };
-        Vector2 GetWorldScale()    const  { return mOwner->GetScale() * mRelativeTransform.scale;       };
-        float GetWorldRotation()   const  { return mOwner->GetRotation() + mRelativeTransform.rotation; };
+        Vector2 GetWorldPosition()         const { return mOwner->GetPosition() + mRelativeTransform.location; };
+        Vector2 GetWorldScale()            const { return mOwner->GetScale() * mRelativeTransform.scale;       };
+        float GetWorldRotation()           const { return mOwner->GetRotation() + mRelativeTransform.rotation; };
+        Transform2D GetWorldTransform()    const { return mOwner->getTransform() + mRelativeTransform;         };
+
+        Actor* GetOwner() const { return mOwner; };
 
         friend Actor;
     };

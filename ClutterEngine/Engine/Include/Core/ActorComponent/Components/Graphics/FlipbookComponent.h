@@ -20,7 +20,11 @@ namespace clt
 
 		virtual ~FlipbookComponent();
 		
-		virtual void Start() override { SetTexture(mFlipbookTextures[0]);}
+		virtual void SetOwner(Actor* pOwner) override 
+		{ 
+			SpriteComponent::SetOwner(pOwner);
+			SetTexture(mFlipbookTextures[0]);
+		}
 
 		float GetFlipbookFps() const { return mAnimFps; }
 

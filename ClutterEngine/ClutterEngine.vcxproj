@@ -205,6 +205,8 @@
     <ClInclude Include="Engine\Include\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\Collider2DComponent.cpp" />
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Physics\RigidBody2D.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\CircleCollider.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Movement\PlayerController.cpp" />
     <ClCompile Include="Engine\Source\Physics\Collisions\CollisionEvent.cpp" />

@@ -11,8 +11,10 @@ CameraComponent* CameraComponent::ACTIVE_CAMERA = nullptr;
 
 CameraComponent::CameraComponent(float pFOV, ProjectionMode pMode, float pNearPlane, float pFarPlane) : mProjectionMode(pMode), mFov(pFOV), mNearPlane(pNearPlane), mFarPlane(pFarPlane), mZoom(1.0f) {}
 
-void CameraComponent::Start()
+void CameraComponent::SetOwner(Actor* pOwner)
 {
+	Component::SetOwner(pOwner);
+
 	if (!ACTIVE_CAMERA)
 	{
 		ACTIVE_CAMERA = this;

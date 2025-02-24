@@ -224,5 +224,11 @@
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\CircleCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Physics\RigidBody2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\Collider2DComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

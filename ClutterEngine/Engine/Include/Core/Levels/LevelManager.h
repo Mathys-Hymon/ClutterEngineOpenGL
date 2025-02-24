@@ -23,7 +23,7 @@ namespace clt
    * @brief Constructs a CLevelManager with a list of levels.
    * @param pLevels Vector of pointers to levels to be managed.
    */
-		LevelManager(std::vector<Level*>& pLevels, Renderer* pRenderer);
+		LevelManager(std::vector<Level*>& pLevels, Renderer* pRenderer, Physics* pPhysics);
 
 		/**
    * @brief Destructor for CLevelManager.

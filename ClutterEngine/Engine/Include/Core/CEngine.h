@@ -2,6 +2,7 @@
 #include <Core/CCommon.h>
 #include <Window/Window.h>
 #include <Core/Levels/LevelManager.h>
+#include <Physics/Physics.h>
 #include <Graphics/Renderer.h>
 
 #include <memory>
@@ -17,6 +18,7 @@ namespace clt
 		std::unique_ptr<Window> mWindow; ///< The window instance.
 		std::unique_ptr<Renderer> mRenderer; ///< The renderer instance.
 		std::unique_ptr<LevelManager> mLevelManager; ///< The level manager instance.
+		std::unique_ptr<Physics> mPhysics; 
 	public:
 	/**
    * @brief Default constructor.

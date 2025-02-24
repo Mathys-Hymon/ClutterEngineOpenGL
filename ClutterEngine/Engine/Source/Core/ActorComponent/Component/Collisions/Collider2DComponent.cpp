@@ -1,0 +1,16 @@
+#include "pch.h"
+#include <Core/ActorComponent/Components/Collisions/Collider2DComponent.h>
+#include <Physics/Physics.h>
+#include <Core/Levels/Level.h>
+
+using namespace clt;
+
+Collider2DComponent::Collider2DComponent()
+{
+}
+
+void Collider2DComponent::SetOwner(Actor* pOwner)
+{
+	Component::SetOwner(pOwner);
+	mOwner->GetLevel()->GetPhysics().AddCollider(this);
+}

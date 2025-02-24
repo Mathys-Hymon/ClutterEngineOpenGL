@@ -158,9 +158,11 @@
   <ItemGroup>
     <ClCompile Include="Content\Source\Maps\TestLevel.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Content\Include\Actors\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Content\Include\Maps\TestLevel.h" />
+    <ClInclude Include="Content\Include\Actors\Player.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Shaders\sprite.frag" />

@@ -11,8 +11,8 @@ struct Vector2
     float x = 0; ///< The x-coordinate of the vector.
     float y = 0; ///< The y-coordinate of the vector.
 
-    static const Vector2 ZERO; ///< A vector with both coordinates set to zero.
-    static const Vector2 ONE;  ///< A vector with both coordinates set to one.
+    static const Vector2 Zero; ///< A vector with both coordinates set to zero.
+    static const Vector2 One;  ///< A vector with both coordinates set to one.
 
     /**
      * @brief Default constructor initializing the vector to (0,0).
@@ -64,6 +64,17 @@ struct Vector2
     {
         x -= length;
         y -= length;
+    }
+
+    /**
+    * @brief Calculates the dot product of two vectors.
+    * @param left The left vector.
+    * @param right The right vector.
+    * @return The dot product of the two vectors.
+    */
+    static float Dot(const Vector2& left, const Vector2& right)
+    {
+       return left.x * right.x + left.y * right.y;
     }
 
     /**

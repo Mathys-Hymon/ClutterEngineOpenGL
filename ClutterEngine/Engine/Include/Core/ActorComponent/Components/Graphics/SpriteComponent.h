@@ -22,7 +22,7 @@ namespace clt
 
 		virtual ~SpriteComponent();
 
-		virtual void Start() override;
+		virtual void SetOwner(Actor* pOwner) override;
 
 		virtual void Unload() override
 		{

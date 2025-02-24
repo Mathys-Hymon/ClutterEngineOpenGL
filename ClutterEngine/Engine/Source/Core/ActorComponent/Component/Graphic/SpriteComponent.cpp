@@ -8,8 +8,9 @@ SpriteComponent::SpriteComponent(Texture* pTexture, int DrawOrder) : GraphicComp
 
 SpriteComponent::~SpriteComponent() {}
 
-void SpriteComponent::Start()
+void SpriteComponent::SetOwner(Actor* pOwner)
 {
+    Component::SetOwner(pOwner);
     mOwner->GetLevel()->GetRenderer().AddSpriteComponent(this);
 }
 

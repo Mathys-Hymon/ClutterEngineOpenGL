@@ -1,13 +1,14 @@
 #include "pch.h"
 #include <Core/Levels/LevelManager.h>
+#include <Physics/Physics.h>
 
 using namespace clt;
 
-LevelManager::LevelManager(std::vector<Level*>& pLevels, Renderer* pRenderer) : mActualLevel(pLevels[0]), mLevels({})
+LevelManager::LevelManager(std::vector<Level*>& pLevels, Renderer* pRenderer, Physics* pPhysics) : mActualLevel(pLevels[0]), mLevels({})
 {
 	for (Level* level : pLevels)
 	{
-		level->SetRenderer(pRenderer);
+		level->SetManager(pRenderer, pPhysics);
 		mLevels.emplace(level->mTitle, level);
 	}
 
