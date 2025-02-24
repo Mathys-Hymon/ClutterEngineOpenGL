@@ -16,6 +16,7 @@ namespace clt
 
    public:  
 
+       bool mIsJumping;
        float mSpeed; ///< Speed of the player.  
        float mAirControl;
 
@@ -63,6 +64,8 @@ namespace clt
         * @param pDirection The direction scalar for movement.  
         */  
        virtual void Movement(float pDirection);  
+
+       virtual void Update() override;
 
        /**  
         * @brief Handles player jump action.  

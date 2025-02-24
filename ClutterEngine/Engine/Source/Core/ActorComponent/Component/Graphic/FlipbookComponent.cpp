@@ -11,10 +11,6 @@ FlipbookComponent::FlipbookComponent(const std::vector<Texture*>& pTexture, bool
 
 FlipbookComponent::~FlipbookComponent()
 {
-	for (Texture* t : mFlipbookTextures)
-	{
-		t->~Texture();
-	}
 	mFlipbookTextures.clear();
 }
 

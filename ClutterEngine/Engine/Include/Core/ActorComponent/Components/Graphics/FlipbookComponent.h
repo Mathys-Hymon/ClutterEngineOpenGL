@@ -32,6 +32,9 @@ namespace clt
 		void SetFlipbookFps(float pFps);
 		void SetLooping(bool pLooping) { mLooping = pLooping; };
 
+		std::vector<Texture*> GetFlipbookTextures() const { return mFlipbookTextures; };
+		bool GetLooping() const { return mLooping; };
+
 		void Play()   { mIsPaused = false; };
 		void Pause()  { mIsPaused = true; };
 		void Toggle() { mIsPaused = !mIsPaused; };

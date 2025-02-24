@@ -1,11 +1,11 @@
 #include "pch.h"
 #include <Core/ActorComponent/Components/Movements/PlayerController.h>
-#include <Core/ActorComponent/Components/Graphics/FlipbookComponent.h>
+#include <Core/ActorComponent/Components/Graphics/AnimatorComponent.h>
 #include <Input/Input.h>
 
 using namespace clt;
 
-PlayerController::PlayerController(std::string pMovementCallback, std::string pJumpCallback, float pSpeed) : Component(), mSpeed(pSpeed), mSprite(nullptr), mAirControl(0.2f)
+PlayerController::PlayerController(std::string pMovementCallback, std::string pJumpCallback, float pSpeed) : Component(), mSpeed(pSpeed), mSprite(nullptr), mAirControl(0.2f), mRb(nullptr), mIsJumping(false)
  {
 	if(!Input::Get().RegisterVectCallback(pMovementCallback, [this](Vector2 value) { this->Movement(value); }));
 	{
@@ -35,7 +35,7 @@ void PlayerController::OnCollisionExit(const hitResult& result)
 void PlayerController::SetOwner(Actor* pOwner)
 {
 	Component::SetOwner(pOwner);
-	mSprite = mOwner->GetComponentOfType<FlipbookComponent>();
+	mSprite = mOwner->GetComponentOfType<AnimatorComponent>();
 	mRb = mOwner->GetComponentOfType<RigidBody2D>();
 }
 
@@ -81,10 +81,19 @@ void PlayerController::Movement(float pDirection)
 			mSprite->SetFlipX(false);
 			mSprite->Play();
 		}
-		else
+		else if(!mIsJumping)
 		{
 			mSprite->Pause();
 		}
+	}
+}
+
+void PlayerController::Update()
+{
+	if (mRb->isGrounded && mIsJumping && mRb->GetVelocity().y <= 0.1f)
+	{
+		mIsJumping = false;
+		mOwner->GetComponentOfType<AnimatorComponent>()->PlayAnim("walk");
 	}
 }
 
@@ -93,5 +102,8 @@ void PlayerController::Jump()
 	if (mRb->isGrounded)
 	{
 		mRb->AddVelocity({ 0, 200 });
+		mOwner->GetComponentOfType<AnimatorComponent>()->PlayAnim("jump");
+		mSprite->Play();
+		mIsJumping = true;
 	}
 }

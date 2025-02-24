@@ -200,11 +200,13 @@
     <ClInclude Include="Engine\Include\Physics\Collision\CollisionEvent.h" />
     <ClInclude Include="Engine\Include\Physics\Collision\ICollisionListener.h" />
     <ClInclude Include="Engine\Include\Physics\Physics.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\AnimatorComponent.h" />
     <ClInclude Include="Libraries\include\PCH\framework.h" />
     <ClInclude Include="Libraries\include\PCH\pch.h" />
     <ClInclude Include="Engine\Include\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\AnimatorComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\Collider2DComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Physics\RigidBody2D.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\CircleCollider.cpp" />

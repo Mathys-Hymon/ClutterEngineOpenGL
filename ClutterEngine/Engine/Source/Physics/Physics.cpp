@@ -4,7 +4,7 @@
 
 using namespace clt;
 
-Physics::Physics() : mGravity({0.0f, -200.0f})
+Physics::Physics() : mGravity({0.0f, -300.0f})
 {
 }
 
@@ -164,15 +164,84 @@ void Physics::ResolveCollisions()
 
 void Physics::DispatchEvents()
 {
-	for (auto& result : mCurrentFrameCollisions)
+	std::set<std::pair<Collider2DComponent*, Collider2DComponent*>> currentCollisions;
+
+	for (hitResult& result : mCurrentFrameCollisions)
 	{
-		if (mColliderEvent.find(result.ColliderA) != mColliderEvent.end())
+		auto colliderPair = (result.ColliderA < result.ColliderB)
+			? std::make_pair(result.ColliderA, result.ColliderB)
+			: std::make_pair(result.ColliderB, result.ColliderA);
+
+		currentCollisions.insert(colliderPair);
+	}
+
+		// ENTER
+	for (auto& colliderPair : currentCollisions)
+	{
+		if (!mPreviousCollisions.count(colliderPair))
 		{
-			mColliderEvent[result.ColliderA]->Notify(result);
+			for (hitResult& result : mCurrentFrameCollisions)
+			{
+				if ((result.ColliderA == colliderPair.first && result.ColliderB == colliderPair.second) ||
+					(result.ColliderA == colliderPair.second && result.ColliderB == colliderPair.first))
+				{
+					if (mColliderEvent.count(result.ColliderA))
+					{
+						mColliderEvent[result.ColliderA]->NotifyEnter(result);
+					}
+					if (mColliderEvent.count(result.ColliderB))
+					{
+						mColliderEvent[result.ColliderB]->NotifyEnter(result);
+					}
+					break;
+				}
+			}
 		}
-		if (mColliderEvent.find(result.ColliderB) != mColliderEvent.end())
+	}
+
+		// STAY
+	for (auto& colliderPair : mPreviousCollisions)
+	{
+		if (currentCollisions.count(colliderPair))
 		{
-			mColliderEvent[result.ColliderB]->Notify(result);
+			for (hitResult& result : mCurrentFrameCollisions)
+			{
+				if ((result.ColliderA == colliderPair.first && result.ColliderB == colliderPair.second) ||
+					(result.ColliderB == colliderPair.second && result.ColliderB == colliderPair.first))
+				{
+					if (mColliderEvent.count(result.ColliderA))
+					{
+						mColliderEvent[result.ColliderA]->NotifyStay(result);
+					}
+					if (mColliderEvent.count(result.ColliderB))
+					{
+						mColliderEvent[result.ColliderB]->NotifyStay(result);
+					}
+				}
+			}
+		}
+	}
+
+		//EXIT
+	for (auto& colliderPair : mPreviousCollisions)
+	{
+		if (!currentCollisions.count(colliderPair))
+		{
+			for (hitResult& prevResult : mPreviousFrameCollisions)
+			{
+				if ((prevResult.ColliderA == colliderPair.first && prevResult.ColliderB == colliderPair.second) ||
+					(prevResult.ColliderA == colliderPair.second && prevResult.ColliderB == colliderPair.first))
+				{
+					if (mColliderEvent.count(colliderPair.first))
+					{
+						mColliderEvent[colliderPair.first]->NotifyExit(prevResult);
+					}
+					if (mColliderEvent.count(colliderPair.second))
+					{
+						mColliderEvent[colliderPair.second]->NotifyExit(prevResult);
+					}
+				}
+			}
 		}
 	}
 }

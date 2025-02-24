@@ -23,10 +23,26 @@ void CollisionEvent::UnSubscribe(ICollisionListener* pListener)
 	}
 }
 
-void CollisionEvent::Notify(hitResult& result)
+void CollisionEvent::NotifyEnter(hitResult& result)
 {
 	for (ICollisionListener* listener : mListeners)
 	{
 		listener->OnCollisionEnter(result);
 	}	
+}
+
+void CollisionEvent::NotifyStay(hitResult& result)
+{
+	for (ICollisionListener* listener : mListeners)
+	{
+		listener->OnCollisionEnter(result);
+	}
+}
+
+void CollisionEvent::NotifyExit(hitResult& result)
+{
+	for (ICollisionListener* listener : mListeners)
+	{
+		listener->OnCollisionEnter(result);
+	}
 }

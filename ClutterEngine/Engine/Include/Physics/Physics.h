@@ -3,6 +3,7 @@
 #include <Core/ActorComponent/Components/Collisions/Collider2DComponent.h>
 #include <Core/ActorComponent/Components/Physics/RigidBody2D.h>
 #include <Physics/Collision/CollisionEvent.h>
+#include <set>
 
 namespace clt
 {
@@ -17,6 +18,7 @@ namespace clt
 
 		Vector2 mGravity; ///< The gravity vector applied to all rigid bodies.
 
+		std::set<std::pair<Collider2DComponent*, Collider2DComponent*>> mPreviousCollisions;
 		std::vector<hitResult> mCurrentFrameCollisions; ///< Collisions detected in the current frame.
 		std::vector<hitResult> mPreviousFrameCollisions; ///< Collisions detected in the previous frame.
 

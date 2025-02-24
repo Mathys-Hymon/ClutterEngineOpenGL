@@ -30,7 +30,6 @@ void Application::Run()
 		GetWindow()->SwapBuffers();
 
 		glfwPollEvents();
-		//Timer::DelayTime();
 	}
 }
 
@@ -46,4 +45,6 @@ void Application::Render()
 	GetRenderer()->EndDraw();
 }
 
-Application::~Application()	{}
+Application::~Application()	
+{
+}

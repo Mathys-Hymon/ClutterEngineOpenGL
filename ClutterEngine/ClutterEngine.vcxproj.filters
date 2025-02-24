@@ -147,6 +147,9 @@
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\CircleCollider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\AnimatorComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Libraries\include\PCH\dllmain.cpp">
@@ -228,6 +231,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\Collider2DComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\AnimatorComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

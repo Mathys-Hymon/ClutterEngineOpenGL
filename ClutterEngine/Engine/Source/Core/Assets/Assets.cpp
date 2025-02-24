@@ -14,8 +14,6 @@ Assets::~Assets()
 {
 }
 
-
-
 Assets& Assets::Get()
 {
     if (!sInstance)  sInstance = new Assets();
