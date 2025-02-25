@@ -185,10 +185,14 @@
     <ClInclude Include="Engine\Include\Core\Levels\TemplateLevel\TemplateLevel.h" />
     <ClInclude Include="Engine\Include\Core\Maths\Maths.h" />
     <ClInclude Include="Engine\Include\Core\Maths\CRectangle.h" />
+    <ClInclude Include="Engine\Include\Core\Maths\Matrix\Matrix4.h" />
+    <ClInclude Include="Engine\Include\Core\Maths\Matrix\Matrix4Row.h" />
+    <ClInclude Include="Engine\Include\Core\Maths\Quaternion.h" />
     <ClInclude Include="Engine\Include\Core\Maths\Transforms\Transform.h" />
     <ClInclude Include="Engine\Include\Core\Maths\Transforms\Transform2D.h" />
     <ClInclude Include="Engine\Include\Core\Maths\Vectors\Vector2.h" />
     <ClInclude Include="Engine\Include\Core\Maths\Vectors\Vector3.h" />
+    <ClInclude Include="Engine\Include\Core\Maths\Vectors\Vector4.h" />
     <ClInclude Include="Engine\Include\Core\Timer.h" />
     <ClInclude Include="Engine\Include\Graphics\Renderer.h" />
     <ClInclude Include="Engine\Include\Core\Levels\Level.h" />
@@ -207,12 +211,17 @@
     <ClInclude Include="Engine\Include\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Source\Core\Maths\Matrix\Matrix4.cpp" />
+    <ClCompile Include="Engine\Source\Core\Maths\Matrix\Matrix4Row.cpp" />
+    <ClCompile Include="Engine\Source\Core\Maths\Vectors\Vector4.cpp" />
+    <ClCompile Include="Engine\Source\Core\Maths\Quaternion.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Camera\SpringArmComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\AnimatorComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\Collider2DComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Physics\RigidBody2D.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\CircleCollider.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Movement\PlayerController.cpp" />
+    <ClCompile Include="Engine\Source\Core\Maths\Vectors\Vector3.cpp" />
     <ClCompile Include="Engine\Source\Physics\Collisions\CollisionEvent.cpp" />
     <ClCompile Include="Engine\Source\Physics\Physics.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\AABBCollider.cpp" />
