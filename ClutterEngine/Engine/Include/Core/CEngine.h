@@ -3,7 +3,7 @@
 #include <Window/Window.h>
 #include <Core/Levels/LevelManager.h>
 #include <Physics/Physics.h>
-#include <Graphics/Renderer.h>
+#include <Graphics/RendererGL.h>
 
 #include <memory>
 
@@ -16,7 +16,7 @@ namespace clt
 	class CLUTTER_API CEngine
 	{
 		std::unique_ptr<Window> mWindow; ///< The window instance.
-		std::unique_ptr<Renderer> mRenderer; ///< The renderer instance.
+		std::unique_ptr<RendererGL> mRenderer; ///< The renderer instance.
 		std::unique_ptr<LevelManager> mLevelManager; ///< The level manager instance.
 		std::unique_ptr<Physics> mPhysics; 
 	public:
@@ -44,6 +44,8 @@ namespace clt
    */
 		void Update();
 
+		void Close();
+
 		/**
    * @brief Gets the window instance.
    * @return A pointer to the window instance.
@@ -54,7 +56,7 @@ namespace clt
    * @brief Gets the renderer instance.
    * @return A pointer to the renderer instance.
    */
-		Renderer* GetRenderer() const { return mRenderer.get(); }
+		RendererGL* GetRenderer() const { return mRenderer.get(); }
 
 		/**
    * @brief Gets the level manager instance.

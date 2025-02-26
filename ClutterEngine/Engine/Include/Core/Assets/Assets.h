@@ -10,20 +10,20 @@ enum class TextureFilter
 
 namespace clt
 {
-	class Renderer;
+	class RendererGL;
 	class CLUTTER_API Assets
 	{
 		static Assets* sInstance;
 
-		Renderer* mRenderer;
+		RendererGL* mRenderer;
 
 		std::unordered_map<std::string, Texture*> mTextures;
 		Assets() = default;
 		~Assets();
 
-		void SetRenderer(Renderer* pRenderer) { mRenderer = pRenderer; };
+		void SetRenderer(RendererGL* pRenderer) { mRenderer = pRenderer; };
 
-		friend Renderer;
+		friend RendererGL;
 
 	public:
 		static Assets& Get();

@@ -21,6 +21,6 @@ namespace clt
         ~Application();
 
         Window* GetWindow() const { return mEngine->GetWindow(); }
-        Renderer* GetRenderer() const { return mEngine->GetRenderer(); }
+        RendererGL* GetRenderer() const { return mEngine->GetRenderer(); }
     };
 }

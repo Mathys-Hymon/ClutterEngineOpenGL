@@ -1,5 +1,5 @@
 #pragma once
-#include "Graphics/Renderer.h"
+#include "Graphics/RendererGL.h"
 #include "Core/ActorComponent/Actor.h"
 
 namespace clt
@@ -20,7 +20,7 @@ namespace clt
 
     protected:
         std::string mTitle; ///< The title of the scene.
-        Renderer* mRenderer; ///< The renderer used for drawing the scene.
+        RendererGL* mRenderer; ///< The renderer used for drawing the scene.
         Physics* mPhysics;
 
         std::unordered_map < size_t, std::vector<Actor*> > mActors; ///< Map of actors categorized by their type.
@@ -59,7 +59,7 @@ namespace clt
          * @brief Sets the renderer for the level.
          * @param pRenderer Pointer to the renderer.
          */
-        void SetManager(Renderer* pRenderer, Physics* pPhysics) 
+        void SetManager(RendererGL* pRenderer, Physics* pPhysics) 
         { 
             mRenderer = pRenderer; 
             mPhysics = pPhysics;
@@ -98,7 +98,7 @@ namespace clt
          * @brief Gets the renderer for the level.
          * @return Reference to the renderer.
          */
-        Renderer& GetRenderer() const { return *mRenderer; };
+        RendererGL& GetRenderer() const { return *mRenderer; };
         Physics& GetPhysics()   const { return *mPhysics;  };
 
         friend LevelManager;

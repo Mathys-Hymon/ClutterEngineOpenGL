@@ -1,8 +1,7 @@
 #include "pch.h"
 #include <Core/CCommon.h>
 #include <Core/Assets/Assets.h>
-#include <Graphics/Renderer.h>
-#include <glad/glad.h>
+#include <Graphics/RendererGL.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
 

@@ -1,6 +1,6 @@
 #pragma once
 #include <Core/ActorComponent/Components/GraphicComponent.h>
-#include <Graphics/Renderer.h>
+#include <Graphics/RendererGL.h>
 #include <Core/Levels/Level.h>
 #include <Core/Assets/AssetsType/Texture.h>
 #include <glm/gtc/matrix_transform.hpp>
@@ -30,7 +30,7 @@ namespace clt
 		};
 
 		virtual void SetTexture(Texture* pTexture);
-		virtual void Draw(Renderer& pRenderer) override {};
+		virtual void Draw(RendererGL& pRenderer) override {};
 
 		void SetFlipX(bool pFlip)  { mFlipX = pFlip;  };
 		void SetFlipY(bool pFlipY) { mFlipY = pFlipY; };

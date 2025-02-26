@@ -7,7 +7,7 @@ namespace clt
 	enum class ProjectionMode { Orthographic, Perspective };
 
 	class Level;
-	class Renderer;
+	class RendererGL;
 
 	class CLUTTER_API CameraComponent : public Component
 	{

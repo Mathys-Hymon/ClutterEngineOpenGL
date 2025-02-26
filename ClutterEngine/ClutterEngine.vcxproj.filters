@@ -60,7 +60,7 @@
     <ClInclude Include="Engine\Include\Core\Maths\CRectangle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Graphics\Renderer.h">
+    <ClInclude Include="Engine\Include\Graphics\RendererGL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Include\Core\Maths\Transforms\Transform2D.h">
@@ -165,6 +165,9 @@
     <ClInclude Include="Engine\Include\Core\Maths\Matrix\Matrix4Row.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Include\Graphics\IRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Libraries\include\PCH\dllmain.cpp">
@@ -182,7 +185,7 @@
     <ClCompile Include="Libraries\include\PCH\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Graphics\Renderer.cpp">
+    <ClCompile Include="Engine\Source\Graphics\RendererGL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Source\Core\ActorComponent\Actor.cpp">

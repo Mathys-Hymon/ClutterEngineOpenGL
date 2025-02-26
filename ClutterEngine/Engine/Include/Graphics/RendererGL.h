@@ -4,6 +4,7 @@
 #include <Graphics/Shader.h>
 #include <Core/Maths/CRectangle.h>
 #include <Graphics/Sprite/SpriteBatch.h>
+#include <Graphics/IRenderer.h>
 
 namespace clt
 {
@@ -14,7 +15,7 @@ namespace clt
   * @class Renderer
   * @brief Responsible for rendering graphical components.
   */
-	class CLUTTER_API Renderer
+	class CLUTTER_API RendererGL : IRenderer
 	{
 		//std::unordered_set<Texture*> mBindedTextures;
 		std::unordered_map<Texture*, SpriteBatch*> mSpriteBatches;
@@ -23,25 +24,28 @@ namespace clt
 		GLuint mVAO, mVBO, mAttribSize;
 		std::vector<GLfloat> mBuffers;
 		Shader mShader;
-
-		CEngine& mEngine;
+		CEngine* mEngine;
 
 	public:
 		/**
    * @brief Constructor for Renderer.
    */
-		Renderer(CEngine* pEngine);
+		RendererGL();
 
 		/**
    * @brief Deleted copy constructor.
    */
-		Renderer(const Renderer&) = delete;
+		RendererGL(const RendererGL&) = delete;
 
-		~Renderer();
+		~RendererGL() = default;
 		/**
    * @brief Deleted copy assignment operator.
    */
-		Renderer& operator=(const Renderer&) = delete;
+		RendererGL& operator=(const RendererGL&) = delete;
+
+		bool Initialize(CEngine* pEngine) override;
+
+		void Close() override;
 
 		/**
    * @brief Adds a graphic component to the renderer.
@@ -62,18 +66,20 @@ namespace clt
 		/**
    * @brief Begins the drawing process.
    */
-		void BeginDraw();
+		void BeginDraw() override;
 
 		/**
    * @brief Draws all added graphic components.
    */
-		void Draw();
+		void Draw() override;
 
 		/**
    * @brief Ends the drawing process.
    */
-		void EndDraw();
+		void EndDraw() override;
 
-		const CEngine& GetEngine() const { return mEngine; };
+		const CEngine* GetEngine() const override { return mEngine; };
+
+		const RendererType GetType() const override { return RendererType::OPENGL; }
 	};
 }

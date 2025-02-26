@@ -1,7 +1,7 @@
 #pragma once  
 #include <Core/ActorComponent/Component.h>  
 #include <Core/Levels/Level.h>  
-#include <Graphics/Renderer.h>  
+#include <Graphics/RendererGL.h>  
 #include <Core/ActorComponent/Actor.h>  
 
 namespace clt  
@@ -46,7 +46,7 @@ virtual void Unload() override
  * @param pRenderer Reference to the renderer.  
  */  
 
-virtual void Draw(Renderer& pRenderer) = 0;
+virtual void Draw(RendererGL& pRenderer) = 0;
 
 /**  
  * @brief Gets the draw order of the component.  

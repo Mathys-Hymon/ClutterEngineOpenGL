@@ -18,9 +18,8 @@
     }
   },
   "render": {
-    "resolution": [ 1920, 1080 ],
+    "resolution": [ 1280, 720 ],
     "fullscreen": false,
     "vsync": true,
-    "shadowQuality": "High"
   }
 }

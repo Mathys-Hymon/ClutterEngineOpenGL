@@ -194,7 +194,8 @@
     <ClInclude Include="Engine\Include\Core\Maths\Vectors\Vector3.h" />
     <ClInclude Include="Engine\Include\Core\Maths\Vectors\Vector4.h" />
     <ClInclude Include="Engine\Include\Core\Timer.h" />
-    <ClInclude Include="Engine\Include\Graphics\Renderer.h" />
+    <ClInclude Include="Engine\Include\Graphics\IRenderer.h" />
+    <ClInclude Include="Engine\Include\Graphics\RendererGL.h" />
     <ClInclude Include="Engine\Include\Core\Levels\Level.h" />
     <ClInclude Include="Engine\Include\Core\Levels\LevelManager.h" />
     <ClInclude Include="Engine\Include\Graphics\Shader.h" />
@@ -242,7 +243,7 @@
     <ClCompile Include="Engine\Source\Core\CEngine.cpp" />
     <ClCompile Include="Engine\Source\Core\Levels\Level.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Actor.cpp" />
-    <ClCompile Include="Engine\Source\Graphics\Renderer.cpp" />
+    <ClCompile Include="Engine\Source\Graphics\RendererGL.cpp" />
     <ClCompile Include="Engine\Source\Application\Application.cpp" />
     <ClCompile Include="Libraries\include\PCH\dllmain.cpp" />
     <ClCompile Include="Libraries\include\PCH\glad.c">
