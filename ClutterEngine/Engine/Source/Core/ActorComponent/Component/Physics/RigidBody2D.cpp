@@ -5,7 +5,7 @@
 
 using namespace clt;
 
-RigidBody2D::RigidBody2D(float pMass, int pUpdadeOrder) : Component(pUpdadeOrder), mAcceleration(Vector2::Zero), mAngularVelocity(0.0f), mMass(pMass), mVelocity(Vector2::Zero), mGravityScale(1), mGroundFriction(0.5f)
+RigidBody2D::RigidBody2D(float pMass, int pUpdadeOrder) : Component(pUpdadeOrder), mAcceleration(Vector2::Zero), mAngularVelocity(0.0f), mMass(pMass), mVelocity(Vector2::Zero), mGravityScale(1), mGroundFriction(0.5f), mAirFriction(0.1f)
 {}
 
 void RigidBody2D::SetOwner(Actor* pOwner)

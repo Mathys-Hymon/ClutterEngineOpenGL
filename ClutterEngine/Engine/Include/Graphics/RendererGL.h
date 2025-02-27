@@ -1,7 +1,7 @@
 #pragma once
 #include <Core/CCommon.h>
 #include <Core/Assets/Assets.h>
-#include <Graphics/Shader.h>
+#include <Graphics/Shader/Shader.h>
 #include <Core/Maths/CRectangle.h>
 #include <Graphics/Sprite/SpriteBatch.h>
 #include <Graphics/IRenderer.h>

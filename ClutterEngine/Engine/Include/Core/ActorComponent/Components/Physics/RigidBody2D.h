@@ -15,6 +15,7 @@ namespace clt
 
 		float mGravityScale; ///< The scale of gravity applied to the rigid body.
 		float mGroundFriction;
+		float mAirFriction;
 		/**
    * @brief Constructs a RigidBody2D with an optional update order.
    * @param pUpdadeOrder The update order of the component.
@@ -31,7 +32,8 @@ namespace clt
 
 		bool mSimulatePhysics = false; ///< Flag to simulate physics.
 		bool mIsKinematic = false; ///< Flag to set the rigid body as kinematic.
-		bool isGrounded = false; ///< Flag to check if the rigid body is grounded.
+		bool mIsGrounded = false; ///< Flag to check if the rigid body is grounded.
+		bool mCanStepOn = true;
 
 		/**
    * @brief Sets the owner of the component.

@@ -56,21 +56,27 @@ void Physics::SubscribeTo(Collider2DComponent* pCollider, ICollisionListener* pL
 void Physics::Update()
 {
 	for (auto& rb : mRigidbody) {
-		rb->isGrounded = false;
+		rb->mIsGrounded = false;
 	}
 
 	for (auto& rb : mRigidbody)
 	{
 		if (rb->mIsKinematic || !rb->IsActive()) continue;
 
-		if(!rb->isGrounded) rb->AddVelocity(mGravity * rb->GetGravityScale() * Timer::deltaTime);
+		if (!rb->mIsGrounded)	rb->AddVelocity(mGravity * rb->GetGravityScale() * Timer::deltaTime);
 		else
 		{
 			Vector2 velocity = rb->GetVelocity();
+			velocity.y = 0;
 			velocity.x *= (1.0f - rb->mGroundFriction * Timer::deltaTime);
 			rb->SetVelocity(velocity);
 		}
-		rb->GetOwner()->AddActorLocationOffset(rb->GetVelocity() * Timer::deltaTime);
+		Vector2 velocity = rb->GetVelocity();
+		velocity *= (1.0f - rb->mAirFriction * Timer::deltaTime);
+
+		rb->GetOwner()->AddActorLocationOffset(velocity * Timer::deltaTime);
+
+
 	}
 
 	CheckCollisions();
@@ -127,7 +133,7 @@ void Physics::ResolveCollisions()
 				velocity = normal * velocityNormal + tangent * velocityTangent;
 				rbA->SetVelocity(velocity);
 
-				if (result.Normal.y > 0.5f) rbA->isGrounded = true;
+				if (result.Normal.y > 0.5f) rbA->mIsGrounded = true;
 
 			}
 			else if (!rbA && rbB && !rbB->mIsKinematic && rbB->IsActive())
@@ -148,15 +154,50 @@ void Physics::ResolveCollisions()
 				velocity = normal * velocityNormal + tangent * velocityTangent;
 				rbB->SetVelocity(velocity);
 
-				if (result.Normal.y > 0.5f) rbB->isGrounded = true;
+				if (result.Normal.y > 0.5f) rbB->mIsGrounded = true;
 			}
 
 			else if (rbA && rbB && !rbA->mIsKinematic && !rbB->mIsKinematic)
 			{
-				const float totalMass = rbA->mMass + rbB->mMass;
+				Vector2 relativeVelocity = rbB->GetVelocity() - rbA->GetVelocity();
+				float velAlongNormal = Vector2::Dot(relativeVelocity, result.Normal);
 
-				result.ActorA->AddActorLocationOffset((correction * (rbB->mMass / totalMass)) * -1.0f);
-				result.ActorB->AddActorLocationOffset(correction * (rbB->mMass / totalMass));
+				if (velAlongNormal < 0)
+				{
+					const float restitution = 0.5f;
+					const float invMassA = 1.0f / rbA->mMass;
+					const float invMassB = 1.0f / rbB->mMass;
+					const float totalInverseMass = invMassA + invMassB;
+
+					const float impulseMagnitude = -(1 + restitution) * velAlongNormal / totalInverseMass;
+					const Vector2 impulse = impulseMagnitude * result.Normal;
+
+					rbA->SetVelocity(rbA->GetVelocity() - impulse * invMassA);
+					rbB->SetVelocity(rbB->GetVelocity() + impulse * invMassB);
+
+					const float friction = std::sqrt(result.ColliderA->mFriction * result.ColliderB->mFriction * 0.01f);
+					const Vector2 tangent = (relativeVelocity - result.Normal * velAlongNormal).Normalized();
+					const float velAlongTangent = Vector2::Dot(relativeVelocity, tangent);
+					const float tangentImpulseMagnitude = -velAlongTangent / totalInverseMass * friction;
+					const Vector2 tangentImpulse = tangent * tangentImpulseMagnitude;
+
+					rbA->SetVelocity(rbA->GetVelocity() - tangentImpulse * invMassA);
+					rbB->SetVelocity(rbB->GetVelocity() + tangentImpulse * invMassB);
+
+					if (totalInverseMass > 0)
+					{
+						const Vector2 correction = result.Normal * result.Penetration;
+						const Vector2 correctionA = (-1 * correction) * (invMassA / totalInverseMass);
+						const Vector2 correctionB = correction * (invMassB / totalInverseMass);
+
+						result.ActorA->AddActorLocationOffset(correctionA);
+						result.ActorB->AddActorLocationOffset(correctionB);
+						if (rbA->mCanStepOn) rbB->mIsGrounded = true;
+						if (rbB->mCanStepOn) rbA->mIsGrounded = true;
+					}
+
+					rbA->mGroundFriction = rbB->mGroundFriction = (result.Normal.y > 0.5f);
+				}
 			}
 		}
 	}

@@ -198,7 +198,8 @@
     <ClInclude Include="Engine\Include\Graphics\RendererGL.h" />
     <ClInclude Include="Engine\Include\Core\Levels\Level.h" />
     <ClInclude Include="Engine\Include\Core\Levels\LevelManager.h" />
-    <ClInclude Include="Engine\Include\Graphics\Shader.h" />
+    <ClInclude Include="Engine\Include\Graphics\Shader\Shader.h" />
+    <ClInclude Include="Engine\Include\Graphics\Shader\VertexArray.h" />
     <ClInclude Include="Engine\Include\Graphics\Sprite\SpriteBatch.h" />
     <ClInclude Include="Engine\Include\Input\Input.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Movements\PlayerController.h" />
@@ -212,6 +213,7 @@
     <ClInclude Include="Engine\Include\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Source\Graphics\Shader\VertexArray.cpp" />
     <ClCompile Include="Engine\Source\Core\Maths\Matrix\Matrix4.cpp" />
     <ClCompile Include="Engine\Source\Core\Maths\Matrix\Matrix4Row.cpp" />
     <ClCompile Include="Engine\Source\Core\Maths\Vectors\Vector4.cpp" />
@@ -235,7 +237,7 @@
     <ClCompile Include="Engine\Source\Core\Timer.cpp" />
     <ClCompile Include="Engine\Source\Graphics\Sprite\SpriteBatch.cpp" />
     <ClCompile Include="Engine\Source\Core\Maths\Vectors\Vector2.cpp" />
-    <ClCompile Include="Engine\Source\Graphics\Shader.cpp" />
+    <ClCompile Include="Engine\Source\Graphics\Shader\Shader.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\SpriteComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\Assets\Assets.cpp" />
     <ClCompile Include="Engine\Source\Core\Assets\AssetsType\Texture.cpp" />

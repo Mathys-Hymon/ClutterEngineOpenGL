@@ -10,37 +10,25 @@ SpriteBatch::SpriteBatch(Texture* texture) : mTexture(texture)
     // set up vertex data
     GLfloat vertices[] = {
         // first triangle
-             // pos         // coords
-            -0.5f, -0.5f,   0.0f,  0.0f, // bot left 
-             0.5f,  0.5f,   1.0f,  1.0f, // top right 
-            -0.5f,  0.5f,   0.0f,  1.0f, // top left 
-
-             // pos         // coords
-            -0.5f, -0.5f,   0.0f,  0.0f, // bot left 
-             0.5f, -0.5f,   1.0f,  0.0f, // bot right 
-             0.5f,  0.5f,   1.0f,  1.0f  // top right 
+    // Positions     // UV
+    -0.5f,  0.5f,   0.0f, 1.0f, // bottom-left
+     0.5f,  0.5f,   1.0f, 1.0f, // bottom-right
+     0.5f, -0.5f,   1.0f, 0.0f, // top-right
+    -0.5f, -0.5f,   0.0f, 0.0f  // top-left
     };
 
-    glGenVertexArrays(1, &mVAO);
-    glGenBuffers(1, &mVBO);
+    constexpr unsigned int indices[] = {
+    0, 1, 2,
+    2, 3, 0
+    };
 
-    glBindVertexArray(mVAO);
-    glBindBuffer(GL_ARRAY_BUFFER, mVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (GLvoid*)0);
-    glEnableVertexAttribArray(0);
-
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (GLvoid*)(2 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-
-    glBindVertexArray(0);
+    mVAO = new VertexArray(vertices, 4, indices, 6);
 }
 
 SpriteBatch::~SpriteBatch()
 {
-    glDeleteVertexArrays(1, &mVAO);
-    glDeleteBuffers(1, &mVBO);
+    delete mVAO;
 }
 
 void SpriteBatch::AddSprite(SpriteComponent* comp)
@@ -60,17 +48,16 @@ void SpriteBatch::RemoveSprite(SpriteComponent* comp)
 void SpriteBatch::Draw(Shader& pShader)
 {
     mTexture->Bind();
-
-    glBindVertexArray(mVAO);
+    mVAO->Bind();
 
     for (SpriteComponent* comp : mComponents)
     {
         glm::mat4 tempTransform = comp->GetTransform();
         pShader.SetMat4("model", tempTransform);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glDrawElements(GL_TRIANGLES, mVAO->GetIndicesCount(), GL_UNSIGNED_INT, nullptr);
     }
 
-    glBindVertexArray(0);
+    mVAO->Unbind();
     mTexture->UnBind();
 }
 

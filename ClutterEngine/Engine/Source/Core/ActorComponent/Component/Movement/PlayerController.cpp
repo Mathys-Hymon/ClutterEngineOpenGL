@@ -67,7 +67,7 @@ void PlayerController::Movement(Vector2 pDirection)
 
 void PlayerController::Movement(float pDirection)
 {
-	if(mRb->isGrounded)	mRb->AddVelocity({ pDirection * mSpeed, 0 });
+	if(mRb->mIsGrounded)	mRb->AddVelocity({ pDirection * mSpeed, 0 });
 	else mRb->AddVelocity({ pDirection * mSpeed * mAirControl, 0 });
 	if (mSprite)
 	{
@@ -90,7 +90,7 @@ void PlayerController::Movement(float pDirection)
 
 void PlayerController::Update()
 {
-	if (mRb->isGrounded && mIsJumping && mRb->GetVelocity().y <= 0.1f)
+	if (mRb->mIsGrounded && mIsJumping && mRb->GetVelocity().y <= 0.1f)
 	{
 		mIsJumping = false;
 		mOwner->GetComponentOfType<AnimatorComponent>()->PlayAnim("walk");
@@ -99,9 +99,9 @@ void PlayerController::Update()
 
 void PlayerController::Jump()
 {
-	if (mRb->isGrounded)
+	if (mRb->mIsGrounded)
 	{
-		mRb->AddVelocity({ 0, 200 });
+		mRb->AddVelocity({ 0, 300 });
 		mOwner->GetComponentOfType<AnimatorComponent>()->PlayAnim("jump");
 		mSprite->Play();
 		mIsJumping = true;

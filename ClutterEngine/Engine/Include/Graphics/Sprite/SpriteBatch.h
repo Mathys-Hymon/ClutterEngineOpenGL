@@ -1,7 +1,8 @@
 #pragma once
 #include <Core/CCommon.h>
 #include <Core/Assets/AssetsType/Texture.h>
-#include <Graphics/Shader.h>
+#include <Graphics/Shader/Shader.h>
+#include <Graphics/Shader/VertexArray.h>
 #include <vector>
 #include <glm/mat4x4.hpp>
 
@@ -11,7 +12,7 @@ namespace clt
 	class CLUTTER_API SpriteBatch
 	{
 		Texture* mTexture;
-		GLuint mVAO, mVBO;
+		VertexArray* mVAO;
 		std::vector<SpriteComponent*> mComponents;
 
 	public:
