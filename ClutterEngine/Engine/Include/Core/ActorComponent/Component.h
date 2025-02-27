@@ -81,7 +81,7 @@ namespace clt
         float GetRelativeRotation()        const { return mRelativeTransform.rotation; };
         Transform2D GetRelativeTransform() const { return mRelativeTransform;          };
 
-        Vector2 GetWorldPosition()         const { return mOwner->GetPosition() + mRelativeTransform.location; };
+        Vector2 GetWorldPosition()         const { return mOwner->GetActorLocation() + mRelativeTransform.location; };
         Vector2 GetWorldScale()            const { return mOwner->GetScale() * mRelativeTransform.scale;       };
         float GetWorldRotation()           const { return mOwner->GetRotation() + mRelativeTransform.rotation; };
         Transform2D GetWorldTransform()    const { return mOwner->getTransform() + mRelativeTransform;         };

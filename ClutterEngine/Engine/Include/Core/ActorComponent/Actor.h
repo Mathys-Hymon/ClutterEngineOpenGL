@@ -103,7 +103,7 @@ namespace clt
          * @brief Gets the position of the actor.
          * @return The position of the actor.
          */
-        Vector2 GetPosition() const { return mTransform.location; };
+        Vector2 GetActorLocation() const { return mTransform.location; };
 
         /**
          * @brief Gets the scale of the actor.

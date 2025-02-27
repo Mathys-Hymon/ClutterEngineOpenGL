@@ -21,7 +21,7 @@ void SpringArmComponent::Update()
         }
         else
         {
-            targetLoc = Vector2::VInterp(mCamera->GetPosition(), GetWorldPosition() + mCameraOffset, Timer::deltaTime, mLagSpeed);
+            targetLoc = Vector2::VInterp(mCamera->GetActorLocation(), GetWorldPosition() + mCameraOffset, Timer::deltaTime, mLagSpeed);
             mCamera->SetActorLocation(targetLoc);
         }
     }

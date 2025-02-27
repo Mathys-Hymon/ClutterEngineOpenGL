@@ -5,6 +5,18 @@
 
 namespace clt  
 {  
+    enum class MovementMode
+    {
+        Walk,
+        Sprint,
+        Crouch,
+        Jump,
+        Falling,
+        Swim,
+        Flying,
+        Custom
+    };
+
    class FlipbookComponent;  
    /**  
     * @brief PlayerController class responsible for handling player movements and collisions.  
@@ -14,10 +26,20 @@ namespace clt
        FlipbookComponent* mSprite; ///< Pointer to the player's sprite component.  
        RigidBody2D* mRb; ///< Pointer to the player's rigid body component.  
 
+       MovementMode mMovement;
+
    public:  
 
        bool mIsJumping;
-       float mSpeed; ///< Speed of the player.  
+       bool mIsSprinting;
+       bool mIsCrouched;
+
+       float mJumpHeight;
+       int mJumpAmount;
+
+       float mMaxWalkSpeed; ///< Speed of the player.  
+       float mMaxSprintSpeed;
+
        float mAirControl;
 
        /**  

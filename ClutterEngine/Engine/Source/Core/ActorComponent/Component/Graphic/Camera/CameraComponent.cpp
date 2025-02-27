@@ -58,7 +58,7 @@ CameraComponent* CameraComponent::GetActiveCamera()
 
 void CameraComponent::UpdateViewMatrix()
 {
-	Vector2 tempPos = mOwner->GetPosition() + mRelativeTransform.location;
+	Vector2 tempPos = mOwner->GetActorLocation() + mRelativeTransform.location;
 	glm::vec2 pos = tempPos.ToGlm();
 
 	mView = glm::mat4(1.0f);

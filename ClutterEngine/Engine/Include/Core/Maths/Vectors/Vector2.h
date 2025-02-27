@@ -271,6 +271,16 @@ struct Vector2
     }
 
     /**
+ * @brief Calculates the cross product of two vectors.
+ * @param other The other vector.
+ * @return The cross product of the two vectors.
+ */
+    inline float Cross(const Vector2& other) const
+    {
+        return x * other.y - y * other.x;
+    }
+
+    /**
 * @brief Calculates the dot product of two vectors.
 * @param left The left vector.
 * @param right The right vector.

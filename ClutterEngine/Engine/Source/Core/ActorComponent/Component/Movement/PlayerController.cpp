@@ -5,7 +5,7 @@
 
 using namespace clt;
 
-PlayerController::PlayerController(std::string pMovementCallback, std::string pJumpCallback, float pSpeed) : Component(), mSpeed(pSpeed), mSprite(nullptr), mAirControl(0.2f), mRb(nullptr), mIsJumping(false)
+PlayerController::PlayerController(std::string pMovementCallback, std::string pJumpCallback, float pSpeed) : Component(), mMaxWalkSpeed(pSpeed), mSprite(nullptr), mAirControl(0.1f), mRb(nullptr), mIsJumping(false), mJumpHeight(230), mJumpAmount(1), mMaxSprintSpeed(pSpeed * 1.5f), mMovement(MovementMode::Walk), mIsCrouched(false), mIsSprinting(false)
  {
 	if(!Input::Get().RegisterVectCallback(pMovementCallback, [this](Vector2 value) { this->Movement(value); }));
 	{
@@ -41,7 +41,7 @@ void PlayerController::SetOwner(Actor* pOwner)
 
 void PlayerController::Movement(Vector2 pDirection)
 {
-	mOwner->AddActorLocationOffset(pDirection * mSpeed);
+	mOwner->AddActorLocationOffset(pDirection * mMaxWalkSpeed);
 	if(mSprite)
 	{
 		if (pDirection.x < 0)
@@ -67,8 +67,16 @@ void PlayerController::Movement(Vector2 pDirection)
 
 void PlayerController::Movement(float pDirection)
 {
-	if(mRb->mIsGrounded)	mRb->AddVelocity({ pDirection * mSpeed, 0 });
-	else mRb->AddVelocity({ pDirection * mSpeed * mAirControl, 0 });
+	if (mRb->mIsGrounded)
+	{
+		mRb->AddVelocity({ pDirection * mMaxWalkSpeed, 0 });
+	}
+	else
+	{
+		mRb->AddVelocity({ pDirection * mMaxWalkSpeed * mAirControl, 0 });
+		if (mIsJumping) mMovement = MovementMode::Jump;
+		else mMovement = MovementMode::Falling;
+	}
 	if (mSprite)
 	{
 		if (pDirection < 0)
@@ -90,10 +98,17 @@ void PlayerController::Movement(float pDirection)
 
 void PlayerController::Update()
 {
-	if (mRb->mIsGrounded && mIsJumping && mRb->GetVelocity().y <= 0.1f)
+	if (mRb->mIsGrounded)
 	{
-		mIsJumping = false;
-		mOwner->GetComponentOfType<AnimatorComponent>()->PlayAnim("walk");
+		if (mIsJumping && mRb->GetVelocity().y <= 0.1f)
+		{
+			mIsJumping = false;
+			mOwner->GetComponentOfType<AnimatorComponent>()->PlayAnim("walk");
+		}
+
+		if (mIsSprinting) mMovement = MovementMode::Sprint;
+		else if (mIsCrouched) mMovement = MovementMode::Crouch;
+		else mMovement = MovementMode::Walk;
 	}
 }
 
@@ -101,7 +116,7 @@ void PlayerController::Jump()
 {
 	if (mRb->mIsGrounded)
 	{
-		mRb->AddVelocity({ 0, 300 });
+		mRb->AddVelocity({ 0, 230 });
 		mOwner->GetComponentOfType<AnimatorComponent>()->PlayAnim("jump");
 		mSprite->Play();
 		mIsJumping = true;

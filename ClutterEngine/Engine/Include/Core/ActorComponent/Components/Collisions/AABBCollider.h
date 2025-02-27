@@ -10,8 +10,6 @@ namespace clt
     */
     class CLUTTER_API AABBCollider : public Collider2DComponent
     {
-        Vector2 mBoxExtend; ///< The extension of the bounding box.
-
         /**
         * @brief Checks for collision between two AABB colliders.
         * @param pOther The other AABB collider.
@@ -29,6 +27,8 @@ namespace clt
         bool CheckAABBvsCircle(CircleCollider* pOther, hitResult& outResult) const;
 
     public:
+
+        Vector2 mBoxExtend; ///< The extension of the bounding box.
         /**
         * @brief Constructs an AABBCollider with the specified box extension.
         * @param pBoxExtend The extension of the bounding box.
