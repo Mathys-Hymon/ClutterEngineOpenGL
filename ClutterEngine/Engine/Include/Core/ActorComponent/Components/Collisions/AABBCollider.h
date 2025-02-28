@@ -19,6 +19,8 @@ namespace clt
         */
         bool CheckAABBvsAABB(AABBCollider* pOther, hitResult& outResult) const;
 
+        bool LineSegmentIntersection(const Vector2& p1, const Vector2& p2, const Vector2& p3, const Vector2& p4, Vector2& outIntersection) const;
+
         std::array<Vector2, 4> GetTransformedPoints() const;
 
         /**

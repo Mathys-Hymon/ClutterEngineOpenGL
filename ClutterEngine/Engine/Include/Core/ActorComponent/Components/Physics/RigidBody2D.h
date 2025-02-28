@@ -6,16 +6,17 @@ namespace clt
 	/**
   * @brief A 2D rigid body component for physics simulation.
   */
+	class Physics;
 	class CLUTTER_API RigidBody2D : public Component
 	{
 		Vector2 mVelocity; ///< The velocity of the rigid body.
 		Vector2 mAcceleration; ///< The acceleration of the rigid body.
 
+		void UpdateRotation(float deltaTime);
+
 	public:
 
 		float mGravityScale; ///< The scale of gravity applied to the rigid body.
-		float mGroundFriction;
-		float mAirFriction;
 		/**
    * @brief Constructs a RigidBody2D with an optional update order.
    * @param pUpdadeOrder The update order of the component.
@@ -29,6 +30,8 @@ namespace clt
 
 		float mMass; ///< The mass of the rigid body.
 		float mAngularVelocity; ///< The angular velocity of the rigid body.
+		float mInertia;
+		float mTorque;
 
 		bool mSimulatePhysics = false; ///< Flag to simulate physics.
 		bool mIsKinematic = false; ///< Flag to set the rigid body as kinematic.
@@ -76,5 +79,8 @@ namespace clt
    * @return The current gravity scale.
    */
 		float GetGravityScale()  const { return mGravityScale;  };
+
+		friend Physics;
 	};
+
 }

@@ -1,11 +1,12 @@
 #include "pch.h"
 #include <Core/ActorComponent/Components/Physics/RigidBody2D.h>
 #include <Physics/Physics.h>
+#include <Core/Timer.h>
 #include <Core/Levels/Level.h>
 
 using namespace clt;
 
-RigidBody2D::RigidBody2D(float pMass, int pUpdadeOrder) : Component(pUpdadeOrder), mAcceleration(Vector2::Zero), mAngularVelocity(0.0f), mMass(pMass), mVelocity(Vector2::Zero), mGravityScale(1), mGroundFriction(0.5f), mAirFriction(0.1f)
+RigidBody2D::RigidBody2D(float pMass, int pUpdadeOrder) : Component(pUpdadeOrder), mAcceleration(Vector2::Zero), mAngularVelocity(0.0f), mMass(pMass), mVelocity(Vector2::Zero), mGravityScale(1), mInertia(1.0f), mTorque(0.0f)
 {}
 
 void RigidBody2D::SetOwner(Actor* pOwner)
@@ -20,4 +21,13 @@ void RigidBody2D::AddForce(const Vector2& pForce)
 	{
 		mVelocity += pForce / mMass;
 	}
+}
+
+void RigidBody2D::UpdateRotation(float deltaTime)
+{
+	mAngularVelocity += mTorque / mInertia * deltaTime;
+	mTorque = 0.0f;
+	mAngularVelocity *= std::pow(0.98f, deltaTime * 60.0f);
+	mOwner->AddActorRotationOffset(mAngularVelocity * deltaTime);
+	
 }

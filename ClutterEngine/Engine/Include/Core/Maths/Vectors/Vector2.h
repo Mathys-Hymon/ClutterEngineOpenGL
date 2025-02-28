@@ -292,6 +292,15 @@ struct Vector2
         float dy = left.y - right.y;
         return dx * dx + dy * dy;
     }
+
+    /**
+ * @brief Calculates the squared length of the vector.
+ * @return The squared length of the vector.
+ */
+    inline float LengthSquared() const
+    {
+        return x * x + y * y;
+    }
     /**
 
     /**

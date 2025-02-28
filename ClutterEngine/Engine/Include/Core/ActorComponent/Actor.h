@@ -111,6 +111,8 @@ namespace clt
          */
         Vector2 GetScale() const { return mTransform.scale; };
 
+        std::string GetName() const { return mName; };
+
         float GetRotation() const { return mTransform.rotation; };
         /**
          * @brief Virtual method called when the actor collides with another actor.

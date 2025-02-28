@@ -55,33 +55,17 @@ void Physics::SubscribeTo(Collider2DComponent* pCollider, ICollisionListener* pL
 
 void Physics::Update()
 {
-	for (auto& rb : mRigidbody) {
-		rb->mIsGrounded = false;
-	}
-
 	for (auto& rb : mRigidbody)
 	{
-		if (rb->mIsKinematic || !rb->IsActive()) continue;
+		rb->mIsGrounded = false;
 
-		Vector2 velocity;
-
-		if (!rb->mIsGrounded)
+		if (!rb->mIsKinematic && rb->IsActive()) 
 		{
 			rb->AddVelocity(mGravity * rb->GetGravityScale() * Timer::deltaTime);
-			velocity = rb->GetVelocity();
-			velocity *= (1.0f - rb->mAirFriction * Timer::deltaTime);
-		}
-		else
-		{
-			velocity = rb->GetVelocity();
-			velocity.y = 0;
-			velocity.x *= (1.0f - (rb->mGroundFriction * Timer::deltaTime));
+			rb->UpdateRotation(Timer::deltaTime);
 		}
 
-		rb->GetOwner()->AddActorLocationOffset(velocity * Timer::deltaTime);
-		rb->SetVelocity(velocity);
-
-
+		rb->GetOwner()->AddActorLocationOffset(rb->GetVelocity() * Timer::deltaTime);
 	}
 
 	CheckCollisions();
@@ -124,8 +108,7 @@ void Physics::ResolveCollisions()
 
 			if (rbA && !rbA->mIsKinematic && rbA->IsActive() && !rbB)
 			{
-				result.ActorA->AddActorLocationOffset(-safeCorrection);
-				rbA->SetVelocity(Vector2(rbA->GetVelocity().x, 0.0f));
+				result.ActorA->AddActorLocationOffset(safeCorrection);
 
 				float combinedFriction = result.ColliderA->mFriction * result.ColliderB->mFriction;
 
@@ -140,13 +123,23 @@ void Physics::ResolveCollisions()
 				velocity = normal * velocityNormal + tangent * velocityTangent;
 				rbA->SetVelocity(velocity);
 
-				if (result.Normal.y > 0.5f) rbA->mIsGrounded = true;
+				Vector2 contactPoint = result.Point;
+				Vector2 centerA = result.ActorA->GetActorLocation();
+				Vector2 contactOffset = contactPoint - centerA;
 
+				Vector2 force = result.Normal * (1 + velocityNormal) * rbA->mMass * 100;
+				rbA->mTorque += contactOffset.Cross(force);
+
+				if (result.Normal.y > 0.5f) 
+				{
+					rbA->SetVelocity(Vector2(rbA->GetVelocity().x, 0.0f));
+					rbA->mIsGrounded = true;
+					rbA->mAngularVelocity *= 0.2f; 
+				}
 			}
 			else if (!rbA && rbB && !rbB->mIsKinematic && rbB->IsActive())
 			{
 				result.ActorB->AddActorLocationOffset(safeCorrection);
-				rbB->SetVelocity(Vector2(rbB->GetVelocity().x, 0.0f));
 
 				float combinedFriction = result.ColliderB->mFriction * result.ColliderA->mFriction;
 
@@ -161,7 +154,19 @@ void Physics::ResolveCollisions()
 				velocity = normal * velocityNormal + tangent * velocityTangent;
 				rbB->SetVelocity(velocity);
 
-				if (result.Normal.y > 0.5f) rbB->mIsGrounded = true;
+				Vector2 contactPoint = result.Point;
+				Vector2 centerB = rbB->GetWorldPosition();
+				Vector2 contactOffset = contactPoint - centerB;
+
+				Vector2 force = result.Normal * (- 1.5f * (velocityNormal) / (1 / rbB->mMass) * 100);
+				rbB->mTorque += contactOffset.Cross(-force);
+
+				if (result.Normal.y > 0.5f) 
+				{
+					rbB->SetVelocity(Vector2(rbB->GetVelocity().x, 0.0f));
+					rbB->mIsGrounded = true;
+					rbB->mAngularVelocity *= 0.2f;
+				}
 			}
 
 			else if (rbA && rbB && !rbA->mIsKinematic && !rbB->mIsKinematic)
@@ -202,7 +207,19 @@ void Physics::ResolveCollisions()
 						if (rbB->mCanStepOn) rbA->mIsGrounded = true;
 					}
 
-					rbA->mGroundFriction = rbB->mGroundFriction = (result.Normal.y > 0.5f);
+					Vector2 contactPoint = result.Point;
+					Vector2 centerA = result.ActorA->GetActorLocation();
+					Vector2 centerB = result.ActorB->GetActorLocation();
+
+					Vector2 rA = contactPoint - centerA;
+					Vector2 rB = contactPoint - centerB;
+
+					Vector2 force = result.Normal * impulseMagnitude; 
+					float torqueA = rA.Cross(-force); 
+					float torqueB = rB.Cross(force);
+
+					if (rbA) rbA->mTorque += torqueA;
+					if (rbB) rbB->mTorque += torqueB;
 				}
 			}
 		}
