@@ -1,5 +1,6 @@
 #pragma once
 #include <Core/ActorComponent/Components/Collisions/Collider2DComponent.h>
+#include <array>
 
 namespace clt
 {
@@ -17,6 +18,8 @@ namespace clt
         * @return True if a collision is detected, false otherwise.
         */
         bool CheckAABBvsAABB(AABBCollider* pOther, hitResult& outResult) const;
+
+        std::array<Vector2, 4> GetTransformedPoints() const;
 
         /**
         * @brief Checks for collision between an AABB collider and a circle collider.
