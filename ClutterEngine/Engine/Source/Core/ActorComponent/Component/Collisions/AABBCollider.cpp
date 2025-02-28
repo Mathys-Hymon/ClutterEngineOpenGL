@@ -27,7 +27,8 @@ bool AABBCollider::CheckCollision(Collider2DComponent* pOther, hitResult& outRes
    }  
 }  
 
-bool AABBCollider::CheckAABBvsAABB(AABBCollider* pOther, hitResult& outResult) const {
+bool AABBCollider::CheckAABBvsAABB(AABBCollider* pOther, hitResult& outResult) const 
+{
     auto pointsA = GetTransformedPoints();
     auto pointsB = pOther->GetTransformedPoints();
 
@@ -38,7 +39,7 @@ bool AABBCollider::CheckAABBvsAABB(AABBCollider* pOther, hitResult& outResult) c
     auto testAxes = [&](const std::array<Vector2, 4>& poly1, const std::array<Vector2, 4>& poly2) {
         for (size_t i = 0; i < poly1.size(); i++) {
             Vector2 edge = poly1[(i + 1) % poly1.size()] - poly1[i];
-            Vector2 axis(-edge.y, edge.x); // Axe perpendiculaire à l'arête
+            Vector2 axis(-edge.y, edge.x);
             axis = axis.Normalized();
 
             auto project = [](const std::array<Vector2, 4>& points, const Vector2& axis) {
@@ -72,8 +73,6 @@ bool AABBCollider::CheckAABBvsAABB(AABBCollider* pOther, hitResult& outResult) c
 
     if (!collisionFound) return false;
 
-    // --- Calcul du point de contact exact ---
-    // Trouver les arêtes en collision
     std::vector<Vector2> contactPoints;
     for (size_t i = 0; i < pointsA.size(); i++) {
         Vector2 p1 = pointsA[i];
@@ -83,22 +82,24 @@ bool AABBCollider::CheckAABBvsAABB(AABBCollider* pOther, hitResult& outResult) c
             Vector2 p3 = pointsB[j];
             Vector2 p4 = pointsB[(j + 1) % pointsB.size()];
 
-            // Calculer l'intersection entre les segments (p1, p2) et (p3, p4)
             Vector2 intersection;
             if (LineSegmentIntersection(p1, p2, p3, p4, intersection)) {
                 contactPoints.push_back(intersection);
             }
         }
     }
-
-    // Si aucune intersection n'est trouvée, utiliser le point le plus proche
-    if (contactPoints.empty()) {
+    if (contactPoints.empty()) 
+    {
         Vector2 closestA, closestB;
         float minDistSq = FLT_MAX;
-        for (const auto& pA : pointsA) {
-            for (const auto& pB : pointsB) {
+        for (const auto& pA : pointsA) 
+        {
+            for (const auto& pB : pointsB) 
+            {
                 float distSq = (pA - pB).LengthSquared();
-                if (distSq < minDistSq) {
+
+                if (distSq < minDistSq) 
+                {
                     minDistSq = distSq;
                     closestA = pA;
                     closestB = pB;
@@ -108,11 +109,9 @@ bool AABBCollider::CheckAABBvsAABB(AABBCollider* pOther, hitResult& outResult) c
         outResult.Point = (closestA + closestB) * 0.5f;
     }
     else {
-        // Utiliser le premier point d'intersection trouvé
         outResult.Point = contactPoints[0];
     }
 
-    // --- Remplissage des autres données ---
     outResult.Normal = smallestAxis;
     outResult.Penetration = minOverlap;
     outResult.IsColliding = true;
@@ -127,12 +126,12 @@ bool AABBCollider::CheckAABBvsAABB(AABBCollider* pOther, hitResult& outResult) c
 bool AABBCollider::LineSegmentIntersection(const Vector2& p1, const Vector2& p2, const Vector2& p3, const Vector2& p4, Vector2& outIntersection) const
 {
     float denom = (p4.y - p3.y) * (p2.x - p1.x) - (p4.x - p3.x) * (p2.y - p1.y);
-    if (denom == 0) return false; // Segments parallèles
+    if (denom == 0) return false; 
 
     float ua = ((p4.x - p3.x) * (p1.y - p3.y) - (p4.y - p3.y) * (p1.x - p3.x)) / denom;
     float ub = ((p2.x - p1.x) * (p1.y - p3.y) - (p2.y - p1.y) * (p1.x - p3.x)) / denom;
 
-    if (ua < 0 || ua > 1 || ub < 0 || ub > 1) return false; // Intersection hors segments
+    if (ua < 0 || ua > 1 || ub < 0 || ub > 1) return false;
 
     outIntersection.x = p1.x + ua * (p2.x - p1.x);
     outIntersection.y = p1.y + ua * (p2.y - p1.y);

@@ -19,8 +19,21 @@ namespace clt
         */
         bool CheckAABBvsAABB(AABBCollider* pOther, hitResult& outResult) const;
 
+        /**
+        * @brief Checks if two line segments intersect.
+        * @param p1 The first point of the first line segment.
+        * @param p2 The second point of the first line segment.
+        * @param p3 The first point of the second line segment.
+        * @param p4 The second point of the second line segment.
+        * @param outIntersection The intersection point if the line segments intersect.
+        * @return True if the line segments intersect, false otherwise.
+        */
         bool LineSegmentIntersection(const Vector2& p1, const Vector2& p2, const Vector2& p3, const Vector2& p4, Vector2& outIntersection) const;
 
+        /**
+        * @brief Gets the transformed points of the AABB collider.
+        * @return An array of four transformed points.
+        */
         std::array<Vector2, 4> GetTransformedPoints() const;
 
         /**
@@ -39,6 +52,10 @@ namespace clt
         * @param pBoxExtend The extension of the bounding box.
         */
         AABBCollider(Vector2 pBoxExtend = {32,32});
+        /**
+        * @brief Constructs an AABBCollider with the specified box extension.
+        * @param pBoxExtend The extension of the bounding box.
+        */
         AABBCollider(float pBoxExtend);
 
         /**

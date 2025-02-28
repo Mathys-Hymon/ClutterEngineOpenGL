@@ -116,11 +116,14 @@ struct Vector2
         y /= length;
     }
 
+    /**
+     * @brief Assigns the components of another vector to this vector.
+     * @param newVec The vector to assign.
+     */
     inline void operator=(Vector2 newVec)
     {
         x = newVec.x;
         y = newVec.y;
-
     }
 
     /**
@@ -132,11 +135,23 @@ struct Vector2
         return { -x, -y };
     }
 
+    /**
+     * @brief Checks if two vectors are equal.
+     * @param left The left vector.
+     * @param right The right vector.
+     * @return True if the vectors are equal, false otherwise.
+     */
     friend bool operator==(Vector2 left, Vector2 right)
     {
         return (left.x == right.x && left.y == right.y);
     }
 
+    /**
+     * @brief Checks if two vectors are not equal.
+     * @param left The left vector.
+     * @param right The right vector.
+     * @return True if the vectors are not equal, false otherwise.
+     */
     friend bool operator!=(Vector2 left, Vector2 right)
     {
         return (left.x != right.x && left.y != right.y);
@@ -209,6 +224,12 @@ struct Vector2
         return { left.x * scalar, left.y * scalar };
     }
 
+    /**
+     * @brief Multiplies two vectors component-wise.
+     * @param left The left vector.
+     * @param right The right vector.
+     * @return The result of the multiplication.
+     */
     friend Vector2 operator*(Vector2 left, Vector2 right)
     {
         return { left.x * right.x, left.y * right.y };
@@ -236,6 +257,12 @@ struct Vector2
         return { left.x / scalar, left.y / scalar };
     }
 
+    /**
+     * @brief Divides two vectors component-wise.
+     * @param left The left vector.
+     * @param right The right vector.
+     * @return The result of the division.
+     */
     friend Vector2 operator/(Vector2 left, Vector2 right)
     {
         return { left.x / right.x, left.y / right.y };
@@ -260,11 +287,6 @@ struct Vector2
     {
         if (x < right.x - acceptance || x > right.x + acceptance || y < right.y - acceptance || y > right.y + acceptance) return false;
         else return true;
-    }
-
-    inline glm::vec2 ToGlm()
-    {
-        return glm::vec2(x, y);
     }
 
     /**
@@ -337,6 +359,13 @@ struct Vector2
         if ((*this).y > maxValue)  (*this).y = maxValue;
     }
 
+    /**
+     * @brief Clamps a value to the given range.
+     * @param value The value to clamp.
+     * @param minValue The minimum value.
+     * @param maxValue The maximum value.
+     * @return The clamped value.
+     */
     static float Clamp(float value, float minValue, float maxValue)
     {
         if (value < minValue) return minValue;
@@ -344,6 +373,14 @@ struct Vector2
         return value;
     }
 
+    /**
+     * @brief Linearly interpolates between two vectors.
+     * @param current The current vector.
+     * @param target The target vector.
+     * @param deltaTime The time step.
+     * @param interpSpeed The interpolation speed.
+     * @return The interpolated vector.
+     */
     static Vector2 VInterp(const Vector2& current, const Vector2& target, float deltaTime, float interpSpeed)
     {
         if (interpSpeed <= 0.0f)
@@ -379,5 +416,15 @@ struct Vector2
     inline std::string ToString()
     {
         return " (" + std::to_string(x) + " , " + std::to_string(y) + ") ";
+    }
+
+
+    /**
+     * @brief Converts the vector to a glm::vec2.
+     * @return A glm::vec2 representing the vector.
+     */
+    inline glm::vec2 ToGlm()
+    {
+        return glm::vec2(x, y);
     }
 };

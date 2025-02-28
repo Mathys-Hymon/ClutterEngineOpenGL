@@ -11,7 +11,12 @@ namespace clt
 	{
 		Vector2 mVelocity; ///< The velocity of the rigid body.
 		Vector2 mAcceleration; ///< The acceleration of the rigid body.
+		float mAngularVelocity; ///< The angular velocity of the rigid body.
 
+		/**
+   * @brief Updates the rotation of the rigid body.
+   * @param deltaTime The time elapsed since the last update.
+   */
 		void UpdateRotation(float deltaTime);
 
 	public:
@@ -19,6 +24,7 @@ namespace clt
 		float mGravityScale; ///< The scale of gravity applied to the rigid body.
 		/**
    * @brief Constructs a RigidBody2D with an optional update order.
+   * @param pMass The mass of the rigid body.
    * @param pUpdadeOrder The update order of the component.
    */
 		RigidBody2D(float pMass = 1, int pUpdadeOrder = 0);
@@ -29,14 +35,13 @@ namespace clt
 		~RigidBody2D() = default;
 
 		float mMass; ///< The mass of the rigid body.
-		float mAngularVelocity; ///< The angular velocity of the rigid body.
-		float mInertia;
-		float mTorque;
+		float mInertia; ///< The inertia of the rigid body.
+		float mTorque; ///< The torque applied to the rigid body.
 
 		bool mSimulatePhysics = false; ///< Flag to simulate physics.
 		bool mIsKinematic = false; ///< Flag to set the rigid body as kinematic.
 		bool mIsGrounded = false; ///< Flag to check if the rigid body is grounded.
-		bool mCanStepOn = true;
+		bool mCanStepOn = true; ///< Flag to check if the rigid body can step on.
 
 		/**
    * @brief Sets the owner of the component.
@@ -61,6 +66,18 @@ namespace clt
    * @param pVelocity The velocity to add.
    */
 		void AddVelocity(Vector2 pVelocity) { mVelocity += pVelocity; };
+
+		/**
+   * @brief Sets the angular velocity of the rigid body.
+   * @param pVel The new angular velocity.
+   */
+		void SetAngularVelocity(float pVel) { mAngularVelocity = pVel; };
+
+		/**
+   * @brief Adds to the current angular velocity of the rigid body.
+   * @param pVel The angular velocity to add.
+   */
+		void AddAngularVelocity(float pVel) { mAngularVelocity += pVel; };
 
 		/**
    * @brief Sets the gravity scale of the rigid body.

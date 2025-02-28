@@ -25,7 +25,7 @@ void RigidBody2D::AddForce(const Vector2& pForce)
 
 void RigidBody2D::UpdateRotation(float deltaTime)
 {
-	mAngularVelocity += mTorque / mInertia * deltaTime;
+	mAngularVelocity += (mTorque / mInertia) * deltaTime;
 	mTorque = 0.0f;
 	mAngularVelocity *= std::pow(0.98f, deltaTime * 60.0f);
 	mOwner->AddActorRotationOffset(mAngularVelocity * deltaTime);
