@@ -73,7 +73,6 @@ void TestLevel::Load()
 
 void TestLevel::Update()
 {
-	
 }
 
 void TestLevel::Close()

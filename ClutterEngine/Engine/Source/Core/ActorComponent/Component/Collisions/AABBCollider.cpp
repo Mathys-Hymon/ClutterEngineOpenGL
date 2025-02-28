@@ -35,77 +35,57 @@ bool AABBCollider::CheckAABBvsAABB(AABBCollider* pOther, hitResult& outResult) c
     float minOverlap = FLT_MAX;
     Vector2 smallestAxis;
     bool collisionFound = false;
-    Vector2 minA(FLT_MAX), maxA(-FLT_MAX);
-    Vector2 minB(FLT_MAX), maxB(-FLT_MAX);
 
-    for (const auto& p : pointsA) {
-        minA.x = std::min(minA.x, p.x);
-        minA.y = std::min(minA.y, p.y);
-        maxA.x = std::max(maxA.x, p.x);
-        maxA.y = std::max(maxA.y, p.y);
-    }
-    for (const auto& p : pointsB) {
-        minB.x = std::min(minB.x, p.x);
-        minB.y = std::min(minB.y, p.y);
-        maxB.x = std::max(maxB.x, p.x);
-        maxB.y = std::max(maxB.y, p.y);
-    }
+    auto testAxes = [&](const std::array<Vector2, 4>& poly1, const std::array<Vector2, 4>& poly2)
+        {
+            for (size_t i = 0; i < poly1.size(); i++)
+            {
+                Vector2 edge = poly1[(i + 1) % poly1.size()] - poly1[i];
+                Vector2 axis(-edge.y, edge.x);
+                axis = axis.Normalized();
 
-    // Test SAT
-    auto testAxes = [&](const std::array<Vector2, 4>& poly) {
-        for (size_t i = 0; i < poly.size(); i++) {
-            Vector2 edge = poly[(i + 1) % poly.size()] - poly[i];
-            Vector2 axis(-edge.y, edge.x);
-            axis = axis.Normalized();
+                auto project = [](const std::array<Vector2, 4>& points, const Vector2& axis)
+                    {
+                        float min = FLT_MAX, max = -FLT_MAX;
+                        for (const auto& point : points)
+                        {
+                            float proj = Vector2::Dot(point, axis);
+                            min = std::min(min, proj);
+                            max = std::max(max, proj);
+                        }
+                        return std::make_pair(min, max);
+                    };
 
-            // Projection
-            float minProjA = FLT_MAX, maxProjA = -FLT_MAX;
-            for (const auto& p : pointsA) {
-                float proj = Vector2::Dot(p, axis);
-                minProjA = std::min(minProjA, proj);
-                maxProjA = std::max(maxProjA, proj);
+                auto projA = project(pointsA, axis);
+                auto projB = project(pointsB, axis);
+
+                if (projA.second < projB.first || projB.second < projA.first)
+                    return false;
+
+                float overlap = std::min(projA.second - projB.first, projB.second - projA.first);
+                if (overlap < minOverlap)
+                {
+                    minOverlap = overlap;
+                    smallestAxis = axis;
+                    collisionFound = true;
+                }
             }
+            return true;
+        };
 
-            float minProjB = FLT_MAX, maxProjB = -FLT_MAX;
-            for (const auto& p : pointsB) {
-                float proj = Vector2::Dot(p, axis);
-                minProjB = std::min(minProjB, proj);
-                maxProjB = std::max(maxProjB, proj);
-            }
+    if (!testAxes(pointsA, pointsB)) return false;
+    if (!testAxes(pointsB, pointsA)) return false;
 
-            // Check overlap
-            if (maxProjA < minProjB || maxProjB < minProjA)
-                return false;
+    if (!collisionFound) return false;
 
-            float overlap = std::min(maxProjA - minProjB, maxProjB - minProjA);
-            if (overlap < minOverlap) {
-                minOverlap = overlap;
-                smallestAxis = axis;
-                collisionFound = true;
-            }
-        }
-        return true;
-    };
-
-    if (!testAxes(pointsA)) return false;
-    if (!testAxes(pointsB)) return false;
-
-
-    Vector2 contactSum;
-    int contactCount = 0;
-    for (const auto& p : pointsA) {
-        if (p.x >= minB.x && p.x <= maxB.x && p.y >= minB.y && p.y <= maxB.y) {
-            contactSum += p;
-            contactCount++;
-        }
+    // Déterminer la direction de la normale
+    Vector2 centerA = (pointsA[0] + pointsA[1] + pointsA[2] + pointsA[3]) / 4.0f;
+    Vector2 centerB = (pointsB[0] + pointsB[1] + pointsB[2] + pointsB[3]) / 4.0f;
+    Vector2 dir = (centerB - centerA).Normalized();
+    if (Vector2::Dot(dir, smallestAxis) < 0)
+    {
+        smallestAxis = -smallestAxis;
     }
-    for (const auto& p : pointsB) {
-        if (p.x >= minA.x && p.x <= maxA.x && p.y >= minA.y && p.y <= maxA.y) {
-            contactSum += p;
-            contactCount++;
-        }
-    }
-
 
     outResult.ActorA = GetOwner();
     outResult.ActorB = pOther->GetOwner();
@@ -114,8 +94,7 @@ bool AABBCollider::CheckAABBvsAABB(AABBCollider* pOther, hitResult& outResult) c
     outResult.IsColliding = true;
     outResult.Penetration = minOverlap;
     outResult.Normal = smallestAxis;
-    outResult.Point = contactCount > 0 ? contactSum / contactCount : (minA + maxA + minB + maxB) * 0.25f;
-    
+    outResult.Point = (centerA + centerB) * 0.5f;
 
     return true;
 }

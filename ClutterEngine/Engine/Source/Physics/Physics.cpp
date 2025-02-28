@@ -63,18 +63,23 @@ void Physics::Update()
 	{
 		if (rb->mIsKinematic || !rb->IsActive()) continue;
 
-		if (!rb->mIsGrounded)	rb->AddVelocity(mGravity * rb->GetGravityScale() * Timer::deltaTime);
+		Vector2 velocity;
+
+		if (!rb->mIsGrounded)
+		{
+			rb->AddVelocity(mGravity * rb->GetGravityScale() * Timer::deltaTime);
+			velocity = rb->GetVelocity();
+			velocity *= (1.0f - rb->mAirFriction * Timer::deltaTime);
+		}
 		else
 		{
-			Vector2 velocity = rb->GetVelocity();
+			velocity = rb->GetVelocity();
 			velocity.y = 0;
-			velocity.x *= (1.0f - rb->mGroundFriction * Timer::deltaTime);
-			rb->SetVelocity(velocity);
+			velocity.x *= (1.0f - (rb->mGroundFriction * Timer::deltaTime));
 		}
-		Vector2 velocity = rb->GetVelocity();
-		velocity *= (1.0f - rb->mAirFriction * Timer::deltaTime);
 
 		rb->GetOwner()->AddActorLocationOffset(velocity * Timer::deltaTime);
+		rb->SetVelocity(velocity);
 
 
 	}
@@ -114,10 +119,12 @@ void Physics::ResolveCollisions()
 		if (!result.ColliderA->IsTrigger() && !result.ColliderB->IsTrigger())
 		{
 			const Vector2 correction = result.Normal * result.Penetration;
+			const float safetyFactor = 1.1f;
+			const Vector2 safeCorrection = correction * safetyFactor;
 
 			if (rbA && !rbA->mIsKinematic && rbA->IsActive() && !rbB)
 			{
-				result.ActorA->AddActorLocationOffset(correction * -1.0f);
+				result.ActorA->AddActorLocationOffset(-safeCorrection);
 				rbA->SetVelocity(Vector2(rbA->GetVelocity().x, 0.0f));
 
 				float combinedFriction = result.ColliderA->mFriction * result.ColliderB->mFriction;
@@ -138,7 +145,7 @@ void Physics::ResolveCollisions()
 			}
 			else if (!rbA && rbB && !rbB->mIsKinematic && rbB->IsActive())
 			{
-				result.ActorB->AddActorLocationOffset(correction);
+				result.ActorB->AddActorLocationOffset(safeCorrection);
 				rbB->SetVelocity(Vector2(rbB->GetVelocity().x, 0.0f));
 
 				float combinedFriction = result.ColliderB->mFriction * result.ColliderA->mFriction;
@@ -186,9 +193,8 @@ void Physics::ResolveCollisions()
 
 					if (totalInverseMass > 0)
 					{
-						const Vector2 correction = result.Normal * result.Penetration;
-						const Vector2 correctionA = (-1 * correction) * (invMassA / totalInverseMass);
-						const Vector2 correctionB = correction * (invMassB / totalInverseMass);
+						const Vector2 correctionA = -correction * (invMassA / totalInverseMass);
+						const Vector2 correctionB =  correction * (invMassB / totalInverseMass);
 
 						result.ActorA->AddActorLocationOffset(correctionA);
 						result.ActorB->AddActorLocationOffset(correctionB);

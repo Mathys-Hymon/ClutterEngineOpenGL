@@ -120,6 +120,16 @@ struct Vector2
     {
         x = newVec.x;
         y = newVec.y;
+
+    }
+
+    /**
+ * @brief Negates the vector.
+ * @return The negated vector.
+ */
+    inline Vector2 operator-() const
+    {
+        return { -x, -y };
     }
 
     friend bool operator==(Vector2 left, Vector2 right)
@@ -269,6 +279,20 @@ struct Vector2
         temp /= length;
         return temp;
     }
+
+    /**
+ * @brief Calculates the squared distance between two vectors.
+ * @param left The left vector.
+ * @param right The right vector.
+ * @return The squared distance between the two vectors.
+ */
+    static float DistanceSquared(const Vector2& left, const Vector2& right)
+    {
+        float dx = left.x - right.x;
+        float dy = left.y - right.y;
+        return dx * dx + dy * dy;
+    }
+    /**
 
     /**
  * @brief Calculates the cross product of two vectors.
