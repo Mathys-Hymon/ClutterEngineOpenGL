@@ -63,15 +63,14 @@ void Physics::Update()
 {
     for (auto& rb : mRigidbody)
     {
-        rb->mIsGrounded = false;
-
         if (!rb->mIsKinematic && rb->IsActive())
         {
             rb->AddVelocity(mGravity * rb->GetGravityScale() * Timer::deltaTime);
-            rb->UpdateRotation(Timer::deltaTime);
-        }
+            rb->GetOwner()->AddActorLocationOffset(rb->GetVelocity() * Timer::deltaTime);
 
-        rb->GetOwner()->AddActorLocationOffset(rb->GetVelocity() * Timer::deltaTime);
+            if(!rb->mLockRotation) rb->UpdateRotation(Timer::deltaTime);
+            rb->mIsGrounded = false;
+        }
     }
 
     CheckCollisions();
@@ -110,6 +109,8 @@ void Physics::ResolveCollisions()
         RigidBody2D* rbA = result.ActorA->GetComponentOfType<RigidBody2D>();
         RigidBody2D* rbB = result.ActorB->GetComponentOfType<RigidBody2D>();
 
+        float restitution = std::max(result.ColliderA->mBounciness, result.ColliderB->mBounciness);
+
         // Check if neither collider is a trigger
         if (!result.ColliderA->IsTrigger() && !result.ColliderB->IsTrigger())
         {
@@ -118,69 +119,93 @@ void Physics::ResolveCollisions()
             const float safetyFactor = 1.1f;
             const Vector2 safeCorrection = correction * safetyFactor;
 
+            // Calculate combined friction
+            float combinedFriction = result.ColliderA->mFriction * result.ColliderB->mFriction;
+            float combinedBounciness = std::max(result.ColliderA->mBounciness, result.ColliderB->mBounciness);
+
             // Case 1: Only rbA is dynamic
             if (rbA && !rbA->mIsKinematic && rbA->IsActive() && !rbB)
             {
                 // Apply position correction to ActorA
-                result.ActorA->AddActorLocationOffset(safeCorrection);
-
-                // Calculate combined friction
-                float combinedFriction = result.ColliderA->mFriction * result.ColliderB->mFriction;
+                result.ActorA->AddActorLocationOffset(-safeCorrection);
 
                 // Calculate normal and tangent vectors
-                Vector2 normal = result.Normal.Normalized();
-                Vector2 tangent = Vector2(normal.y, -normal.x).Normalized();
+                Vector2 normal = -result.Normal.Normalized();
+                Vector2 tangent = Vector2(-normal.y, normal.x).Normalized();
 
                 // Adjust velocity based on friction
                 Vector2 velocity = rbA->GetVelocity();
-                float velocityNormal = Vector2::Dot(velocity, normal);
+                float velocityAlongNormal = Vector2::Dot(velocity, normal);
                 float velocityTangent = Vector2::Dot(velocity, tangent);
                 velocityTangent *= (1.0f - combinedFriction * Timer::deltaTime);
-                velocity = normal * velocityNormal + tangent * velocityTangent;
+                velocity = (normal * velocityAlongNormal) + (tangent * velocityTangent);
+
                 rbA->SetVelocity(velocity);
 
-                // Calculate torque based on collision point
-                Vector2 contactPoint = result.Point;
-                Vector2 centerA = result.ActorA->GetActorLocation();
-                Vector2 contactOffset = centerA - contactPoint;
-                Vector2 force = result.Normal * velocityNormal * rbA->mMass * 5;
-                rbA->mTorque += contactOffset.Cross(force);
+                if (!rbA->mLockRotation)
+                {
+                    // Calculate torque based on collision point
+                    Vector2 contactPoint = result.Point;
+                    Vector2 centerA = result.ActorA->GetActorLocation();
+                    Vector2 contactOffset = centerA - contactPoint;
+
+                    Vector2 gravityForce = Vector2(0.0f, rbA->mMass * mGravity.y * rbA->mGravityScale);
+                    Vector2 reactionForce = -result.Normal * velocityAlongNormal * rbA->mMass * 10.0f;
+                    Vector2 totalForce = gravityForce + reactionForce;
+
+                    rbA->mTorque += contactOffset.Cross(totalForce);
+                }
 
                 // Check if rbA is grounded
-                if (result.Normal.y > 0.5f)
+                if (-result.Normal.y > 0.5f)
                 {
                     rbA->SetVelocity(Vector2(rbA->GetVelocity().x, 0.0f));
                     rbA->mIsGrounded = true;
                     rbA->mAngularVelocity *= 0.2f;
                 }
             }
+
+
+
             // Case 2: Only rbB is dynamic
             else if (!rbA && rbB && !rbB->mIsKinematic && rbB->IsActive())
             {
                 // Apply position correction to ActorB
                 result.ActorB->AddActorLocationOffset(safeCorrection);
 
-                // Calculate combined friction
-                float combinedFriction = result.ColliderB->mFriction * result.ColliderA->mFriction;
-
-                // Calculate normal and tangent vectors
-                Vector2 normal = result.Normal.Normalized();
-                Vector2 tangent = Vector2(normal.y, -normal.x).Normalized();
-
-                // Adjust velocity based on friction
+                // Calculate velocity, normal and tangent vectors
                 Vector2 velocity = rbB->GetVelocity();
-                float velocityNormal = Vector2::Dot(velocity, normal);
+                Vector2 normal = result.Normal.Normalized();
+                Vector2 tangent = Vector2(-normal.y, normal.x).Normalized();
+
+                float velocityAlongNormal = Vector2::Dot(velocity, normal);
+
+                if (velocityAlongNormal < 0.0f)
+                {
+                    if (normal.x != 0) velocity.x *= combinedBounciness * normal.x;
+                    if (normal.y != 0) velocity.y *= combinedBounciness * normal.y;
+                }
+
                 float velocityTangent = Vector2::Dot(velocity, tangent);
+
                 velocityTangent *= (1.0f - combinedFriction * Timer::deltaTime);
-                velocity = normal * velocityNormal + tangent * velocityTangent;
+                velocity = (tangent * velocityTangent) + (normal * Vector2::Dot(velocity, normal));
+
                 rbB->SetVelocity(velocity);
 
-                // Calculate torque based on collision point
-                Vector2 contactPoint = result.Point;
-                Vector2 centerB = rbB->GetWorldPosition();
-                Vector2 contactOffset = centerB - contactPoint;
-                Vector2 force = result.Normal * velocityNormal * rbB->mMass * 5;
-                rbB->mTorque += contactOffset.Cross(force);
+                if (!rbB->mLockRotation)
+                {
+                    // Calculate torque based on collision point
+                    Vector2 contactPoint = result.Point;
+                    Vector2 centerB = rbB->GetWorldPosition();
+                    Vector2 contactOffset = centerB - contactPoint;
+
+                    Vector2 gravityForce = Vector2(0.0f, rbB->mMass * mGravity.y * rbB->mGravityScale);
+                    Vector2 reactionForce = result.Normal * velocityAlongNormal * rbB->mMass * 10.0f;
+                    Vector2 totalForce = gravityForce + reactionForce;
+
+                    rbB->mTorque += contactOffset.Cross(totalForce);
+                }
 
                 // Check if rbB is grounded
                 if (result.Normal.y > 0.5f)
@@ -234,10 +259,18 @@ void Physics::ResolveCollisions()
                 Vector2 rA = contactPoint - centerA;
                 Vector2 rB = contactPoint - centerB;
                 Vector2 force = result.Normal * impulseMagnitude * 5;
-                float torqueA = rA.Cross(-force * rbA->mMass);
-                float torqueB = rB.Cross(force * rbB->mMass);
-                if (rbA) rbA->mTorque += torqueA;
-                if (rbB) rbB->mTorque += torqueB;
+
+                if (rbA && !rbA->mLockRotation)
+                {
+                    float torqueA = rA.Cross(-force * rbA->mMass);
+                    rbA->mTorque += torqueA;
+                }
+
+                if (rbB && !rbB->mLockRotation)
+                {
+                    float torqueB = rB.Cross(force * rbB->mMass);
+                    rbB->mTorque += torqueB;
+                }
             }
         }
     }

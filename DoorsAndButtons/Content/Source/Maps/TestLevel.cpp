@@ -12,6 +12,7 @@
 clt::Actor* player;
 clt::Actor* camera;
 clt::Actor* block;
+clt::Actor* block2;
 clt::Actor* crate;
 
 TestLevel::TestLevel(std::string pName) : clt::Level(pName)
@@ -44,6 +45,7 @@ void TestLevel::Load()
 	player = AddActor(new clt::Actor("player"));
 	camera = AddActor(new clt::Actor("camera"));
 	block = AddActor(new clt::Actor("block"));
+	block2 = AddActor(new clt::Actor("block2"));
 	crate = AddActor(new clt::Actor("crate"));
 
 	camera->AddComponent(new clt::CameraComponent());
@@ -59,13 +61,19 @@ void TestLevel::Load()
 	block->SetActorLocation({ 0, -300 });
 	block->SetActorScale({50,3});
 
+	block2->AddComponent(new clt::AABBCollider({ 16,16 }));
+	block2->AddComponent(new clt::SpriteComponent(clt::Assets::Get().GetTexture("tile")));
+	block2->SetActorLocation({ 50, -150 });
+    block2->SetActorScale({ 5,3 });
+
 	player->AddComponent(new clt::AnimatorComponent("walk", runAnim));
 	player->GetComponentOfType<clt::AnimatorComponent>()->AddNewAnim("jump", jumpAnim, false);
 	player->GetComponentOfType<clt::AnimatorComponent>()->GetAnim("jump")->SetFlipbookFps(7);
 
 	player->AddComponent(new clt::AABBCollider({16,16}));
+	player->GetComponentOfType<clt::AABBCollider>()->SetRelativePosition({0, -4});
 	player->AddComponent(new clt::RigidBody2D());
-	player->AddComponent(new clt::SpringArmComponent(camera, 10));
+	//player->AddComponent(new clt::SpringArmComponent(camera, 10));
 	player->AddComponent(new clt::PlayerController("PlayerMovement", "Jump", 10));
 
 	player->SetActorScale(5);

@@ -42,6 +42,7 @@ namespace clt
 		bool mIsKinematic = false; ///< Flag to set the rigid body as kinematic.
 		bool mIsGrounded = false; ///< Flag to check if the rigid body is grounded.
 		bool mCanStepOn = true; ///< Flag to check if the rigid body can step on.
+		bool mLockRotation = true;
 
 		/**
    * @brief Sets the owner of the component.

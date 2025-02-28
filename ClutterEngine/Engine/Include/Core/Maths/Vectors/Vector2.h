@@ -316,6 +316,18 @@ struct Vector2
     }
 
     /**
+        * @brief Linearly interpolates between two vectors.
+        * @param start The start vector.
+        * @param end The end vector.
+        * @param t The interpolation factor (0.0 to 1.0).
+        * @return The interpolated vector.
+        */
+    static Vector2 Lerp(const Vector2& start, const Vector2& end, float t)
+    {
+        return start + t * (end - start);
+    }
+
+    /**
  * @brief Calculates the squared length of the vector.
  * @return The squared length of the vector.
  */

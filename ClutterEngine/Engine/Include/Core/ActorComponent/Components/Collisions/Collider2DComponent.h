@@ -30,6 +30,7 @@ namespace clt
 	public:
 
 		float mFriction;
+		float mBounciness;
 		/**
    * @brief Constructor for Collider2DComponent.
    */

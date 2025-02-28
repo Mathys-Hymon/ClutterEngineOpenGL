@@ -5,7 +5,7 @@
 
 using namespace clt;
 
-Collider2DComponent::Collider2DComponent() : mFriction(2.5f)
+Collider2DComponent::Collider2DComponent() : mFriction(2.5f), mBounciness(0.3f)
 {
 }
 
