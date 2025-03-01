@@ -28,20 +28,16 @@ void TestLevel::Load()
 	std::vector<clt::Texture*> runAnim;
 	std::vector<clt::Texture*> jumpAnim;
 
-	runAnim.emplace_back(clt::Assets::Get().LoadTexture("Content/Resources/Sprites/0_playerWalk.png", "0_PlayerWalk", TextureFilter::NEAREST));
-	runAnim.emplace_back(clt::Assets::Get().LoadTexture("Content/Resources/Sprites/1_playerWalk.png", "1_PlayerWalk", TextureFilter::NEAREST));
+	runAnim = clt::Assets::Get().BulkLoadTexture("Content/Resources/Sprites/", 1, "_playerWalk.png", "_PlayerWalk", TextureFilter::NEAREST);
 
-	for (int i = 0; i < 4; i++)
-	{
-		std::string tempPaths =  std::to_string(i) + "_playerjumpv2.png";
-		jumpAnim.emplace_back(clt::Assets::Get().LoadTexture("Content/Resources/Sprites/" + tempPaths, std::to_string(i) +"_jump", TextureFilter::NEAREST));
-	}
+	jumpAnim = clt::Assets::Get().BulkLoadTexture("Content/Resources/Sprites/", 4, "_playerjumpv2.png", "_jump", TextureFilter::NEAREST);
 
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/tile.png", "tile", TextureFilter::NEAREST);
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/crate.png", "crate", TextureFilter::NEAREST);
 
 	clt::Input::Get().MapKeysToAxis( EKey::A, EKey::D, "PlayerMovement");
 	clt::Input::Get().MapKeyToAction(EKey::Space, "Jump", EInputState::Pressed);
+
 	player = AddActor(new clt::Actor("player"));
 	camera = AddActor(new clt::Actor("camera"));
 	block = AddActor(new clt::Actor("block"));
@@ -73,7 +69,7 @@ void TestLevel::Load()
 	player->AddComponent(new clt::AABBCollider({16,16}));
 	player->GetComponentOfType<clt::AABBCollider>()->SetRelativePosition({0, -4});
 	player->AddComponent(new clt::RigidBody2D());
-	//player->AddComponent(new clt::SpringArmComponent(camera, 10));
+	player->AddComponent(new clt::SpringArmComponent(camera, 10));
 	player->AddComponent(new clt::PlayerController("PlayerMovement", "Jump", 10));
 
 	player->SetActorScale(5);

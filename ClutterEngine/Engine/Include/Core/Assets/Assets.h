@@ -19,7 +19,7 @@ namespace clt
 
 		std::unordered_map<std::string, Texture*> mTextures;
 		Assets() = default;
-		~Assets();
+		~Assets() = default;
 
 		void SetRenderer(RendererGL* pRenderer) { mRenderer = pRenderer; };
 
@@ -28,8 +28,13 @@ namespace clt
 	public:
 		static Assets& Get();
 
-		Texture* LoadTexture(const std::string& path, const std::string& name, TextureFilter pTexFilter = TextureFilter::LINEAR);
+		Texture* LoadTexture(const std::string& pPath, const std::string& pName, TextureFilter pTexFilter = TextureFilter::LINEAR);
+
+		std::vector<Texture*> BulkLoadTexture(const std::string& pPath, int pLastIndex, const std::string& pFileName, const std::string& pName, TextureFilter pTexFilter = TextureFilter::LINEAR);
+
 		Texture* GetTexture(const std::string& name);
+
+		std::vector<Texture*> BulkGetTexture(const std::string& name, int pLastIndex);
 
 		void ClearTextures();
 	};

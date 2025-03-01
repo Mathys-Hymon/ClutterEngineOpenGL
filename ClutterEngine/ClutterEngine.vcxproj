@@ -176,6 +176,8 @@
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\FlipbookComponent.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\SpriteComponent.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Physics\RigidBody2D.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\UI\HUDComponent.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\UI\WidgetComponent.h" />
     <ClInclude Include="Engine\Include\Core\Assets\Assets.h" />
     <ClInclude Include="Engine\Include\Core\Assets\AssetsType\Texture.h" />
     <ClInclude Include="Engine\Include\Core\CCommon.h" />

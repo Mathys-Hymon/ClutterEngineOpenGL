@@ -9,10 +9,6 @@ using namespace clt;
 
 Assets* Assets::sInstance = nullptr;
 
-Assets::~Assets()
-{
-}
-
 Assets& Assets::Get()
 {
     if (!sInstance)  sInstance = new Assets();
@@ -69,6 +65,19 @@ Texture* Assets::LoadTexture(const std::string& path, const std::string& name, T
     return mTextures[name];
 }
 
+std::vector<Texture*> Assets::BulkLoadTexture(const std::string& pPath, int pLastIndex, const std::string& pFileName, const std::string& pName, TextureFilter pTexFilter)
+{
+    std::vector<Texture*> tempAnim;
+
+    for (int i = 0; i <= pLastIndex; i++)
+    {
+        std::string tempPaths = std::to_string(i) + pFileName;
+        tempAnim.emplace_back(Assets::Get().LoadTexture(pPath + tempPaths, std::to_string(i) + pName, pTexFilter));
+    }
+
+    return tempAnim;
+}
+
 Texture* Assets::GetTexture(const std::string& name)
 {
     auto it = mTextures.find(name);
@@ -78,6 +87,19 @@ Texture* Assets::GetTexture(const std::string& name)
         return nullptr;
     }
     return it->second;
+}
+
+std::vector<Texture*> Assets::BulkGetTexture(const std::string& pName, int pLastIndex)
+{
+    std::vector<Texture*> tempAnim;
+
+    for (int i = 0; i <= pLastIndex; i++)
+    {
+        std::string name = std::to_string(i) + pName;
+        tempAnim.push_back(GetTexture(name));
+    }
+
+    return tempAnim;
 }
 
 void Assets::ClearTextures()

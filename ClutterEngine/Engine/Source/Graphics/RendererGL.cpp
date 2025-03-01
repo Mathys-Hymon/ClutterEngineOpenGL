@@ -1,7 +1,7 @@
 #include "pch.h"  
 #include<Graphics/RendererGL.h>  
 #include<Core/ActorComponent/Components/Graphics/SpriteComponent.h>  
-#include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>  
+#include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
 
 using namespace clt;  
 
@@ -111,11 +111,11 @@ void RendererGL::Draw()
 
    for (GraphicComponent* comp : mComponents)  
    {  
-       comp->Draw(*this);  
+       if(comp->IsActive()) comp->Draw(*this);
    }  
 
    for (auto& pair : mSpriteBatches)  
-   {  
+   {
        pair.second->Draw(mShader);  
    }  
 }  
