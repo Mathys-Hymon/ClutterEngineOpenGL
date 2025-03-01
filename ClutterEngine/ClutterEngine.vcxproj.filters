@@ -174,7 +174,10 @@
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\UI\HUDComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\UI\WidgetComponent.h">
+    <ClInclude Include="Engine\Include\Graphics\UI\WidgetElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Include\Graphics\UI\UIPanel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

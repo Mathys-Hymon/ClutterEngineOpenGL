@@ -15,7 +15,7 @@ namespace clt
 	{
 		static Assets* sInstance;
 
-		RendererGL* mRenderer;
+		RendererGL* mRenderer = nullptr;
 
 		std::unordered_map<std::string, Texture*> mTextures;
 		Assets() = default;

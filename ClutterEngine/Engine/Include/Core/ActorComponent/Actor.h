@@ -7,7 +7,7 @@
 /**
  * @brief Enum representing the state of an actor.
  */
-enum class ActorState {
+enum class CLUTTER_API ActorState {
     Active, ///< The actor is active.
     Paused, ///< The actor is paused.
     Dead    ///< The actor is dead.
@@ -63,7 +63,8 @@ namespace clt
          * @brief Adds a component to the actor.
          * @param pComponent The component to add.
          */
-        Component* AddComponent(Component* pComponent);
+        template<typename T, typename... Args>
+        T* AddComponent(Args&&... args);
 
         /**
          * @brief Removes a component of type T from the actor.
@@ -164,4 +165,21 @@ namespace clt
 
         friend Level;
     };
+
+    template<typename T, typename... Args>
+    T* Actor::AddComponent(Args&&... args) {
+        size_t hashCode = typeid(T).hash_code();
+
+        if (mComponents.find(hashCode) != mComponents.end()) {
+            std::cerr << "A component of this type already exists in the Actor.\n";
+            return nullptr;
+        }
+        else {
+            T* pComponent = new T(std::forward<Args>(args)...);
+            if (mIsUpdatingComponents) mComponentsToAdd.emplace_back(pComponent);
+            else AddComponentInternal(pComponent);
+
+            return pComponent;
+        }
+    }
 }

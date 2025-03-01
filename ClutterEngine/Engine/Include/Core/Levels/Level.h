@@ -94,6 +94,42 @@ namespace clt
          */
         void RemoveActor(Actor* pActor);
 
+
+        template<typename T>
+        std::vector<T*> GetAllActorOfType()
+        {
+            static_assert(std::is_base_of<Actor, T>::value, "T must be an Actor");
+
+            size_t hashCode = typeid(T).hash_code();
+            auto it = mActors.find(hashCode);
+            if (it != mActors.end()) 
+            {
+                return static_cast<std::vector<T*>>(it->second);
+            }
+            else
+            {
+                std::vector<T*> temp;
+                return temp;
+            }
+        };
+
+        template<typename T>
+        T* GetActorOfType()
+        {
+            static_assert(std::is_base_of<Actor, T>::value, "T must be an Actor");
+
+            size_t hashCode = typeid(T).hash_code();
+            auto it = mActors.find(hashCode);
+            if (it != mActors.end()) 
+            {
+                return static_cast<T*>(it->second[0]);
+            }
+            else
+            {
+                return nullptr;
+            }
+        };
+
         /**
          * @brief Gets the renderer for the level.
          * @return Reference to the renderer.

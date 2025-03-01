@@ -2,7 +2,6 @@
 #include <Core/CCommon.h>
 #include<Core/Levels/Level.h>
 #include<Graphics/RendererGL.h>
-#include <map>
 
 namespace clt
 {
@@ -13,7 +12,7 @@ namespace clt
 	class CLUTTER_API LevelManager
 	{
 		/// Map of level names to level pointers.
-		std::map<std::string, Level*> mLevels;
+		std::unordered_map<std::string, Level*> mLevels;
 		
 		/// Pointer to the currently active level.
 		Level* mActualLevel;

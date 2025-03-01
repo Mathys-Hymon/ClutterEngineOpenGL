@@ -1,21 +1,26 @@
 #pragma once
 #include <Core/CCommon.h>
 #include <Core/ActorComponent/Components/GraphicComponent.h>
-#include <Core/ActorComponent/Components/UI/WidgetComponent.h>
+#include <Graphics/UI/UIPanel.h>
 
 namespace clt
 {
 	class CLUTTER_API HUDComponent : public GraphicComponent
 	{
-		std::map<std::string, WidgetComponent*> mWidgets;
+		std::unordered_map<std::string, UIPanel*> mWidgets;
+		UIPanel* mCurrentWidget;
+
 	public:
-		HUDComponent() : GraphicComponent() {};
+		HUDComponent() : mCurrentWidget(nullptr), GraphicComponent() {};
 		~HUDComponent() = default;
 
-		void AddWidget(const std::string& pName, WidgetComponent* pWidget);
-		void AddWidget(std::map<std::string, WidgetComponent*> pWidget);
+		UIPanel* AddWidget(const std::string& pName, UIPanel* pWidget);
+		UIPanel* AddWidget(std::map<std::string, UIPanel*> pWidget);
 
-		void RemoveWidget(WidgetComponent* pWidget);
+		void ShowWidget(const std::string& pName);
+		void ShowWidget(UIPanel* pWidget);
+
+		void RemoveWidget(UIPanel* pWidget);
 		void RemoveWidget(const std::string& pName);
 
 		virtual void Draw(RendererGL& pRenderer) override;

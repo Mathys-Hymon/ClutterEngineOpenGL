@@ -21,27 +21,6 @@ Actor::~Actor()
    mComponentsToRemove.clear();
 }
 
-// Add a component to the actor
-Component* Actor::AddComponent(Component* pComponent)
-{
-   size_t hashCode = typeid(*pComponent).hash_code();
-
-   if (mComponents.find(hashCode) != mComponents.end())
-   {
-       CLUTTER_ERROR("A component of this type already exists in the Actor.");
-       delete pComponent;
-
-       return nullptr;
-   }
-   else
-   {
-       if (mIsUpdatingComponents) mComponentsToAdd.emplace_back(pComponent);
-       else AddComponentInternal(pComponent);
-
-       return pComponent;
-   }
-}
-
 void clt::Actor::AttachLevel(Level* pLevel)
 {
     mLevel = pLevel;
