@@ -129,16 +129,23 @@ void Physics::ResolveCollisions()
                 // Apply position correction to ActorA
                 result.ActorA->AddActorLocationOffset(-safeCorrection);
 
-                // Calculate normal and tangent vectors
+                // Calculate velocity, normal and tangent vectors
+                Vector2 velocity = rbA->GetVelocity();
                 Vector2 normal = -result.Normal.Normalized();
                 Vector2 tangent = Vector2(-normal.y, normal.x).Normalized();
 
-                // Adjust velocity based on friction
-                Vector2 velocity = rbA->GetVelocity();
                 float velocityAlongNormal = Vector2::Dot(velocity, normal);
+
+                if (velocityAlongNormal < 0.0f)
+                {
+                    if (normal.x != 0) velocity.x *= combinedBounciness * normal.x;
+                    if (normal.y != 0) velocity.y *= combinedBounciness * normal.y;
+                }
+
                 float velocityTangent = Vector2::Dot(velocity, tangent);
+
                 velocityTangent *= (1.0f - combinedFriction * Timer::deltaTime);
-                velocity = (normal * velocityAlongNormal) + (tangent * velocityTangent);
+                velocity = (tangent * velocityTangent) + (normal * Vector2::Dot(velocity, normal));
 
                 rbA->SetVelocity(velocity);
 
@@ -159,7 +166,7 @@ void Physics::ResolveCollisions()
                 // Check if rbA is grounded
                 if (-result.Normal.y > 0.5f)
                 {
-                    rbA->SetVelocity(Vector2(rbA->GetVelocity().x, 0.0f));
+                    rbA->SetVelocity(Vector2(rbA->GetVelocity().x, std::clamp(rbA->GetVelocity().y, 0.0f, FLT_MAX)));
                     rbA->mIsGrounded = true;
                     rbA->mAngularVelocity *= 0.2f;
                 }
@@ -170,6 +177,7 @@ void Physics::ResolveCollisions()
             // Case 2: Only rbB is dynamic
             else if (!rbA && rbB && !rbB->mIsKinematic && rbB->IsActive())
             {
+
                 // Apply position correction to ActorB
                 result.ActorB->AddActorLocationOffset(safeCorrection);
 
@@ -182,8 +190,8 @@ void Physics::ResolveCollisions()
 
                 if (velocityAlongNormal < 0.0f)
                 {
-                    if (normal.x != 0) velocity.x *= combinedBounciness * normal.x;
-                    if (normal.y != 0) velocity.y *= combinedBounciness * normal.y;
+                    if (normal.x != 0) velocity.x  = std::abs(velocity.x) * combinedBounciness * normal.x;
+                    if (normal.y != 0) velocity.y  = std::abs(velocity.y) * combinedBounciness * normal.y;
                 }
 
                 float velocityTangent = Vector2::Dot(velocity, tangent);
@@ -210,7 +218,7 @@ void Physics::ResolveCollisions()
                 // Check if rbB is grounded
                 if (result.Normal.y > 0.5f)
                 {
-                    rbB->SetVelocity(Vector2(rbB->GetVelocity().x, 0.0f));
+                    rbB->SetVelocity(Vector2(rbB->GetVelocity().x, std::clamp(rbB->GetVelocity().y, 0.0f, 10000.0f)));
                     rbB->mIsGrounded = true;
                     rbB->mAngularVelocity *= 0.2f;
                 }

@@ -104,7 +104,7 @@ void PlayerController::Update()
 {
 	if (mRb && mRb->mIsGrounded)
 	{
-		if (mIsJumping && mRb->GetVelocity().y <= 0.1f)
+		if (mIsJumping && mRb->GetVelocity().y <= 1.0f)
 		{
 			mIsJumping = false;
 			mOwner->GetComponentOfType<AnimatorComponent>()->PlayAnim("walk");
