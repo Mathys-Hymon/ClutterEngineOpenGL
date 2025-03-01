@@ -13,6 +13,8 @@ namespace clt
 		 CircleCollider(float pRadius = 32);
 		~CircleCollider() = default;
 
+		float GetRadius() const { return mRadius; };
+
 		bool CheckCollision(Collider2DComponent* pOther, hitResult& outResult) const override;
 	};
 }

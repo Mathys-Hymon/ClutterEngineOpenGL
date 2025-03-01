@@ -25,5 +25,17 @@ bool CircleCollider::CheckCollision(Collider2DComponent* pOther, hitResult& outR
 
 bool CircleCollider::CheckCircleVsCircle(CircleCollider* pOther, hitResult& outResult) const
 {
+	CircleCollider* other = static_cast<CircleCollider*>(pOther);
+	Vector2 delta = other->GetWorldPosition() - GetWorldPosition();
+	float distance = delta.Length();
+	float totalRadius = mRadius + other->mRadius;
+
+	if (distance < totalRadius)
+	{
+		outResult.Normal = delta.Normalized();
+		outResult.Penetration = totalRadius - distance;
+		outResult.Point = GetWorldPosition() + outResult.Normal * mRadius;
+		return true;
+	}
 	return false;
 }
