@@ -94,7 +94,6 @@ namespace clt
          */
         void RemoveActor(Actor* pActor);
 
-
         template<typename T>
         std::vector<T*> GetAllActorOfType()
         {

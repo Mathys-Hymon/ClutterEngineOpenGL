@@ -32,14 +32,13 @@ void Actor::AddComponentInternal(Component* pComponent)
    size_t hashCode = typeid(*pComponent).hash_code();
    mComponents[hashCode] = pComponent;
 
-   pComponent->SetOwner(this);
-
-   mComponentsByUpdateOrder.push_back(pComponent);
-
-   std::sort(mComponentsByUpdateOrder.begin(), mComponentsByUpdateOrder.end(), // Sort components by update order
-       [](Component* a, Component* b) {
+   auto it = std::lower_bound(mComponentsByUpdateOrder.begin(), mComponentsByUpdateOrder.end(), pComponent, 
+       [](const auto& a, const auto& b) {
            return a->GetUpdateOrder() < b->GetUpdateOrder();
        });
+
+   mComponentsByUpdateOrder.insert(it, std::move(pComponent));
+   pComponent->SetOwner(this);
 }
 
 // Remove a component from the actor
@@ -50,7 +49,8 @@ inline void Actor::RemoveComponent()
 
    size_t hashCode = typeid(T).hash_code();
    auto it = mComponents.find(hashCode);
-   if (it != mComponents.end()) {
+   if (it != mComponents.end()) 
+   {
        mComponentsToRemove.push_back(it->second.get());
    }
 }

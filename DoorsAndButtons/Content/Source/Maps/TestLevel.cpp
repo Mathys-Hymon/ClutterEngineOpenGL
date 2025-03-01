@@ -38,13 +38,13 @@ void TestLevel::Load()
 	clt::Input::Get().MapKeysToAxis( EKey::A, EKey::D, "PlayerMovement");
 	clt::Input::Get().MapKeyToAction(EKey::Space, "Jump", EInputState::Pressed);
 
-	 AddActor(new clt::Actor("player"));
+	AddActor(new clt::Actor("player"));
 
-	 player = GetActorOfType<clt::Actor>();
+	player = GetActorOfType<clt::Actor>();
 	camera = AddActor(new clt::Actor("camera"));
-	block = AddActor(new clt::Actor("block"));
+	block  = AddActor(new clt::Actor("block"));
 	block2 = AddActor(new clt::Actor("block2"));
-	crate = AddActor(new clt::Actor("crate"));
+	crate  = AddActor(new clt::Actor("crate"));
 
 	camera->AddComponent<clt::CameraComponent>();
 

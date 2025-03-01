@@ -167,7 +167,7 @@ namespace clt
     };
 
     template<typename T, typename... Args>
-    T* Actor::AddComponent(Args&&... args) {
+    inline T* Actor::AddComponent(Args&&... args) {
         size_t hashCode = typeid(T).hash_code();
 
         if (mComponents.find(hashCode) != mComponents.end()) {

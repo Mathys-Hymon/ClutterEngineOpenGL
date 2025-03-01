@@ -15,7 +15,7 @@ namespace clt
 		~HUDComponent() = default;
 
 		UIPanel* AddWidget(const std::string& pName, UIPanel* pWidget);
-		UIPanel* AddWidget(std::map<std::string, UIPanel*> pWidget);
+		void    AddWidgets(std::map<std::string, UIPanel*> pWidget);
 
 		void ShowWidget(const std::string& pName);
 		void ShowWidget(UIPanel* pWidget);
