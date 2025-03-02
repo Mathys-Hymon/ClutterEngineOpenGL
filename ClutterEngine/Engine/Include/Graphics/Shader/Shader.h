@@ -9,9 +9,9 @@ namespace clt
 	class CLUTTER_API Shader
 	{
 		GLuint mID;
-		std::string mVert_file_path, mFrag_file_path;
+		std::string mVertPath, mFragPath;
 
-		void Compile(const GLchar* pVert_data, const GLchar* pFrag_data);
+		void Compile(const GLchar* pVertData, const GLchar* pFragData);
 
 	public:
 		Shader() : mID(0) {}
@@ -21,7 +21,7 @@ namespace clt
 			mID = 0;
 		}
 
-		void Load(const GLchar* pVert_file_path, const GLchar* pFrag_file_path);
+		void Load(const GLchar* pVertPath, const GLchar* pFragPath);
 		void Use();
 
 		void SetBool(const GLchar* pName, GLboolean pValue);

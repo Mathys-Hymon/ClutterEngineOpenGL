@@ -180,6 +180,9 @@
     <ClInclude Include="Engine\Include\Graphics\UI\UIPanel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\UI\HUDComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Libraries\include\PCH\dllmain.cpp">
@@ -285,6 +288,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Source\Graphics\Shader\VertexArray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Source\Graphics\UI\UIPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\UI\HUDComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

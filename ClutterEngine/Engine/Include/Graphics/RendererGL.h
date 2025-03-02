@@ -24,6 +24,8 @@ namespace clt
 		GLuint mVAO, mVBO, mAttribSize;
 		std::vector<GLfloat> mBuffers;
 		Shader mShader;
+		Shader mUIShader;
+
 		CEngine* mEngine;
 
 	public:

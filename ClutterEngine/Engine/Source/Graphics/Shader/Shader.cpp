@@ -22,7 +22,7 @@ void Shader::Compile(const GLchar* pVert_data, const GLchar* pFrag_data)
     if (!success)
     {
         glGetShaderInfoLog(vertexShader, 512, nullptr, info_log);
-        std::string error_message = "Vertex shader compilation failure, vertexShader = " + std::string(mVert_file_path) + "\n" + std::string(info_log);
+        std::string error_message = "Vertex shader compilation failure, vertexShader = " + std::string(mVertPath) + "\n" + std::string(info_log);
         CLUTTER_ERROR(error_message.c_str());
         exit(1);
     }
@@ -38,7 +38,7 @@ void Shader::Compile(const GLchar* pVert_data, const GLchar* pFrag_data)
     if (!success)
     {
         glGetShaderInfoLog(fragShader, 512, nullptr, info_log);
-        std::string error_message = "Fragment shader compilation failure, fragShader = " + std::string(mFrag_file_path) + "\n" + std::string(info_log);
+        std::string error_message = "Fragment shader compilation failure, fragShader = " + std::string(mFragPath) + "\n" + std::string(info_log);
         CLUTTER_ERROR(error_message.c_str());
         exit(1);
     }
@@ -55,7 +55,7 @@ void Shader::Compile(const GLchar* pVert_data, const GLchar* pFrag_data)
     if (!success)
     {
         glGetProgramInfoLog(mID, 512, nullptr, info_log);
-        std::string error_message = "Program linking failure, vertex = \n" + std::string(mVert_file_path) + " \n fragShader = " + std::string(mFrag_file_path) + "\n" + std::string(info_log);
+        std::string error_message = "Program linking failure, vertex = \n" + std::string(mVertPath) + " \n fragShader = " + std::string(mFragPath) + "\n" + std::string(info_log);
         CLUTTER_ERROR(error_message.c_str());
         exit(1);
     }
@@ -65,29 +65,29 @@ void Shader::Compile(const GLchar* pVert_data, const GLchar* pFrag_data)
     glDeleteShader(fragShader);
 }
 
-void Shader::Load(const GLchar* pVert_file_path, const GLchar* pFrag_file_path)
+void Shader::Load(const GLchar* pVertPath, const GLchar* pFragPath)
 {
-    mVert_file_path = pVert_file_path;
-    mFrag_file_path = pFrag_file_path;
+    mVertPath = pVertPath;
+    mFragPath = pFragPath;
 
-    std::string vert_code;
-    std::string frag_code;
+    std::string vertCode;
+    std::string fragCode;
 
     try
     {
         // Read shader files  
-        std::ifstream vert_file(pVert_file_path);
-        std::ifstream frag_file(pFrag_file_path);
-        std::stringstream vert_sstream, frag_sstream;
+        std::ifstream vertFile(pVertPath);
+        std::ifstream fragFile(pFragPath);
+        std::stringstream vertSstream, fragSstream;
 
-        vert_sstream << vert_file.rdbuf();
-        frag_sstream << frag_file.rdbuf();
+        vertSstream << vertFile.rdbuf();
+        fragSstream << fragFile.rdbuf();
 
-        vert_file.close();
-        frag_file.close();
+        vertFile.close();
+        fragFile.close();
 
-        vert_code = vert_sstream.str();
-        frag_code = frag_sstream.str();
+        vertCode = vertSstream.str();
+        fragCode = fragSstream.str();
     }
     catch (std::exception e)
     {
@@ -95,7 +95,7 @@ void Shader::Load(const GLchar* pVert_file_path, const GLchar* pFrag_file_path)
         exit(1);
     }
 
-    Compile(vert_code.c_str(), frag_code.c_str());
+    Compile(vertCode.c_str(), fragCode.c_str());
 }
 
 void Shader::Use()

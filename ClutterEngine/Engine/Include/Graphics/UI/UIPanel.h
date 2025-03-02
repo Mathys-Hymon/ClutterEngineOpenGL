@@ -1,41 +1,49 @@
 #pragma once
 #include <Core/CCommon.h>
-#include <Graphics/UI/WidgetElement.h>
 #include <unordered_map>
 
 namespace clt
 {
+	class WidgetElement;
 	class CLUTTER_API UIPanel
 	{
+		std::unordered_map<std::string, WidgetElement*> mElementsByName;
+		std::vector<WidgetElement*> mElementsByZOrder;
+
 		void UpdateWidgetOrder(WidgetElement* mWidget);
 
 		friend WidgetElement;
 
-	protected:
-		std::unordered_map<std::string, WidgetElement*> mElementsByName;
-		std::vector<WidgetElement*> mElementsByZOrder;
-
 	public:
 
 		template<typename T, typename... Args>
-		T* CreateElement(std::string pName, Args&&... args);
+		T* CreateElement(const std::string& pName, Args&&... args);
+
+		template<typename T>
+		T* GetElement(const std::string& pName);
+
+		void RemoveElement(const std::string& pName);
 
 		void Draw();
+		virtual void Update();
 	};
 
 
-
 	template<typename T, typename ...Args>
-	inline T* UIPanel::CreateElement(std::string pName, Args && ...args)
+	inline T* UIPanel::CreateElement(const std::string& pName, Args && ...args)
 	{
+		static_assert(std::is_base_of<WidgetElement, T>::value, "T must be a WidgetElement");
+
 		if (mElementsByName.find(pName) != mElementsByName.end())
 		{
-			std::cerr << "An element of this name alreally exist\n";
+			CLUTTER_ERROR("An element of this name alreally exist");
 			return nullptr;
 		}
 		else
 		{
 			T* pElement = new T(std::forward<Args>(args)...);
+
+			pElement->SetOwner(this);
 			mElementsByName[pName] = pElement;
 
 			auto it = std::lower_bound(mElementsByZOrder.begin(), mElementsByZOrder.end(), pElement,
@@ -46,5 +54,20 @@ namespace clt
 			mElementsByZOrder.insert(it, std::move(pElement));
 			return pElement;
 		}
+	}
+
+
+	template<typename T>
+	inline T* UIPanel::GetElement(const std::string& pName)
+	{
+		static_assert(std::is_base_of<WidgetElement, T>::value, "T must be a WidgetElement");
+
+		auto it = mElementsByName.find(pName);
+
+		if (it != mElementsByName.end())
+		{
+			return dynamic_cast<T*>(it->second);
+		}
+		return nullptr;
 	}
 }

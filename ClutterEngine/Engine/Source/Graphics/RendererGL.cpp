@@ -19,11 +19,14 @@ bool RendererGL::Initialize(CEngine* pEngine)
    Assets::Get().SetRenderer(this);  
 
    // File paths for vertex and fragment shaders  
-   const auto vert_file_path = "Content/Shaders/sprite.vert";  
-   const auto frag_file_path = "Content/Shaders/sprite.frag";  
+   const auto spriteVertPath = "Content/Shaders/sprite.vert";  
+   const auto spriteFragPath = "Content/Shaders/sprite.frag";  
 
    mShader = Shader();  
-   mShader.Load(vert_file_path, frag_file_path);  
+   mShader.Load(spriteVertPath, spriteFragPath);
+
+   mUIShader = Shader();
+
 }  
 
 void RendererGL::Close()  
@@ -61,7 +64,8 @@ void RendererGL::RemoveGraphicComponent(GraphicComponent* pComp)
 {  
    std::vector<GraphicComponent*>::iterator gc;  
    gc = std::find(mComponents.begin(), mComponents.end(), pComp);  
-   mComponents.erase(gc);  
+
+   if(gc != mComponents.end()) mComponents.erase(gc);
 }  
 
 void RendererGL::AddSpriteComponent(SpriteComponent* pComp)  

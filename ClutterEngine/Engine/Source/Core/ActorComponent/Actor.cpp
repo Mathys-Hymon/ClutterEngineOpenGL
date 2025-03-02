@@ -76,9 +76,6 @@ void Actor::InternalUpdate()
 
    for (Component* pComponent : mComponentsToRemove) // Delete components
    {
-       size_t hashCode = typeid(*pComponent).hash_code();
-       mComponents.erase(hashCode);
-
        std::vector<Component*>::iterator it = std::find(mComponentsByUpdateOrder.begin(), mComponentsByUpdateOrder.end(), pComponent);
 
        if (it != mComponentsByUpdateOrder.end()) 
@@ -86,5 +83,11 @@ void Actor::InternalUpdate()
            std::iter_swap(it, mComponentsByUpdateOrder.end() - 1);
            mComponentsByUpdateOrder.pop_back();
        }
+
+       size_t hashCode = typeid(*pComponent).hash_code();
+       
+       auto comp = mComponents.find(hashCode);
+       delete comp->second;
+       mComponents.erase(comp);
    }
 }
