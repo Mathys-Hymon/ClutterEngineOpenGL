@@ -101,11 +101,11 @@ void RendererGL::BeginDraw()
 
 void RendererGL::Draw()  
 {  
-   CameraComponent* camera = CameraComponent::GetActiveCamera();  
+   CameraComponent* camera = CameraComponent::GetActiveCamera();
 
    if (camera)  
    {  
-       mShader.SetMat4("view", camera->GetViewMatrix());  
+       mShader.SetMat4Row("uViewProj", camera->GetViewMatrix());
        mShader.SetMat4("projection", camera->GetProjectionMatrix());  
    }  
    else  

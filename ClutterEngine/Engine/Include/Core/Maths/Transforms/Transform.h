@@ -1,14 +1,20 @@
 #pragma once
-#include <Core/Maths/Vectors/Vector3.h>
+#include <Core/CCommon.h>
 #include <Core/Maths/Quaternion.h>
+#include <Core/Maths/Matrix/Matrix4Row.h>
 #include <Core/Maths/Maths.h>
 
-struct Transform
+class CLUTTER_API Transform
 {
     Vector3 location = { 0, 0, 0 };
     Vector3 scale = { 1, 1, 1 };
 
     Quaternion rotation {0, 0, 0, 0};
+    Matrix4Row mWorldTransform;
+
+public:
+
+    Transform() { ComputeWorldTransform(); };
 
     Vector3 Right() const 
     {
@@ -34,4 +40,24 @@ struct Transform
         Vector3 tempForward = { -Maths::Sin(yaw) * Maths::Cos(pitch),  Maths::Sin(pitch),  -Maths::Cos(yaw) * Maths::Cos(pitch) };
         return Vector3::Normalize(tempForward);
     }
+
+    Vector3 Location() const { return location; };
+    Vector3 Scale() const { return scale; };
+    Quaternion Rotation() const { return rotation; };
+    Matrix4Row GetWorldTransform() const { return mWorldTransform; }
+
+    //friend Transform operator+(Transform left, Transform right)
+    //{
+    //    return { left.location + right.location, left.scale * right.scale, left.rotation + right.rotation };
+    //}
+
+    void ComputeWorldTransform()
+    {
+        mWorldTransform =  Matrix4Row::CreateScale(scale);
+        mWorldTransform *= Matrix4Row::CreateRotationX(rotation.x);
+        mWorldTransform *= Matrix4Row::CreateRotationY(rotation.y);
+        mWorldTransform *= Matrix4Row::CreateRotationZ(rotation.z);
+        mWorldTransform *= Matrix4Row::CreateTranslation(location);
+    }
+
 };

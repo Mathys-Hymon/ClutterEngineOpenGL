@@ -118,9 +118,9 @@ void Shader::SetFloat(const GLchar* pName, GLfloat pValue)
     glUniform1f(glGetUniformLocation(mID, pName), pValue);
 }
 
-void Shader::SetVec2f(const GLchar* pName, const glm::vec2& pValue)
+void Shader::SetVec2f(const GLchar* pName, const Vector2& pValue)
 {
-    glUniform2fv(glGetUniformLocation(mID, pName), 1, &pValue[0]);
+    glUniform2f(glGetUniformLocation(mID, pName), pValue.x, pValue.y);
 }
 
 void Shader::SetVec2f(const GLchar* pName, GLfloat pX, GLfloat pY)
@@ -128,9 +128,9 @@ void Shader::SetVec2f(const GLchar* pName, GLfloat pX, GLfloat pY)
     glUniform2f(glGetUniformLocation(mID, pName), pX, pY);
 }
 
-void Shader::SetVec3f(const GLchar* pName, const glm::vec3& pValue)
+void Shader::SetVec3f(const GLchar* pName, const Vector3& pValue)
 {
-    glUniform3fv(glGetUniformLocation(mID, pName), 1, &pValue[0]);
+    glUniform3f(glGetUniformLocation(mID, pName), pValue.x, pValue.y, pValue.z);
 }
 
 void Shader::SetVec3f(const GLchar* pName, GLfloat pX, GLfloat pY, GLfloat pZ)
@@ -138,9 +138,9 @@ void Shader::SetVec3f(const GLchar* pName, GLfloat pX, GLfloat pY, GLfloat pZ)
     glUniform3f(glGetUniformLocation(mID, pName), pX, pY, pZ);
 }
 
-void Shader::SetVec4f(const GLchar* pName, const glm::vec4& pValue)
+void Shader::SetVec4f(const GLchar* pName, const Vector4& pValue)
 {
-    glUniform4fv(glGetUniformLocation(mID, pName), 1, &pValue[0]);
+    glUniform4f(glGetUniformLocation(mID, pName), pValue.x, pValue.y, pValue.z, pValue.w);
 }
 
 void Shader::SetVec4f(const GLchar* pName, GLfloat pX, GLfloat pY, GLfloat pZ, GLfloat pW)
@@ -158,7 +158,12 @@ void Shader::SetMat3(const GLchar* pName, const glm::mat3& pMatrix)
     glUniformMatrix3fv(glGetUniformLocation(mID, pName), 1, GL_FALSE, &pMatrix[0][0]);
 }
 
-void Shader::SetMat4(const GLchar* pName, const glm::mat4& pMatrix)
+void Shader::SetMat4(const GLchar* pName, const Matrix4& pMatrix)
 {
-    glUniformMatrix4fv(glGetUniformLocation(mID, pName), 1, GL_FALSE, &pMatrix[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(mID, pName), 1, GL_TRUE, pMatrix.GetAsFloatPtr());
+}
+
+void Shader::SetMat4Row(const GLchar* pName, const Matrix4Row& pMatrix)
+{
+    glUniformMatrix4fv(glGetUniformLocation(mID, pName), 1, GL_TRUE, pMatrix.GetAsFloatPtr());
 }

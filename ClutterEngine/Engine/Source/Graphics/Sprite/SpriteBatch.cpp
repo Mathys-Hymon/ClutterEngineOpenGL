@@ -47,13 +47,13 @@ void SpriteBatch::RemoveSprite(SpriteComponent* comp)
 
 void SpriteBatch::Draw(Shader& pShader)
 {
-    mTexture.Bind();
     mVAO->Bind();
 
     for (SpriteComponent* comp : mComponents)
     {
-        glm::mat4 tempTransform = comp->GetTransform();
-        pShader.SetMat4("model", tempTransform);
+        Matrix4Row tempTransform = comp->GetWorldTransform().GetWorldTransform();
+        pShader.SetMat4Row("uWorldTransform", tempTransform);
+        mTexture.Bind();
         glDrawElements(GL_TRIANGLES, mVAO->GetIndicesCount(), GL_UNSIGNED_INT, nullptr);
     }
 

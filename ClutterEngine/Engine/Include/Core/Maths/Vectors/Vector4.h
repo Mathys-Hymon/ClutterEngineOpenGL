@@ -1,11 +1,8 @@
 #pragma once
 #include <Core/CCommon.h>
 
-class CLUTTER_API Vector4
+struct CLUTTER_API Vector4
 {
-	friend class Matrix4;
-
-public:
 	float x;
 	float y;
 	float z;
@@ -19,7 +16,7 @@ public:
 	{
 	}
 
-	explicit Vector4(float inX, float inY, float inZ, float inW)
+	Vector4(float inX, float inY, float inZ, float inW)
 		:x(inX)
 		, y(inY)
 		, z(inZ)

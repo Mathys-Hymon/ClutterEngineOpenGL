@@ -2,6 +2,7 @@
 #include <Core/CCommon.h>
 #include <Core/Maths/Maths.h>
 #include <Core/Maths/Vectors/Vector3.h>
+#include <Core/Maths/Matrix/Matrix4.h>
 
 struct Quaternion
 {

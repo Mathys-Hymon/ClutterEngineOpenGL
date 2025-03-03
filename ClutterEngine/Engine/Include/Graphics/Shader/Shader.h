@@ -1,7 +1,11 @@
 #pragma once
 #include <Core/CCommon.h>
 #include <glad/glad.h>
-#include <glm/glm.hpp>
+#include <Core/Maths/Vectors/Vector2.h>
+#include <Core/Maths/Vectors/Vector4.h>
+#include <Core/Maths/Matrix/Matrix4.h>
+#include <Core/Maths/Matrix/Matrix4Row.h>
+
 #include <string>
 
 namespace clt
@@ -29,17 +33,18 @@ namespace clt
 		void SetInt(const GLchar* pName, GLint pValue);
 		void SetFloat(const GLchar* pName, GLfloat pValue);
 
-		void SetVec2f(const GLchar* pName, const glm::vec2& pValue);
+		void SetVec2f(const GLchar* pName, const Vector2& pValue);
 		void SetVec2f(const GLchar* pName, GLfloat pX, GLfloat pY);
 
-		void SetVec3f(const GLchar* pName, const glm::vec3& pValue);
+		void SetVec3f(const GLchar* pName, const Vector3& pValue);
 		void SetVec3f(const GLchar* pName, GLfloat pX, GLfloat pY, GLfloat pZ);
 
-		void SetVec4f(const GLchar* pName, const glm::vec4& pValue);
+		void SetVec4f(const GLchar* pName, const Vector4& pValue);
 		void SetVec4f(const GLchar* pName, GLfloat pX, GLfloat pY, GLfloat pZ, GLfloat pW);
 
 		void SetMat2(const GLchar* pName, const glm::mat2& pMatrix);
 		void SetMat3(const GLchar* pName, const glm::mat3& pMatrix);
-		void SetMat4(const GLchar* pName, const glm::mat4& pMatrix);
+		void SetMat4(const GLchar* pName, const Matrix4& pMatrix);
+		void SetMat4Row(const GLchar* pName, const Matrix4Row& pMatrix);
 	};
 }

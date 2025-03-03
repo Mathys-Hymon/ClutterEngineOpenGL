@@ -1,6 +1,6 @@
 #pragma once
 #include <Core/ActorComponent/Component.h>
-#include <glm/glm.hpp>
+#include <Core/Maths/Matrix/Matrix4Row.h>
 
 namespace clt
 {
@@ -11,8 +11,7 @@ namespace clt
 
 	class CLUTTER_API CameraComponent : public Component
 	{
-		glm::mat4 mView;
-		glm::mat4 mProjection;
+		Matrix4Row mViewProj;
 		ProjectionMode mProjectionMode;
 
 		float mFov;
@@ -40,7 +39,7 @@ namespace clt
 		void SetActive(CameraComponent* cam);
 		static CameraComponent* GetActiveCamera();
 
-		const glm::mat4& GetViewMatrix() const { return mView; }
-		const glm::mat4& GetProjectionMatrix() const { return mProjection; }
+		const Matrix4& GetViewMatrix() const { return mViewProj; }
+		const Matrix4& GetProjectionMatrix() const { return mProjection; }
 	};
 }

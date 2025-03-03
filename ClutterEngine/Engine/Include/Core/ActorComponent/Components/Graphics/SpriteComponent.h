@@ -3,7 +3,6 @@
 #include <Graphics/RendererGL.h>
 #include <Core/Levels/Level.h>
 #include <Core/Assets/AssetsType/Texture.h>
-#include <glm/gtc/matrix_transform.hpp>
 
 namespace clt
 {
@@ -38,7 +37,6 @@ namespace clt
 		int GetTexWidth() const { return mTexWidth; };
 		int GetTexHeight() const { return mTexHeight; };
 		Texture* GetTexture() const { return mTexture; };
-		glm::mat4 GetTransform() const;
 	};
 
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include <Core/CCommon.h>
-#include <Core/Maths/Transforms/Transform2D.h>
+#include <Core/Maths/Transforms/Transform.h>
 #include <unordered_map>
 #include <vector>
 
@@ -36,7 +36,7 @@ namespace clt
         std::string mName;
         ActorState mState; ///< The state of the actor.
         Level* mLevel; ///< The scene the actor is attached to.
-        Transform2D mTransform; ///< The transform of the actor.
+        Transform mTransform; ///< The transform of the actor.
 
         std::unordered_map<size_t, Component*> mComponents; ///< Map of components by their ID.
         std::vector<Component*> mComponentsByUpdateOrder; ///< Components ordered by update order.
@@ -98,23 +98,23 @@ namespace clt
          * @brief Gets the transform of the actor.
          * @return The transform of the actor.
          */
-        Transform2D getTransform() const { return mTransform; };
+        Transform getTransform() const { return mTransform; };
 
         /**
          * @brief Gets the position of the actor.
          * @return The position of the actor.
          */
-        Vector2 GetActorLocation() const { return mTransform.location; };
+        Vector3 GetActorLocation() const { return mTransform.location; };
 
         /**
          * @brief Gets the scale of the actor.
          * @return The scale of the actor.
          */
-        Vector2 GetScale() const { return mTransform.scale; };
+        Vector3 GetScale() const { return mTransform.scale; };
 
         std::string GetName() const { return mName; };
 
-        float GetRotation() const { return mTransform.rotation; };
+        Quaternion GetRotation() const { return mTransform.rotation; };
         /**
          * @brief Virtual method called when the actor collides with another actor.
          * @param other The other actor.
@@ -131,31 +131,56 @@ namespace clt
          * @brief Sets the location of the actor.
          * @param loc The new location.
          */
-        void SetActorLocation(Vector2 loc) { mTransform.location = loc; };
+        void SetActorLocation(Vector3 loc) 
+        { 
+            mTransform.location = loc;
+            mTransform.ComputeWorldTransform();
+        };
 
         /**
          * @brief Sets the scale of the actor.
          * @param scale The new scale.
          */
-        void SetActorScale(Vector2 scale) { mTransform.scale = scale; };
-        void SetActorScale(float scale) { mTransform.scale = {scale, scale}; };
+        void SetActorScale(Vector3 scale) 
+        { 
+            mTransform.scale = scale;
+            mTransform.ComputeWorldTransform();
+        };
+
+        void SetActorScale(float scale) 
+        { 
+            mTransform.scale = {scale, scale, scale}; 
+            mTransform.ComputeWorldTransform();
+        };
         /**
          * @brief Sets the rotation of the actor.
          * @param rot The new rotation.
          */
-        void SetActorRotation(float rot) { mTransform.rotation = rot; };
+        void SetActorRotation(Quaternion rot) 
+        { 
+            mTransform.rotation = rot; 
+            mTransform.ComputeWorldTransform();
+        };
 
         /**
          * @brief Adds an offset to the actor's location.
          * @param locOffset The location offset.
          */
-        void AddActorLocationOffset(Vector2 locOffset) { mTransform.location += locOffset; };
+        void AddActorLocationOffset(Vector3 locOffset) 
+        { 
+            mTransform.location += locOffset; 
+            mTransform.ComputeWorldTransform();
+        };
 
         /**
          * @brief Adds an offset to the actor's rotation.
          * @param rotOffset The rotation offset.
          */
-        void AddActorRotationOffset(float rotOffset) { mTransform.rotation += rotOffset; };
+        void AddActorRotationOffset(Quaternion rotOffset) 
+        { 
+            mTransform.rotation += rotOffset; 
+            mTransform.ComputeWorldTransform();
+        };
 
         /**
          * @brief Gets the level the actor is attached to.

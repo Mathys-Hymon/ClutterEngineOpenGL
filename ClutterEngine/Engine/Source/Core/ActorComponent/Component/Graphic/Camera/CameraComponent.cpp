@@ -58,13 +58,12 @@ CameraComponent* CameraComponent::GetActiveCamera()
 
 void CameraComponent::UpdateViewMatrix()
 {
-	Vector2 tempPos = mOwner->GetActorLocation() + mRelativeTransform.location;
-	glm::vec2 pos = tempPos.ToGlm();
+	Vector3 tempPos = mOwner->GetActorLocation() + mRelativeTransform.Location();
 
-	mView = glm::mat4(1.0f);
-	mView = glm::translate(mView, glm::vec3(pos.x, pos.y, 0.0f));
-	mView = glm::rotate(mView, glm::radians(-mRelativeTransform.rotation), glm::vec3(0.0f, 0.0f, 1.0f));
-	mView = glm::scale(mView, glm::vec3(-mZoom, -mZoom, 1.0f));
+	mViewProj = Matrix4Row();
+	mViewProj = glm::translate(mViewProj, glm::vec3(pos.x, pos.y, 0.0f));
+	mViewProj = glm::rotate(mViewProj, glm::radians(-mRelativeTransform.rotation), glm::vec3(0.0f, 0.0f, 1.0f));
+	mViewProj = glm::scale(mViewProj, glm::vec3(-mZoom, -mZoom, 1.0f));
 }
 
 void CameraComponent::UpdateProjectionMatrix()
@@ -72,12 +71,12 @@ void CameraComponent::UpdateProjectionMatrix()
 	if (mProjectionMode == ProjectionMode::Orthographic)
 	{
 		mProjection = glm::ortho(
-			-mViewSize.x / 2,    // Left
+			-mViewSize.x / 2,     // Left
 			 mViewSize.x / 2,    // Right
-			 mViewSize.y / 2,    // Bottom
-			-mViewSize.y / 2,    // Top
-			-1.0f,				 // Near
-			 mFarPlane			 // Far
+			 mViewSize.y / 2,   // Bottom
+			-mViewSize.y / 2,  // Top
+			-1.0f,			  // Near
+			 mFarPlane		 // Far
 		);
 	}
 	else    // PERSPECTIVE PROJECTION
