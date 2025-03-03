@@ -3,7 +3,7 @@
 #include <Core/Assets/Assets.h>
 #include <Graphics/Shader/Shader.h>
 #include <Core/Maths/CRectangle.h>
-#include <Graphics/Sprite/SpriteBatch.h>
+#include <Graphics/Shader/VertexArray.h>
 #include <Graphics/IRenderer.h>
 
 namespace clt
@@ -18,12 +18,15 @@ namespace clt
 	class CLUTTER_API RendererGL : public IRenderer
 	{
 		//std::unordered_set<Texture*> mBindedTextures;
-		std::unordered_map<Texture*, SpriteBatch*> mSpriteBatches;
+		//std::unordered_map<Texture*, SpriteBatch*> mSpriteBatches;
 		std::vector<GraphicComponent*> mComponents;
 
-		std::vector<GLfloat> mBuffers;
-		Shader mShader;
+		std::vector<SpriteComponent*> mSpriteComponents;
+
 		Shader mUIShader;
+		VertexArray* mUiVAO;
+
+		Matrix4Row mUiViewProj;
 
 		CEngine* mEngine;
 

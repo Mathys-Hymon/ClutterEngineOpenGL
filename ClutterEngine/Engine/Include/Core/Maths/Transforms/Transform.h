@@ -86,7 +86,7 @@ public:
     Vector3 Location() const { return location; };
     Vector3 Scale() const { return scale; };
     Quaternion Rotation() const { return rotation; };
-    Matrix4Row GetWorldTransform() const { return mWorldTransform; }
+    Matrix4Row GetMat4Transform() const { return mWorldTransform; }
 
     //friend Transform operator+(Transform left, Transform right)
     //{
@@ -95,11 +95,20 @@ public:
 
     void ComputeWorldTransform()
     {
-        mWorldTransform =  Matrix4Row::CreateScale(scale);
+        mWorldTransform = Matrix4Row::CreateScale(scale);
         mWorldTransform *= Matrix4Row::CreateRotationX(rotation.x);
         mWorldTransform *= Matrix4Row::CreateRotationY(rotation.y);
         mWorldTransform *= Matrix4Row::CreateRotationZ(rotation.z);
         mWorldTransform *= Matrix4Row::CreateTranslation(location);
+    }
+
+    void ComputeWorldTransform(Transform other)
+    {
+        mWorldTransform = Matrix4Row::CreateScale(scale * other.scale);
+        mWorldTransform *= Matrix4Row::CreateRotationX(rotation.x + other.rotation.x);
+        mWorldTransform *= Matrix4Row::CreateRotationY(rotation.y + other.rotation.y);
+        mWorldTransform *= Matrix4Row::CreateRotationZ(rotation.z + other.rotation.z);
+        mWorldTransform *= Matrix4Row::CreateTranslation(location + other.location);
     }
 
 };

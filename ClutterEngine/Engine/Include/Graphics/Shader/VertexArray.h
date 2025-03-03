@@ -13,6 +13,7 @@ namespace clt
 		u32 mIndexBufferId;
 
 	public:
+		VertexArray() {};
 		VertexArray(const float* pVertices, u32 pVerticeCount, const u32* pIndices, u32 pIndexCount);
 		~VertexArray();
 

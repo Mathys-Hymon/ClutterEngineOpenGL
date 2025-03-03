@@ -204,7 +204,6 @@
     <ClInclude Include="Engine\Include\Core\Levels\LevelManager.h" />
     <ClInclude Include="Engine\Include\Graphics\Shader\Shader.h" />
     <ClInclude Include="Engine\Include\Graphics\Shader\VertexArray.h" />
-    <ClInclude Include="Engine\Include\Graphics\Sprite\SpriteBatch.h" />
     <ClInclude Include="Engine\Include\Input\Input.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Movements\PlayerController.h" />
     <ClInclude Include="Engine\Include\Input\InputData.h" />
@@ -241,7 +240,6 @@
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Camera\CameraComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\FlipbookComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\Timer.cpp" />
-    <ClCompile Include="Engine\Source\Graphics\Sprite\SpriteBatch.cpp" />
     <ClCompile Include="Engine\Source\Core\Maths\Vectors\Vector2.cpp" />
     <ClCompile Include="Engine\Source\Graphics\Shader\Shader.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\SpriteComponent.cpp" />

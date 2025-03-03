@@ -12,7 +12,6 @@
 clt::Actor* player;
 clt::Actor* camera;
 clt::Actor* block;
-clt::Actor* block2;
 clt::Actor* crate;
 
 TestLevel::TestLevel(std::string pName) : clt::Level(pName)
@@ -32,7 +31,7 @@ void TestLevel::Load()
 
 	jumpAnim = clt::Assets::Get().BulkLoadTexture("Content/Resources/Sprites/", 4, "_playerjumpv2.png", "_jump", TextureFilter::NEAREST);
 
-	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/tile.png", "tile", TextureFilter::NEAREST);
+	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/theBlock.png", "tile", TextureFilter::NEAREST);
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/crate.png", "crate", TextureFilter::NEAREST);
 
 	clt::Input::Get().MapKeysToAxis( EKey::A, EKey::D, "PlayerMovement");
@@ -43,28 +42,22 @@ void TestLevel::Load()
 	player = GetActorOfType<clt::Actor>();
 	camera = AddActor(new clt::Actor("camera"));
 	block  = AddActor(new clt::Actor("block"));
-	block2 = AddActor(new clt::Actor("block2"));
 	crate  = AddActor(new clt::Actor("crate"));
 
 	camera->AddComponent<clt::CameraComponent>();
 
-	crate->AddComponent<clt::AABBCollider>(Vector2(16, 16));
-	crate->AddComponent<clt::RigidBody2D>();
+	//crate->AddComponent<clt::AABBCollider>(Vector2(16, 16));
+	//crate->AddComponent<clt::RigidBody2D>();
 	crate->AddComponent<clt::SpriteComponent>(clt::Assets::Get().GetTexture("crate"));
-	crate->SetActorScale(4);
+	crate->SetActorScale(16);
 	crate->SetActorLocation({ 100, 0 });
 
-	block->AddComponent<clt::AABBCollider>(Vector2(16, 16));
+	//block->AddComponent<clt::AABBCollider>(Vector2(16, 16));
 	block->AddComponent<clt::SpriteComponent>(clt::Assets::Get().GetTexture("tile"));
-	block->SetActorLocation({ 0, -300 });
-	block->SetActorScale({50,3});
+	block->SetActorLocation({ 0, 0 });
+	block->SetActorScale(16);
 
-	block2->AddComponent<clt::AABBCollider>(Vector2(16,16 ));
-	block2->AddComponent<clt::SpriteComponent>(clt::Assets::Get().GetTexture("tile"));
-	block2->SetActorLocation({ 50, -150 });
-    block2->SetActorScale({ 5,3 });
-
-	player->AddComponent<clt::AnimatorComponent>("walk", runAnim);
+	/*player->AddComponent<clt::AnimatorComponent>("walk", runAnim);
 	player->GetComponentOfType<clt::AnimatorComponent>()->AddNewAnim("jump", jumpAnim, false);
 	player->GetComponentOfType<clt::AnimatorComponent>()->GetAnim("jump")->SetFlipbookFps(7);
 
@@ -72,9 +65,9 @@ void TestLevel::Load()
 	player->GetComponentOfType<clt::AABBCollider>()->SetRelativeLocation({0, -4});
 	player->AddComponent<clt::RigidBody2D>();
 	player->AddComponent<clt::SpringArmComponent>(camera, 10);
-	player->AddComponent<clt::PlayerController>("PlayerMovement", "Jump", 25);
+	player->AddComponent<clt::PlayerController>("PlayerMovement", "Jump", 25);*/
 
-	player->SetActorScale(5);
+	//player->SetActorScale(5);
 }
 
 void TestLevel::Update()

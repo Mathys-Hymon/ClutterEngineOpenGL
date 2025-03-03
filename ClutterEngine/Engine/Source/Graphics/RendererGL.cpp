@@ -2,6 +2,7 @@
 #include<Graphics/RendererGL.h>  
 #include<Core/ActorComponent/Components/Graphics/SpriteComponent.h>  
 #include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
+#include <Core/CEngine.h>
 
 using namespace clt;  
 
@@ -22,23 +23,38 @@ bool RendererGL::Initialize(CEngine* pEngine)
    const auto spriteVertPath = "Content/Shaders/transform.vert";  
    const auto spriteFragPath = "Content/Shaders/sprite.frag";  
 
-   mShader = Shader();  
-   mShader.Load(spriteVertPath, spriteFragPath);
+   mUIShader = Shader();  
+   mUIShader.Load(spriteVertPath, spriteFragPath);
 
-   mUIShader = Shader();
+   // set up vertex data
+   GLfloat vertices[] = {
+       // first triangle
+   // Positions     // UV
+   -0.5f,  0.5f,   0.0f, 1.0f, // bottom-left
+    0.5f,  0.5f,   1.0f, 1.0f, // bottom-right
+    0.5f, -0.5f,   1.0f, 0.0f, // top-right
+   -0.5f, -0.5f,   0.0f, 0.0f  // top-left
+   };
+
+   constexpr unsigned int indices[] = {
+   0, 1, 2,
+   2, 3, 0
+   };
+
+
+   mUiVAO = new VertexArray(vertices, 4, indices, 6);
+
+   mUiViewProj = Matrix4Row::CreateSimpleViewProj(pEngine->GetWindow()->GetDimensions().x, 
+                                                  pEngine->GetWindow()->GetDimensions().y);
 
 }  
 
 void RendererGL::Close()  
 {  
-   // clear the SpriteBatch  
-   for (auto& pair : mSpriteBatches)  
-   {  
-       delete pair.second;  
-   }  
-   mSpriteBatches.clear();  
+   mSpriteComponents.clear();  
 
    Assets::Get().ClearTextures();  
+   delete mUiVAO;
 }  
 
 void RendererGL::AddGraphicComponent(GraphicComponent* pComp)  
@@ -70,33 +86,40 @@ void RendererGL::RemoveGraphicComponent(GraphicComponent* pComp)
 
 void RendererGL::AddSpriteComponent(SpriteComponent* pComp)  
 {  
-   Texture* tex = pComp->GetTexture();  
+    int compDrawOrder = pComp->GetDrawOrder();
 
-   if (mSpriteBatches.find(tex) == mSpriteBatches.end())  
-   {  
-       mSpriteBatches[tex] = new SpriteBatch(*tex);  
-   }  
-   mSpriteBatches[tex]->AddSprite(pComp);  
+    if (!mSpriteComponents.empty())
+    {
+        std::vector<SpriteComponent*>::iterator gc;
+        for (gc = mSpriteComponents.begin(); gc != mSpriteComponents.end(); gc++)
+        {
+            if (compDrawOrder < (*gc)->GetDrawOrder()) break;
+        }
+        mSpriteComponents.insert(gc, pComp);
+    }
+    else
+    {
+        mSpriteComponents.emplace_back(pComp);
+    }
 }  
 
 void RendererGL::RemoveSpriteComponent(SpriteComponent* pComp)  
 {  
-   Texture* tex = pComp->GetTexture();  
+    std::vector<SpriteComponent*>::iterator gc;
+    gc = std::find(mSpriteComponents.begin(), mSpriteComponents.end(), pComp);
 
-   if (mSpriteBatches.find(tex) != mSpriteBatches.end())  
-   {  
-       mSpriteBatches[tex]->RemoveSprite(pComp);  
-   }  
+    if (gc != mSpriteComponents.end()) mSpriteComponents.erase(gc);
 }  
 
 void RendererGL::BeginDraw()  
 {  
    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);         // Define the background Color  
-   glClear(GL_COLOR_BUFFER_BIT);                 // Clear the background color and depth  
+   glClear(GL_COLOR_BUFFER_BIT);                // Clear the background color and depth  
    glEnable(GL_BLEND);  
    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  
+   glClearDepth(false);
 
-   mShader.Use();  
+   mUIShader.Use();
 }  
 
 void RendererGL::Draw()  
@@ -105,7 +128,7 @@ void RendererGL::Draw()
 
    if (camera)  
    {  
-       mShader.SetMat4Row("uViewProj", camera->GetViewMatrix());
+       mUIShader.SetMat4Row("uViewProj", mUiViewProj);
    }  
    else  
    {  
@@ -116,17 +139,19 @@ void RendererGL::Draw()
    {  
        if(comp->IsActive()) comp->Draw(*this);
    }  
+   mUiVAO->Bind();
 
-   for (auto& pair : mSpriteBatches)  
+   for (auto& comp : mSpriteComponents)
    {
-       pair.second->Draw(mShader);  
-   }  
+       Matrix4Row tempTransform = comp->GetWorldTransform().GetMat4Transform();
+       mUIShader.SetMat4Row("uWorldTransform", tempTransform);
+       comp->GetTexture()->Bind();
+       glDrawElements(GL_TRIANGLES, mUiVAO->GetIndicesCount(), GL_UNSIGNED_INT, nullptr);
+   }
+
+   mUiVAO->Unbind();
 }  
 
 void RendererGL::EndDraw()  
 {  
-   for (auto& pair : mSpriteBatches)  
-   {  
-       pair.second->EndDraw();  
-   }  
 }

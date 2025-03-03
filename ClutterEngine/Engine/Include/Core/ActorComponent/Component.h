@@ -20,6 +20,7 @@ namespace clt
         virtual void SetOwner(Actor* pOwner) 
         { 
             mOwner = pOwner; 
+            mRelativeTransform.ComputeWorldTransform(pOwner->getTransform());
             Start();
         };
 
@@ -71,12 +72,30 @@ namespace clt
          */
         int GetUpdateOrder() const { return mUpdateOrder; }
 
-        void SetRelativeLocation(const Vector3& loc)    { mRelativeTransform.SetLocation(loc); };
-        void SetRelativeLocation(const Vector2& loc) { mRelativeTransform.SetLocation(loc); };
-        void SetRelativeScale(const Vector3& scale)     { mRelativeTransform.SetScale(scale);  };
-        void SetRelativeScale(const Vector2& scale) { mRelativeTransform.SetScale(scale); };
-        void SetRelativeRotation(Quaternion rot)        { mRelativeTransform.SetRotation(rot); };
-        void SetRelativeRotation(float rot) { mRelativeTransform.SetRotation(rot); };
+        void SetRelativeLocation(const Vector3& loc) { 
+            mRelativeTransform.SetLocation(loc); 
+            mRelativeTransform.ComputeWorldTransform(mOwner->getTransform());
+        };
+        void SetRelativeLocation(const Vector2& loc) {
+            mRelativeTransform.SetLocation(loc); 
+            mRelativeTransform.ComputeWorldTransform(mOwner->getTransform());
+        };
+        void SetRelativeScale(const Vector3& scale)  { 
+            mRelativeTransform.SetScale(scale);  
+            mRelativeTransform.ComputeWorldTransform(mOwner->getTransform());
+        };
+        void SetRelativeScale(const Vector2& scale) { 
+            mRelativeTransform.SetScale(scale);
+            mRelativeTransform.ComputeWorldTransform(mOwner->getTransform());
+        };
+        void SetRelativeRotation(Quaternion rot)    { 
+            mRelativeTransform.SetRotation(rot); 
+            mRelativeTransform.ComputeWorldTransform(mOwner->getTransform());
+        };
+        void SetRelativeRotation(float rot) { 
+            mRelativeTransform.SetRotation(rot); 
+            mRelativeTransform.ComputeWorldTransform(mOwner->getTransform());
+        };
         void SetRelativeTransform(Transform& transform) 
         {
             SetRelativeLocation(transform.Location());
