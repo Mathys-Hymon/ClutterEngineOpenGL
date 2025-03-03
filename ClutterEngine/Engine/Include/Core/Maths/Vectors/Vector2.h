@@ -7,6 +7,7 @@
  * @param interpSpeed The interpolation speed.
  * @return The interpolated vector.
  */
+#include <algorithm>
 #include "cmath"
 #include <glm/glm.hpp>
 #include "string"
@@ -372,20 +373,6 @@ struct Vector2
     }
 
     /**
-     * @brief Clamps a value to the given range.
-     * @param value The value to clamp.
-     * @param minValue The minimum value.
-     * @param maxValue The maximum value.
-     * @return The clamped value.
-     */
-    static float Clamp(float value, float minValue, float maxValue)
-    {
-        if (value < minValue) return minValue;
-        if (value > maxValue) return maxValue;
-        return value;
-    }
-
-    /**
      * @brief Linearly interpolates between two vectors.
      * @param current The current vector.
      * @param target The target vector.
@@ -399,7 +386,7 @@ struct Vector2
         {
             return target;
         }
-        Vector2 result = current + (target - current) * Clamp(deltaTime * interpSpeed, 0.0f, 1.0f);
+        Vector2 result = current + (target - current) * std::clamp(deltaTime * interpSpeed, 0.0f, 1.0f);
         return result;
     }
 

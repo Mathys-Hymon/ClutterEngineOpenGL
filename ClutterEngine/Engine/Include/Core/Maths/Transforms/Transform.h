@@ -15,6 +15,7 @@ class CLUTTER_API Transform
 public:
 
     Transform() { ComputeWorldTransform(); };
+    Transform(Vector3 pLocation, Vector3 pScale, Quaternion pRotation) : location(pLocation), scale(pScale), rotation(pRotation) { ComputeWorldTransform(); };
 
     Vector3 Right() const 
     {
@@ -39,6 +40,47 @@ public:
         float pitch = Maths::ToRad(rotation.x);
         Vector3 tempForward = { -Maths::Sin(yaw) * Maths::Cos(pitch),  Maths::Sin(pitch),  -Maths::Cos(yaw) * Maths::Cos(pitch) };
         return Vector3::Normalize(tempForward);
+    }
+
+    void SetLocation(Vector3 newLocation)
+    {
+        location = newLocation;
+        ComputeWorldTransform();
+    }
+
+    void SetLocation(Vector2 newLocation)
+    {
+        location = newLocation;
+        ComputeWorldTransform();
+    }
+
+    void SetRotation(Quaternion newRotation)
+    {
+        rotation = newRotation;
+        ComputeWorldTransform();
+    }
+
+    void SetRotation(float newRotation)
+    {
+        rotation = newRotation;
+        ComputeWorldTransform();
+    }
+
+    void SetScale(Vector3 newScale)
+    {
+        scale = newScale;
+        ComputeWorldTransform();
+    }
+
+    void SetScale(Vector2 newScale)
+    {
+        scale = newScale;
+        ComputeWorldTransform();
+    }
+
+    Transform operator+(const Transform& q) const
+    {
+        return { location + q.location, scale + q.scale, rotation + q.rotation };
     }
 
     Vector3 Location() const { return location; };

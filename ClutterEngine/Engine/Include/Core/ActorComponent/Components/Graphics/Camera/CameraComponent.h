@@ -17,12 +17,10 @@ namespace clt
 		float mFov;
 		float mNearPlane;
 		float mFarPlane;
-		float mZoom;
 
 		Vector2 mViewSize;
 
-		void UpdateViewMatrix();
-		void UpdateProjectionMatrix();
+		void UpdateProjViewMatrix();
 
 		virtual void SetOwner(Actor* pOwner) override;
 
@@ -39,7 +37,6 @@ namespace clt
 		void SetActive(CameraComponent* cam);
 		static CameraComponent* GetActiveCamera();
 
-		const Matrix4& GetViewMatrix() const { return mViewProj; }
-		const Matrix4& GetProjectionMatrix() const { return mProjection; }
+		const Matrix4Row& GetViewMatrix() const { return mViewProj; }
 	};
 }

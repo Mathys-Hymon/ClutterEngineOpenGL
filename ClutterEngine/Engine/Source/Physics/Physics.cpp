@@ -17,17 +17,17 @@ Physics::~Physics()
 // Adds a collider to the physics engine
 void Physics::AddCollider(Collider2DComponent* pCollider)
 {
-    mColliders.push_back(pCollider);
-    if (mColliderEvent.find(pCollider) == mColliderEvent.end())
+    mColliders2D.push_back(pCollider);
+    if (m2DColliderEvent.find(pCollider) == m2DColliderEvent.end())
     {
-        mColliderEvent[pCollider] = new CollisionEvent();
+        m2DColliderEvent[pCollider] = new CollisionEvent();
     }
 }
 
 // Adds a rigidbody to the physics engine
 void Physics::AddRigidbody(RigidBody2D* pRigidbody)
 {
-    mRigidbody.push_back(pRigidbody);
+    mRigidbody2D.push_back(pRigidbody);
 }
 
 // Removes a rigidbody from the physics engine
@@ -39,29 +39,29 @@ void Physics::RemoveRigidBody(RigidBody2D* pRigidbody)
 // Removes a collider from the physics engine
 void Physics::RemoveCollider(Collider2DComponent* pCollider)
 {
-    mColliders.erase(std::remove(mColliders.begin(), mColliders.end(), pCollider), mColliders.end());
-    if (mColliderEvent.find(pCollider) != mColliderEvent.end()) {
-        delete mColliderEvent[pCollider];
-        mColliderEvent.erase(pCollider);
+    mColliders2D.erase(std::remove(mColliders2D.begin(), mColliders2D.end(), pCollider), mColliders2D.end());
+    if (m2DColliderEvent.find(pCollider) != m2DColliderEvent.end()) {
+        delete m2DColliderEvent[pCollider];
+        m2DColliderEvent.erase(pCollider);
     }
 }
 
 // Subscribes a listener to collision events for a specific collider
 void Physics::SubscribeTo(Collider2DComponent* pCollider, ICollisionListener* pListener)
 {
-    size_t hasCollider = mColliderEvent.count(pCollider);
+    size_t hasCollider = m2DColliderEvent.count(pCollider);
 
     if (!hasCollider)
     {
-        mColliderEvent[pCollider] = new CollisionEvent();
+        m2DColliderEvent[pCollider] = new CollisionEvent();
     }
-    mColliderEvent[pCollider]->Subscribe(pListener);
+    m2DColliderEvent[pCollider]->Subscribe(pListener);
 }
 
 // Updates the physics engine, applying gravity and checking for collisions
 void Physics::Update()
 {
-    for (auto& rb : mRigidbody)
+    for (auto& rb : mRigidbody2D)
     {
         if (!rb->mIsKinematic && rb->IsActive())
         {
@@ -81,19 +81,19 @@ void Physics::Update()
 // Checks for collisions between all colliders
 void Physics::CheckCollisions()
 {
-    mCurrentFrameCollisions.clear();
+    mCurrentFrameCollisions2D.clear();
 
-    for (size_t i = 0; i < mColliders.size(); i++)
+    for (size_t i = 0; i < mColliders2D.size(); i++)
     {
-        for (size_t j = i + 1; j < mColliders.size(); j++)
+        for (size_t j = i + 1; j < mColliders2D.size(); j++)
         {
-            Collider2DComponent* a = mColliders[i];
-            Collider2DComponent* b = mColliders[j];
-            hitResult result;
+            Collider2DComponent* a = mColliders2D[i];
+            Collider2DComponent* b = mColliders2D[j];
+            hitResult2D result;
 
             if (a->CheckCollision(b, result))
             {
-                mCurrentFrameCollisions.push_back(result);
+                mCurrentFrameCollisions2D.push_back(result);
             }
         }
     }
@@ -103,7 +103,7 @@ void Physics::CheckCollisions()
 void Physics::ResolveCollisions()
 {
     // Iterate through all current frame collisions
-    for (auto& result : mCurrentFrameCollisions)
+    for (auto& result : mCurrentFrameCollisions2D)
     {
         // Get the rigid bodies involved in the collision
         RigidBody2D* rbA = result.ActorA->GetComponentOfType<RigidBody2D>();
@@ -153,7 +153,7 @@ void Physics::ResolveCollisions()
                 {
                     // Calculate torque based on collision point
                     Vector2 contactPoint = result.Point;
-                    Vector2 centerA = result.ActorA->GetActorLocation();
+                    Vector2 centerA = result.ActorA->GetActorLocation().xy();
                     Vector2 contactOffset = centerA - contactPoint;
 
                     Vector2 gravityForce = Vector2(0.0f, rbA->mMass * mGravity.y * rbA->mGravityScale);
@@ -205,7 +205,7 @@ void Physics::ResolveCollisions()
                 {
                     // Calculate torque based on collision point
                     Vector2 contactPoint = result.Point;
-                    Vector2 centerB = rbB->GetWorldPosition();
+                    Vector2 centerB = rbB->GetWorldPosition().xy();
                     Vector2 contactOffset = centerB - contactPoint;
 
                     Vector2 gravityForce = Vector2(0.0f, rbB->mMass * mGravity.y * rbB->mGravityScale);
@@ -262,8 +262,8 @@ void Physics::ResolveCollisions()
 
                 // Calculate torque based on collision point
                 Vector2 contactPoint = result.Point;
-                Vector2 centerA = result.ActorA->GetActorLocation();
-                Vector2 centerB = result.ActorB->GetActorLocation();
+                Vector2 centerA = result.ActorA->GetActorLocation().xy();
+                Vector2 centerB = result.ActorB->GetActorLocation().xy();
                 Vector2 rA = contactPoint - centerA;
                 Vector2 rB = contactPoint - centerB;
                 Vector2 force = result.Normal * impulseMagnitude * 5;
@@ -289,7 +289,7 @@ void Physics::DispatchEvents()
 {
     std::set<std::pair<Collider2DComponent*, Collider2DComponent*>> currentCollisions;
 
-    for (hitResult& result : mCurrentFrameCollisions)
+    for (hitResult2D& result : mCurrentFrameCollisions2D)
     {
         auto colliderPair = (result.ColliderA < result.ColliderB)
             ? std::make_pair(result.ColliderA, result.ColliderB)
@@ -301,20 +301,20 @@ void Physics::DispatchEvents()
     // ENTER
     for (auto& colliderPair : currentCollisions)
     {
-        if (!mPreviousCollisions.count(colliderPair))
+        if (!mPreviousCollisions2D.count(colliderPair))
         {
-            for (hitResult& result : mCurrentFrameCollisions)
+            for (hitResult2D& result : mCurrentFrameCollisions2D)
             {
                 if ((result.ColliderA == colliderPair.first && result.ColliderB == colliderPair.second) ||
                     (result.ColliderA == colliderPair.second && result.ColliderB == colliderPair.first))
                 {
-                    if (mColliderEvent.count(result.ColliderA))
+                    if (m2DColliderEvent.count(result.ColliderA))
                     {
-                        mColliderEvent[result.ColliderA]->NotifyEnter(result);
+                        m2DColliderEvent[result.ColliderA]->NotifyEnter(result);
                     }
-                    if (mColliderEvent.count(result.ColliderB))
+                    if (m2DColliderEvent.count(result.ColliderB))
                     {
-                        mColliderEvent[result.ColliderB]->NotifyEnter(result);
+                        m2DColliderEvent[result.ColliderB]->NotifyEnter(result);
                     }
                     break;
                 }
@@ -323,22 +323,22 @@ void Physics::DispatchEvents()
     }
 
     // STAY
-    for (auto& colliderPair : mPreviousCollisions)
+    for (auto& colliderPair : mPreviousCollisions2D)
     {
         if (currentCollisions.count(colliderPair))
         {
-            for (hitResult& result : mCurrentFrameCollisions)
+            for (hitResult2D& result : mCurrentFrameCollisions2D)
             {
                 if ((result.ColliderA == colliderPair.first && result.ColliderB == colliderPair.second) ||
                     (result.ColliderB == colliderPair.second && result.ColliderB == colliderPair.first))
                 {
-                    if (mColliderEvent.count(result.ColliderA))
+                    if (m2DColliderEvent.count(result.ColliderA))
                     {
-                        mColliderEvent[result.ColliderA]->NotifyStay(result);
+                        m2DColliderEvent[result.ColliderA]->NotifyStay(result);
                     }
-                    if (mColliderEvent.count(result.ColliderB))
+                    if (m2DColliderEvent.count(result.ColliderB))
                     {
-                        mColliderEvent[result.ColliderB]->NotifyStay(result);
+                        m2DColliderEvent[result.ColliderB]->NotifyStay(result);
                     }
                 }
             }
@@ -346,22 +346,22 @@ void Physics::DispatchEvents()
     }
 
     // EXIT
-    for (auto& colliderPair : mPreviousCollisions)
+    for (auto& colliderPair : mPreviousCollisions2D)
     {
         if (!currentCollisions.count(colliderPair))
         {
-            for (hitResult& prevResult : mPreviousFrameCollisions)
+            for (hitResult2D& prevResult : mPreviousFrameCollisions2D)
             {
                 if ((prevResult.ColliderA == colliderPair.first && prevResult.ColliderB == colliderPair.second) ||
                     (prevResult.ColliderA == colliderPair.second && prevResult.ColliderB == colliderPair.first))
                 {
-                    if (mColliderEvent.count(colliderPair.first))
+                    if (m2DColliderEvent.count(colliderPair.first))
                     {
-                        mColliderEvent[colliderPair.first]->NotifyExit(prevResult);
+                        m2DColliderEvent[colliderPair.first]->NotifyExit(prevResult);
                     }
-                    if (mColliderEvent.count(colliderPair.second))
+                    if (m2DColliderEvent.count(colliderPair.second))
                     {
-                        mColliderEvent[colliderPair.second]->NotifyExit(prevResult);
+                        m2DColliderEvent[colliderPair.second]->NotifyExit(prevResult);
                     }
                 }
             }

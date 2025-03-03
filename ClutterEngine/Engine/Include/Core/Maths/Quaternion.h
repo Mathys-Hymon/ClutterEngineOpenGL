@@ -2,9 +2,8 @@
 #include <Core/CCommon.h>
 #include <Core/Maths/Maths.h>
 #include <Core/Maths/Vectors/Vector3.h>
-#include <Core/Maths/Matrix/Matrix4.h>
 
-struct Quaternion
+struct CLUTTER_API Quaternion
 {
 	float x;
 	float y;
@@ -18,12 +17,14 @@ struct Quaternion
 
 	// This directly sets the quaternion components --
 	// don't use for axis/angle
-	explicit Quaternion(float inX, float inY, float inZ, float inW);
+	Quaternion(float inX, float inY, float inZ, float inW);
 
 	// Construct the quaternion from an axis and angle
 	// It is assumed that axis is already normalized,
 	// and the angle is in radians
-	explicit Quaternion(const Vector3& axis, float angle);
+	Quaternion(const Vector3& axis, float angle);
+
+	Quaternion(float inAll);
 
 	void Set(float inX, float inY, float inZ, float inW);
 	void Conjugate();
@@ -37,6 +38,12 @@ struct Quaternion
 	float Length() const
 	{
 		return Maths::Sqrt(LengthSqr());
+	}
+
+
+	Quaternion operator+(const Quaternion& q) const
+	{
+		return Quaternion(x + q.x, y + q.y, z + q.z, w + q.w);
 	}
 
 	// Normalize the provided quaternion

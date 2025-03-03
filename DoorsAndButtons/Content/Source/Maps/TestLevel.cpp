@@ -69,7 +69,7 @@ void TestLevel::Load()
 	player->GetComponentOfType<clt::AnimatorComponent>()->GetAnim("jump")->SetFlipbookFps(7);
 
 	player->AddComponent<clt::AABBCollider>(Vector2(16,16));
-	player->GetComponentOfType<clt::AABBCollider>()->SetRelativePosition({0, -4});
+	player->GetComponentOfType<clt::AABBCollider>()->SetRelativeLocation({0, -4});
 	player->AddComponent<clt::RigidBody2D>();
 	player->AddComponent<clt::SpringArmComponent>(camera, 10);
 	player->AddComponent<clt::PlayerController>("PlayerMovement", "Jump", 25);

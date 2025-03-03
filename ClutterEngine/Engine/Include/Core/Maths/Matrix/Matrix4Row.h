@@ -139,7 +139,7 @@ struct CLUTTER_API Matrix4Row
 	}
 
 	// Invert the matrix - super slow
-	void Invert();
+	Matrix4Row  Inverse() const;
 
 	Vector3 GetTranslation() const
 	{
@@ -182,6 +182,52 @@ struct CLUTTER_API Matrix4Row
 		return Matrix4Row(temp);
 	}
 
+
+    // Rename the static Invert method to avoid conflict with the non-static Invert method
+    static Matrix4Row InvertMatrix(const Matrix4Row& mat)
+    {
+        // Calculate the determinant of the matrix
+        float det = mat.mat[0][0] * (mat.mat[1][1] * mat.mat[2][2] * mat.mat[3][3] + mat.mat[1][2] * mat.mat[2][3] * mat.mat[3][1] + mat.mat[1][3] * mat.mat[2][1] * mat.mat[3][2]
+            - mat.mat[1][3] * mat.mat[2][2] * mat.mat[3][1] - mat.mat[1][1] * mat.mat[2][3] * mat.mat[3][2] - mat.mat[1][2] * mat.mat[2][1] * mat.mat[3][3])
+            - mat.mat[0][1] * (mat.mat[1][0] * mat.mat[2][2] * mat.mat[3][3] + mat.mat[1][2] * mat.mat[2][3] * mat.mat[3][0] + mat.mat[1][3] * mat.mat[2][0] * mat.mat[3][2]
+            - mat.mat[1][3] * mat.mat[2][2] * mat.mat[3][0] - mat.mat[1][0] * mat.mat[2][3] * mat.mat[3][2] - mat.mat[1][2] * mat.mat[2][0] * mat.mat[3][3])
+            + mat.mat[0][2] * (mat.mat[1][0] * mat.mat[2][1] * mat.mat[3][3] + mat.mat[1][1] * mat.mat[2][3] * mat.mat[3][0] + mat.mat[1][3] * mat.mat[2][0] * mat.mat[3][1]
+            - mat.mat[1][3] * mat.mat[2][1] * mat.mat[3][0] - mat.mat[1][0] * mat.mat[2][3] * mat.mat[3][1] - mat.mat[1][1] * mat.mat[2][0] * mat.mat[3][3])
+            - mat.mat[0][3] * (mat.mat[1][0] * mat.mat[2][1] * mat.mat[3][2] + mat.mat[1][1] * mat.mat[2][2] * mat.mat[3][0] + mat.mat[1][2] * mat.mat[2][0] * mat.mat[3][1]
+            - mat.mat[1][2] * mat.mat[2][1] * mat.mat[3][0] - mat.mat[1][0] * mat.mat[2][2] * mat.mat[3][1] - mat.mat[1][1] * mat.mat[2][0] * mat.mat[3][2]);
+
+        if (det == 0.0f)
+        {
+            // Matrix is not invertible
+            return Matrix4Row::Identity;
+        }
+
+        float invDet = 1.0f / det;
+
+        Matrix4Row inv;
+
+        inv.mat[0][0] = invDet * (mat.mat[1][1] * (mat.mat[2][2] * mat.mat[3][3] - mat.mat[2][3] * mat.mat[3][2]) + mat.mat[1][2] * (mat.mat[2][3] * mat.mat[3][1] - mat.mat[2][1] * mat.mat[3][3]) + mat.mat[1][3] * (mat.mat[2][1] * mat.mat[3][2] - mat.mat[2][2] * mat.mat[3][1]));
+        inv.mat[0][1] = invDet * (mat.mat[0][1] * (mat.mat[2][3] * mat.mat[3][2] - mat.mat[2][2] * mat.mat[3][3]) + mat.mat[0][2] * (mat.mat[2][1] * mat.mat[3][3] - mat.mat[2][3] * mat.mat[3][1]) + mat.mat[0][3] * (mat.mat[2][2] * mat.mat[3][1] - mat.mat[2][1] * mat.mat[3][2]));
+        inv.mat[0][2] = invDet * (mat.mat[0][1] * (mat.mat[1][2] * mat.mat[3][3] - mat.mat[1][3] * mat.mat[3][2]) + mat.mat[0][2] * (mat.mat[1][3] * mat.mat[3][1] - mat.mat[1][1] * mat.mat[3][3]) + mat.mat[0][3] * (mat.mat[1][1] * mat.mat[3][2] - mat.mat[1][2] * mat.mat[3][1]));
+        inv.mat[0][3] = invDet * (mat.mat[0][1] * (mat.mat[1][3] * mat.mat[2][2] - mat.mat[1][2] * mat.mat[2][3]) + mat.mat[0][2] * (mat.mat[1][1] * mat.mat[2][3] - mat.mat[1][3] * mat.mat[2][1]) + mat.mat[0][3] * (mat.mat[1][2] * mat.mat[2][1] - mat.mat[1][1] * mat.mat[2][2]));
+
+        inv.mat[1][0] = invDet * (mat.mat[1][0] * (mat.mat[2][3] * mat.mat[3][2] - mat.mat[2][2] * mat.mat[3][3]) + mat.mat[1][2] * (mat.mat[2][0] * mat.mat[3][3] - mat.mat[2][3] * mat.mat[3][0]) + mat.mat[1][3] * (mat.mat[2][2] * mat.mat[3][0] - mat.mat[2][0] * mat.mat[3][2]));
+        inv.mat[1][1] = invDet * (mat.mat[0][0] * (mat.mat[2][2] * mat.mat[3][3] - mat.mat[2][3] * mat.mat[3][2]) + mat.mat[0][2] * (mat.mat[2][3] * mat.mat[3][0] - mat.mat[2][0] * mat.mat[3][3]) + mat.mat[0][3] * (mat.mat[2][0] * mat.mat[3][2] - mat.mat[2][2] * mat.mat[3][0]));
+        inv.mat[1][2] = invDet * (mat.mat[0][0] * (mat.mat[1][3] * mat.mat[3][2] - mat.mat[1][2] * mat.mat[3][3]) + mat.mat[0][2] * (mat.mat[1][0] * mat.mat[3][3] - mat.mat[1][3] * mat.mat[3][0]) + mat.mat[0][3] * (mat.mat[1][2] * mat.mat[3][0] - mat.mat[1][0] * mat.mat[3][2]));
+        inv.mat[1][3] = invDet * (mat.mat[0][0] * (mat.mat[1][2] * mat.mat[2][3] - mat.mat[1][3] * mat.mat[2][2]) + mat.mat[0][2] * (mat.mat[1][3] * mat.mat[2][0] - mat.mat[1][0] * mat.mat[2][3]) + mat.mat[0][3] * (mat.mat[1][0] * mat.mat[2][2] - mat.mat[1][2] * mat.mat[2][0]));
+
+        inv.mat[2][0] = invDet * (mat.mat[1][0] * (mat.mat[2][1] * mat.mat[3][3] - mat.mat[2][3] * mat.mat[3][1]) + mat.mat[1][1] * (mat.mat[2][3] * mat.mat[3][0] - mat.mat[2][0] * mat.mat[3][3]) + mat.mat[1][3] * (mat.mat[2][0] * mat.mat[3][1] - mat.mat[2][1] * mat.mat[3][0]));
+        inv.mat[2][1] = invDet * (mat.mat[0][0] * (mat.mat[2][3] * mat.mat[3][1] - mat.mat[2][1] * mat.mat[3][3]) + mat.mat[0][1] * (mat.mat[2][0] * mat.mat[3][3] - mat.mat[2][3] * mat.mat[3][0]) + mat.mat[0][3] * (mat.mat[2][1] * mat.mat[3][0] - mat.mat[2][0] * mat.mat[3][1]));
+        inv.mat[2][2] = invDet * (mat.mat[0][0] * (mat.mat[1][1] * mat.mat[3][3] - mat.mat[1][3] * mat.mat[3][1]) + mat.mat[0][1] * (mat.mat[1][3] * mat.mat[3][0] - mat.mat[1][0] * mat.mat[3][3]) + mat.mat[0][3] * (mat.mat[1][0] * mat.mat[3][1] - mat.mat[1][1] * mat.mat[3][0]));
+        inv.mat[2][3] = invDet * (mat.mat[0][0] * (mat.mat[1][3] * mat.mat[2][1] - mat.mat[1][1] * mat.mat[2][3]) + mat.mat[0][1] * (mat.mat[1][0] * mat.mat[2][3] - mat.mat[1][3] * mat.mat[2][0]) + mat.mat[0][3] * (mat.mat[1][1] * mat.mat[2][0] - mat.mat[1][0] * mat.mat[2][1]));
+
+        inv.mat[3][0] = invDet * (mat.mat[1][0] * (mat.mat[2][2] * mat.mat[3][1] - mat.mat[2][1] * mat.mat[3][2]) + mat.mat[1][1] * (mat.mat[2][0] * mat.mat[3][2] - mat.mat[2][2] * mat.mat[3][0]) + mat.mat[1][2] * (mat.mat[2][1] * mat.mat[3][0] - mat.mat[2][0] * mat.mat[3][1]));
+        inv.mat[3][1] = invDet * (mat.mat[0][0] * (mat.mat[2][1] * mat.mat[3][2] - mat.mat[2][2] * mat.mat[3][1]) + mat.mat[0][1] * (mat.mat[2][2] * mat.mat[3][0] - mat.mat[2][0] * mat.mat[3][2]) + mat.mat[0][2] * (mat.mat[2][0] * mat.mat[3][1] - mat.mat[2][1] * mat.mat[3][0]));
+        inv.mat[3][2] = invDet * (mat.mat[0][0] * (mat.mat[1][2] * mat.mat[3][1] - mat.mat[1][1] * mat.mat[3][2]) + mat.mat[0][1] * (mat.mat[1][0] * mat.mat[3][2] - mat.mat[1][2] * mat.mat[3][0]) + mat.mat[0][2] * (mat.mat[1][1] * mat.mat[3][0] - mat.mat[1][0] * mat.mat[3][1]));
+        inv.mat[3][3] = invDet * (mat.mat[0][0] * (mat.mat[1][1] * mat.mat[2][2] - mat.mat[1][2] * mat.mat[2][1]) + mat.mat[0][1] * (mat.mat[1][2] * mat.mat[2][0] - mat.mat[1][0] * mat.mat[2][2]) + mat.mat[0][2] * (mat.mat[1][0] * mat.mat[2][1] - mat.mat[1][1] * mat.mat[2][0]));
+
+        return inv;
+    }
 	static Matrix4Row CreateScale(const Vector3& scaleVector)
 	{
 		return CreateScale(scaleVector.x, scaleVector.y, scaleVector.z);

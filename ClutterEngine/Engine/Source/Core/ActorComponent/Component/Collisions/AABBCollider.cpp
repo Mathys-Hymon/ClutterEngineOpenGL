@@ -15,7 +15,7 @@ AABBCollider::AABBCollider(float pBoxExtend) : mBoxExtend(pBoxExtend)
    mType = Type::AABB;  
 }  
 
-bool AABBCollider::CheckCollision(Collider2DComponent* pOther, hitResult& outResult) const  
+bool AABBCollider::CheckCollision(Collider2DComponent* pOther, hitResult2D& outResult) const  
 {  
    if (pOther->GetType() == Type::AABB)  
    {  
@@ -27,7 +27,7 @@ bool AABBCollider::CheckCollision(Collider2DComponent* pOther, hitResult& outRes
    }  
 }  
 
-bool AABBCollider::CheckAABBvsAABB(AABBCollider* pOther, hitResult& outResult) const 
+bool AABBCollider::CheckAABBvsAABB(AABBCollider* pOther, hitResult2D& outResult) const 
 {
     // Get the transformed points of both AABBs
     auto pointsA = GetTransformedPoints();
@@ -160,15 +160,15 @@ bool AABBCollider::CheckAABBvsAABB(AABBCollider* pOther, hitResult& outResult) c
     return true;
 }
 
-bool AABBCollider::CheckAABBvsCircle(CircleCollider* pOther, hitResult& outResult) const  
+bool AABBCollider::CheckAABBvsCircle(CircleCollider* pOther, hitResult2D& outResult) const  
 {  
     return false;
 }  
 
 std::array<Vector2, 4> clt::AABBCollider::GetTransformedPoints() const  
 {  
-   Transform2D transform = GetWorldTransform();  
-   Vector2 halfSize = mBoxExtend * transform.scale * 0.5f;  
+   Transform transform = GetWorldTransform();  
+   Vector2 halfSize = mBoxExtend * transform.Scale().xy() * 0.5f;  
 
    std::array<Vector2, 4> points = {  
        Vector2(-halfSize.x, -halfSize.y),  
@@ -177,7 +177,7 @@ std::array<Vector2, 4> clt::AABBCollider::GetTransformedPoints() const
        Vector2(-halfSize.x, halfSize.y)  
    };  
 
-   float radians = Maths::ToRad(transform.rotation);
+   float radians = Maths::ToRad(transform.Rotation().z);
    float cos = std::cos(radians);  
    float sin = std::sin(radians);  
 
@@ -185,7 +185,7 @@ std::array<Vector2, 4> clt::AABBCollider::GetTransformedPoints() const
        point = Vector2(  
            point.x * cos - point.y * sin,  
            point.x * sin + point.y * cos  
-       ) + transform.location;  
+       ) + transform.Location().xy();  
    }
    return points;  
 }

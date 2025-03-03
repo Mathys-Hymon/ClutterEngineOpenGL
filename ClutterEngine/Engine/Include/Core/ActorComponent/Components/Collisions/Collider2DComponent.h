@@ -47,7 +47,7 @@ namespace clt
    * @param outResult The result of the collision.
    * @return True if a collision occurred, false otherwise.
    */
-		virtual bool CheckCollision(Collider2DComponent* pOther, hitResult& outResult) const = 0;
+		virtual bool CheckCollision(Collider2DComponent* pOther, hitResult2D& outResult) const = 0;
 
 		/**
    * @brief Gets the type of the collider.

@@ -17,17 +17,17 @@ PlayerController::PlayerController(std::string pMovementCallback, std::string pJ
 	}
 }
 
-void PlayerController::OnCollisionEnter(const hitResult& result)
+void PlayerController::OnCollisionEnter(const hitResult2D& result)
 {
 
 }
 
-void PlayerController::OnCollisionStay(const hitResult& result)
+void PlayerController::OnCollisionStay(const hitResult2D& result)
 {
 
 }
 
-void PlayerController::OnCollisionExit(const hitResult& result)
+void PlayerController::OnCollisionExit(const hitResult2D& result)
 {
 
 }

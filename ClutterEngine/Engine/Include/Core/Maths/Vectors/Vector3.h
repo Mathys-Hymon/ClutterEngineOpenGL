@@ -1,5 +1,7 @@
 #pragma once
 #include <Core/CLog/CLog.h>
+#include <Core/Maths/Vectors/Vector2.h>
+#include <algorithm>
 /**
  * @brief A 3D vector structure.
  */
@@ -10,6 +12,10 @@ struct Vector3
 	float z = 0;
 
 	Vector3() : x(0.0f), y(0.0f), z(0.0f) {}
+
+	Vector3(float pXYZ) : x(pXYZ), y(pXYZ), z(pXYZ) {}
+
+	Vector3(Vector2 pXY) : x(pXY.x), y(pXY.y), z(0) {}
 
 	Vector3(float xP, float yP, float zP)
 		:x(xP), y(yP), z(zP) {
@@ -82,6 +88,28 @@ struct Vector3
 		return *this;
 	}
 
+	/**
+ * @brief Clamps the vector components to the given range.
+ * @param temp The vector to clamp.
+ * @param minValue The minimum value.
+ * @param maxValue The maximum value.
+ * @return The clamped vector.
+ */
+	friend Vector3 Clamp(Vector3 temp, float minValue, float maxValue)
+	{
+		if (temp.x < minValue)  temp.x = minValue;
+		if (temp.x > maxValue)  temp.x = maxValue;
+
+		if (temp.y < minValue)  temp.y = minValue;
+		if (temp.y > maxValue)  temp.y = maxValue;
+
+		if (temp.z < minValue)  temp.z = minValue;
+		if (temp.z > maxValue)  temp.z = maxValue;
+
+		return temp;
+	}
+
+
 	// Normalize the provided vector
 	static Vector3 Normalize(const Vector3& vec)
 	{
@@ -112,6 +140,25 @@ struct Vector3
 		return Vector3(a + f * (b - a));
 	}
 
+	/**
+ * @brief Linearly interpolates between two vectors.
+ * @param current The current vector.
+ * @param target The target vector.
+ * @param deltaTime The time step.
+ * @param interpSpeed The interpolation speed.
+ * @return The interpolated vector.
+ */
+	static Vector3 VInterp(const Vector3& current, const Vector3& target, float deltaTime, float interpSpeed)
+	{
+		if (interpSpeed <= 0.0f)
+		{
+			return target;
+		}
+		Vector3 result = current + (target - current) * std::clamp(deltaTime * interpSpeed, 0.0f, 1.0f);
+
+		return result;
+	}
+
 	// Reflect V about (normalized) N
 	static Vector3 Reflect(const Vector3& v, const Vector3& n)
 	{
@@ -129,6 +176,28 @@ struct Vector3
 	inline std::string ToString()
 	{
 		return " (" + std::to_string(x) + " , " + std::to_string(y) + " , " + std::to_string(z) + ") ";
+	}
+
+	inline Vector2 xy()
+	{
+		return {x, y};
+	}
+
+	/**
+ * @brief Clamps the vector components to the given range.
+ * @param minValue The minimum value.
+ * @param maxValue The maximum value.
+ */
+	inline void Clamp(float minValue, float maxValue)
+	{
+		if (x < minValue) x = minValue;
+		if (x > maxValue) x = maxValue;
+
+		if (y < minValue) y = minValue;
+		if (y > maxValue) y = maxValue;
+
+		if (z < minValue) z = minValue;
+		if (z > maxValue) z = maxValue;
 	}
 
 	static const Vector3 zero;

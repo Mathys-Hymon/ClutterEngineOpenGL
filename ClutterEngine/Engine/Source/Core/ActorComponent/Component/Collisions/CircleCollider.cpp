@@ -9,7 +9,7 @@ CircleCollider::CircleCollider(float pRadius) : mRadius(pRadius)
 	mType = Type::Circle;
 }
 
-bool CircleCollider::CheckCollision(Collider2DComponent* pOther, hitResult& outResult) const
+bool CircleCollider::CheckCollision(Collider2DComponent* pOther, hitResult2D& outResult) const
 {
 	if (pOther->GetType() == Type::Circle)
 	{
@@ -23,10 +23,10 @@ bool CircleCollider::CheckCollision(Collider2DComponent* pOther, hitResult& outR
 	}
 }
 
-bool CircleCollider::CheckCircleVsCircle(CircleCollider* pOther, hitResult& outResult) const
+bool CircleCollider::CheckCircleVsCircle(CircleCollider* pOther, hitResult2D& outResult) const
 {
 	CircleCollider* other = static_cast<CircleCollider*>(pOther);
-	Vector2 delta = other->GetWorldPosition() - GetWorldPosition();
+	Vector2 delta = other->GetWorldPosition().xy() - GetWorldPosition().xy();
 	float distance = delta.Length();
 	float totalRadius = mRadius + other->mRadius;
 
@@ -34,7 +34,7 @@ bool CircleCollider::CheckCircleVsCircle(CircleCollider* pOther, hitResult& outR
 	{
 		outResult.Normal = delta.Normalized();
 		outResult.Penetration = totalRadius - distance;
-		outResult.Point = GetWorldPosition() + outResult.Normal * mRadius;
+		outResult.Point = GetWorldPosition().xy() + outResult.Normal * mRadius;
 		return true;
 	}
 	return false;

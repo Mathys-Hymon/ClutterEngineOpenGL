@@ -17,7 +17,7 @@ namespace clt
         * @param outResult The result of the collision check.
         * @return True if a collision is detected, false otherwise.
         */
-        bool CheckAABBvsAABB(AABBCollider* pOther, hitResult& outResult) const;
+        bool CheckAABBvsAABB(AABBCollider* pOther, hitResult2D& outResult) const;
 
         /**
         * @brief Gets the transformed points of the AABB collider.
@@ -31,7 +31,7 @@ namespace clt
         * @param outResult The result of the collision check.
         * @return True if a collision is detected, false otherwise.
         */
-        bool CheckAABBvsCircle(CircleCollider* pOther, hitResult& outResult) const;
+        bool CheckAABBvsCircle(CircleCollider* pOther, hitResult2D& outResult) const;
 
     public:
 
@@ -58,7 +58,7 @@ namespace clt
         * @param outResult The result of the collision check.
         * @return True if a collision is detected, false otherwise.
         */
-        bool CheckCollision(Collider2DComponent* pOther, hitResult& outResult) const override;
+        bool CheckCollision(Collider2DComponent* pOther, hitResult2D& outResult) const override;
 
         friend CircleCollider;
     };

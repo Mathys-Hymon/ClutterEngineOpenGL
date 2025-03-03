@@ -5,7 +5,7 @@ namespace clt
 {
     class Actor;
     class Collider2DComponent;
-    struct CLUTTER_API hitResult
+    struct CLUTTER_API hitResult2D
     {
         bool IsColliding = false;
         Actor* ActorA = nullptr;

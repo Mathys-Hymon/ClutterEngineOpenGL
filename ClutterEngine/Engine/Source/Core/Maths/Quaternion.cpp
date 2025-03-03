@@ -23,6 +23,11 @@ Quaternion::Quaternion(const Vector3& axis, float angle)
 	w = Maths::Cos(angle / 2.0f);
 }
 
+Quaternion::Quaternion(float inAll)
+{
+	Set(0, 0, 0, inAll);
+}
+
 void Quaternion::Set(float inX, float inY, float inZ, float inW)
 {
 	x = inX;

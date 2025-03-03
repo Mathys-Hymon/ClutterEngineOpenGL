@@ -12,15 +12,15 @@ namespace clt
   */
 	class CLUTTER_API Physics
 	{
-		std::unordered_map<Collider2DComponent*, CollisionEvent*> mColliderEvent; ///< Maps colliders to their collision events.
-		std::vector<Collider2DComponent*> mColliders; ///< List of all colliders in the simulation.
-		std::vector<RigidBody2D*> mRigidbody; ///< List of all rigid bodies in the simulation.
+		std::unordered_map<Collider2DComponent*, CollisionEvent*> m2DColliderEvent; ///< Maps colliders to their collision events.
+		std::vector<Collider2DComponent*> mColliders2D; ///< List of all colliders in the simulation.
+		std::vector<RigidBody2D*> mRigidbody2D; ///< List of all rigid bodies in the simulation.
 
 		Vector2 mGravity; ///< The gravity vector applied to all rigid bodies.
 
-		std::set<std::pair<Collider2DComponent*, Collider2DComponent*>> mPreviousCollisions;
-		std::vector<hitResult> mCurrentFrameCollisions; ///< Collisions detected in the current frame.
-		std::vector<hitResult> mPreviousFrameCollisions; ///< Collisions detected in the previous frame.
+		std::set<std::pair<Collider2DComponent*, Collider2DComponent*>> mPreviousCollisions2D;
+		std::vector<hitResult2D> mCurrentFrameCollisions2D; ///< Collisions detected in the current frame.
+		std::vector<hitResult2D> mPreviousFrameCollisions2D; ///< Collisions detected in the previous frame.
 
 		/**
    * @brief Checks for collisions between colliders.

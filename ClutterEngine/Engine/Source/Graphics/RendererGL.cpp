@@ -19,7 +19,7 @@ bool RendererGL::Initialize(CEngine* pEngine)
    Assets::Get().SetRenderer(this);
 
    // File paths for vertex and fragment shaders  
-   const auto spriteVertPath = "Content/Shaders/sprite.vert";  
+   const auto spriteVertPath = "Content/Shaders/transform.vert";  
    const auto spriteFragPath = "Content/Shaders/sprite.frag";  
 
    mShader = Shader();  
@@ -106,7 +106,6 @@ void RendererGL::Draw()
    if (camera)  
    {  
        mShader.SetMat4Row("uViewProj", camera->GetViewMatrix());
-       mShader.SetMat4("projection", camera->GetProjectionMatrix());  
    }  
    else  
    {  

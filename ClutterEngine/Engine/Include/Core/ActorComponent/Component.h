@@ -71,20 +71,28 @@ namespace clt
          */
         int GetUpdateOrder() const { return mUpdateOrder; }
 
-        void SetRelativePosition(const Vector3& loc)      { mRelativeTransform.Location() = loc; };
-        void SetRelativeScale(const Vector3& scale)       { mRelativeTransform.Scale() = scale; };
-        void SetRelativeRotation(Quaternion rot)               { mRelativeTransform.Rotation() = rot; };
-        void SetRelativeTransform(Transform& transform) { mRelativeTransform = transform;    };
+        void SetRelativeLocation(const Vector3& loc)    { mRelativeTransform.SetLocation(loc); };
+        void SetRelativeLocation(const Vector2& loc) { mRelativeTransform.SetLocation(loc); };
+        void SetRelativeScale(const Vector3& scale)     { mRelativeTransform.SetScale(scale);  };
+        void SetRelativeScale(const Vector2& scale) { mRelativeTransform.SetScale(scale); };
+        void SetRelativeRotation(Quaternion rot)        { mRelativeTransform.SetRotation(rot); };
+        void SetRelativeRotation(float rot) { mRelativeTransform.SetRotation(rot); };
+        void SetRelativeTransform(Transform& transform) 
+        {
+            SetRelativeLocation(transform.Location());
+            SetRelativeScale(transform.Scale());
+            SetRelativeRotation(transform.Rotation());
+        };
 
         Vector3 GetRelativePosition()      const { return mRelativeTransform.Location(); };
         Vector3 GetRelativeScale()         const { return mRelativeTransform.Scale();    };
-        Quaternion GetRelativeRotation()        const { return mRelativeTransform.Rotation(); };
-        Transform GetRelativeTransform() const { return mRelativeTransform;          };
+        Quaternion GetRelativeRotation()   const { return mRelativeTransform.Rotation(); };
+        Transform GetRelativeTransform()   const { return mRelativeTransform;            };
 
         Vector3 GetWorldPosition()         const { return mOwner->GetActorLocation() + mRelativeTransform.Location(); };
-        Vector3 GetWorldScale()            const { return mOwner->GetScale() * mRelativeTransform.Scale();       };
-        float GetWorldRotation()           const { return mOwner->GetRotation() + mRelativeTransform.Rotation(); };
-        Transform GetWorldTransform()    const { return mOwner->getTransform() + mRelativeTransform;         };
+        Vector3 GetWorldScale()            const { return mOwner->GetScale() * mRelativeTransform.Scale();            };
+        Quaternion GetWorldRotation()      const { return mOwner->GetRotation() + mRelativeTransform.Rotation();      };
+        Transform GetWorldTransform()      const { return mOwner->getTransform() + mRelativeTransform;                };
 
         Actor* GetOwner() const { return mOwner; };
 

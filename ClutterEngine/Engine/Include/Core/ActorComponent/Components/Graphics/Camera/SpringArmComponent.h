@@ -13,7 +13,7 @@ namespace clt
 
 		float mRotationLagSpeed;
 
-		Vector2 mCameraOffset;
+		Vector3 mCameraOffset;
 		float mArmLength;
 
 		SpringArmComponent(Actor* pCamera, float pLagSpeed = 3.0f, int pUpdateOrder = 0);

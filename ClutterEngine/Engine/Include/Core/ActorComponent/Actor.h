@@ -104,17 +104,17 @@ namespace clt
          * @brief Gets the position of the actor.
          * @return The position of the actor.
          */
-        Vector3 GetActorLocation() const { return mTransform.location; };
+        Vector3 GetActorLocation() const { return mTransform.Location(); };
 
         /**
          * @brief Gets the scale of the actor.
          * @return The scale of the actor.
          */
-        Vector3 GetScale() const { return mTransform.scale; };
+        Vector3 GetScale() const { return mTransform.Scale(); };
 
         std::string GetName() const { return mName; };
 
-        Quaternion GetRotation() const { return mTransform.rotation; };
+        Quaternion GetRotation() const { return mTransform.Rotation(); };
         /**
          * @brief Virtual method called when the actor collides with another actor.
          * @param other The other actor.
@@ -131,45 +131,59 @@ namespace clt
          * @brief Sets the location of the actor.
          * @param loc The new location.
          */
-        void SetActorLocation(Vector3 loc) 
+        void SetActorLocation(const Vector3& loc)
         { 
-            mTransform.location = loc;
-            mTransform.ComputeWorldTransform();
+            mTransform.SetLocation(loc);
+        };
+
+        void SetActorLocation(const Vector2& loc)
+        {
+            mTransform.SetLocation(loc);
         };
 
         /**
          * @brief Sets the scale of the actor.
          * @param scale The new scale.
          */
-        void SetActorScale(Vector3 scale) 
+        void SetActorScale(const Vector3& scale)
         { 
-            mTransform.scale = scale;
-            mTransform.ComputeWorldTransform();
+            mTransform.SetScale(scale);
+        };
+
+        void SetActorScale(const Vector2& scale)
+        {
+            mTransform.SetScale(scale);
         };
 
         void SetActorScale(float scale) 
         { 
-            mTransform.scale = {scale, scale, scale}; 
-            mTransform.ComputeWorldTransform();
+            mTransform.SetScale({scale, scale, scale});
         };
         /**
          * @brief Sets the rotation of the actor.
          * @param rot The new rotation.
          */
-        void SetActorRotation(Quaternion rot) 
-        { 
-            mTransform.rotation = rot; 
-            mTransform.ComputeWorldTransform();
-        };
+        void SetActorRotation(const Quaternion& rot)
+        {
+            mTransform.SetRotation(rot);
+        }
 
+        void SetActorRotation(float rot)
+        {
+            mTransform.SetRotation(rot);
+        }
         /**
          * @brief Adds an offset to the actor's location.
          * @param locOffset The location offset.
          */
-        void AddActorLocationOffset(Vector3 locOffset) 
+        void AddActorLocationOffset(const Vector3& locOffset) 
         { 
-            mTransform.location += locOffset; 
-            mTransform.ComputeWorldTransform();
+            mTransform.SetLocation(mTransform.Location() + locOffset);
+        };
+
+        void AddActorLocationOffset(const Vector2& locOffset)
+        {
+            mTransform.SetLocation(mTransform.Location() + Vector3{locOffset.x, locOffset.y, 0});
         };
 
         /**
@@ -178,8 +192,7 @@ namespace clt
          */
         void AddActorRotationOffset(Quaternion rotOffset) 
         { 
-            mTransform.rotation += rotOffset; 
-            mTransform.ComputeWorldTransform();
+            mTransform.SetRotation(mTransform.Rotation() + rotOffset);
         };
 
         /**

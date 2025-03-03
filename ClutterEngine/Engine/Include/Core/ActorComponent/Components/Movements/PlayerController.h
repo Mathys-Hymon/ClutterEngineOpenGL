@@ -55,19 +55,19 @@ namespace clt
         * @brief Called when a collision starts.  
         * @param result The result of the collision.  
         */  
-       virtual void OnCollisionEnter(const hitResult& result) override;  
+       virtual void OnCollisionEnter(const hitResult2D& result) override;  
 
        /**  
         * @brief Called when a collision stays.  
         * @param result The result of the collision.  
         */  
-       virtual void OnCollisionStay(const hitResult& result) override;  
+       virtual void OnCollisionStay(const hitResult2D& result) override;  
 
        /**  
         * @brief Called when a collision ends.  
         * @param result The result of the collision.  
         */  
-       virtual void OnCollisionExit(const hitResult& result) override;  
+       virtual void OnCollisionExit(const hitResult2D& result) override;  
 
        /**  
         * @brief Sets the owner of the component.  

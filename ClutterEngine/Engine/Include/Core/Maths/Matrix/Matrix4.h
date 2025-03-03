@@ -1,7 +1,6 @@
 #pragma once
 #include <Core/CCommon.h>
 #include <array>
-
 #include <Core/Maths/Maths.h>
 #include <Core/Maths/Quaternion.h>
 
