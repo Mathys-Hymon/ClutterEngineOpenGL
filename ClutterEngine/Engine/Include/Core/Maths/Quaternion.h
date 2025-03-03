@@ -3,7 +3,7 @@
 #include <Core/Maths/Maths.h>
 #include <Core/Maths/Vectors/Vector3.h>
 
-struct CLUTTER_API Quaternion
+struct Quaternion
 {
 	float x;
 	float y;
