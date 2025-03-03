@@ -3,14 +3,15 @@
 
 namespace clt
 {
+	enum class RendererType
+	{
+		OPENGL
+	};
+
 	class CEngine;
 	class CLUTTER_API IRenderer
 	{
 	public:
-		enum class RendererType
-		{
-			OPENGL
-		};
 
 		~IRenderer() = default;
 

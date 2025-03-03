@@ -11,12 +11,12 @@ namespace clt
 	class SpriteComponent;
 	class CLUTTER_API SpriteBatch
 	{
-		Texture* mTexture;
+		Texture& mTexture;
 		VertexArray* mVAO;
 		std::vector<SpriteComponent*> mComponents;
 
 	public:
-		SpriteBatch(Texture* texture);
+		SpriteBatch(Texture& texture);
 		~SpriteBatch();
 
 		void AddSprite(SpriteComponent* comp);

@@ -15,13 +15,12 @@ namespace clt
   * @class Renderer
   * @brief Responsible for rendering graphical components.
   */
-	class CLUTTER_API RendererGL : IRenderer
+	class CLUTTER_API RendererGL : public IRenderer
 	{
 		//std::unordered_set<Texture*> mBindedTextures;
 		std::unordered_map<Texture*, SpriteBatch*> mSpriteBatches;
 		std::vector<GraphicComponent*> mComponents;
 
-		GLuint mVAO, mVBO, mAttribSize;
 		std::vector<GLfloat> mBuffers;
 		Shader mShader;
 		Shader mUIShader;

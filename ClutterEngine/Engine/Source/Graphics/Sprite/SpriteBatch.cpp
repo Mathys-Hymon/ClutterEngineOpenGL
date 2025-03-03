@@ -5,7 +5,7 @@
 
 using namespace clt;
 
-SpriteBatch::SpriteBatch(Texture* texture) : mTexture(texture)
+SpriteBatch::SpriteBatch(Texture& texture) : mTexture(texture)
 {
     // set up vertex data
     GLfloat vertices[] = {
@@ -47,7 +47,7 @@ void SpriteBatch::RemoveSprite(SpriteComponent* comp)
 
 void SpriteBatch::Draw(Shader& pShader)
 {
-    mTexture->Bind();
+    mTexture.Bind();
     mVAO->Bind();
 
     for (SpriteComponent* comp : mComponents)
@@ -58,7 +58,7 @@ void SpriteBatch::Draw(Shader& pShader)
     }
 
     mVAO->Unbind();
-    mTexture->UnBind();
+    mTexture.UnBind();
 }
 
 void SpriteBatch::EndDraw()

@@ -10,25 +10,25 @@ enum class TextureFilter
 
 namespace clt
 {
-	class RendererGL;
+	class IRenderer;
 	class CLUTTER_API Assets
 	{
 		static Assets* sInstance;
 
-		RendererGL* mRenderer = nullptr;
+		IRenderer* mRenderer = nullptr;
 
 		std::unordered_map<std::string, Texture*> mTextures;
 		Assets() = default;
 		~Assets() = default;
 
-		void SetRenderer(RendererGL* pRenderer) { mRenderer = pRenderer; };
-
-		friend RendererGL;
+		void LoadTextureGL(TextureFilter pTexFilter, GLuint& textureID, int& width, int& height, int& channels, unsigned char* data);
 
 	public:
 		static Assets& Get();
 
 		Texture* LoadTexture(const std::string& pPath, const std::string& pName, TextureFilter pTexFilter = TextureFilter::LINEAR);
+
+		void SetRenderer(IRenderer* pRenderer) { mRenderer = pRenderer; };
 
 		std::vector<Texture*> BulkLoadTexture(const std::string& pPath, int pLastIndex, const std::string& pFileName, const std::string& pName, TextureFilter pTexFilter = TextureFilter::LINEAR);
 

@@ -5,7 +5,7 @@
 
 using namespace clt;  
 
-RendererGL::RendererGL() : mVBO(0), mVAO(0), mAttribSize(0), mEngine(nullptr)  
+RendererGL::RendererGL() : mEngine(nullptr)  
 {}
 
 bool RendererGL::Initialize(CEngine* pEngine)
@@ -16,7 +16,7 @@ bool RendererGL::Initialize(CEngine* pEngine)
    if (gladLoadGL()) CLUTTER_LOG("GLAD initialised successfully")  
    else CLUTTER_ERROR("Cant initialise GLAD");  
 
-   Assets::Get().SetRenderer(this);  
+   Assets::Get().SetRenderer(this);
 
    // File paths for vertex and fragment shaders  
    const auto spriteVertPath = "Content/Shaders/sprite.vert";  
@@ -74,7 +74,7 @@ void RendererGL::AddSpriteComponent(SpriteComponent* pComp)
 
    if (mSpriteBatches.find(tex) == mSpriteBatches.end())  
    {  
-       mSpriteBatches[tex] = new SpriteBatch(tex);  
+       mSpriteBatches[tex] = new SpriteBatch(*tex);  
    }  
    mSpriteBatches[tex]->AddSprite(pComp);  
 }  

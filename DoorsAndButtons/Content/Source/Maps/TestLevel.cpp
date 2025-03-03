@@ -72,7 +72,7 @@ void TestLevel::Load()
 	player->GetComponentOfType<clt::AABBCollider>()->SetRelativePosition({0, -4});
 	player->AddComponent<clt::RigidBody2D>();
 	player->AddComponent<clt::SpringArmComponent>(camera, 10);
-	player->AddComponent<clt::PlayerController>("PlayerMovement", "Jump", 10);
+	player->AddComponent<clt::PlayerController>("PlayerMovement", "Jump", 25);
 
 	player->SetActorScale(5);
 }

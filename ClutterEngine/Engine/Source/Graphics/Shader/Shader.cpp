@@ -5,7 +5,7 @@
 
 using namespace clt;
 
-void Shader::Compile(const GLchar* pVert_data, const GLchar* pFrag_data)
+void Shader::Compile(const GLchar* pVertData, const GLchar* pFragData)
 {
     GLint success;
     GLchar info_log[512];
@@ -14,7 +14,7 @@ void Shader::Compile(const GLchar* pVert_data, const GLchar* pFrag_data)
 
     // Create and compile vertex shader  
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &pVert_data, nullptr);
+    glShaderSource(vertexShader, 1, &pVertData, nullptr);
     glCompileShader(vertexShader);
 
     // Check for vertex shader compilation errors  
@@ -30,7 +30,7 @@ void Shader::Compile(const GLchar* pVert_data, const GLchar* pFrag_data)
 
     // Create and compile fragment shader  
     fragShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragShader, 1, &pFrag_data, nullptr);
+    glShaderSource(fragShader, 1, &pFragData, nullptr);
     glCompileShader(fragShader);
 
     // Check for fragment shader compilation errors  
