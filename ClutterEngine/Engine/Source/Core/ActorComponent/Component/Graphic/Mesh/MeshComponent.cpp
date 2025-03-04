@@ -36,14 +36,15 @@ void MeshComponent::Draw(Matrix4Row viewProj)
         mMesh->GetShader().SetMat4Row("uViewProj", viewProj);
         mMesh->GetVAO().Bind();
 
-        Matrix4Row wt = mOwner->getTransform().GetMat4Transform();
+        Matrix4Row wt = GetWorldTransform().GetMat4Transform();
         mMesh->GetShader().SetMat4Row("uWorldTransform", wt);
-        Texture* t = mMesh->GetTexture(mTextureIndex);
-        if (t) t->Bind();
-        glDrawElements(GL_TRIANGLES, mMesh->GetVAO().GetIndicesCount(), GL_UNSIGNED_INT, 0);
-
-       mMesh->GetVAO().Unbind();
-       if (t) t->UnBind();
+        mMesh->GetTexture(mTextureIndex)->Bind();
+        glDrawElements(GL_TRIANGLES, mMesh->GetVAO().GetIndicesCount(), GL_UNSIGNED_INT, nullptr);
     }
 
+}
+
+void MeshComponent::SetTextureIndex(size_t pTextureIndex)
+{
+    mTextureIndex = pTextureIndex;
 }

@@ -50,9 +50,8 @@ const auto meshFragPath = "Content/Shaders/basic.frag";
 
 Mesh::Mesh()
 {
+    mVAO = new VertexArray(cubeVertices, 24, cubeIndices, 36);
     mShader.Load(meshVertPath, meshFragPath);
-
-    mVAO = new VertexArray(cubeVertices, 28, cubeIndices, 36);
 }
 
 Mesh::Mesh(const float* pVertices, u32 pVerticeCount, const u32* pIndices, u32 pIndexCount)
@@ -83,6 +82,6 @@ void Mesh::SetMesh(VertexArray* pVAO)
 
 void Mesh::SetMesh(const float* pVertices, u32 pVerticeCount, const u32* pIndices, u32 pIndexCount)
 {
-	if (mVAO) mVAO->Set(pVertices, pIndexCount, pIndices, pIndexCount);
-	else      mVAO = new VertexArray(pVertices, pIndexCount, pIndices, pIndexCount);
+	if (mVAO) mVAO->Set(pVertices, pVerticeCount, pIndices, pIndexCount);
+	else      mVAO = new VertexArray(pVertices, pVerticeCount, pIndices, pIndexCount);
 }

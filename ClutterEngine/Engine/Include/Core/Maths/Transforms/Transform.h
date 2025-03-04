@@ -80,7 +80,7 @@ public:
 
     Transform operator+(const Transform& q) const
     {
-        return { location + q.location, scale + q.scale, rotation + q.rotation };
+        return { location + q.location, scale * q.scale, Quaternion::Concatenate(rotation, q.rotation) };
     }
 
     Vector3 Location() const { return location; };
@@ -96,19 +96,14 @@ public:
     void ComputeWorldTransform()
     {
         mWorldTransform = Matrix4Row::CreateScale(scale);
-        mWorldTransform *= Matrix4Row::CreateRotationX(rotation.x);
-        mWorldTransform *= Matrix4Row::CreateRotationY(rotation.y);
-        mWorldTransform *= Matrix4Row::CreateRotationZ(rotation.z);
+        mWorldTransform *= Matrix4Row::CreateFromQuaternion(rotation);
         mWorldTransform *= Matrix4Row::CreateTranslation(location);
     }
 
     void ComputeWorldTransform(Transform other)
     {
         mWorldTransform = Matrix4Row::CreateScale(scale * other.scale);
-        mWorldTransform *= Matrix4Row::CreateRotationX(rotation.x + other.rotation.x);
-        mWorldTransform *= Matrix4Row::CreateRotationY(rotation.y + other.rotation.y);
-        mWorldTransform *= Matrix4Row::CreateRotationZ(rotation.z + other.rotation.z);
+        mWorldTransform *= Matrix4Row::CreateFromQuaternion(Quaternion::Concatenate(rotation, other.rotation));
         mWorldTransform *= Matrix4Row::CreateTranslation(location + other.location);
     }
-
 };

@@ -3,7 +3,6 @@
 in vec3 pos;
 in vec2 texCoord;
 
-
 uniform mat4 uWorldTransform;
 uniform mat4 uViewProj;
 

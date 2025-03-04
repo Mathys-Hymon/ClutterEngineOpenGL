@@ -51,9 +51,8 @@ void TestLevel::Load()
 	//crate->AddComponent<clt::RigidBody2D>();
 	crate->AddComponent<clt::SpriteComponent>(clt::Assets::Get().GetTexture("crate"));
 	crate->SetActorScale(75);
-	crate->SetActorLocation({ 100, 0 });
+	crate->SetActorLocation({ 0, 0 });
 
-	//block->AddComponent<clt::AABBCollider>(Vector2(16, 16));
 	block->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetTexture("tile"));
 	block->SetActorScale(1);
 
@@ -72,6 +71,7 @@ void TestLevel::Load()
 
 void TestLevel::Update()
 {
+
 }
 
 void TestLevel::Close()

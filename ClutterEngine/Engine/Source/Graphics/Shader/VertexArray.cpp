@@ -29,15 +29,15 @@ void VertexArray::Set(const float* pVertices, u32 pVerticeCount, const u32* pInd
     glBindVertexArray(mVertexArrayId);
 
     glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferId);
-    glBufferData(GL_ARRAY_BUFFER, pVerticeCount * 4 * sizeof(float), pVertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, pVerticeCount * 5 * sizeof(float), pVertices, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIndexBufferId);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, pIndexCount * sizeof(u32), pIndices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)0);
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, (void*)(2 * sizeof(float)));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
     glBindVertexArray(0);

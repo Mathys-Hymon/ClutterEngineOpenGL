@@ -192,7 +192,7 @@ namespace clt
          */
         void AddActorRotationOffset(Quaternion rotOffset) 
         { 
-            mTransform.SetRotation(mTransform.Rotation() + rotOffset);
+            mTransform.SetRotation(Quaternion::Concatenate(mTransform.Rotation(), rotOffset));
         };
 
         /**

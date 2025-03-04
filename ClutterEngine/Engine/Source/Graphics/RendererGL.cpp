@@ -24,7 +24,6 @@ bool RendererGL::Initialize(CEngine* pEngine)
    const auto spriteVertPath = "Content/Shaders/transform.vert";  
    const auto spriteFragPath = "Content/Shaders/sprite.frag";  
 
-   mUIShader = Shader();  
    mUIShader.Load(spriteVertPath, spriteFragPath);
 
    // set up vertex data
@@ -114,20 +113,15 @@ void RendererGL::RemoveSpriteComponent(SpriteComponent* pComp)
 
 void RendererGL::BeginDraw()  
 {  
-   glClearColor(0.1f, 0.1f, 0.1f, 1.0f);         // Define the background Color  
-   glClear(GL_COLOR_BUFFER_BIT);                // Clear the background color and depth  
-   glEnable(GL_BLEND);  
-   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  
-   glClearDepth(false);
-
-   mUIShader.Use();
+   glClearColor(0.45f, 0.45f, 1.0f, 1.0f);       // Define the background Color  
+   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+   glEnable(GL_DEPTH_TEST);
+   glDepthFunc(GL_LESS);
+   glDisable(GL_BLEND);
 }  
 
 void RendererGL::Draw()  
 {  
-    glEnable(GL_DEPTH_TEST);
-    glDisable(GL_BLEND);
-
     // Get the active camera
     CameraComponent* camera = CameraComponent::GetActiveCamera();
     Matrix4Row viewProj;
@@ -142,6 +136,8 @@ void RendererGL::Draw()
 
     glDisable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    mUIShader.Use();
 
    mUIShader.SetMat4Row("uViewProj", mUiViewProj);
    mUiVAO->Bind();

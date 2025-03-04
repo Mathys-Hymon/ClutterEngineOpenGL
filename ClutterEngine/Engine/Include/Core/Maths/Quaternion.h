@@ -40,10 +40,10 @@ struct CLUTTER_API Quaternion
 		return Maths::Sqrt(LengthSqr());
 	}
 
-
-	Quaternion operator+(const Quaternion& q) const
+	Quaternion Normalized() const
 	{
-		return Quaternion(x + q.x, y + q.y, z + q.z, w + q.w);
+		float length = sqrt(x * x + y * y + z * z + w * w);
+		return { x / length, y / length, z / length, w / length };
 	}
 
 	// Normalize the provided quaternion
@@ -134,6 +134,20 @@ struct CLUTTER_API Quaternion
 
 		return retVal;
 	}
+
+    static Quaternion FromAxisAngle(const Vector3& axis, float angleDegrees) {
+       float angleRadians = Maths::ToRad(angleDegrees);
+       float halfAngle = angleRadians * 0.5f;
+       float sinHalfAngle = sinf(halfAngle);
+
+       Vector3 normalizedAxis = Vector3::Normalize(axis);
+       return Quaternion(
+           normalizedAxis.x * sinHalfAngle,
+           normalizedAxis.y * sinHalfAngle,
+           normalizedAxis.z * sinHalfAngle,
+           cosf(halfAngle)
+       );
+    }
 
 	class Matrix4 AsMatrix() const;
 
