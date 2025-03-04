@@ -1,6 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include <Core/Assets/AssetsType/Texture.h>
+#include <Core/Assets/AssetsType/Mesh.h>
 
 enum class TextureFilter
 {
@@ -18,6 +19,8 @@ namespace clt
 		IRenderer* mRenderer = nullptr;
 
 		std::unordered_map<std::string, Texture*> mTextures;
+		std::unordered_map<std::string, Mesh*> mMeshes;
+
 		Assets() = default;
 		~Assets() = default;
 
@@ -28,11 +31,14 @@ namespace clt
 
 		Texture* LoadTexture(const std::string& pPath, const std::string& pName, TextureFilter pTexFilter = TextureFilter::LINEAR);
 
+		Mesh* LoadMesh(const std::string& pPath, const std::string& pName);
+
 		void SetRenderer(IRenderer* pRenderer) { mRenderer = pRenderer; };
 
 		std::vector<Texture*> BulkLoadTexture(const std::string& pPath, int pLastIndex, const std::string& pFileName, const std::string& pName, TextureFilter pTexFilter = TextureFilter::LINEAR);
 
 		Texture* GetTexture(const std::string& name);
+		Mesh* GetMesh(const std::string& name);
 
 		std::vector<Texture*> BulkGetTexture(const std::string& name, int pLastIndex);
 

@@ -9,24 +9,24 @@ namespace clt
 	class CLUTTER_API Mesh
 	{
 		std::vector<Texture*> mTextures;
-		VertexArray mVAO;
+		VertexArray* mVAO;
 
 		Shader mShader;
 
 	public:
 
 		Mesh();
+		Mesh(const float* pVertices, u32 pVerticeCount, const u32* pIndices, u32 pIndexCount);
 		~Mesh() = default;
 
 		void Unload();
 
-		void GetMesh();
 		Texture* GetTexture(int pTextureIndex) { return mTextures[pTextureIndex]; }
-		VertexArray& GetVAO() { return mVAO; }
+		VertexArray& GetVAO() { return *mVAO; }
 		Shader& GetShader() { return mShader; }
 
 		void AddTexture(Texture* pTexture);
-		void SetMesh();
-
+		void SetMesh(VertexArray* pVAO);
+		void SetMesh(const float* pVertices, u32 pVerticeCount, const u32* pIndices, u32 pIndexCount);
 	};
 }

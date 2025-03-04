@@ -7,6 +7,7 @@
 #include <Core/ActorComponent/Components/Movements/PlayerController.h>
 #include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
 #include <Core/ActorComponent/Components/Graphics/Camera/SpringArmComponent.h>
+#include <Core/ActorComponent/Components/Graphics/Mesh/MeshComponent.h>
 #include <Core/ActorComponent/Components/Physics/RigidBody2D.h>
 
 clt::Actor* player;
@@ -53,9 +54,8 @@ void TestLevel::Load()
 	crate->SetActorLocation({ 100, 0 });
 
 	//block->AddComponent<clt::AABBCollider>(Vector2(16, 16));
-	block->AddComponent<clt::SpriteComponent>(clt::Assets::Get().GetTexture("tile"));
-	block->SetActorLocation({ 0, 0 });
-	block->SetActorScale(75);
+	block->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetTexture("tile"));
+	block->SetActorScale(1);
 
 	/*player->AddComponent<clt::AnimatorComponent>("walk", runAnim);
 	player->GetComponentOfType<clt::AnimatorComponent>()->AddNewAnim("jump", jumpAnim, false);

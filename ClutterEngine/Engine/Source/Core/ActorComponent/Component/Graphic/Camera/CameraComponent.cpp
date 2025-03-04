@@ -9,7 +9,7 @@ using namespace clt;
 CameraComponent* CameraComponent::ACTIVE_CAMERA = nullptr;
 
 
-CameraComponent::CameraComponent(ProjectionMode pMode, float pFOV, float pNearPlane, float pFarPlane) : mProjectionMode(pMode), mFov(pFOV), mNearPlane(pNearPlane), mFarPlane(pFarPlane) {}
+CameraComponent::CameraComponent(ProjectionMode pMode, float pFOV, float pNearPlane, float pFarPlane) : mProjectionMode(pMode), mFov(pFOV), mNearPlane(pNearPlane), mFarPlane(pFarPlane) { UpdateMatrices(); }
 
 void CameraComponent::UpdateMatrices()
 {
@@ -17,7 +17,7 @@ void CameraComponent::UpdateMatrices()
 
 	if (mProjectionMode == ProjectionMode::Perspective)
 	{
-		mProj = Matrix4Row::CreatePerspectiveFOV(mFov, mViewSize.x, mViewSize.y, mNearPlane, mFarPlane);
+		mProj = Matrix4Row::CreatePerspectiveFOV(70.0f, mViewSize.x, mViewSize.y, 0.01f, 10000.0f);
 	}
 	else
 	{

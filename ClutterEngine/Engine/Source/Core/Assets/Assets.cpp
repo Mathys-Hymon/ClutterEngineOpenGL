@@ -97,6 +97,17 @@ Texture* Assets::GetTexture(const std::string& name)
     return it->second;
 }
 
+Mesh* Assets::GetMesh(const std::string& name)
+{
+    auto it = mMeshes.find(name);
+    if (it == mMeshes.end())
+    {
+        CLUTTER_WARNING(("Unable to find The mesh: " + name).c_str());
+        return nullptr;
+    }
+    return it->second;
+}
+
 std::vector<Texture*> Assets::BulkGetTexture(const std::string& pName, int pLastIndex)
 {
     std::vector<Texture*> tempAnim;

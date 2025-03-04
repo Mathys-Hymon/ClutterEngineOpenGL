@@ -7,7 +7,7 @@
 
 using namespace clt;  
 
-RendererGL::RendererGL() : mEngine(nullptr)  
+RendererGL::RendererGL() : mEngine(nullptr), mUiVAO(nullptr)
 {}
 
 bool RendererGL::Initialize(CEngine* pEngine)
@@ -125,6 +125,9 @@ void RendererGL::BeginDraw()
 
 void RendererGL::Draw()  
 {  
+    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_BLEND);
+
     // Get the active camera
     CameraComponent* camera = CameraComponent::GetActiveCamera();
     Matrix4Row viewProj;
@@ -137,6 +140,8 @@ void RendererGL::Draw()
         comp->Draw(viewProj);
     }
 
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
 
    mUIShader.SetMat4Row("uViewProj", mUiViewProj);
    mUiVAO->Bind();

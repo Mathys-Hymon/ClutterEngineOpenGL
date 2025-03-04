@@ -4,9 +4,22 @@
 
 using namespace clt;
 
-MeshComponent::MeshComponent(int pDrawOrder) : Component(pDrawOrder), mMesh(nullptr), mTextureIndex(0)
+MeshComponent::MeshComponent(Mesh* pMesh, int pDrawOrder) : Component(pDrawOrder), mMesh(nullptr), mTextureIndex(0)
 {
-    mMesh = new Mesh();
+    if (pMesh)
+    {
+        mMesh = pMesh;
+    }
+    else
+    {
+        mMesh = new Mesh();
+    }
+}
+
+MeshComponent::MeshComponent(Texture* pTexture, int pDrawOrder) : Component(pDrawOrder), mMesh(nullptr), mTextureIndex(0)
+{
+        mMesh = new Mesh();
+        mMesh->AddTexture(pTexture);
 }
 
 void MeshComponent::SetOwner(Actor* pOwner)
@@ -19,16 +32,18 @@ void MeshComponent::Draw(Matrix4Row viewProj)
 {
     if (mMesh)
     {
-        Matrix4Row wt = mOwner->getTransform().GetMat4Transform();
         mMesh->GetShader().Use();
         mMesh->GetShader().SetMat4Row("uViewProj", viewProj);
+        mMesh->GetVAO().Bind();
+
+        Matrix4Row wt = mOwner->getTransform().GetMat4Transform();
         mMesh->GetShader().SetMat4Row("uWorldTransform", wt);
         Texture* t = mMesh->GetTexture(mTextureIndex);
         if (t) t->Bind();
-        mMesh->GetVAO();
-        glDrawElements(GL_TRIANGLES, mMesh->GetVAO().GetIndicesCount(), GL_UNSIGNED_INT, nullptr);
+        glDrawElements(GL_TRIANGLES, mMesh->GetVAO().GetIndicesCount(), GL_UNSIGNED_INT, 0);
 
-        if (t) t->UnBind();
+       mMesh->GetVAO().Unbind();
+       if (t) t->UnBind();
     }
 
 }
