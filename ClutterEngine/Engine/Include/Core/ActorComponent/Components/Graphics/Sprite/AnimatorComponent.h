@@ -1,5 +1,5 @@
 #pragma once
-#include <Core/ActorComponent/Components/Graphics/FlipbookComponent.h>
+#include <Core/ActorComponent/Components/Graphics/Sprite/FlipbookComponent.h>
 
 namespace clt
 {

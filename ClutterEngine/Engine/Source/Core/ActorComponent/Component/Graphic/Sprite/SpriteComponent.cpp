@@ -1,9 +1,9 @@
 #include "pch.h"
-#include<Core/ActorComponent/Components/Graphics/SpriteComponent.h>
+#include<Core/ActorComponent/Components/Graphics/Sprite/SpriteComponent.h>
 
 using namespace clt;
 
-SpriteComponent::SpriteComponent(Texture* pTexture, int DrawOrder) : GraphicComponent(DrawOrder), mTexture(pTexture), mTexHeight(pTexture->GetHeight()), mTexWidth(pTexture->GetWidth()), mFlipX(false), mFlipY(false)
+SpriteComponent::SpriteComponent(Texture* pTexture, int DrawOrder) : Component(DrawOrder), mTexture(pTexture), mTexHeight(pTexture->GetHeight()), mTexWidth(pTexture->GetWidth()), mFlipX(false), mFlipY(false)
     {}
 
 SpriteComponent::~SpriteComponent() {}

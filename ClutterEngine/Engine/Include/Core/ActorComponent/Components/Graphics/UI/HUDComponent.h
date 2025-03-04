@@ -1,17 +1,17 @@
 #pragma once
 #include <Core/CCommon.h>
-#include <Core/ActorComponent/Components/GraphicComponent.h>
+#include <Core/ActorComponent/Component.h>
 #include <Graphics/UI/UIPanel.h>
 
 namespace clt
 {
-	class CLUTTER_API HUDComponent : public GraphicComponent
+	class CLUTTER_API HUDComponent : public Component
 	{
 		std::unordered_map<std::string, UIPanel*> mWidgets;
 		UIPanel* mCurrentWidget;
 
 	public:
-		HUDComponent() : mCurrentWidget(nullptr), GraphicComponent() {};
+		HUDComponent() : mCurrentWidget(nullptr), Component() {};
 		~HUDComponent() = default;
 
 		template<typename T, typename ...Args>
@@ -24,7 +24,6 @@ namespace clt
 
 		void RemoveWidget(const std::string& pName);
 
-		virtual void Draw(RendererGL& pRenderer) override;
 		virtual void Update() override;
 	};
 

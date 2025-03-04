@@ -10,18 +10,15 @@ namespace clt
 {
 	class CEngine;
 	class SpriteComponent;
-	class GraphicComponent;
+	class MeshComponent;
 	/**
   * @class Renderer
   * @brief Responsible for rendering graphical components.
   */
 	class CLUTTER_API RendererGL : public IRenderer
 	{
-		//std::unordered_set<Texture*> mBindedTextures;
-		//std::unordered_map<Texture*, SpriteBatch*> mSpriteBatches;
-		std::vector<GraphicComponent*> mComponents;
-
 		std::vector<SpriteComponent*> mSpriteComponents;
+		std::vector<MeshComponent*> mMeshComponents;
 
 		Shader mUIShader;
 		VertexArray* mUiVAO;
@@ -51,20 +48,10 @@ namespace clt
 
 		void Close() override;
 
-		/**
-   * @brief Adds a graphic component to the renderer.
-   * @param pComp Pointer to the graphic component to add.
-   */
-		void AddGraphicComponent(GraphicComponent* pComp);
-
-		/**
-   * @brief Removes a graphic component from the renderer.
-   * @param pComp Pointer to the graphic component to remove.
-   */
-		void RemoveGraphicComponent(GraphicComponent* pComp);
+		void AddMeshComponent(MeshComponent* pComp);
+		void RemoveMeshComponent(MeshComponent* pComp);
 
 		void AddSpriteComponent(SpriteComponent* pComp);
-
 		void RemoveSpriteComponent(SpriteComponent* pComp);
 		
 		/**

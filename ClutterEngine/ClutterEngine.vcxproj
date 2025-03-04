@@ -170,14 +170,15 @@
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\CircleCollider.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\Collider2DComponent.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\HitResult.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\GraphicComponent.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Camera\CameraComponent.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Camera\SpringArmComponent.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\FlipbookComponent.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\SpriteComponent.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Mesh\MeshComponent.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Sprite\FlipbookComponent.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Sprite\SpriteComponent.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\UI\HUDComponent.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Physics\RigidBody2D.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\UI\HUDComponent.h" />
+    <ClInclude Include="Engine\Include\Core\Assets\AssetsType\Mesh.h" />
     <ClInclude Include="Engine\Include\Graphics\UI\UIPanel.h" />
     <ClInclude Include="Engine\Include\Graphics\UI\WidgetElement.h" />
     <ClInclude Include="Engine\Include\Core\Assets\Assets.h" />
@@ -210,12 +211,14 @@
     <ClInclude Include="Engine\Include\Physics\Collision\CollisionEvent.h" />
     <ClInclude Include="Engine\Include\Physics\Collision\ICollisionListener.h" />
     <ClInclude Include="Engine\Include\Physics\Physics.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\AnimatorComponent.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Sprite\AnimatorComponent.h" />
     <ClInclude Include="Libraries\include\PCH\framework.h" />
     <ClInclude Include="Libraries\include\PCH\pch.h" />
     <ClInclude Include="Engine\Include\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Mesh\MeshComponent.cpp" />
+    <ClCompile Include="Engine\Source\Core\Assets\AssetsType\Mesh.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\UI\HUDComponent.cpp" />
     <ClCompile Include="Engine\Source\Graphics\Shader\VertexArray.cpp" />
     <ClCompile Include="Engine\Source\Core\Maths\Matrix\Matrix4.cpp" />
@@ -223,7 +226,7 @@
     <ClCompile Include="Engine\Source\Core\Maths\Vectors\Vector4.cpp" />
     <ClCompile Include="Engine\Source\Core\Maths\Quaternion.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Camera\SpringArmComponent.cpp" />
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\AnimatorComponent.cpp" />
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Sprite\AnimatorComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\Collider2DComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Physics\RigidBody2D.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\CircleCollider.cpp" />
@@ -238,11 +241,11 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Camera\CameraComponent.cpp" />
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\FlipbookComponent.cpp" />
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Sprite\FlipbookComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\Timer.cpp" />
     <ClCompile Include="Engine\Source\Core\Maths\Vectors\Vector2.cpp" />
     <ClCompile Include="Engine\Source\Graphics\Shader\Shader.cpp" />
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\SpriteComponent.cpp" />
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Sprite\SpriteComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\Assets\Assets.cpp" />
     <ClCompile Include="Engine\Source\Core\Assets\AssetsType\Texture.cpp" />
     <ClCompile Include="Engine\Source\Core\Levels\LevelManager.cpp" />

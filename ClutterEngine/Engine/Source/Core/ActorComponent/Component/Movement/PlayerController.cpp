@@ -1,6 +1,6 @@
 #include "pch.h"
 #include <Core/ActorComponent/Components/Movements/PlayerController.h>
-#include <Core/ActorComponent/Components/Graphics/AnimatorComponent.h>
+#include <Core/ActorComponent/Components/Graphics/Sprite/AnimatorComponent.h>
 #include <Input/Input.h>
 
 using namespace clt;

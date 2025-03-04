@@ -2,7 +2,7 @@
 #include <Core/ActorComponent/Actor.h>
 #include <Core/Assets/Assets.h>
 #include <Input/Input.h>
-#include <Core/ActorComponent/Components/Graphics/AnimatorComponent.h>
+#include <Core/ActorComponent/Components/Graphics/Sprite/AnimatorComponent.h>
 #include <Core/ActorComponent/Components/Collisions/AABBCollider.h>
 #include <Core/ActorComponent/Components/Movements/PlayerController.h>
 #include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
@@ -49,13 +49,13 @@ void TestLevel::Load()
 	//crate->AddComponent<clt::AABBCollider>(Vector2(16, 16));
 	//crate->AddComponent<clt::RigidBody2D>();
 	crate->AddComponent<clt::SpriteComponent>(clt::Assets::Get().GetTexture("crate"));
-	crate->SetActorScale(16);
+	crate->SetActorScale(75);
 	crate->SetActorLocation({ 100, 0 });
 
 	//block->AddComponent<clt::AABBCollider>(Vector2(16, 16));
 	block->AddComponent<clt::SpriteComponent>(clt::Assets::Get().GetTexture("tile"));
 	block->SetActorLocation({ 0, 0 });
-	block->SetActorScale(16);
+	block->SetActorScale(75);
 
 	/*player->AddComponent<clt::AnimatorComponent>("walk", runAnim);
 	player->GetComponentOfType<clt::AnimatorComponent>()->AddNewAnim("jump", jumpAnim, false);

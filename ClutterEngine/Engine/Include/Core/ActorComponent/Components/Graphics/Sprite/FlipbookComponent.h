@@ -1,7 +1,7 @@
 #pragma once
 #include <Core/CCommon.h>
 #include <vector>
-#include <Core/ActorComponent/Components/Graphics/SpriteComponent.h>
+#include <Core/ActorComponent/Components/Graphics/Sprite/SpriteComponent.h>
 
 namespace clt
 {

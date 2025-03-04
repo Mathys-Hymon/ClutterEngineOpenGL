@@ -1,12 +1,12 @@
 #pragma once
-#include <Core/ActorComponent/Components/GraphicComponent.h>
+#include <Core/ActorComponent/Component.h>
 #include <Graphics/RendererGL.h>
 #include <Core/Levels/Level.h>
 #include <Core/Assets/AssetsType/Texture.h>
 
 namespace clt
 {
-	class CLUTTER_API SpriteComponent : public GraphicComponent
+	class CLUTTER_API SpriteComponent : public Component
 	{
 	protected:
 		int mTexWidth, mTexHeight;
@@ -29,7 +29,6 @@ namespace clt
 		};
 
 		virtual void SetTexture(Texture* pTexture);
-		virtual void Draw(RendererGL& pRenderer) override {};
 
 		void SetFlipX(bool pFlip)  { mFlipX = pFlip;  };
 		void SetFlipY(bool pFlipY) { mFlipY = pFlipY; };

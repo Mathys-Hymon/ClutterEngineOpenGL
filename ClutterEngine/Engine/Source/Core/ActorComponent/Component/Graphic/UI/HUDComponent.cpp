@@ -25,11 +25,6 @@ void HUDComponent::RemoveWidget(const std::string& pName)
 	mWidgets.erase(it);
 }
 
-void HUDComponent::Draw(RendererGL& pRenderer)
-{
-	if(mCurrentWidget) mCurrentWidget->Draw();
-}
-
 void HUDComponent::Update()
 {
 	if (mCurrentWidget) mCurrentWidget->Draw();

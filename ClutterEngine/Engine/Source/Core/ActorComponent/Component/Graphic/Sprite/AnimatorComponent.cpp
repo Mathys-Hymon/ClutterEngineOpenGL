@@ -1,5 +1,5 @@
 #include "pch.h"
-#include <Core/ActorComponent/Components/Graphics/AnimatorComponent.h>
+#include <Core/ActorComponent/Components/Graphics/Sprite/AnimatorComponent.h>
 
 using namespace clt;
 

@@ -1,6 +1,7 @@
 #include "pch.h"  
 #include<Graphics/RendererGL.h>  
-#include<Core/ActorComponent/Components/Graphics/SpriteComponent.h>  
+#include<Core/ActorComponent/Components/Graphics/Sprite/SpriteComponent.h>  
+#include<Core/ActorComponent/Components/Graphics/Mesh/MeshComponent.h>  
 #include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
 #include <Core/CEngine.h>
 
@@ -55,45 +56,45 @@ void RendererGL::Close()
 
    Assets::Get().ClearTextures();  
    delete mUiVAO;
-}  
+}
 
-void RendererGL::AddGraphicComponent(GraphicComponent* pComp)  
-{  
-   int compDrawOrder = pComp->GetDrawOrder();  
+void RendererGL::AddMeshComponent(MeshComponent* pComp)
+{
+    int compDrawOrder = pComp->GetUpdateOrder();
 
-   if (!mComponents.empty())  
-   {  
-       std::vector<GraphicComponent*>::iterator gc;  
-       for (gc = mComponents.begin(); gc != mComponents.end(); gc++)  
-       {  
-           if (compDrawOrder < (*gc)->GetDrawOrder()) break;  
-       }  
-       mComponents.insert(gc, pComp);  
-   }  
-   else  
-   {  
-       mComponents.emplace_back(pComp);  
-   }  
-}  
+    if (!mMeshComponents.empty())
+    {
+        std::vector<MeshComponent*>::iterator gc;
+        for (gc = mMeshComponents.begin(); gc != mMeshComponents.end(); gc++)
+        {
+            if (compDrawOrder < (*gc)->GetUpdateOrder()) break;
+        }
+        mMeshComponents.insert(gc, pComp);
+    }
+    else
+    {
+        mMeshComponents.emplace_back(pComp);
+    }
+}
 
-void RendererGL::RemoveGraphicComponent(GraphicComponent* pComp)  
-{  
-   std::vector<GraphicComponent*>::iterator gc;  
-   gc = std::find(mComponents.begin(), mComponents.end(), pComp);  
+void RendererGL::RemoveMeshComponent(MeshComponent* pComp)
+{
+    std::vector<MeshComponent*>::iterator gc;
+    gc = std::find(mMeshComponents.begin(), mMeshComponents.end(), pComp);
 
-   if(gc != mComponents.end()) mComponents.erase(gc);
-}  
+    if (gc != mMeshComponents.end()) mMeshComponents.erase(gc);
+}
 
 void RendererGL::AddSpriteComponent(SpriteComponent* pComp)  
 {  
-    int compDrawOrder = pComp->GetDrawOrder();
+    int compDrawOrder = pComp->GetUpdateOrder();
 
     if (!mSpriteComponents.empty())
     {
         std::vector<SpriteComponent*>::iterator gc;
         for (gc = mSpriteComponents.begin(); gc != mSpriteComponents.end(); gc++)
         {
-            if (compDrawOrder < (*gc)->GetDrawOrder()) break;
+            if (compDrawOrder < (*gc)->GetUpdateOrder()) break;
         }
         mSpriteComponents.insert(gc, pComp);
     }
@@ -124,21 +125,20 @@ void RendererGL::BeginDraw()
 
 void RendererGL::Draw()  
 {  
-   CameraComponent* camera = CameraComponent::GetActiveCamera();
+    // Get the active camera
+    CameraComponent* camera = CameraComponent::GetActiveCamera();
+    Matrix4Row viewProj;
 
-   if (camera)  
-   {  
-       mUIShader.SetMat4Row("uViewProj", mUiViewProj);
-   }  
-   else  
-   {  
-       CLUTTER_WARNING("No main camera active !");  
-   }  
+    if (camera)  viewProj = camera->GetViewProjMatrices();
+    else  CLUTTER_WARNING("No main camera active !");
 
-   for (GraphicComponent* comp : mComponents)  
-   {  
-       if(comp->IsActive()) comp->Draw(*this);
-   }  
+    for (MeshComponent* comp : mMeshComponents)
+    {
+        comp->Draw(viewProj);
+    }
+
+
+   mUIShader.SetMat4Row("uViewProj", mUiViewProj);
    mUiVAO->Bind();
 
    for (auto& comp : mSpriteComponents)

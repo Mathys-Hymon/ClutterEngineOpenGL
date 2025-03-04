@@ -1,6 +1,6 @@
 #include "pch.h"
 #include <Core/Timer.h>
-#include <Core/ActorComponent/Components/Graphics/FlipbookComponent.h>
+#include <Core/ActorComponent/Components/Graphics/Sprite/FlipbookComponent.h>
 
 using namespace clt;
 

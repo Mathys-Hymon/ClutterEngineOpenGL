@@ -84,9 +84,6 @@
     <ClInclude Include="Engine\Include\Core\CEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\GraphicComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Include\Core\Levels\TemplateLevel\TemplateLevel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -96,13 +93,13 @@
     <ClInclude Include="Engine\Include\Core\Assets\AssetsType\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\SpriteComponent.h">
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Sprite\SpriteComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Include\Graphics\Shader\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\FlipbookComponent.h">
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Sprite\FlipbookComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Include\Core\Timer.h">
@@ -144,7 +141,7 @@
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\CircleCollider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\AnimatorComponent.h">
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Sprite\AnimatorComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Camera\SpringArmComponent.h">
@@ -178,6 +175,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\UI\HUDComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Include\Core\Assets\AssetsType\Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Mesh\MeshComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -218,7 +221,7 @@
     <ClCompile Include="Engine\Source\Core\Assets\Assets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\SpriteComponent.cpp">
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Sprite\SpriteComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Source\Graphics\Shader\Shader.cpp">
@@ -227,7 +230,7 @@
     <ClCompile Include="Engine\Source\Core\Maths\Vectors\Vector2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\FlipbookComponent.cpp">
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Sprite\FlipbookComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Source\Core\Timer.cpp">
@@ -260,7 +263,7 @@
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\Collider2DComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\AnimatorComponent.cpp">
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Sprite\AnimatorComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Camera\SpringArmComponent.cpp">
@@ -288,6 +291,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\UI\HUDComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Source\Core\Assets\AssetsType\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Mesh\MeshComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
