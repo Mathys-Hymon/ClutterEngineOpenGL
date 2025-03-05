@@ -18,7 +18,6 @@ namespace clt
 		~VertexArray();
 
 		void Set(const float* pVertices, u32 pVerticeCount, const u32* pIndices, u32 pIndexCount);
-		void Set(VertexArray* pvao);
 
 		void Bind();
 		void Unbind();
