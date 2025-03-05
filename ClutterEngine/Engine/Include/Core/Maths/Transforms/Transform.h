@@ -9,13 +9,15 @@ class CLUTTER_API Transform
     Vector3 location = { 0, 0, 0 };
     Vector3 scale = { 1, 1, 1 };
 
-    Quaternion rotation {0, 0, 0, 0};
+    Quaternion rotation {0, 0, 0, 1};
     Matrix4Row mWorldTransform;
+
+    bool mDirty = true;
 
 public:
 
-    Transform() { ComputeWorldTransform(); };
-    Transform(Vector3 pLocation, Vector3 pScale, Quaternion pRotation) : location(pLocation), scale(pScale), rotation(pRotation) { ComputeWorldTransform(); };
+    Transform() { mDirty = true; };
+    Transform(Vector3 pLocation, Vector3 pScale, Quaternion pRotation) : location(pLocation), scale(pScale), rotation(pRotation) { mDirty = true; };
 
     Vector3 Right() const 
     {
@@ -45,65 +47,63 @@ public:
     void SetLocation(Vector3 newLocation)
     {
         location = newLocation;
-        ComputeWorldTransform();
+        mDirty = true;
     }
 
     void SetLocation(Vector2 newLocation)
     {
         location = newLocation;
-        ComputeWorldTransform();
+        mDirty = true;
     }
 
     void SetRotation(Quaternion newRotation)
     {
+        newRotation.Normalize();
         rotation = newRotation;
-        ComputeWorldTransform();
+        mDirty = true;
     }
 
     void SetRotation(float newRotation)
     {
         rotation = newRotation;
-        ComputeWorldTransform();
+        rotation.Normalize();
+        mDirty = true;
     }
 
     void SetScale(Vector3 newScale)
     {
         scale = newScale;
-        ComputeWorldTransform();
+        mDirty = true;
     }
 
     void SetScale(Vector2 newScale)
     {
         scale = newScale;
-        ComputeWorldTransform();
+        mDirty = true;
     }
 
     Transform operator+(const Transform& q) const
     {
-        return { location + q.location, scale * q.scale, Quaternion::Concatenate(rotation, q.rotation) };
+        return { location + q.location, scale * q.scale, Quaternion::Concatenate(q.rotation, rotation) };
     }
 
     Vector3 Location() const { return location; };
     Vector3 Scale() const { return scale; };
     Quaternion Rotation() const { return rotation; };
-    Matrix4Row GetMat4Transform() const { return mWorldTransform; }
-
-    //friend Transform operator+(Transform left, Transform right)
-    //{
-    //    return { left.location + right.location, left.scale * right.scale, left.rotation + right.rotation };
-    //}
+    Matrix4Row GetMat4Transform() const 
+    { 
+        if (mDirty)
+        {
+            const_cast<Transform*>(this)->ComputeWorldTransform();
+        }
+        return mWorldTransform; 
+    };
 
     void ComputeWorldTransform()
     {
         mWorldTransform = Matrix4Row::CreateScale(scale);
         mWorldTransform *= Matrix4Row::CreateFromQuaternion(rotation);
         mWorldTransform *= Matrix4Row::CreateTranslation(location);
-    }
-
-    void ComputeWorldTransform(Transform other)
-    {
-        mWorldTransform = Matrix4Row::CreateScale(scale * other.scale);
-        mWorldTransform *= Matrix4Row::CreateFromQuaternion(Quaternion::Concatenate(rotation, other.rotation));
-        mWorldTransform *= Matrix4Row::CreateTranslation(location + other.location);
+        mDirty = false;
     }
 };

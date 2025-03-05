@@ -135,19 +135,58 @@ struct CLUTTER_API Quaternion
 		return retVal;
 	}
 
-    static Quaternion FromAxisAngle(const Vector3& axis, float angleDegrees) {
-       float angleRadians = Maths::ToRad(angleDegrees);
-       float halfAngle = angleRadians * 0.5f;
-       float sinHalfAngle = sinf(halfAngle);
+    static Quaternion FromAxisAngle(const Vector3& axis) {
 
-       Vector3 normalizedAxis = Vector3::Normalize(axis);
-       return Quaternion(
-           normalizedAxis.x * sinHalfAngle,
-           normalizedAxis.y * sinHalfAngle,
-           normalizedAxis.z * sinHalfAngle,
-           cosf(halfAngle)
-       );
+        float angleRadiansX = 0.0f;
+        float halfAngleX = 0.0f;
+        float sinHalfAngleX = 0.0f;
+
+        float angleRadiansY = 0.0f;
+        float halfAngleY = 0.0f;
+        float sinHalfAngleY = 0.0f;
+
+        float angleRadiansZ = 0.0f;
+        float halfAngleZ = 0.0f;
+        float sinHalfAngleZ = 0.0f;
+
+        if (axis.x != 0)
+        {
+            angleRadiansX = Maths::ToRad(axis.x);
+            halfAngleX = angleRadiansX * 0.5f;
+            sinHalfAngleX = sinf(halfAngleX);
+        }
+
+        if (axis.y != 0)
+        {
+            angleRadiansY = Maths::ToRad(axis.y);
+            halfAngleY = angleRadiansY * 0.5f;
+            sinHalfAngleY = sinf(halfAngleY);
+        }
+
+        if (axis.z != 0)
+        {
+            angleRadiansZ = Maths::ToRad(axis.z);
+            halfAngleZ = angleRadiansZ * 0.5f;
+            sinHalfAngleZ = sinf(halfAngleZ);
+        }
+
+        Vector3 normalizedAxis = Vector3::Normalize(axis);
+        return Quaternion(
+            normalizedAxis.x * sinHalfAngleX,
+            normalizedAxis.y * sinHalfAngleY,
+            normalizedAxis.z * sinHalfAngleZ,
+            cosf(halfAngleX + halfAngleY + halfAngleZ)
+        );
     }
+
+	inline std::string ToString()
+	{
+		return "Rotation: ("
+			+ std::to_string(x) + ", "
+			+ std::to_string(y) + ", "
+			+ std::to_string(z) + ", "
+			+ std::to_string(w) + ")";
+	}
 
 	class Matrix4 AsMatrix() const;
 

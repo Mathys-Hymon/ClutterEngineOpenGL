@@ -1,6 +1,7 @@
 #pragma once
 #include <Core/CCommon.h>
 #include <Core/Maths/Transforms/Transform.h>
+#include <Core/Timer.h>
 #include <unordered_map>
 #include <vector>
 
@@ -178,7 +179,7 @@ namespace clt
          */
         void AddActorLocationOffset(const Vector3& locOffset) 
         { 
-            mTransform.SetLocation(mTransform.Location() + locOffset);
+            mTransform.SetLocation((mTransform.Location() + locOffset) * Timer::deltaTime);
         };
 
         void AddActorLocationOffset(const Vector2& locOffset)
@@ -192,8 +193,14 @@ namespace clt
          */
         void AddActorRotationOffset(Quaternion rotOffset) 
         { 
-            mTransform.SetRotation(Quaternion::Concatenate(mTransform.Rotation(), rotOffset));
+            rotOffset.Normalize();
+            mTransform.SetRotation(Quaternion::Concatenate(rotOffset, mTransform.Rotation()));
         };
+
+        void AddActorRotationOffset(Vector3 rotOffset)
+        {
+            mTransform.SetRotation(Quaternion::Concatenate(Quaternion::FromAxisAngle(rotOffset), mTransform.Rotation()));
+        }
 
         /**
          * @brief Gets the level the actor is attached to.

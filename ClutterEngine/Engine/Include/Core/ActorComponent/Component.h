@@ -19,8 +19,7 @@ namespace clt
 
         virtual void SetOwner(Actor* pOwner) 
         { 
-            mOwner = pOwner; 
-            mRelativeTransform.ComputeWorldTransform(pOwner->getTransform());
+            mOwner = pOwner;
             Start();
         };
 
@@ -73,28 +72,22 @@ namespace clt
         int GetUpdateOrder() const { return mUpdateOrder; }
 
         void SetRelativeLocation(const Vector3& loc) { 
-            mRelativeTransform.SetLocation(loc); 
-            mRelativeTransform.ComputeWorldTransform(mOwner->getTransform());
+            mRelativeTransform.SetLocation(loc);
         };
         void SetRelativeLocation(const Vector2& loc) {
             mRelativeTransform.SetLocation(loc); 
-            mRelativeTransform.ComputeWorldTransform(mOwner->getTransform());
         };
         void SetRelativeScale(const Vector3& scale)  { 
-            mRelativeTransform.SetScale(scale);  
-            mRelativeTransform.ComputeWorldTransform(mOwner->getTransform());
+            mRelativeTransform.SetScale(scale);
         };
         void SetRelativeScale(const Vector2& scale) { 
             mRelativeTransform.SetScale(scale);
-            mRelativeTransform.ComputeWorldTransform(mOwner->getTransform());
         };
         void SetRelativeRotation(Quaternion rot)    { 
-            mRelativeTransform.SetRotation(rot); 
-            mRelativeTransform.ComputeWorldTransform(mOwner->getTransform());
+            mRelativeTransform.SetRotation(rot);
         };
         void SetRelativeRotation(float rot) { 
-            mRelativeTransform.SetRotation(rot); 
-            mRelativeTransform.ComputeWorldTransform(mOwner->getTransform());
+            mRelativeTransform.SetRotation(rot);
         };
         void SetRelativeTransform(Transform& transform) 
         {

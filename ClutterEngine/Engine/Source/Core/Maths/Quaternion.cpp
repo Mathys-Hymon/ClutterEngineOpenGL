@@ -25,7 +25,7 @@ Quaternion::Quaternion(const Vector3& axis, float angle)
 
 Quaternion::Quaternion(float inAll)
 {
-	Set(0, 0, 0, inAll);
+	Set(0, 0, inAll, 1);
 }
 
 void Quaternion::Set(float inX, float inY, float inZ, float inW)

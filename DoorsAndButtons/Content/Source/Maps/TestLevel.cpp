@@ -71,7 +71,11 @@ void TestLevel::Load()
 
 void TestLevel::Update()
 {
+	block->AddActorLocationOffset({ 0,0.1f,0 });
 
+	block->AddActorRotationOffset({ 0.5f, 1, 0 });
+
+    //block->GetComponentOfType<clt::MeshComponent>()->SetRelativeLocation(block->GetComponentOfType<clt::MeshComponent>()->GetRelativePosition() + Vector3(0.001f, 0, 0));
 }
 
 void TestLevel::Close()
