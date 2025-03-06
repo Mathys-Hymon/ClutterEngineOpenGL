@@ -19,30 +19,11 @@ public:
     Transform() { mDirty = true; };
     Transform(Vector3 pLocation, Vector3 pScale, Quaternion pRotation) : location(pLocation), scale(pScale), rotation(pRotation) { mDirty = true; };
 
-    Vector3 Right() const 
-    {
-        float yaw = Maths::ToRad(rotation.y);
-        Vector3 tempRight = { Maths::Cos(yaw), 0, Maths::Sin(yaw) };
 
-        return Vector3::Normalize(tempRight);
-    }
+    Vector3 Right() const { return Vector3::Transform(Vector3::unitY, rotation); }
+    Vector3 Up() const { return Vector3::Transform(Vector3::unitZ, rotation); }
+    Vector3 Forward() const { return Vector3::Transform(Vector3::unitX, rotation); }
 
-    Vector3 Up() const 
-    {
-        float pitch = Maths::ToRad(rotation.x);
-        float roll = Maths::ToRad(rotation.z);
-        Vector3 tempUp = { -Maths::Sin(pitch) * Maths::Sin(roll), Maths::Cos(pitch), Maths::Sin(pitch) * Maths::Cos(roll) };
-
-        return Vector3::Normalize(tempUp);
-    }
-
-    Vector3 Forward() const 
-    {
-        float yaw = Maths::ToRad(rotation.y);
-        float pitch = Maths::ToRad(rotation.x);
-        Vector3 tempForward = { -Maths::Sin(yaw) * Maths::Cos(pitch),  Maths::Sin(pitch),  -Maths::Cos(yaw) * Maths::Cos(pitch) };
-        return Vector3::Normalize(tempForward);
-    }
 
     void SetLocation(Vector3 newLocation)
     {
@@ -90,12 +71,9 @@ public:
     Vector3 Location() const { return location; };
     Vector3 Scale() const { return scale; };
     Quaternion Rotation() const { return rotation; };
-    Matrix4Row GetMat4Transform() const 
+    Matrix4Row GetMat4Transform() 
     { 
-        if (mDirty)
-        {
-            const_cast<Transform*>(this)->ComputeWorldTransform();
-        }
+        if (mDirty)  ComputeWorldTransform();
         return mWorldTransform; 
     };
 

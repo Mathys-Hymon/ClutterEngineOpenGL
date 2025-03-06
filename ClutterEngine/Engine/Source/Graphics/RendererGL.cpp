@@ -136,7 +136,7 @@ void RendererGL::Draw()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     mUIShader.Use();
 
-   mUIShader.SetMat4Row("uViewProj", mUiViewProj);
+   mUIShader.SetMat4Row("uViewProj", viewProj);
    mUiVAO->Bind();
 
    for (auto& comp : mSpriteComponents)

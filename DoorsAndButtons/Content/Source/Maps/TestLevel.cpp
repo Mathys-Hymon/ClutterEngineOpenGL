@@ -45,13 +45,14 @@ void TestLevel::Load()
 	block  = AddActor(new clt::Actor("block"));
 	crate  = AddActor(new clt::Actor("crate"));
 
-	camera->AddComponent<clt::CameraComponent>();
+	camera->AddComponent<clt::CameraComponent>(clt::ProjectionMode::Orthographic);
+	camera->SetActorLocation({ 0,0, 5 });
 
 	//crate->AddComponent<clt::AABBCollider>(Vector2(16, 16));
 	//crate->AddComponent<clt::RigidBody2D>();
 	crate->AddComponent<clt::SpriteComponent>(clt::Assets::Get().GetTexture("crate"));
-	crate->SetActorScale(75);
-	crate->SetActorLocation({ 0, 0 });
+	crate->SetActorScale(1);
+	crate->SetActorLocation({ 10, 0 });
 
 	block->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetTexture("tile"));
 	block->SetActorScale(1);
@@ -73,7 +74,7 @@ void TestLevel::Update()
 {
 	block->AddActorLocationOffset({ 0,0.1f,0 });
 
-	block->AddActorRotationOffset({ 0.5f, 1, 0 });
+	block->AddActorRotationOffset({ 0, 0, 1 });
 
     //block->GetComponentOfType<clt::MeshComponent>()->SetRelativeLocation(block->GetComponentOfType<clt::MeshComponent>()->GetRelativePosition() + Vector3(0.001f, 0, 0));
 }

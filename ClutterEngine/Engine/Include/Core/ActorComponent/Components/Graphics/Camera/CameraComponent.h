@@ -11,6 +11,8 @@ namespace clt
 
 	class CLUTTER_API CameraComponent : public Component
 	{
+		bool mDirty;
+
 		Matrix4Row mView;
 		Matrix4Row mProj;
 		ProjectionMode mProjectionMode;
@@ -29,7 +31,7 @@ namespace clt
 
 	public:
 
-		CameraComponent(ProjectionMode pProjectionMode = ProjectionMode::Perspective, float pFOV = 90.0f, float pNearPlane = 0.1f, float pFarPlane = 100.0f);
+		CameraComponent(ProjectionMode pProjectionMode = ProjectionMode::Perspective, float pFOV = 90.0f, float pNearPlane = 0.1f, float pFarPlane = 10000.0f);
 
 		virtual void Update() override;
 
@@ -38,8 +40,20 @@ namespace clt
 		void SetActive(CameraComponent* cam);
 		static CameraComponent* GetActiveCamera();
 
-		const Matrix4Row& GetViewMatrix() const { return mView; }
-		const Matrix4Row& GetProjectionMatrix() const { return mProj; }
-		const Matrix4Row& GetViewProjMatrices() const { return mView * mProj; }
+		const Matrix4Row& GetViewMatrix() 
+		{
+			if (mDirty) UpdateMatrices();
+			return mView; 
+		}
+		const Matrix4Row& GetProjectionMatrix() 
+		{ 
+			if (mDirty) UpdateMatrices();
+			return mProj; 
+		}
+		const Matrix4Row& GetViewProjMatrices() 
+		{ 
+			if (mDirty) UpdateMatrices();
+			return mView * mProj; 
+		}
 	};
 }

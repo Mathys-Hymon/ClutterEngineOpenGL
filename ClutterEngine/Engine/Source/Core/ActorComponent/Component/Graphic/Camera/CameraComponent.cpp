@@ -9,20 +9,19 @@ using namespace clt;
 CameraComponent* CameraComponent::ACTIVE_CAMERA = nullptr;
 
 
-CameraComponent::CameraComponent(ProjectionMode pMode, float pFOV, float pNearPlane, float pFarPlane) : mProjectionMode(pMode), mFov(pFOV), mNearPlane(pNearPlane), mFarPlane(pFarPlane) { UpdateMatrices(); }
+CameraComponent::CameraComponent(ProjectionMode pMode, float pFOV, float pNearPlane, float pFarPlane) : Component(), mProjectionMode(pMode), mFov(pFOV), mNearPlane(pNearPlane), mFarPlane(pFarPlane) { mDirty = true; }
 
 void CameraComponent::UpdateMatrices()
 {
-	mView = Matrix4Row::CreateLookAt(Vector3(0, 0, 5), Vector3::unitX, Vector3::unitZ);
-
 	if (mProjectionMode == ProjectionMode::Perspective)
 	{
-		mProj = Matrix4Row::CreatePerspectiveFOV(70.0f, mViewSize.x, mViewSize.y, 0.01f, 10000.0f);
+		mProj = Matrix4Row::CreatePerspectiveFOV(mFov, mViewSize.x, mViewSize.y, mNearPlane, mFarPlane);
 	}
 	else
 	{
 		mProj = Matrix4Row::CreateOrtho(mViewSize.x, mViewSize.y, -1, mFarPlane);
 	}
+	mDirty = false;
 }
 
 void CameraComponent::SetOwner(Actor* pOwner)
@@ -35,28 +34,25 @@ void CameraComponent::SetOwner(Actor* pOwner)
 	}
 
 	mViewSize = mOwner->GetLevel()->GetRenderer().GetEngine()->GetWindow()->GetDimensions();
-	UpdateMatrices();
+	mDirty = true;
 }
 
 
 void CameraComponent::Update()
 {
-	if (ACTIVE_CAMERA == this)
-	{
-		UpdateMatrices();
-	}
+	if (ACTIVE_CAMERA == this) mView = Matrix4Row::CreateLookAt(GetWorldPosition(), GetWorldTransform().Forward(), GetWorldTransform().Up());
 }
 
 void CameraComponent::SetFOV(float pFOV)
 {
 	mFov = pFOV;
-	UpdateMatrices();
+	mDirty = true;
 }
 
 void CameraComponent::SetProjectionMode(ProjectionMode pProjectionMode)
 {
 	mProjectionMode = pProjectionMode;
-	UpdateMatrices();
+	mDirty = true;
 }
 
 void CameraComponent::SetActive(CameraComponent* cam)
