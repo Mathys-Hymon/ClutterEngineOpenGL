@@ -19,6 +19,7 @@ struct CLUTTER_API Matrix4Row
 
 	}
 
+
 	// Cast to a const float pointer
 	const float* GetAsFloatPtr() const
 	{
@@ -382,6 +383,7 @@ struct CLUTTER_API Matrix4Row
 		};
 		return Matrix4Row(temp);
 	}
+
 
 	static const Matrix4Row Identity;
 };

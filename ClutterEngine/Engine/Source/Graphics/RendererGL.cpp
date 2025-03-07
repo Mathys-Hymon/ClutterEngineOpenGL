@@ -3,6 +3,7 @@
 #include<Core/ActorComponent/Components/Graphics/Sprite/SpriteComponent.h>  
 #include<Core/ActorComponent/Components/Graphics/Mesh/MeshComponent.h>  
 #include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
+#include <Core/Debug/DebugDraw.h>
 #include <Core/CEngine.h>
 
 using namespace clt;  
@@ -42,6 +43,8 @@ bool RendererGL::Initialize(CEngine* pEngine)
 
    mUiViewProj = Matrix4Row::CreateSimpleViewProj(pEngine->GetWindow()->GetDimensions().x, 
                                                   pEngine->GetWindow()->GetDimensions().y);
+
+   DebugDraw::Get().Start();
 }  
 
 void RendererGL::Close()  
@@ -128,6 +131,8 @@ void RendererGL::Draw()
     {
         comp->Draw(viewProj);
     }
+
+    DebugDraw::Get().Draw(viewProj);
 
     glDisable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);

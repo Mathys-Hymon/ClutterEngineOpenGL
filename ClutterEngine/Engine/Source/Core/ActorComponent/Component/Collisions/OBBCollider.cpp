@@ -16,11 +16,22 @@ OBBCollider::OBBCollider(float pBoxExtend) : ColliderComponent(), mBoxExtend(pBo
 
 bool OBBCollider::CheckOBBvsOBB(OBBCollider* pOther, hitResult& outResult) const
 {
-    Vector3 centerA = GetWorldLocation();
-    Vector3 centerB = pOther->GetWorldLocation();
+    auto axesAtransform = GetWorldTransform();
+    auto axesBtransform = pOther->GetWorldTransform();
 
-    auto axesA = GetAxes();
-    auto axesB = pOther->GetAxes();
+    Vector3 axesA[3] = 
+    {
+    axesAtransform.Right(),
+    axesAtransform.Up(),
+    axesAtransform.Forward()
+    };
+
+    Vector3 axesB[3] =
+    {
+    axesBtransform.Right(),
+    axesBtransform.Up(),
+    axesBtransform.Forward()
+    };
 
     float minOverlap = FLT_MAX;
 
@@ -65,7 +76,7 @@ bool OBBCollider::CheckCollision(ColliderComponent* pOther, hitResult& outResult
 }
 
 
-bool OBBCollider::TestAxis(const Vector3& pAxis, OBBCollider* pOther, float minOverlap, hitResult& outResult) const
+bool OBBCollider::TestAxis(const Vector3& pAxis, OBBCollider* pOther, float& minOverlap, hitResult& outResult) const
 {
     float projA = Vector3::Dot(GetWorldLocation(), pAxis);
     float projB = Vector3::Dot(pOther->GetWorldLocation(), pAxis);
@@ -81,28 +92,21 @@ bool OBBCollider::TestAxis(const Vector3& pAxis, OBBCollider* pOther, float minO
     if (maxA < minB || maxB < minA) return false;
 
     float overlap = std::min(maxA - minB, maxB - minA);
-    if (overlap < minOverlap) {
+
+    if (overlap < minOverlap) 
+    {
         minOverlap = overlap;
-        outResult.Normal = pAxis;
+        Vector3 dirToB = (pOther->GetWorldLocation() - GetWorldLocation()).Normalized();
+
+        if (Vector3::Dot(dirToB, pAxis) < 0) outResult.Normal = -pAxis;
+        else outResult.Normal = pAxis;
     }
     return true;
 }
 
-std::array<Vector3, 3> OBBCollider::GetAxes() const
-{
-    Matrix4Row rotationMatrix = GetOwner()->getTransform().GetMat4Transform();
-
-    return {
-        rotationMatrix.GetXAxis().Normalized(),
-        rotationMatrix.GetYAxis().Normalized(),
-        rotationMatrix.GetZAxis().Normalized()
-    };
-}
-
 float OBBCollider::GetProjectionRadius(const Vector3& axis) const
 {
-    auto axes = GetAxes();
-    return mBoxExtend.x * std::abs(Vector3::Dot(axes[0], axis)) +
-        mBoxExtend.y * std::abs(Vector3::Dot(axes[1], axis)) +
-        mBoxExtend.z * std::abs(Vector3::Dot(axes[2], axis));
+    return mBoxExtend.x * std::abs(Vector3::Dot(GetWorldTransform().Right()  , axis)) +
+           mBoxExtend.y * std::abs(Vector3::Dot(GetWorldTransform().Up()     , axis)) +
+           mBoxExtend.z * std::abs(Vector3::Dot(GetWorldTransform().Forward(), axis));
 }

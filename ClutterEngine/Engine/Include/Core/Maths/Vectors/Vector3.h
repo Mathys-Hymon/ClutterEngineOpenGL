@@ -1,5 +1,5 @@
 #pragma once
-#include <Core/CLog/CLog.h>
+#include <Core/Debug/CLog/CLog.h>
 #include <Core/Maths/Vectors/Vector2.h>
 #include <algorithm>
 /**

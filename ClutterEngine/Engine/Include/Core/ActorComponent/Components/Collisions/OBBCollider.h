@@ -10,14 +10,13 @@ namespace clt
 		bool CheckOBBvsOBB(OBBCollider* pOther, hitResult& outResult) const;
 		bool CheckOBBvsSphere(SphereCollider* pOther, hitResult& outResult) const;
 
-		std::array<Vector3, 3> GetAxes() const;
 		float GetProjectionRadius(const Vector3& pAxis) const;
-		bool TestAxis(const Vector3& pAxis, OBBCollider* pOther, float minOverlap, hitResult& outResult) const;
+		bool TestAxis(const Vector3& pAxis, OBBCollider* pOther, float& minOverlap, hitResult& outResult) const;
 
 	public:
 		Vector3 mBoxExtend;
 
-		OBBCollider(Vector3 pBoxExtend = 32);
+		OBBCollider(Vector3 pBoxExtend = 1);
 		OBBCollider(float pBoxExtend);
 
 		~OBBCollider() = default;

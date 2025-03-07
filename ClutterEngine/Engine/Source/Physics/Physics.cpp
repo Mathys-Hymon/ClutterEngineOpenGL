@@ -27,7 +27,7 @@ void Physics::AddCollider(ColliderComponent* pCollider)
 // Adds a rigidbody to the physics engine
 void Physics::AddRigidbody(RigidBody* pRigidbody)
 {
-    mRigidbody2D.push_back(pRigidbody);
+    mRigidbody.push_back(pRigidbody);
 }
 
 // Removes a rigidbody from the physics engine
@@ -61,11 +61,11 @@ void Physics::SubscribeTo(ColliderComponent* pCollider, ICollisionListener* pLis
 // Updates the physics engine, applying gravity and checking for collisions
 void Physics::Update()
 {
-    for (auto& rb : mRigidbody2D)
+    for (auto& rb : mRigidbody)
     {
         if (!rb->mIsKinematic && rb->IsActive())
         {
-            rb->AddVelocity(mGravity.xy() * rb->GetGravityScale() * Timer::deltaTime);
+            rb->AddVelocity(mGravity * rb->GetGravityScale() * Timer::deltaTime);
             rb->GetOwner()->AddActorLocationOffset(rb->GetVelocity() * Timer::deltaTime);
 
             if(!rb->mLockRotation) rb->UpdateRotation(Timer::deltaTime);

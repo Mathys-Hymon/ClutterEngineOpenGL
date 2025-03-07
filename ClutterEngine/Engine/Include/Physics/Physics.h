@@ -15,7 +15,7 @@ namespace clt
 		std::unordered_map<ColliderComponent*, CollisionEvent*> mColliderEvent; ///< Maps colliders to their collision events.
 		std::vector<ColliderComponent*> mColliders; ///< List of all colliders in the simulation.
 
-		std::vector<RigidBody*> mRigidbody2D; ///< List of all rigid bodies in the simulation.
+		std::vector<RigidBody*> mRigidbody; ///< List of all rigid bodies in the simulation.
 
 		Vector3 mGravity; ///< The gravity vector applied to all rigid bodies.
 

@@ -45,19 +45,19 @@ constexpr unsigned int cubeIndices[] = {
    20, 21, 22, 21, 23, 22  // Face haut
 };
 
-const auto meshVertPath = "Content/Shaders/basic.vert";
+const auto basicVertPah = "Content/Shaders/basic.vert";
 const auto meshFragPath = "Content/Shaders/basic.frag";
 
 Mesh::Mesh()
 {
     mVAO = new VertexArray(cubeVertices, 24, cubeIndices, 36);
-    mShader.Load(meshVertPath, meshFragPath);
+    mShader.Load(basicVertPah, meshFragPath);
 }
 
 Mesh::Mesh(const float* pVertices, u32 pVerticeCount, const u32* pIndices, u32 pIndexCount)
 {
     mShader = Shader();
-    mShader.Load(meshVertPath, meshFragPath);
+    mShader.Load(basicVertPah, meshFragPath);
 
     mVAO = new VertexArray(pVertices, pVerticeCount, pIndices, pIndexCount);
 }

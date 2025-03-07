@@ -14,6 +14,7 @@ clt::Actor* player;
 clt::Actor* camera;
 clt::Actor* block;
 clt::Actor* crate;
+clt::Actor* floorActor;
 
 TestLevel::TestLevel(std::string pName) : clt::Level(pName)
 {
@@ -44,23 +45,28 @@ void TestLevel::Load()
 	camera = AddActor(new clt::Actor("camera"));
 	block  = AddActor(new clt::Actor("block"));
 	crate  = AddActor(new clt::Actor("crate"));
+	floorActor = AddActor(new clt::Actor("floor"));
 
 	camera->AddComponent<clt::CameraComponent>();
 	camera->SetActorLocation({ 0, 0, 5 });
 
 	crate->AddComponent<clt::SpriteComponent>(clt::Assets::Get().GetTexture("crate"));
-	crate->SetActorScale(75);
-	crate->SetActorLocation({ 10, 0 });
+	crate->SetActorScale(50);
+	crate->SetActorLocation({ 100, 0 });
+
+	floorActor->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetTexture("tile"));
+	floorActor->AddComponent<clt::OBBCollider>();
+	floorActor->SetActorScale({ 20,0.5f,20 });
+	floorActor->SetActorLocation({ 0, -2, 0 });
 
 	block->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetTexture("tile"));
-	//block->AddComponent<clt::OBBCollider>();
-	//block->AddComponent<clt::RigidBody>();
+	block->AddComponent<clt::OBBCollider>();
+	block->AddComponent<clt::RigidBody>();
 }
 
 void TestLevel::Update()
 {
-	//block->AddActorRotationOffset({ 0, 0, 1 });
-	block->AddActorLocationOffset(block->getTransform().Up() / 10);
+	std::cout << block->GetActorLocation().ToString() << std::endl;
 }
 
 void TestLevel::Close()

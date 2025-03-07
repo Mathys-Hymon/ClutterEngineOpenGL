@@ -183,13 +183,15 @@
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Physics\RigidBody.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\UI\HUDComponent.h" />
     <ClInclude Include="Engine\Include\Core\Assets\AssetsType\Mesh.h" />
+    <ClInclude Include="Engine\Include\Core\Debug\DebugDraw.h" />
+    <ClInclude Include="Engine\Include\Core\Maths\Color.h" />
     <ClInclude Include="Engine\Include\Graphics\UI\UIPanel.h" />
     <ClInclude Include="Engine\Include\Graphics\UI\WidgetElement.h" />
     <ClInclude Include="Engine\Include\Core\Assets\Assets.h" />
     <ClInclude Include="Engine\Include\Core\Assets\AssetsType\Texture.h" />
     <ClInclude Include="Engine\Include\Core\CCommon.h" />
     <ClInclude Include="Engine\Include\Core\CEngine.h" />
-    <ClInclude Include="Engine\Include\Core\CLog\CLog.h" />
+    <ClInclude Include="Engine\Include\Core\Debug\CLog\CLog.h" />
     <ClInclude Include="Engine\Include\Core\CPrerequisites.h" />
     <ClInclude Include="Engine\Include\Core\Levels\TemplateLevel\TemplateLevel.h" />
     <ClInclude Include="Engine\Include\Core\Maths\Maths.h" />
@@ -221,11 +223,13 @@
     <ClInclude Include="Engine\Include\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Source\Core\Debug\DebugDraw.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\OBBCollider.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\ColliderComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Mesh\MeshComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\Assets\AssetsType\Mesh.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\UI\HUDComponent.cpp" />
+    <ClCompile Include="Engine\Source\Core\Maths\Color.cpp" />
     <ClCompile Include="Engine\Source\Graphics\Shader\VertexArray.cpp" />
     <ClCompile Include="Engine\Source\Core\Maths\Matrix\Matrix4.cpp" />
     <ClCompile Include="Engine\Source\Core\Maths\Matrix\Matrix4Row.cpp" />

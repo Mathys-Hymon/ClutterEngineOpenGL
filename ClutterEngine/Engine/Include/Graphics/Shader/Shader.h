@@ -4,6 +4,7 @@
 #include <Core/Maths/Vectors/Vector2.h>
 #include <Core/Maths/Vectors/Vector4.h>
 #include <Core/Maths/Matrix/Matrix4.h>
+#include <Core/Maths/Color.h>
 #include <Core/Maths/Matrix/Matrix4Row.h>
 
 #include <string>
@@ -40,6 +41,7 @@ namespace clt
 		void SetVec3f(const GLchar* pName, GLfloat pX, GLfloat pY, GLfloat pZ);
 
 		void SetVec4f(const GLchar* pName, const Vector4& pValue);
+		void SetVec4f(const GLchar* pName, const Color& pValue);
 		void SetVec4f(const GLchar* pName, GLfloat pX, GLfloat pY, GLfloat pZ, GLfloat pW);
 
 		void SetMat2(const GLchar* pName, const glm::mat2& pMatrix);
