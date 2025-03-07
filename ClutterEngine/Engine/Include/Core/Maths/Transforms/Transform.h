@@ -20,9 +20,9 @@ public:
     Transform(Vector3 pLocation, Vector3 pScale, Quaternion pRotation) : location(pLocation), scale(pScale), rotation(pRotation) { mDirty = true; };
 
 
-    Vector3 Right() const { return Vector3::Transform(Vector3::unitY, rotation); }
-    Vector3 Up() const { return Vector3::Transform(Vector3::unitZ, rotation); }
-    Vector3 Forward() const { return Vector3::Transform(Vector3::unitX, rotation); }
+    Vector3 Right() const { return Vector3::Transform(Vector3::unitX, rotation); }
+    Vector3 Up() const { return Vector3::Transform(Vector3::unitY, rotation); }
+    Vector3 Forward() const { return Vector3::Transform(Vector3::unitZ, rotation); }
 
 
     void SetLocation(Vector3 newLocation)

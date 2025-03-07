@@ -16,12 +16,12 @@ void SpringArmComponent::Update()
 
         if (mLagSpeed == 0)
         {
-            targetLoc = GetWorldPosition() + mCameraOffset;
+            targetLoc = GetWorldLocation() + mCameraOffset;
             mCamera->SetActorLocation(targetLoc);
         }
         else
         {
-            targetLoc = Vector3::VInterp(mCamera->GetActorLocation(), GetWorldPosition() + mCameraOffset, Timer::deltaTime, mLagSpeed);
+            targetLoc = Vector3::VInterp(mCamera->GetActorLocation(), GetWorldLocation() + mCameraOffset, Timer::deltaTime, mLagSpeed);
             mCamera->SetActorLocation(targetLoc);
         }
     }

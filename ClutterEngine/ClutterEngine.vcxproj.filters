@@ -120,7 +120,7 @@
     <ClInclude Include="Engine\Include\Physics\Physics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Physics\RigidBody2D.h">
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Physics\RigidBody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\Collider2DComponent.h">
@@ -138,7 +138,7 @@
     <ClInclude Include="Engine\Include\Physics\Collision\CollisionEvent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\CircleCollider.h">
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\2D\CircleCollider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Sprite\AnimatorComponent.h">
@@ -181,6 +181,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Mesh\MeshComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\2D\AABBCollider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\ColliderComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\OBBCollider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\SphereCollider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -242,7 +254,7 @@
     <ClCompile Include="Engine\Source\Input\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\AABBCollider.cpp">
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\2D\AABBCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Source\Physics\Physics.cpp">
@@ -254,13 +266,10 @@
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Movement\PlayerController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\CircleCollider.cpp">
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\2D\CircleCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Physics\RigidBody2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\Collider2DComponent.cpp">
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Physics\RigidBody.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Sprite\AnimatorComponent.cpp">
@@ -297,6 +306,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Mesh\MeshComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\ColliderComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\OBBCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

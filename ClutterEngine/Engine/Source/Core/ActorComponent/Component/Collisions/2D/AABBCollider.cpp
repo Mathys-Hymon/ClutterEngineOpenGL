@@ -1,6 +1,6 @@
 #include "pch.h"  
-#include <Core/ActorComponent/Components/Collisions/AABBCollider.h>  
-#include <Core/ActorComponent/Components/Collisions/CircleCollider.h>  
+#include <Core/ActorComponent/Components/Collisions/2D/AABBCollider.h>  
+#include <Core/ActorComponent/Components/Collisions/2D/CircleCollider.h>  
 
 
 using namespace clt;
@@ -15,7 +15,7 @@ AABBCollider::AABBCollider(float pBoxExtend) : mBoxExtend(pBoxExtend)
    mType = Type::AABB;  
 }  
 
-bool AABBCollider::CheckCollision(Collider2DComponent* pOther, hitResult2D& outResult) const  
+bool AABBCollider::CheckCollision(ColliderComponent* pOther, hitResult& outResult) const  
 {  
    if (pOther->GetType() == Type::AABB)  
    {  
@@ -27,7 +27,7 @@ bool AABBCollider::CheckCollision(Collider2DComponent* pOther, hitResult2D& outR
    }  
 }  
 
-bool AABBCollider::CheckAABBvsAABB(AABBCollider* pOther, hitResult2D& outResult) const 
+bool AABBCollider::CheckAABBvsAABB(AABBCollider* pOther, hitResult& outResult) const 
 {
     // Get the transformed points of both AABBs
     auto pointsA = GetTransformedPoints();
@@ -151,7 +151,6 @@ bool AABBCollider::CheckAABBvsAABB(AABBCollider* pOther, hitResult2D& outResult)
     // Set the collision result
     outResult.Normal = smallestAxis;
     outResult.Penetration = minOverlap;
-    outResult.IsColliding = true;
     outResult.ColliderA = const_cast<AABBCollider*>(this);
     outResult.ColliderB = pOther;
     outResult.ActorA = GetOwner();
@@ -160,7 +159,7 @@ bool AABBCollider::CheckAABBvsAABB(AABBCollider* pOther, hitResult2D& outResult)
     return true;
 }
 
-bool AABBCollider::CheckAABBvsCircle(CircleCollider* pOther, hitResult2D& outResult) const  
+bool AABBCollider::CheckAABBvsCircle(CircleCollider* pOther, hitResult& outResult) const  
 {  
     return false;
 }  

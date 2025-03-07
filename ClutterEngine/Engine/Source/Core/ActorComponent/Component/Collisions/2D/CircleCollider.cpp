@@ -1,6 +1,6 @@
 #include "pch.h"
-#include <Core/ActorComponent/Components/Collisions/CircleCollider.h>
-#include <Core/ActorComponent/Components/Collisions/AABBCollider.h>
+#include <Core/ActorComponent/Components/Collisions/2D/CircleCollider.h>
+#include <Core/ActorComponent/Components/Collisions/2D/AABBCollider.h>
 
 using namespace clt;
 
@@ -9,7 +9,7 @@ CircleCollider::CircleCollider(float pRadius) : mRadius(pRadius)
 	mType = Type::Circle;
 }
 
-bool CircleCollider::CheckCollision(Collider2DComponent* pOther, hitResult2D& outResult) const
+bool CircleCollider::CheckCollision(ColliderComponent* pOther, hitResult& outResult) const
 {
 	if (pOther->GetType() == Type::Circle)
 	{
@@ -23,10 +23,10 @@ bool CircleCollider::CheckCollision(Collider2DComponent* pOther, hitResult2D& ou
 	}
 }
 
-bool CircleCollider::CheckCircleVsCircle(CircleCollider* pOther, hitResult2D& outResult) const
+bool CircleCollider::CheckCircleVsCircle(CircleCollider* pOther, hitResult& outResult) const
 {
 	CircleCollider* other = static_cast<CircleCollider*>(pOther);
-	Vector2 delta = other->GetWorldPosition().xy() - GetWorldPosition().xy();
+	Vector2 delta = other->GetWorldLocation().xy() - GetWorldLocation().xy();
 	float distance = delta.Length();
 	float totalRadius = mRadius + other->mRadius;
 
@@ -34,7 +34,7 @@ bool CircleCollider::CheckCircleVsCircle(CircleCollider* pOther, hitResult2D& ou
 	{
 		outResult.Normal = delta.Normalized();
 		outResult.Penetration = totalRadius - distance;
-		outResult.Point = GetWorldPosition().xy() + outResult.Normal * mRadius;
+		outResult.Point = GetWorldLocation().xy() + outResult.Normal * mRadius;
 		return true;
 	}
 	return false;

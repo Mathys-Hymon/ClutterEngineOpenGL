@@ -38,12 +38,10 @@ bool RendererGL::Initialize(CEngine* pEngine)
    2, 3, 0
    };
 
-
    mUiVAO = new VertexArray(vertices, 4, indices, 6);
 
    mUiViewProj = Matrix4Row::CreateSimpleViewProj(pEngine->GetWindow()->GetDimensions().x, 
                                                   pEngine->GetWindow()->GetDimensions().y);
-
 }  
 
 void RendererGL::Close()  
@@ -136,7 +134,7 @@ void RendererGL::Draw()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     mUIShader.Use();
 
-   mUIShader.SetMat4Row("uViewProj", viewProj);
+   mUIShader.SetMat4Row("uViewProj", mUiViewProj);
    mUiVAO->Bind();
 
    for (auto& comp : mSpriteComponents)

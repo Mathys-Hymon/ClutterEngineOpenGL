@@ -37,10 +37,33 @@ struct Vector3
 		return Vector3(a.x + b.x, a.y + b.y, a.z + b.z);
 	}
 
+	friend Vector3 operator/(const Vector3& vec, float scalar)
+	{
+		return Vector3(vec.x / scalar, vec.y / scalar, vec.z / scalar);
+	}
+
+	// Scalar /=  
+	Vector3& operator/=(float scalar)
+	{
+		x /= scalar;
+		y /= scalar;
+		z /= scalar;
+		return *this;
+	}
+
 	// Vector subtraction (a - b)
 	friend Vector3 operator-(const Vector3& a, const Vector3& b)
 	{
 		return Vector3(a.x - b.x, a.y - b.y, a.z - b.z);
+	}
+
+	/**
+ * @brief Negates the vector.
+ * @return The negated vector.
+ */
+	inline Vector3 operator-() const
+	{
+		return { -x, -y, -z };
 	}
 
 	// Component-wise multiplication
@@ -118,6 +141,13 @@ struct Vector3
 		return temp;
 	}
 
+	inline Vector3 Normalized() const
+	{
+		Vector3 temp = *this;
+		temp.Normalize();
+		return temp;
+	}
+
 	// Dot product between two vectors (a dot b)
 	static float Dot(const Vector3& a, const Vector3& b)
 	{
@@ -183,6 +213,8 @@ struct Vector3
 		return {x, y};
 	}
 
+
+
 	/**
  * @brief Clamps the vector components to the given range.
  * @param minValue The minimum value.
@@ -200,7 +232,7 @@ struct Vector3
 		if (z > maxValue) z = maxValue;
 	}
 
-	static const Vector3 zero;
+	static const Vector3 Zero;
 	static const Vector3 unitX;
 	static const Vector3 unitY;
 	static const Vector3 unitZ;

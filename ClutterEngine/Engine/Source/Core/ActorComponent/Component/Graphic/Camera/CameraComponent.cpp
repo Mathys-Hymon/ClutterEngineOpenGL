@@ -40,7 +40,7 @@ void CameraComponent::SetOwner(Actor* pOwner)
 
 void CameraComponent::Update()
 {
-	if (ACTIVE_CAMERA == this) mView = Matrix4Row::CreateLookAt(GetWorldPosition(), GetWorldTransform().Forward(), GetWorldTransform().Up());
+	if (ACTIVE_CAMERA == this) mView = Matrix4Row::CreateLookAt(GetWorldLocation(), GetWorldTransform().Forward(), GetWorldTransform().Up());
 }
 
 void CameraComponent::SetFOV(float pFOV)

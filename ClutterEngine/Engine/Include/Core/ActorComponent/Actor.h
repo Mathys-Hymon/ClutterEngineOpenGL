@@ -199,7 +199,7 @@ namespace clt
 
         void AddActorRotationOffset(Vector3 rotOffset)
         {
-            mTransform.SetRotation(Quaternion::Concatenate(Quaternion::FromAxisAngle(rotOffset), mTransform.Rotation()));
+            mTransform.SetRotation(Quaternion::Concatenate(Quaternion::FromEuler(rotOffset), mTransform.Rotation()));
         }
 
         /**

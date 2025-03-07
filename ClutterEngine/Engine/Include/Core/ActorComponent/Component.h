@@ -96,12 +96,12 @@ namespace clt
             SetRelativeRotation(transform.Rotation());
         };
 
-        Vector3 GetRelativePosition()      const { return mRelativeTransform.Location(); };
+        Vector3 GetRelativeLocation()      const { return mRelativeTransform.Location(); };
         Vector3 GetRelativeScale()         const { return mRelativeTransform.Scale();    };
         Quaternion GetRelativeRotation()   const { return mRelativeTransform.Rotation(); };
         Transform GetRelativeTransform()   const { return mRelativeTransform;            };
 
-        Vector3 GetWorldPosition()         const { return mOwner->GetActorLocation() + mRelativeTransform.Location(); };
+        Vector3 GetWorldLocation()         const { return mOwner->GetActorLocation() + mRelativeTransform.Location(); };
         Vector3 GetWorldScale()            const { return mOwner->GetScale() * mRelativeTransform.Scale();            };
         Quaternion GetWorldRotation()      const { return Quaternion::Concatenate(mOwner->GetRotation(), mRelativeTransform.Rotation()); };
         Transform GetWorldTransform()      const { return mOwner->getTransform() + mRelativeTransform;                };

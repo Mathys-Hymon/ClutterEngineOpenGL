@@ -5,7 +5,7 @@
 using namespace clt;
 
 // Constructor initializing gravity vector
-Physics::Physics() : mGravity({ 0.0f, -300.0f })
+Physics::Physics() : mGravity({ 0.0f, -300.0f, 0.0f })
 {
 }
 
@@ -15,47 +15,47 @@ Physics::~Physics()
 }
 
 // Adds a collider to the physics engine
-void Physics::AddCollider(Collider2DComponent* pCollider)
+void Physics::AddCollider(ColliderComponent* pCollider)
 {
-    mColliders2D.push_back(pCollider);
-    if (m2DColliderEvent.find(pCollider) == m2DColliderEvent.end())
+    mColliders.push_back(pCollider);
+    if (mColliderEvent.find(pCollider) == mColliderEvent.end())
     {
-        m2DColliderEvent[pCollider] = new CollisionEvent();
+        mColliderEvent[pCollider] = new CollisionEvent();
     }
 }
 
 // Adds a rigidbody to the physics engine
-void Physics::AddRigidbody(RigidBody2D* pRigidbody)
+void Physics::AddRigidbody(RigidBody* pRigidbody)
 {
     mRigidbody2D.push_back(pRigidbody);
 }
 
 // Removes a rigidbody from the physics engine
-void Physics::RemoveRigidBody(RigidBody2D* pRigidbody)
+void Physics::RemoveRigidBody(RigidBody* pRigidbody)
 {
     // Implementation needed
 }
 
 // Removes a collider from the physics engine
-void Physics::RemoveCollider(Collider2DComponent* pCollider)
+void Physics::RemoveCollider(ColliderComponent* pCollider)
 {
-    mColliders2D.erase(std::remove(mColliders2D.begin(), mColliders2D.end(), pCollider), mColliders2D.end());
-    if (m2DColliderEvent.find(pCollider) != m2DColliderEvent.end()) {
-        delete m2DColliderEvent[pCollider];
-        m2DColliderEvent.erase(pCollider);
+    mColliders.erase(std::remove(mColliders.begin(), mColliders.end(), pCollider), mColliders.end());
+    if (mColliderEvent.find(pCollider) != mColliderEvent.end()) {
+        delete mColliderEvent[pCollider];
+        mColliderEvent.erase(pCollider);
     }
 }
 
 // Subscribes a listener to collision events for a specific collider
-void Physics::SubscribeTo(Collider2DComponent* pCollider, ICollisionListener* pListener)
+void Physics::SubscribeTo(ColliderComponent* pCollider, ICollisionListener* pListener)
 {
-    size_t hasCollider = m2DColliderEvent.count(pCollider);
+    size_t hasCollider = mColliderEvent.count(pCollider);
 
     if (!hasCollider)
     {
-        m2DColliderEvent[pCollider] = new CollisionEvent();
+        mColliderEvent[pCollider] = new CollisionEvent();
     }
-    m2DColliderEvent[pCollider]->Subscribe(pListener);
+    mColliderEvent[pCollider]->Subscribe(pListener);
 }
 
 // Updates the physics engine, applying gravity and checking for collisions
@@ -65,7 +65,7 @@ void Physics::Update()
     {
         if (!rb->mIsKinematic && rb->IsActive())
         {
-            rb->AddVelocity(mGravity * rb->GetGravityScale() * Timer::deltaTime);
+            rb->AddVelocity(mGravity.xy() * rb->GetGravityScale() * Timer::deltaTime);
             rb->GetOwner()->AddActorLocationOffset(rb->GetVelocity() * Timer::deltaTime);
 
             if(!rb->mLockRotation) rb->UpdateRotation(Timer::deltaTime);
@@ -81,19 +81,19 @@ void Physics::Update()
 // Checks for collisions between all colliders
 void Physics::CheckCollisions()
 {
-    mCurrentFrameCollisions2D.clear();
+    mCurrentFrameCollisions.clear();
 
-    for (size_t i = 0; i < mColliders2D.size(); i++)
+    for (size_t i = 0; i < mColliders.size(); i++)
     {
-        for (size_t j = i + 1; j < mColliders2D.size(); j++)
+        for (size_t j = i + 1; j < mColliders.size(); j++)
         {
-            Collider2DComponent* a = mColliders2D[i];
-            Collider2DComponent* b = mColliders2D[j];
-            hitResult2D result;
+            ColliderComponent* a = mColliders[i];
+            ColliderComponent* b = mColliders[j];
+            hitResult result;
 
             if (a->CheckCollision(b, result))
             {
-                mCurrentFrameCollisions2D.push_back(result);
+                mCurrentFrameCollisions.push_back(result);
             }
         }
     }
@@ -103,11 +103,11 @@ void Physics::CheckCollisions()
 void Physics::ResolveCollisions()
 {
     // Iterate through all current frame collisions
-    for (auto& result : mCurrentFrameCollisions2D)
+    for (auto& result : mCurrentFrameCollisions)
     {
         // Get the rigid bodies involved in the collision
-        RigidBody2D* rbA = result.ActorA->GetComponentOfType<RigidBody2D>();
-        RigidBody2D* rbB = result.ActorB->GetComponentOfType<RigidBody2D>();
+        RigidBody* rbA = result.ActorA->GetComponentOfType<RigidBody>();
+        RigidBody* rbB = result.ActorB->GetComponentOfType<RigidBody>();
 
         float restitution = std::max(result.ColliderA->mBounciness, result.ColliderB->mBounciness);
 
@@ -115,9 +115,9 @@ void Physics::ResolveCollisions()
         if (!result.ColliderA->IsTrigger() && !result.ColliderB->IsTrigger())
         {
             // Calculate the correction vector to resolve penetration
-            const Vector2 correction = result.Normal * result.Penetration;
+            const Vector3 correction = result.Normal * result.Penetration;
             const float safetyFactor = 1.1f;
-            const Vector2 safeCorrection = correction * safetyFactor;
+            const Vector3 safeCorrection = correction * safetyFactor;
 
             // Calculate combined friction
             float combinedFriction = result.ColliderA->mFriction * result.ColliderB->mFriction;
@@ -130,11 +130,11 @@ void Physics::ResolveCollisions()
                 result.ActorA->AddActorLocationOffset(-safeCorrection);
 
                 // Calculate velocity, normal and tangent vectors
-                Vector2 velocity = rbA->GetVelocity();
-                Vector2 normal = -result.Normal.Normalized();
-                Vector2 tangent = Vector2(-normal.y, normal.x).Normalized();
+                Vector3 velocity = rbA->GetVelocity();
+                Vector3 normal = -result.Normal.Normalized();
+                Vector3 tangent = Vector2(-normal.y, normal.x).Normalized();
 
-                float velocityAlongNormal = Vector2::Dot(velocity, normal);
+                float velocityAlongNormal = Vector3::Dot(velocity, normal);
 
                 if (velocityAlongNormal < 0.0f)
                 {
@@ -142,25 +142,25 @@ void Physics::ResolveCollisions()
                     if (normal.y != 0) velocity.y *= combinedBounciness * normal.y;
                 }
 
-                float velocityTangent = Vector2::Dot(velocity, tangent);
+                float velocityTangent = Vector3::Dot(velocity, tangent);
 
                 velocityTangent *= (1.0f - combinedFriction * Timer::deltaTime);
-                velocity = (tangent * velocityTangent) + (normal * Vector2::Dot(velocity, normal));
+                velocity = (tangent * velocityTangent) + (normal * Vector3::Dot(velocity, normal));
 
                 rbA->SetVelocity(velocity);
 
                 if (!rbA->mLockRotation)
                 {
                     // Calculate torque based on collision point
-                    Vector2 contactPoint = result.Point;
-                    Vector2 centerA = result.ActorA->GetActorLocation().xy();
-                    Vector2 contactOffset = centerA - contactPoint;
+                    Vector3 contactPoint = result.Point;
+                    Vector3 centerA = result.ActorA->GetActorLocation().xy();
+                    Vector3 contactOffset = centerA - contactPoint;
 
-                    Vector2 gravityForce = Vector2(0.0f, rbA->mMass * mGravity.y * rbA->mGravityScale);
-                    Vector2 reactionForce = -result.Normal * velocityAlongNormal * rbA->mMass * 10.0f;
-                    Vector2 totalForce = gravityForce + reactionForce;
+                    Vector3 gravityForce = Vector3(0.0f, rbA->mMass * mGravity.y * rbA->mGravityScale, 0.0f);
+                    Vector3 reactionForce = -result.Normal * velocityAlongNormal * rbA->mMass * 10.0f;
+                    Vector3 totalForce = gravityForce + reactionForce;
 
-                    rbA->mTorque += contactOffset.Cross(totalForce);
+                    rbA->mTorque += Vector3::Cross(contactOffset, totalForce);
                 }
 
                 // Check if rbA is grounded
@@ -182,37 +182,38 @@ void Physics::ResolveCollisions()
                 result.ActorB->AddActorLocationOffset(safeCorrection);
 
                 // Calculate velocity, normal and tangent vectors
-                Vector2 velocity = rbB->GetVelocity();
-                Vector2 normal = result.Normal.Normalized();
-                Vector2 tangent = Vector2(-normal.y, normal.x).Normalized();
+                Vector3 velocity = rbB->GetVelocity();
+                Vector3 normal = result.Normal.Normalized();
+                Vector3 tangent = (velocity - normal * Vector3::Dot(velocity, normal)).Normalized();
 
-                float velocityAlongNormal = Vector2::Dot(velocity, normal);
+                float velocityAlongNormal = Vector3::Dot(velocity, normal);
 
                 if (velocityAlongNormal < 0.0f)
                 {
                     if (normal.x != 0) velocity.x  = std::abs(velocity.x) * combinedBounciness * normal.x;
                     if (normal.y != 0) velocity.y  = std::abs(velocity.y) * combinedBounciness * normal.y;
+                    if (normal.z != 0) velocity.z  = std::abs(velocity.z) * combinedBounciness * normal.z;
                 }
 
-                float velocityTangent = Vector2::Dot(velocity, tangent);
+                float velocityTangent = Vector3::Dot(velocity, tangent);
 
                 velocityTangent *= (1.0f - combinedFriction * Timer::deltaTime);
-                velocity = (tangent * velocityTangent) + (normal * Vector2::Dot(velocity, normal));
+                velocity = (tangent * velocityTangent) + (normal * Vector3::Dot(velocity, normal));
 
                 rbB->SetVelocity(velocity);
 
                 if (!rbB->mLockRotation)
                 {
                     // Calculate torque based on collision point
-                    Vector2 contactPoint = result.Point;
-                    Vector2 centerB = rbB->GetWorldPosition().xy();
-                    Vector2 contactOffset = centerB - contactPoint;
+                    Vector3 contactPoint = result.Point;
+                    Vector3 centerB = rbB->GetWorldLocation().xy();
+                    Vector3 contactOffset = centerB - contactPoint;
 
-                    Vector2 gravityForce = Vector2(0.0f, rbB->mMass * mGravity.y * rbB->mGravityScale);
-                    Vector2 reactionForce = result.Normal * velocityAlongNormal * rbB->mMass * 10.0f;
-                    Vector2 totalForce = gravityForce + reactionForce;
+                    Vector3 gravityForce = Vector3(0.0f, rbB->mMass * mGravity.y * rbB->mGravityScale, 0.0f);
+                    Vector3 reactionForce = result.Normal * velocityAlongNormal * rbB->mMass * 10.0f;
+                    Vector3 totalForce = gravityForce + reactionForce;
 
-                    rbB->mTorque += contactOffset.Cross(totalForce);
+                    rbB->mTorque += Vector3::Cross(contactOffset, totalForce);
                 }
 
                 // Check if rbB is grounded
@@ -227,8 +228,8 @@ void Physics::ResolveCollisions()
             else if (rbA && rbB && !rbA->mIsKinematic && !rbB->mIsKinematic)
             {
                 // Calculate relative velocity and velocity along the normal
-                Vector2 relativeVelocity = rbB->GetVelocity() - rbA->GetVelocity();
-                float velAlongNormal = Vector2::Dot(relativeVelocity, result.Normal);
+                Vector3 relativeVelocity = rbB->GetVelocity() - rbA->GetVelocity();
+                float velAlongNormal = Vector3::Dot(relativeVelocity, result.Normal);
 
                 // Calculate impulse magnitude and apply impulse
                 const float restitution = 0.5f;
@@ -236,24 +237,24 @@ void Physics::ResolveCollisions()
                 const float invMassB = 1.0f / rbB->mMass;
                 const float totalInverseMass = invMassA + invMassB;
                 const float impulseMagnitude = -(1 + restitution) * velAlongNormal / totalInverseMass;
-                const Vector2 impulse = impulseMagnitude * result.Normal;
+                const Vector3 impulse = impulseMagnitude * result.Normal;
                 rbA->SetVelocity(rbA->GetVelocity() - impulse * invMassA);
                 rbB->SetVelocity(rbB->GetVelocity() + impulse * invMassB);
 
                 // Calculate friction and apply tangent impulse
                 const float friction = std::sqrt(result.ColliderA->mFriction * result.ColliderB->mFriction * 0.01f);
-                const Vector2 tangent = (relativeVelocity - result.Normal * velAlongNormal).Normalized();
-                const float velAlongTangent = Vector2::Dot(relativeVelocity, tangent);
+                const Vector3 tangent = (relativeVelocity - result.Normal * velAlongNormal).Normalized();
+                const float velAlongTangent = Vector3::Dot(relativeVelocity, tangent);
                 const float tangentImpulseMagnitude = -velAlongTangent / totalInverseMass * friction;
-                const Vector2 tangentImpulse = tangent * tangentImpulseMagnitude;
+                const Vector3 tangentImpulse = tangent * tangentImpulseMagnitude;
                 rbA->SetVelocity(rbA->GetVelocity() - tangentImpulse * invMassA);
                 rbB->SetVelocity(rbB->GetVelocity() + tangentImpulse * invMassB);
 
                 // Apply position correction
                 if (totalInverseMass > 0)
                 {
-                    const Vector2 correctionA = -correction * (invMassA / totalInverseMass);
-                    const Vector2 correctionB = correction * (invMassB / totalInverseMass);
+                    const Vector3 correctionA = -correction * (invMassA / totalInverseMass);
+                    const Vector3 correctionB =  correction * (invMassB / totalInverseMass);
                     result.ActorA->AddActorLocationOffset(correctionA);
                     result.ActorB->AddActorLocationOffset(correctionB);
                     if (rbA->mCanStepOn) rbB->mIsGrounded = true;
@@ -261,22 +262,22 @@ void Physics::ResolveCollisions()
                 }
 
                 // Calculate torque based on collision point
-                Vector2 contactPoint = result.Point;
-                Vector2 centerA = result.ActorA->GetActorLocation().xy();
-                Vector2 centerB = result.ActorB->GetActorLocation().xy();
-                Vector2 rA = contactPoint - centerA;
-                Vector2 rB = contactPoint - centerB;
-                Vector2 force = result.Normal * impulseMagnitude * 5;
+                Vector3 contactPoint = result.Point;
+                Vector3 centerA = result.ActorA->GetActorLocation().xy();
+                Vector3 centerB = result.ActorB->GetActorLocation().xy();
+                Vector3 rA = contactPoint - centerA;
+                Vector3 rB = contactPoint - centerB;
+                Vector3 force = result.Normal * impulseMagnitude * 5;
 
                 if (rbA && !rbA->mLockRotation)
                 {
-                    float torqueA = rA.Cross(-force * rbA->mMass);
+                    Vector3 torqueA = Vector3::Cross(rA, -force * rbA->mMass);
                     rbA->mTorque += torqueA;
                 }
 
                 if (rbB && !rbB->mLockRotation)
                 {
-                    float torqueB = rB.Cross(force * rbB->mMass);
+                    Vector3 torqueB = Vector3::Cross(rB, force * rbB->mMass);
                     rbB->mTorque += torqueB;
                 }
             }
@@ -287,9 +288,9 @@ void Physics::ResolveCollisions()
 // Dispatches collision events to subscribed listeners
 void Physics::DispatchEvents()
 {
-    std::set<std::pair<Collider2DComponent*, Collider2DComponent*>> currentCollisions;
+    std::set<std::pair<ColliderComponent*, ColliderComponent*>> currentCollisions;
 
-    for (hitResult2D& result : mCurrentFrameCollisions2D)
+    for (hitResult& result : mCurrentFrameCollisions)
     {
         auto colliderPair = (result.ColliderA < result.ColliderB)
             ? std::make_pair(result.ColliderA, result.ColliderB)
@@ -301,20 +302,20 @@ void Physics::DispatchEvents()
     // ENTER
     for (auto& colliderPair : currentCollisions)
     {
-        if (!mPreviousCollisions2D.count(colliderPair))
+        if (!mPreviousCollisions.count(colliderPair))
         {
-            for (hitResult2D& result : mCurrentFrameCollisions2D)
+            for (hitResult& result : mCurrentFrameCollisions)
             {
                 if ((result.ColliderA == colliderPair.first && result.ColliderB == colliderPair.second) ||
                     (result.ColliderA == colliderPair.second && result.ColliderB == colliderPair.first))
                 {
-                    if (m2DColliderEvent.count(result.ColliderA))
+                    if (mColliderEvent.count(result.ColliderA))
                     {
-                        m2DColliderEvent[result.ColliderA]->NotifyEnter(result);
+                        mColliderEvent[result.ColliderA]->NotifyEnter(result);
                     }
-                    if (m2DColliderEvent.count(result.ColliderB))
+                    if (mColliderEvent.count(result.ColliderB))
                     {
-                        m2DColliderEvent[result.ColliderB]->NotifyEnter(result);
+                        mColliderEvent[result.ColliderB]->NotifyEnter(result);
                     }
                     break;
                 }
@@ -323,22 +324,22 @@ void Physics::DispatchEvents()
     }
 
     // STAY
-    for (auto& colliderPair : mPreviousCollisions2D)
+    for (auto& colliderPair : mPreviousCollisions)
     {
         if (currentCollisions.count(colliderPair))
         {
-            for (hitResult2D& result : mCurrentFrameCollisions2D)
+            for (hitResult& result : mCurrentFrameCollisions)
             {
                 if ((result.ColliderA == colliderPair.first && result.ColliderB == colliderPair.second) ||
                     (result.ColliderB == colliderPair.second && result.ColliderB == colliderPair.first))
                 {
-                    if (m2DColliderEvent.count(result.ColliderA))
+                    if (mColliderEvent.count(result.ColliderA))
                     {
-                        m2DColliderEvent[result.ColliderA]->NotifyStay(result);
+                        mColliderEvent[result.ColliderA]->NotifyStay(result);
                     }
-                    if (m2DColliderEvent.count(result.ColliderB))
+                    if (mColliderEvent.count(result.ColliderB))
                     {
-                        m2DColliderEvent[result.ColliderB]->NotifyStay(result);
+                        mColliderEvent[result.ColliderB]->NotifyStay(result);
                     }
                 }
             }
@@ -346,22 +347,22 @@ void Physics::DispatchEvents()
     }
 
     // EXIT
-    for (auto& colliderPair : mPreviousCollisions2D)
+    for (auto& colliderPair : mPreviousCollisions)
     {
         if (!currentCollisions.count(colliderPair))
         {
-            for (hitResult2D& prevResult : mPreviousFrameCollisions2D)
+            for (hitResult& prevResult : mPreviousFrameCollisions)
             {
                 if ((prevResult.ColliderA == colliderPair.first && prevResult.ColliderB == colliderPair.second) ||
                     (prevResult.ColliderA == colliderPair.second && prevResult.ColliderB == colliderPair.first))
                 {
-                    if (m2DColliderEvent.count(colliderPair.first))
+                    if (mColliderEvent.count(colliderPair.first))
                     {
-                        m2DColliderEvent[colliderPair.first]->NotifyExit(prevResult);
+                        mColliderEvent[colliderPair.first]->NotifyExit(prevResult);
                     }
-                    if (m2DColliderEvent.count(colliderPair.second))
+                    if (mColliderEvent.count(colliderPair.second))
                     {
-                        m2DColliderEvent[colliderPair.second]->NotifyExit(prevResult);
+                        mColliderEvent[colliderPair.second]->NotifyExit(prevResult);
                     }
                 }
             }

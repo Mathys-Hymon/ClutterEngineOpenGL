@@ -17,17 +17,17 @@ PlayerController::PlayerController(std::string pMovementCallback, std::string pJ
 	}
 }
 
-void PlayerController::OnCollisionEnter(const hitResult2D& result)
+void PlayerController::OnCollisionEnter(const hitResult& result)
 {
 
 }
 
-void PlayerController::OnCollisionStay(const hitResult2D& result)
+void PlayerController::OnCollisionStay(const hitResult& result)
 {
 
 }
 
-void PlayerController::OnCollisionExit(const hitResult2D& result)
+void PlayerController::OnCollisionExit(const hitResult& result)
 {
 
 }
@@ -36,7 +36,7 @@ void PlayerController::SetOwner(Actor* pOwner)
 {
 	Component::SetOwner(pOwner);
 	mSprite = mOwner->GetComponentOfType<AnimatorComponent>();
-	mRb = mOwner->GetComponentOfType<RigidBody2D>();
+	mRb = mOwner->GetComponentOfType<RigidBody>();
 }
 
 void PlayerController::Movement(Vector2 pDirection)
@@ -71,11 +71,11 @@ void PlayerController::Movement(float pDirection)
 	{
 		if (mRb->mIsGrounded)
 		{
-			mRb->AddVelocity({ pDirection * mMaxWalkSpeed, 0 });
+			mRb->AddVelocity({ pDirection * mMaxWalkSpeed, 0.0f , 0.0f});
 		}
 		else
 		{
-			mRb->AddVelocity({ pDirection * mMaxWalkSpeed * mAirControl, 0 });
+			mRb->AddVelocity({ pDirection * mMaxWalkSpeed * mAirControl, 0.0f , 0.0f});
 			if (mIsJumping) mMovement = MovementMode::Jump;
 			else mMovement = MovementMode::Falling;
 		}

@@ -1,5 +1,5 @@
 #pragma once
-#include <Core/ActorComponent/Components/Collisions/Collider2DComponent.h>
+#include <Core/ActorComponent/Components/Collisions/ColliderComponent.h>
 #include <array>
 
 namespace clt
@@ -9,7 +9,7 @@ namespace clt
     /**
     * @brief A class representing an Axis-Aligned Bounding Box (AABB) collider.
     */
-    class CLUTTER_API AABBCollider : public Collider2DComponent
+    class CLUTTER_API AABBCollider : public ColliderComponent
     {
         /**
         * @brief Checks for collision between two AABB colliders.
@@ -17,7 +17,7 @@ namespace clt
         * @param outResult The result of the collision check.
         * @return True if a collision is detected, false otherwise.
         */
-        bool CheckAABBvsAABB(AABBCollider* pOther, hitResult2D& outResult) const;
+        bool CheckAABBvsAABB(AABBCollider* pOther, hitResult& outResult) const;
 
         /**
         * @brief Gets the transformed points of the AABB collider.
@@ -31,7 +31,7 @@ namespace clt
         * @param outResult The result of the collision check.
         * @return True if a collision is detected, false otherwise.
         */
-        bool CheckAABBvsCircle(CircleCollider* pOther, hitResult2D& outResult) const;
+        bool CheckAABBvsCircle(CircleCollider* pOther, hitResult& outResult) const;
 
     public:
 
@@ -58,7 +58,7 @@ namespace clt
         * @param outResult The result of the collision check.
         * @return True if a collision is detected, false otherwise.
         */
-        bool CheckCollision(Collider2DComponent* pOther, hitResult2D& outResult) const override;
+        bool CheckCollision(ColliderComponent* pOther, hitResult& outResult) const override;
 
         friend CircleCollider;
     };

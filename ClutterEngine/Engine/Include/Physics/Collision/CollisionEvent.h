@@ -15,8 +15,8 @@ namespace clt
 		void Subscribe(ICollisionListener* pListener);
 		void UnSubscribe(ICollisionListener* pListener);
 
-		void NotifyEnter(hitResult2D& result);
-		void NotifyStay(hitResult2D& result);
-		void NotifyExit(hitResult2D& result);
+		void NotifyEnter(hitResult& result);
+		void NotifyStay(hitResult& result);
+		void NotifyExit(hitResult& result);
 	};
 }

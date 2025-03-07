@@ -4,16 +4,15 @@
 namespace clt
 {
     class Actor;
-    class Collider2DComponent;
-    struct CLUTTER_API hitResult2D
+    class ColliderComponent;
+    struct CLUTTER_API hitResult
     {
-        bool IsColliding = false;
         Actor* ActorA = nullptr;
         Actor* ActorB = nullptr;
-        Collider2DComponent* ColliderA = nullptr;
-        Collider2DComponent* ColliderB = nullptr;
-        Vector2 Point;
-        Vector2 Normal;
+        ColliderComponent* ColliderA = nullptr;
+        ColliderComponent* ColliderB = nullptr;
+        Vector3 Point;
+        Vector3 Normal;
         float Penetration = 0.0f;
     };
 }

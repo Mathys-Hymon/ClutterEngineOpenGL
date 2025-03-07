@@ -1,7 +1,7 @@
 #pragma once  
 #include <Core/ActorComponent/Component.h>  
 #include <Physics/Collision/ICollisionListener.h>  
-#include <Core/ActorComponent/Components/Physics/RigidBody2D.h>  
+#include <Core/ActorComponent/Components/Physics/RigidBody.h>  
 
 namespace clt  
 {  
@@ -24,7 +24,7 @@ namespace clt
    class CLUTTER_API PlayerController : public Component, public ICollisionListener  
    {  
        FlipbookComponent* mSprite; ///< Pointer to the player's sprite component.  
-       RigidBody2D* mRb; ///< Pointer to the player's rigid body component.  
+       RigidBody* mRb; ///< Pointer to the player's rigid body component.  
 
        MovementMode mMovement;
 
@@ -55,19 +55,19 @@ namespace clt
         * @brief Called when a collision starts.  
         * @param result The result of the collision.  
         */  
-       virtual void OnCollisionEnter(const hitResult2D& result) override;  
+       virtual void OnCollisionEnter(const hitResult& result) override;  
 
        /**  
         * @brief Called when a collision stays.  
         * @param result The result of the collision.  
         */  
-       virtual void OnCollisionStay(const hitResult2D& result) override;  
+       virtual void OnCollisionStay(const hitResult& result) override;  
 
        /**  
         * @brief Called when a collision ends.  
         * @param result The result of the collision.  
         */  
-       virtual void OnCollisionExit(const hitResult2D& result) override;  
+       virtual void OnCollisionExit(const hitResult& result) override;  
 
        /**  
         * @brief Sets the owner of the component.  

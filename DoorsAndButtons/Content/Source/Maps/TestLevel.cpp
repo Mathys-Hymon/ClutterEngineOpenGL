@@ -3,12 +3,12 @@
 #include <Core/Assets/Assets.h>
 #include <Input/Input.h>
 #include <Core/ActorComponent/Components/Graphics/Sprite/AnimatorComponent.h>
-#include <Core/ActorComponent/Components/Collisions/AABBCollider.h>
+#include <Core/ActorComponent/Components/Collisions/OBBCollider.h>
 #include <Core/ActorComponent/Components/Movements/PlayerController.h>
 #include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
 #include <Core/ActorComponent/Components/Graphics/Camera/SpringArmComponent.h>
 #include <Core/ActorComponent/Components/Graphics/Mesh/MeshComponent.h>
-#include <Core/ActorComponent/Components/Physics/RigidBody2D.h>
+#include <Core/ActorComponent/Components/Physics/RigidBody.h>
 
 clt::Actor* player;
 clt::Actor* camera;
@@ -45,38 +45,22 @@ void TestLevel::Load()
 	block  = AddActor(new clt::Actor("block"));
 	crate  = AddActor(new clt::Actor("crate"));
 
-	camera->AddComponent<clt::CameraComponent>(clt::ProjectionMode::Orthographic);
-	camera->SetActorLocation({ 0,0, 5 });
+	camera->AddComponent<clt::CameraComponent>();
+	camera->SetActorLocation({ 0, 0, 5 });
 
-	//crate->AddComponent<clt::AABBCollider>(Vector2(16, 16));
-	//crate->AddComponent<clt::RigidBody2D>();
 	crate->AddComponent<clt::SpriteComponent>(clt::Assets::Get().GetTexture("crate"));
-	crate->SetActorScale(1);
+	crate->SetActorScale(75);
 	crate->SetActorLocation({ 10, 0 });
 
 	block->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetTexture("tile"));
-	block->SetActorScale(1);
-
-	/*player->AddComponent<clt::AnimatorComponent>("walk", runAnim);
-	player->GetComponentOfType<clt::AnimatorComponent>()->AddNewAnim("jump", jumpAnim, false);
-	player->GetComponentOfType<clt::AnimatorComponent>()->GetAnim("jump")->SetFlipbookFps(7);
-
-	player->AddComponent<clt::AABBCollider>(Vector2(16,16));
-	player->GetComponentOfType<clt::AABBCollider>()->SetRelativeLocation({0, -4});
-	player->AddComponent<clt::RigidBody2D>();
-	player->AddComponent<clt::SpringArmComponent>(camera, 10);
-	player->AddComponent<clt::PlayerController>("PlayerMovement", "Jump", 25);*/
-
-	//player->SetActorScale(5);
+	//block->AddComponent<clt::OBBCollider>();
+	//block->AddComponent<clt::RigidBody>();
 }
 
 void TestLevel::Update()
 {
-	block->AddActorLocationOffset({ 0,0.1f,0 });
-
-	block->AddActorRotationOffset({ 0, 0, 1 });
-
-    //block->GetComponentOfType<clt::MeshComponent>()->SetRelativeLocation(block->GetComponentOfType<clt::MeshComponent>()->GetRelativePosition() + Vector3(0.001f, 0, 0));
+	//block->AddActorRotationOffset({ 0, 0, 1 });
+	block->AddActorLocationOffset(block->getTransform().Up() / 10);
 }
 
 void TestLevel::Close()

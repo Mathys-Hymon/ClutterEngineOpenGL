@@ -135,7 +135,7 @@ struct CLUTTER_API Quaternion
 		return retVal;
 	}
 
-    static Quaternion FromAxisAngle(const Vector3& axis) {
+    static Quaternion FromEuler(const Vector3& axis) {
 
         float angleRadiansX = 0.0f;
         float halfAngleX = 0.0f;

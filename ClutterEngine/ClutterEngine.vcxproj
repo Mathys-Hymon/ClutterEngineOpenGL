@@ -166,17 +166,21 @@
     <ClInclude Include="Engine\Include\Application\Application.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Actor.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Component.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\2D\AABBCollider.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\AABBCollider.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\CircleCollider.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\2D\CircleCollider.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\Collider2DComponent.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\HitResult.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\ColliderComponent.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\OBBCollider.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\SphereCollider.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Camera\CameraComponent.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Camera\SpringArmComponent.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Mesh\MeshComponent.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Sprite\FlipbookComponent.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Sprite\SpriteComponent.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\UI\HUDComponent.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Physics\RigidBody2D.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Physics\RigidBody.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\UI\HUDComponent.h" />
     <ClInclude Include="Engine\Include\Core\Assets\AssetsType\Mesh.h" />
     <ClInclude Include="Engine\Include\Graphics\UI\UIPanel.h" />
@@ -217,6 +221,8 @@
     <ClInclude Include="Engine\Include\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\OBBCollider.cpp" />
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\ColliderComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Mesh\MeshComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\Assets\AssetsType\Mesh.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\UI\HUDComponent.cpp" />
@@ -227,15 +233,14 @@
     <ClCompile Include="Engine\Source\Core\Maths\Quaternion.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Camera\SpringArmComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Sprite\AnimatorComponent.cpp" />
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\Collider2DComponent.cpp" />
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Physics\RigidBody2D.cpp" />
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\CircleCollider.cpp" />
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Physics\RigidBody.cpp" />
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\2D\CircleCollider.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Movement\PlayerController.cpp" />
     <ClCompile Include="Engine\Source\Core\Maths\Vectors\Vector3.cpp" />
     <ClCompile Include="Engine\Source\Graphics\UI\UIPanel.cpp" />
     <ClCompile Include="Engine\Source\Physics\Collisions\CollisionEvent.cpp" />
     <ClCompile Include="Engine\Source\Physics\Physics.cpp" />
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\AABBCollider.cpp" />
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\2D\AABBCollider.cpp" />
     <ClCompile Include="Engine\Source\Input\Input.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>

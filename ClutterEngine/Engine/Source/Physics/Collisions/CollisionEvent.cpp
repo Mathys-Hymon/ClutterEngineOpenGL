@@ -23,7 +23,7 @@ void CollisionEvent::UnSubscribe(ICollisionListener* pListener)
 	}
 }
 
-void CollisionEvent::NotifyEnter(hitResult2D& result)
+void CollisionEvent::NotifyEnter(hitResult& result)
 {
 	for (ICollisionListener* listener : mListeners)
 	{
@@ -31,7 +31,7 @@ void CollisionEvent::NotifyEnter(hitResult2D& result)
 	}	
 }
 
-void CollisionEvent::NotifyStay(hitResult2D& result)
+void CollisionEvent::NotifyStay(hitResult& result)
 {
 	for (ICollisionListener* listener : mListeners)
 	{
@@ -39,7 +39,7 @@ void CollisionEvent::NotifyStay(hitResult2D& result)
 	}
 }
 
-void CollisionEvent::NotifyExit(hitResult2D& result)
+void CollisionEvent::NotifyExit(hitResult& result)
 {
 	for (ICollisionListener* listener : mListeners)
 	{
