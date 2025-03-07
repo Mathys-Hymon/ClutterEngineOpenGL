@@ -56,7 +56,7 @@ namespace clt
 
 		void DrawLine(const Vector3& start, const Vector3& end, const Color& color);
 
-		void DrawBox(const Vector3& center, const Vector3& extents, const Color& color, const Quaternion& rotation = Quaternion::Identity);
+		void DrawBox(const Vector3& center, const Vector3& extents, const Color& color = Color::red, const Quaternion& rotation = Quaternion::Identity);
 
 		void DrawSphere(const Vector3& center, float radius, const Color& color);
 	};

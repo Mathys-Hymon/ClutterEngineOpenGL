@@ -143,6 +143,11 @@ void Shader::SetVec4f(const GLchar* pName, const Vector4& pValue)
     glUniform4f(glGetUniformLocation(mID, pName), pValue.x, pValue.y, pValue.z, pValue.w);
 }
 
+void Shader::SetVec4f(const GLchar* pName, const Color& pValue)
+{
+    glUniform4f(glGetUniformLocation(mID, pName), pValue.r, pValue.g, pValue.b, pValue.a);
+}
+
 void Shader::SetVec4f(const GLchar* pName, GLfloat pX, GLfloat pY, GLfloat pZ, GLfloat pW)
 {
     glUniform4f(glGetUniformLocation(mID, pName), pX, pY, pZ, pW);

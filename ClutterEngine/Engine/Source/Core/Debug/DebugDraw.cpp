@@ -17,7 +17,19 @@ void DebugDraw::Start()
     mShader = new Shader();
     mShader->Load(basicVertPah, basicFragPath);
 
-    mVAO = new VertexArray();
+    float vertices[] = {
+    -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+     1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+     1.0f,  1.0f, 0.0f, 1.0f, 1.0f,
+    -1.0f,  1.0f, 0.0f, 0.0f, 1.0f
+    };
+
+    u32 indices[] = {
+        0, 1, 2,
+        2, 3, 0
+    };
+
+    mVAO = new VertexArray(vertices, 4, indices, 6);
 }
 
 void DebugDraw::Draw(Matrix4Row viewProj)
@@ -47,16 +59,19 @@ void DebugDraw::Draw(Matrix4Row viewProj)
                 (i & 2) ? box.extents.y : -box.extents.y,
                 (i & 4) ? box.extents.z : -box.extents.z
             };
-            vertices[i] = transform.CreateScale(localPos);
+            vertices[i] = transform * localPos;
         }
 
-        const int edges[24] = {
+        const u32 edges[24] = {
             0, 1, 1, 3, 3, 2, 2, 0, // Face avant
             4, 5, 5, 7, 7, 6, 6, 4, // Face arrière
             0, 4, 1, 5, 2, 6, 3, 7  // Arêtes latérales
         };
 
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+        // Mise à jour du VAO avec les nouveaux vertices
+        mVAO->Set(reinterpret_cast<float*>(vertices), 8, edges, 24);
+
+
         mShader->SetVec4f("uColor", box.color);
 
         glDrawElements(GL_LINES, 24, GL_UNSIGNED_INT, edges);
@@ -65,12 +80,17 @@ void DebugDraw::Draw(Matrix4Row viewProj)
     mLines.clear();
     mBoxes.clear();
     mSpheres.clear();
+
+    mVAO->Unbind();
 }
 
 void DebugDraw::Close()
 {
     delete mShader;
     mShader = nullptr;
+
+    delete mVAO;
+    mVAO = nullptr;
 }
 
 void DebugDraw::DrawLine(const Vector3& start, const Vector3& end, const Color& color)

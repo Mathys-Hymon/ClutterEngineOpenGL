@@ -2,6 +2,7 @@
 #include <Core/CCommon.h>
 #include <memory.h>
 #include <Core/Maths/Vectors/Vector3.h>
+#include <Core/Maths/Vectors/Vector4.h>
 #include <Core/Maths/Quaternion.h>
 
 struct CLUTTER_API Matrix4Row
@@ -138,6 +139,26 @@ struct CLUTTER_API Matrix4Row
 		*this = *this * right;
 		return *this;
 	}
+
+    friend Vector3 operator*(const Matrix4Row& mat, const Vector3& vec)
+    {
+        Vector4 vec4(vec.x, vec.y, vec.z, 1.0f);
+
+        Vector4 result = mat * vec4;
+
+        return Vector3(result.x, result.y, result.z);
+    }
+
+	friend Vector4 operator*(const Matrix4Row& mat, const Vector4& vec)
+	{
+		return Vector4(
+			mat.mat[0][0] * vec.x + mat.mat[0][1] * vec.y + mat.mat[0][2] * vec.z + mat.mat[0][3] * vec.w,
+			mat.mat[1][0] * vec.x + mat.mat[1][1] * vec.y + mat.mat[1][2] * vec.z + mat.mat[1][3] * vec.w,
+			mat.mat[2][0] * vec.x + mat.mat[2][1] * vec.y + mat.mat[2][2] * vec.z + mat.mat[2][3] * vec.w,
+			mat.mat[3][0] * vec.x + mat.mat[3][1] * vec.y + mat.mat[3][2] * vec.z + mat.mat[3][3] * vec.w
+		);
+	}
+
 
 	// Invert the matrix - super slow
 	Matrix4Row  Inverse() const;

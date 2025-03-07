@@ -2,6 +2,7 @@
 #include <Core/ActorComponent/Actor.h>
 #include <Core/Assets/Assets.h>
 #include <Input/Input.h>
+#include <Core/Maths/Color.h>
 #include <Core/ActorComponent/Components/Graphics/Sprite/AnimatorComponent.h>
 #include <Core/ActorComponent/Components/Collisions/OBBCollider.h>
 #include <Core/ActorComponent/Components/Movements/PlayerController.h>
@@ -9,6 +10,8 @@
 #include <Core/ActorComponent/Components/Graphics/Camera/SpringArmComponent.h>
 #include <Core/ActorComponent/Components/Graphics/Mesh/MeshComponent.h>
 #include <Core/ActorComponent/Components/Physics/RigidBody.h>
+
+#include <Core/Debug/DebugDraw.h>
 
 clt::Actor* player;
 clt::Actor* camera;
@@ -56,7 +59,7 @@ void TestLevel::Load()
 
 	floorActor->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetTexture("tile"));
 	floorActor->AddComponent<clt::OBBCollider>();
-	floorActor->SetActorScale({ 20,0.5f,20 });
+	floorActor->SetActorScale({ 5,0.5f,6 });
 	floorActor->SetActorLocation({ 0, -2, 0 });
 
 	block->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetTexture("tile"));

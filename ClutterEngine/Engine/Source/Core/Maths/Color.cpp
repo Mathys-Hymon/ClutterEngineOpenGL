@@ -1,27 +1,28 @@
+#include "pch.h"
 #include <Core/Maths/Color.h>
 
-const Color Color::WHITE = Color(1.0f, 1.0f, 1.0f, 1.0f);
-const Color Color::BLACK = Color(0.0f, 0.0f, 0.0f, 1.0f);
-const Color Color::RED = Color(1.0f, 0.0f, 0.0f, 1.0f);
-const Color Color::GREEN = Color(0.0f, 1.0f, 0.0f, 1.0f);
-const Color Color::BLUE = Color(0.0f, 0.0f, 1.0f, 1.0f);
-const Color Color::YELLOW = Color(1.0f, 1.0f, 0.0f, 1.0f);
-const Color Color::CYAN = Color(0.0f, 1.0f, 1.0f, 1.0f);
-const Color Color::MAGENTA = Color(1.0f, 0.0f, 1.0f, 1.0f);
-const Color Color::ORANGE = Color(1.0f, 0.5f, 0.0f, 1.0f);
-const Color Color::PURPLE = Color(0.5f, 0.0f, 1.0f, 1.0f);
-const Color Color::PINK = Color(1.0f, 0.0f, 0.5f, 1.0f);
-const Color Color::BROWN = Color(0.5f, 0.25f, 0.0f, 1.0f);
-const Color Color::GREY = Color(0.5f, 0.5f, 0.5f, 1.0f);
-const Color Color::DARK_GREY = Color(0.25f, 0.25f, 0.25f, 1.0f);
-const Color Color::LIGHT_GREY = Color(0.75f, 0.75f, 0.75f, 1.0f);
-const Color Color::TEAL = Color(0.0f, 0.5f, 0.5f, 1.0f);
-const Color Color::LIME = Color(0.5f, 1.0f, 0.5f, 1.0f);
-const Color Color::MAROON = Color(0.5f, 0.0f, 0.0f, 1.0f);
-const Color Color::NAVY = Color(0.0f, 0.0f, 0.5f, 1.0f);
-const Color Color::OLIVE = Color(0.5f, 0.5f, 0.0f, 1.0f);
-const Color Color::SILVER = Color(0.75f, 0.75f, 0.75f, 1.0f);
-const Color Color::GOLD = Color(1.0f, 0.85f, 0.0f, 1.0f);
+const Color Color::white = Color(1.0f, 1.0f, 1.0f, 1.0f);
+const Color Color::black = Color(0.0f, 0.0f, 0.0f, 1.0f);
+const Color Color::red = Color(1.0f, 0.0f, 0.0f, 1.0f);
+const Color Color::green = Color(0.0f, 1.0f, 0.0f, 1.0f);
+const Color Color::blue = Color(0.0f, 0.0f, 1.0f, 1.0f);
+const Color Color::yellow = Color(1.0f, 1.0f, 0.0f, 1.0f);
+const Color Color::cyan = Color(0.0f, 1.0f, 1.0f, 1.0f);
+const Color Color::magenta = Color(1.0f, 0.0f, 1.0f, 1.0f);
+const Color Color::orange = Color(1.0f, 0.5f, 0.0f, 1.0f);
+const Color Color::purple = Color(0.5f, 0.0f, 1.0f, 1.0f);
+const Color Color::pink = Color(1.0f, 0.0f, 0.5f, 1.0f);
+const Color Color::brown = Color(0.5f, 0.25f, 0.0f, 1.0f);
+const Color Color::grey = Color(0.5f, 0.5f, 0.5f, 1.0f);
+const Color Color::dark_grey = Color(0.25f, 0.25f, 0.25f, 1.0f);
+const Color Color::light_grey = Color(0.75f, 0.75f, 0.75f, 1.0f);
+const Color Color::teal = Color(0.0f, 0.5f, 0.5f, 1.0f);
+const Color Color::lime = Color(0.5f, 1.0f, 0.5f, 1.0f);
+const Color Color::maroon = Color(0.5f, 0.0f, 0.0f, 1.0f);
+const Color Color::navy = Color(0.0f, 0.0f, 0.5f, 1.0f);
+const Color Color::olive = Color(0.5f, 0.5f, 0.0f, 1.0f);
+const Color Color::silver = Color(0.75f, 0.75f, 0.75f, 1.0f);
+const Color Color::gold = Color(1.0f, 0.85f, 0.0f, 1.0f);
 
 
 

@@ -31,6 +31,7 @@ struct Vector3
 		return reinterpret_cast<const float*>(&x);
 	}
 
+
 	// Vector addition (a + b)
 	friend Vector3 operator+(const Vector3& a, const Vector3& b)
 	{
@@ -83,6 +84,7 @@ struct Vector3
 	{
 		return Vector3(vec.x * scalar, vec.y * scalar, vec.z * scalar);
 	}
+
 
 	// Scalar *=
 	Vector3& operator*=(float scalar)
@@ -146,6 +148,15 @@ struct Vector3
 		Vector3 temp = *this;
 		temp.Normalize();
 		return temp;
+	}
+
+	/**
+ * @brief Returns a vector with the absolute values of each component.
+ * @return The vector with absolute values.
+ */
+	inline Vector3 Abs() const
+	{
+		return Vector3(std::abs(x), std::abs(y), std::abs(z));
 	}
 
 	// Dot product between two vectors (a dot b)
