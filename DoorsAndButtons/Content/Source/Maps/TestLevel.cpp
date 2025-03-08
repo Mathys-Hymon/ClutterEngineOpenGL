@@ -39,8 +39,9 @@ void TestLevel::Load()
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/theBlock.png", "tile", TextureFilter::NEAREST);
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/crate.png", "crate", TextureFilter::NEAREST);
 
-	clt::Input::Get().MapKeysToAxis( EKey::A, EKey::D, "PlayerMovement");
-	clt::Input::Get().MapKeyToAction(EKey::Space, "Jump", EInputState::Pressed);
+	clt::Input::Get().MapKeysToVect( EKey::A, EKey::D, EKey::W, EKey::S, "PlayerMovement");
+	clt::Input::Get().MapKeysToAxis(EKey::LeftShift, EKey::LeftControl, "MovementVertical");
+	clt::Input::Get().MapKeysToVect(EKey::A, EKey::D, EKey::W, EKey::S, "PlayerMovement");
 
 	AddActor(new clt::Actor("player"));
 
@@ -69,7 +70,6 @@ void TestLevel::Load()
 
 void TestLevel::Update()
 {
-	std::cout << block->GetActorLocation().ToString() << std::endl;
 }
 
 void TestLevel::Close()

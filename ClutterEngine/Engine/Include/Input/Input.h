@@ -18,6 +18,12 @@ namespace clt
 			EKey negativeKey;
 		};
 
+		struct MouseAxisMapping
+		{
+			EMouseButton positiveKey;
+			EMouseButton negativeKey;
+		};
+
 		struct VectMapping 
 		{
 			EKey XpositiveKey;
@@ -46,6 +52,21 @@ namespace clt
 		std::unordered_map<std::string, VectMapping> mVectMap;
 		std::unordered_map<std::string, std::vector<std::function<void(Vector2)>>> mVectCallbacks;
 
+
+		// Mouse
+		std::unordered_map<EMouseButton, Action> mMouseActionMap;
+		std::unordered_map<EMouseButton, bool> mPreviousMouseStates;
+		std::unordered_map<std::string, MouseAxisMapping> mMouseAxisMap;
+		Vector2 mLastMousePosition;
+		Vector2 mScrollDelta;
+
+		// Controller
+		std::unordered_map<EControllerButton, Action> mControllerActionMap;
+		std::unordered_map<EControllerButton, bool> mPreviousControllerStates;
+		std::unordered_map<std::string, EControllerAxis> mControllerAxisMap;
+		float mControllerDeadzone = 0.2f;
+
+		void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 		/**
    * @brief Default constructor.
    */
@@ -84,6 +105,8 @@ namespace clt
    * @param pState State of the input.
    */
 		void MapKeyToAction(EKey pKey, const std::string& pActionName, EInputState pState);
+		void MapKeyToAction(EMouseButton pKey, const std::string& pActionName, EInputState pState);
+		void MapKeyToAction(EControllerButton pKey, const std::string& pActionName, EInputState pState);
 
 		/**
    * @brief Registers a callback for an action.
@@ -93,7 +116,10 @@ namespace clt
 		void RegisterActionCallback(const std::string& pActionName, std::function<void()> callback);
 
 		void RegisterAxisCallback(const std::string& axisName, std::function<void(float)> callback);
+
 		void MapKeysToAxis(EKey positiveKey, EKey negativeKey, const std::string& axisName);
+		void MapKeysToAxis(EMouseButton positiveKey, EMouseButton negativeKey, const std::string& axisName);
+		void MapKeysToAxis(EControllerAxis axis, const std::string& axisName, float pDeadzone = -1.0f);
 
 		bool RegisterVectCallback(const std::string& VectName, std::function<void(Vector2)> callback);
 		void MapKeysToVect(EKey XPositiveKey, EKey XNegativeKey, EKey YPositiveKey, EKey YNegativeKey, const std::string& VectName);

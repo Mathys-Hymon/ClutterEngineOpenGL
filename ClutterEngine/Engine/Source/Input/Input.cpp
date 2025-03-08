@@ -8,6 +8,16 @@ void Input::MapKeyToAction(EKey pKey, const std::string& pActionName, EInputStat
 	mKeyActionMap[pKey] = {pActionName, pState, {}};
 }
 
+void Input::MapKeyToAction(EMouseButton pKey, const std::string& pActionName, EInputState pState)
+{
+	mMouseActionMap[pKey] = { pActionName, pState, {} };
+}
+
+void Input::MapKeyToAction(EControllerButton pKey, const std::string& pActionName, EInputState pState)
+{
+	mControllerActionMap[pKey] = { pActionName, pState, {} };
+}
+
 void Input::RegisterActionCallback(const std::string& pActionName, std::function<void()> callback)
 {
 	for (auto& [key, action] : mKeyActionMap)
@@ -30,6 +40,18 @@ void Input::MapKeysToAxis(EKey positiveKey, EKey negativeKey, const std::string&
 	mAxisMap[axisName] = { positiveKey, negativeKey };
 }
 
+void Input::MapKeysToAxis(EMouseButton positiveKey, EMouseButton negativeKey, const std::string& axisName)
+{
+	mMouseAxisMap[axisName] = { positiveKey, negativeKey };
+}
+
+void Input::MapKeysToAxis(EControllerAxis axis, const std::string& axisName, float pDeadzone)
+{
+	mControllerAxisMap[axisName] = { axis };
+
+	if(pDeadzone >= 0) mControllerDeadzone = pDeadzone;
+}
+
 bool Input::RegisterVectCallback(const std::string& VectName, std::function<void(Vector2)> callback)
 {
 	if (mVectCallbacks.count(VectName))
@@ -45,11 +67,17 @@ void Input::MapKeysToVect(EKey XPositiveKey, EKey XNegativeKey, EKey YPositiveKe
 	mVectMap[VectName] = { XPositiveKey , XNegativeKey , YPositiveKey, YNegativeKey };
 }
 
+void Input::ScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	mScrollDelta.x += static_cast<float>(xoffset);
+	mScrollDelta.y += static_cast<float>(yoffset);
+}
+
 void Input::Update(Window* pWindow)
 {
 	GLFWwindow* pGLFWindow = pWindow->GetGLFWWindow();
-
-			// INPUT MAPPING
+	glfwSetScrollCallback(pGLFWindow, ScrollCallback);
+		// INPUT MAPPING
 
 	for (auto& [key, action] : mKeyActionMap)
 	{
@@ -77,7 +105,59 @@ void Input::Update(Window* pWindow)
 		mPreviousKeyStates[key] = isKeyPressed;
 	}
 
-	// AXIS MAPPING
+	for (auto& [key, action] : mControllerActionMap)
+	{
+		bool isKeyPressed = glfwGetKey(pGLFWindow, static_cast<int>(key)) == GLFW_PRESS;
+		bool wasKeyPressed = mPreviousControllerStates[key];
+
+		EInputState currentState = EInputState::Held;
+
+		if (isKeyPressed && !wasKeyPressed)
+		{
+			currentState = EInputState::Pressed;
+		}
+		else if (!isKeyPressed && !wasKeyPressed)
+		{
+			currentState = EInputState::Released;
+		}
+
+		if (currentState == action.state)
+		{
+			for (std::function<void()> callback : action.callbacks)
+			{
+				callback();
+			}
+		}
+		mPreviousControllerStates[key] = isKeyPressed;
+	}
+
+	for (auto& [key, action] : mMouseActionMap)
+	{
+		bool isKeyPressed = glfwGetKey(pGLFWindow, static_cast<int>(key)) == GLFW_PRESS;
+		bool wasKeyPressed = mPreviousMouseStates[key];
+
+		EInputState currentState = EInputState::Held;
+
+		if (isKeyPressed && !wasKeyPressed)
+		{
+			currentState = EInputState::Pressed;
+		}
+		else if (!isKeyPressed && !wasKeyPressed)
+		{
+			currentState = EInputState::Released;
+		}
+
+		if (currentState == action.state)
+		{
+			for (std::function<void()> callback : action.callbacks)
+			{
+				callback();
+			}
+		}
+		mPreviousMouseStates[key] = isKeyPressed;
+	}
+
+		// AXIS MAPPING
 
 	for (const auto& [axisName, axisMapping] : mAxisMap)
 	{
@@ -97,7 +177,25 @@ void Input::Update(Window* pWindow)
 		}
 	}
 
-	// VECTOR MAPPING
+	for (const auto& [axisName, axisMapping] : mMouseAxisMap)
+	{
+		float axisValue = 0.0f;
+
+		if (glfwGetKey(pGLFWindow, static_cast<int>(axisMapping.positiveKey)) == GLFW_PRESS)
+			axisValue += 1.0f;
+		if (glfwGetKey(pGLFWindow, static_cast<int>(axisMapping.negativeKey)) == GLFW_PRESS)
+			axisValue -= 1.0f;
+
+		if (mAxisCallbacks.find(axisName) != mAxisCallbacks.end())
+		{
+			for (const auto& callback : mAxisCallbacks[axisName])
+			{
+				callback(axisValue);
+			}
+		}
+	}
+
+		// VECTOR MAPPING
 
 	for (const auto& [vectName, vectMapping] : mVectMap)
 	{
@@ -146,4 +244,23 @@ void Input::Update(Window* pWindow)
 
 		}
 	}
+
+	double mouseX, mouseY;
+	glfwGetCursorPos(pGLFWindow, &mouseX, &mouseY);
+	Vector2 currentMousePos(static_cast<float>(mouseX), static_cast<float>(mouseY));
+	Vector2 mouseDelta = currentMousePos - mLastMousePosition;
+	mLastMousePosition = currentMousePos;
+
+	if (!mMouseAxisNames.first.empty()) {
+		for (auto& callback : mAxisCallbacks[mMouseAxisNames.first]) {
+			callback(mouseDelta.x);
+		}
+	}
+	if (!mMouseAxisNames.second.empty()) {
+		for (auto& callback : mAxisCallbacks[mMouseAxisNames.second]) {
+			callback(mouseDelta.y);
+		}
+	}
+
+	mScrollDelta = 0.0f;
 }

@@ -2,7 +2,8 @@
 #include <Core/CCommon.h>  
 #include <GLFW/glfw3.h>  
 
-  enum class CLUTTER_API EKey {  
+  enum class CLUTTER_API EKey 
+  {  
 
       A = GLFW_KEY_A,  
       B = GLFW_KEY_B,  
@@ -126,11 +127,45 @@
 
   enum class CLUTTER_API EMouseButton {
       Left = GLFW_MOUSE_BUTTON_LEFT,
-      Right = GLFW_MOUSE_BUTTON_RIGHT
+      Right = GLFW_MOUSE_BUTTON_RIGHT,
+      Middle = GLFW_MOUSE_BUTTON_MIDDLE,
+      Button4 = GLFW_MOUSE_BUTTON_4,
+      Button5 = GLFW_MOUSE_BUTTON_5,
+      Button6 = GLFW_MOUSE_BUTTON_6,
+      Button7 = GLFW_MOUSE_BUTTON_7,
+      Button8 = GLFW_MOUSE_BUTTON_8
+  };
+
+  enum class CLUTTER_API EControllerButton {
+      A = GLFW_GAMEPAD_BUTTON_A,
+      B = GLFW_GAMEPAD_BUTTON_B,
+      X = GLFW_GAMEPAD_BUTTON_X,
+      Y = GLFW_GAMEPAD_BUTTON_Y,
+      LeftBumper = GLFW_GAMEPAD_BUTTON_LEFT_BUMPER,
+      RightBumper = GLFW_GAMEPAD_BUTTON_RIGHT_BUMPER,
+      Back = GLFW_GAMEPAD_BUTTON_BACK,
+      Start = GLFW_GAMEPAD_BUTTON_START,
+      Guide = GLFW_GAMEPAD_BUTTON_GUIDE,
+      LeftThumb = GLFW_GAMEPAD_BUTTON_LEFT_THUMB,
+      RightThumb = GLFW_GAMEPAD_BUTTON_RIGHT_THUMB,
+      DpadUp = GLFW_GAMEPAD_BUTTON_DPAD_UP,
+      DpadRight = GLFW_GAMEPAD_BUTTON_DPAD_RIGHT,
+      DpadDown = GLFW_GAMEPAD_BUTTON_DPAD_DOWN,
+      DpadLeft = GLFW_GAMEPAD_BUTTON_DPAD_LEFT
+  };
+
+  enum class CLUTTER_API EControllerAxis {
+      LeftX = GLFW_GAMEPAD_AXIS_LEFT_X,
+      LeftY = GLFW_GAMEPAD_AXIS_LEFT_Y,
+      RightX = GLFW_GAMEPAD_AXIS_RIGHT_X,
+      RightY = GLFW_GAMEPAD_AXIS_RIGHT_Y,
+      LeftTrigger = GLFW_GAMEPAD_AXIS_LEFT_TRIGGER,
+      RightTrigger = GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER
   };
 
 
-  enum class CLUTTER_API EInputState {  
+  enum class CLUTTER_API EInputState 
+  {  
       Pressed,  
       Held,  
       Released  

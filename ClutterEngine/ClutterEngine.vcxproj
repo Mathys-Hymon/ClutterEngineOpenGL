@@ -180,6 +180,8 @@
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Sprite\FlipbookComponent.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Sprite\SpriteComponent.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\UI\HUDComponent.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Movements\CameraController.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Movements\PlayerController.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Physics\RigidBody.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\UI\HUDComponent.h" />
     <ClInclude Include="Engine\Include\Core\Assets\AssetsType\Mesh.h" />
@@ -212,7 +214,7 @@
     <ClInclude Include="Engine\Include\Graphics\Shader\Shader.h" />
     <ClInclude Include="Engine\Include\Graphics\Shader\VertexArray.h" />
     <ClInclude Include="Engine\Include\Input\Input.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Movements\PlayerController.h" />
+    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Movements\PlayerController2D.h" />
     <ClInclude Include="Engine\Include\Input\InputData.h" />
     <ClInclude Include="Engine\Include\Physics\Collision\CollisionEvent.h" />
     <ClInclude Include="Engine\Include\Physics\Collision\ICollisionListener.h" />
@@ -223,6 +225,8 @@
     <ClInclude Include="Engine\Include\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Movement\CameraController.cpp" />
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Movement\PlayerController.cpp" />
     <ClCompile Include="Engine\Source\Core\Debug\DebugDraw.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\OBBCollider.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\ColliderComponent.cpp" />
@@ -239,7 +243,7 @@
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Sprite\AnimatorComponent.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Physics\RigidBody.cpp" />
     <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\2D\CircleCollider.cpp" />
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Movement\PlayerController.cpp" />
+    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Movement\PlayerController2D.cpp" />
     <ClCompile Include="Engine\Source\Core\Maths\Vectors\Vector3.cpp" />
     <ClCompile Include="Engine\Source\Graphics\UI\UIPanel.cpp" />
     <ClCompile Include="Engine\Source\Physics\Collisions\CollisionEvent.cpp" />
