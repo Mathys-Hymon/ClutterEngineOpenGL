@@ -4,7 +4,6 @@
 
   enum class CLUTTER_API EKey 
   {  
-
       A = GLFW_KEY_A,  
       B = GLFW_KEY_B,  
       C = GLFW_KEY_C,  
@@ -125,7 +124,8 @@
       KPEqual = GLFW_KEY_KP_EQUAL  
   };  
 
-  enum class CLUTTER_API EMouseButton {
+  enum class CLUTTER_API EMouseButton 
+  {
       Left = GLFW_MOUSE_BUTTON_LEFT,
       Right = GLFW_MOUSE_BUTTON_RIGHT,
       Middle = GLFW_MOUSE_BUTTON_MIDDLE,
@@ -136,7 +136,8 @@
       Button8 = GLFW_MOUSE_BUTTON_8
   };
 
-  enum class CLUTTER_API EControllerButton {
+  enum class CLUTTER_API EControllerButton 
+  {
       A = GLFW_GAMEPAD_BUTTON_A,
       B = GLFW_GAMEPAD_BUTTON_B,
       X = GLFW_GAMEPAD_BUTTON_X,
@@ -154,7 +155,8 @@
       DpadLeft = GLFW_GAMEPAD_BUTTON_DPAD_LEFT
   };
 
-  enum class CLUTTER_API EControllerAxis {
+  enum class CLUTTER_API EControllerAxis 
+  {
       LeftX = GLFW_GAMEPAD_AXIS_LEFT_X,
       LeftY = GLFW_GAMEPAD_AXIS_LEFT_Y,
       RightX = GLFW_GAMEPAD_AXIS_RIGHT_X,

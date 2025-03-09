@@ -57,16 +57,23 @@ namespace clt
 		std::unordered_map<EMouseButton, Action> mMouseActionMap;
 		std::unordered_map<EMouseButton, bool> mPreviousMouseStates;
 		std::unordered_map<std::string, MouseAxisMapping> mMouseAxisMap;
+		std::vector<std::function<void(Vector2)>> mMouseDeltaCallback;
+		std::vector<std::function<void(float)>>   mMouseScrollCallback;
+
 		Vector2 mLastMousePosition;
 		Vector2 mScrollDelta;
+
+		bool mShowMouse = true;
+		bool mLockMouse = true;
 
 		// Controller
 		std::unordered_map<EControllerButton, Action> mControllerActionMap;
 		std::unordered_map<EControllerButton, bool> mPreviousControllerStates;
 		std::unordered_map<std::string, EControllerAxis> mControllerAxisMap;
+
 		float mControllerDeadzone = 0.2f;
 
-		void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+		static void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 		/**
    * @brief Default constructor.
    */
@@ -92,6 +99,9 @@ namespace clt
 			return instance;
 		}
 
+		void SetShowMouseCursor(bool show) { mShowMouse = show; };
+
+		void LockMouseCursor(bool lock) { mLockMouse = lock; };
 		/**
    * @brief Updates the state of the input manager.
    * @param pWindow Pointer to the GLFW window.
@@ -116,6 +126,9 @@ namespace clt
 		void RegisterActionCallback(const std::string& pActionName, std::function<void()> callback);
 
 		void RegisterAxisCallback(const std::string& axisName, std::function<void(float)> callback);
+
+		void RegisterMouseCallback(std::function<void(Vector2)> callback);
+		void RegisterScrollCallback(std::function<void(float)> callback);
 
 		void MapKeysToAxis(EKey positiveKey, EKey negativeKey, const std::string& axisName);
 		void MapKeysToAxis(EMouseButton positiveKey, EMouseButton negativeKey, const std::string& axisName);

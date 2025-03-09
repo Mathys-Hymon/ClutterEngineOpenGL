@@ -9,7 +9,7 @@ using namespace clt;
 CameraComponent* CameraComponent::ACTIVE_CAMERA = nullptr;
 
 
-CameraComponent::CameraComponent(ProjectionMode pMode, float pFOV, float pNearPlane, float pFarPlane) : Component(), mProjectionMode(pMode), mFov(pFOV), mNearPlane(pNearPlane), mFarPlane(pFarPlane) { mDirty = true; }
+CameraComponent::CameraComponent(float pFOV, ProjectionMode pMode, float pNearPlane, float pFarPlane) : Component(), mProjectionMode(pMode), mFov(pFOV), mNearPlane(pNearPlane), mFarPlane(pFarPlane) { mDirty = true; }
 
 void CameraComponent::UpdateMatrices()
 {
@@ -40,7 +40,7 @@ void CameraComponent::SetOwner(Actor* pOwner)
 
 void CameraComponent::Update()
 {
-	if (ACTIVE_CAMERA == this) mView = Matrix4Row::CreateLookAt(GetWorldLocation(), GetWorldTransform().Forward(), GetWorldTransform().Up());
+	if (ACTIVE_CAMERA == this) mView = Matrix4Row::CreateLookAt(GetWorldLocation(), GetWorldLocation() + GetWorldTransform().Forward() * 100, GetWorldTransform().Up());
 }
 
 void CameraComponent::SetFOV(float pFOV)

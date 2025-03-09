@@ -4,16 +4,19 @@
 
 using namespace clt;
 
-CameraController::CameraController(std::string pMovementCallback, std::string pVerticalCallback, std::string pRotationCallback, float pSpeed) : PlayerController(pSpeed)
+CameraController::CameraController(std::string pMovementCallback, float pSpeed) : PlayerController(pSpeed)
 {
-	Input::Get().RegisterAxisCallback(pMovementCallback, [this](Vector2 value) { this->Movement(value); });
-	Input::Get().RegisterAxisCallback(pVerticalCallback, [this](float value) { this->MoveVertically(value); });
-	Input::Get().RegisterAxisCallback(pRotationCallback, [this](Vector2 value) { this->Rotation(value); });
+	Input::Get().RegisterVectCallback(pMovementCallback, [this](Vector2 value) { this->Movement(value); });
+	Input::Get().RegisterMouseCallback([this](Vector2 value) { this->Rotation(value); });
+	Input::Get().RegisterScrollCallback([this](float value) { this->MoveVertically(value); });
 }
 
 void CameraController::Movement(Vector2 pDirection)
 {
-	mOwner->AddActorLocationOffset({pDirection.x, 0, pDirection.y});
+	Vector3 forward = pDirection.y * mOwner->getTransform().Forward();
+	Vector3 right = pDirection.x * mOwner->getTransform().Right();
+
+	mOwner->AddActorLocationOffset(forward - right);
 }
 
 void CameraController::MoveVertically(float pDirection)
@@ -23,5 +26,5 @@ void CameraController::MoveVertically(float pDirection)
 
 void CameraController::Rotation(Vector2 pRotation)
 {
-	mOwner->SetActorRotation(pRotation);
+		mOwner->AddActorRotationOffset((Vector3{ -pRotation.y, pRotation.x, 0} * Timer::deltaTime) * 0.1f);
 }

@@ -6,6 +6,7 @@
 #include <Core/ActorComponent/Components/Graphics/Sprite/AnimatorComponent.h>
 #include <Core/ActorComponent/Components/Collisions/OBBCollider.h>
 #include <Core/ActorComponent/Components/Movements/PlayerController.h>
+#include <Core/ActorComponent/Components/Movements/CameraController.h>
 #include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
 #include <Core/ActorComponent/Components/Graphics/Camera/SpringArmComponent.h>
 #include <Core/ActorComponent/Components/Graphics/Mesh/MeshComponent.h>
@@ -41,7 +42,6 @@ void TestLevel::Load()
 
 	clt::Input::Get().MapKeysToVect( EKey::A, EKey::D, EKey::W, EKey::S, "PlayerMovement");
 	clt::Input::Get().MapKeysToAxis(EKey::LeftShift, EKey::LeftControl, "MovementVertical");
-	clt::Input::Get().MapKeysToVect(EKey::A, EKey::D, EKey::W, EKey::S, "PlayerMovement");
 
 	AddActor(new clt::Actor("player"));
 
@@ -51,8 +51,9 @@ void TestLevel::Load()
 	crate  = AddActor(new clt::Actor("crate"));
 	floorActor = AddActor(new clt::Actor("floor"));
 
-	camera->AddComponent<clt::CameraComponent>();
+	camera->AddComponent<clt::CameraComponent>(70.0f);
 	camera->SetActorLocation({ 0, 0, 5 });
+	camera->AddComponent<clt::CameraController>("PlayerMovement");
 
 	crate->AddComponent<clt::SpriteComponent>(clt::Assets::Get().GetTexture("crate"));
 	crate->SetActorScale(50);

@@ -25,6 +25,7 @@ public:
     Vector3 Forward() const { return Vector3::Transform(Vector3::unitZ, rotation); }
 
 
+
     void SetLocation(Vector3 newLocation)
     {
         location = newLocation;
@@ -42,6 +43,13 @@ public:
         newRotation.Normalize();
         rotation = newRotation;
         mDirty = true;
+    }
+
+    void SetRotation(Vector3 newRotation)
+    {
+        Quaternion increment(newRotation.x, newRotation.y, newRotation.z, newRotation.Length());
+        rotation = Quaternion::Concatenate(rotation, increment);
+
     }
 
     void SetRotation(float newRotation)

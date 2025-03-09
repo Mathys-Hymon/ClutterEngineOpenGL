@@ -170,13 +170,21 @@ struct CLUTTER_API Quaternion
             sinHalfAngleZ = sinf(halfAngleZ);
         }
 
-        Vector3 normalizedAxis = Vector3::Normalize(axis);
-        return Quaternion(
-            normalizedAxis.x * sinHalfAngleX,
-            normalizedAxis.y * sinHalfAngleY,
-            normalizedAxis.z * sinHalfAngleZ,
-            cosf(halfAngleX + halfAngleY + halfAngleZ)
-        );
+		if (axis.Length() > 0)
+		{
+			Vector3 normalizedAxis = Vector3::Normalize(axis);
+			return Quaternion(
+				normalizedAxis.x * sinHalfAngleX,
+				normalizedAxis.y * sinHalfAngleY,
+				normalizedAxis.z * sinHalfAngleZ,
+				cosf(halfAngleX + halfAngleY + halfAngleZ)
+			);
+		}
+		else
+		{
+			return Quaternion::Identity;
+		}
+
     }
 
 	inline std::string ToString()

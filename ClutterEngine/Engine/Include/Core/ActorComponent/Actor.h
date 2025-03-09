@@ -197,14 +197,16 @@ namespace clt
          * @param rotOffset The rotation offset.
          */
         void AddActorRotationOffset(Quaternion rotOffset) 
-        { 
-            rotOffset.Normalize();
-            mTransform.SetRotation(Quaternion::Concatenate(rotOffset, mTransform.Rotation()));
+        {
+            mTransform.SetRotation(Quaternion::Concatenate(mTransform.Rotation(), rotOffset));
         };
 
         void AddActorRotationOffset(Vector3 rotOffset)
         {
-            mTransform.SetRotation(Quaternion::Concatenate(Quaternion::FromEuler(rotOffset), mTransform.Rotation()));
+            if (rotOffset.Length() == 0) return;
+
+            Quaternion increment(rotOffset.x, rotOffset.y, rotOffset.z, 1);
+            mTransform.SetRotation(Quaternion::Concatenate(mTransform.Rotation(), increment));
         }
 
         /**

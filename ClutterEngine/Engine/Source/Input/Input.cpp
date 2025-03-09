@@ -35,6 +35,16 @@ void Input::RegisterAxisCallback(const std::string& axisName, std::function<void
 	mAxisCallbacks[axisName].push_back(callback);
 }
 
+void Input::RegisterMouseCallback(std::function<void(Vector2)> callback)
+{
+	mMouseDeltaCallback.push_back(callback);
+}
+
+void Input::RegisterScrollCallback(std::function<void(float)> callback)
+{
+	mMouseScrollCallback.push_back(callback);
+}
+
 void Input::MapKeysToAxis(EKey positiveKey, EKey negativeKey, const std::string& axisName)
 {
 	mAxisMap[axisName] = { positiveKey, negativeKey };
@@ -54,7 +64,7 @@ void Input::MapKeysToAxis(EControllerAxis axis, const std::string& axisName, flo
 
 bool Input::RegisterVectCallback(const std::string& VectName, std::function<void(Vector2)> callback)
 {
-	if (mVectCallbacks.count(VectName))
+	if (mVectMap.count(VectName))
 	{
 		mVectCallbacks[VectName].push_back(callback);
 		return true;
@@ -69,8 +79,8 @@ void Input::MapKeysToVect(EKey XPositiveKey, EKey XNegativeKey, EKey YPositiveKe
 
 void Input::ScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 {
-	mScrollDelta.x += static_cast<float>(xoffset);
-	mScrollDelta.y += static_cast<float>(yoffset);
+	Input::Get().mScrollDelta.x += static_cast<float>(xoffset);
+	Input::Get().mScrollDelta.y += static_cast<float>(yoffset);
 }
 
 void Input::Update(Window* pWindow)
@@ -177,13 +187,42 @@ void Input::Update(Window* pWindow)
 		}
 	}
 
-	for (const auto& [axisName, axisMapping] : mMouseAxisMap)
+	for (const auto& [axisName, MouseAxisMapping] : mMouseAxisMap)
 	{
 		float axisValue = 0.0f;
 
-		if (glfwGetKey(pGLFWindow, static_cast<int>(axisMapping.positiveKey)) == GLFW_PRESS)
+		if (glfwGetKey(pGLFWindow, static_cast<int>(MouseAxisMapping.positiveKey)) == GLFW_PRESS)
 			axisValue += 1.0f;
-		if (glfwGetKey(pGLFWindow, static_cast<int>(axisMapping.negativeKey)) == GLFW_PRESS)
+		if (glfwGetKey(pGLFWindow, static_cast<int>(MouseAxisMapping.negativeKey)) == GLFW_PRESS)
+			axisValue -= 1.0f;
+
+		if (mAxisCallbacks.find(axisName) != mAxisCallbacks.end())
+		{
+			for (const auto& callback : mAxisCallbacks[axisName])
+			{
+				callback(axisValue);
+			}
+		}
+	}
+
+	double mouseX, mouseY;
+	glfwGetCursorPos(pGLFWindow, &mouseX, &mouseY);
+	Vector2 currentMousePos(static_cast<float>(mouseX), static_cast<float>(mouseY));
+	Vector2 mouseDelta = currentMousePos - mLastMousePosition;
+	mLastMousePosition = currentMousePos;
+
+	for (const auto& callback : mMouseDeltaCallback)
+	{
+		callback(mouseDelta);
+	}
+
+	for (const auto& [axisName, MouseAxisMapping] : mMouseAxisMap)
+	{
+		float axisValue = 0.0f;
+
+		if (glfwGetKey(pGLFWindow, static_cast<int>(MouseAxisMapping.positiveKey)) == GLFW_PRESS)
+			axisValue += 1.0f;
+		if (glfwGetKey(pGLFWindow, static_cast<int>(MouseAxisMapping.negativeKey)) == GLFW_PRESS)
 			axisValue -= 1.0f;
 
 		if (mAxisCallbacks.find(axisName) != mAxisCallbacks.end())
@@ -245,22 +284,7 @@ void Input::Update(Window* pWindow)
 		}
 	}
 
-	double mouseX, mouseY;
-	glfwGetCursorPos(pGLFWindow, &mouseX, &mouseY);
-	Vector2 currentMousePos(static_cast<float>(mouseX), static_cast<float>(mouseY));
-	Vector2 mouseDelta = currentMousePos - mLastMousePosition;
-	mLastMousePosition = currentMousePos;
-
-	if (!mMouseAxisNames.first.empty()) {
-		for (auto& callback : mAxisCallbacks[mMouseAxisNames.first]) {
-			callback(mouseDelta.x);
-		}
-	}
-	if (!mMouseAxisNames.second.empty()) {
-		for (auto& callback : mAxisCallbacks[mMouseAxisNames.second]) {
-			callback(mouseDelta.y);
-		}
-	}
+	glfwSetInputMode(pGLFWindow, GLFW_CURSOR, mShowMouse ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_HIDDEN);
 
 	mScrollDelta = 0.0f;
 }
