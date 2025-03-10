@@ -158,40 +158,6 @@ Mesh* Assets::GetMesh(const std::string& name)
     return it->second;
 }
 
-constexpr float cubeVertices[] = {
-    // Positions           // Coordonnées de texture
-    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,   // Face avant
-     0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-
-    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,   // Face arrière
-     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-
-    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,   // Face gauche
-    -0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-    -0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-
-     0.5f, -0.5f, -0.5f,  0.0f, 0.0f,   // Face droite
-     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-     0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-
-    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,   // Face bas
-     0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, 1.0f,
-     0.5f, -0.5f,  0.5f,  1.0f, 1.0f,
-
-    -0.5f,  0.5f, -0.5f,  0.0f, 0.0f,   // Face haut
-     0.5f,  0.5f, -0.5f,  1.0f, 0.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 1.0f
-};
-
-
 Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName)
 {
     if (mMeshes.find(pName) != mMeshes.end()) return GetMesh(pName);
