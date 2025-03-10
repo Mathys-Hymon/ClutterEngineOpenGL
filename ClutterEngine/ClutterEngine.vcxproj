@@ -134,7 +134,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>Engine\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -153,7 +153,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>Engine\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -165,110 +165,111 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\Include\Application\Application.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Actor.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Component.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\2D\AABBCollider.h" />
+    <ClInclude Include="Engine\Application\Application.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Actor.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Component.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\2D\AABBCollider.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\AABBCollider.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\2D\CircleCollider.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\2D\CircleCollider.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\Collider2DComponent.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\HitResult.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\ColliderComponent.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\OBBCollider.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\SphereCollider.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Camera\CameraComponent.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Camera\SpringArmComponent.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Mesh\MeshComponent.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Sprite\FlipbookComponent.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Sprite\SpriteComponent.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\UI\HUDComponent.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Movements\CameraController.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Movements\PlayerController.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Physics\RigidBody.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\HitResult.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\ColliderComponent.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\OBBCollider.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\SphereCollider.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\Camera\CameraComponent.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\Camera\SpringArmComponent.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\Mesh\MeshComponent.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\Sprite\FlipbookComponent.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\Sprite\SpriteComponent.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\UI\HUDComponent.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Movements\CameraController.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Movements\PlayerController.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\RigidBody.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\UI\HUDComponent.h" />
-    <ClInclude Include="Engine\Include\Core\Assets\AssetsType\Mesh.h" />
-    <ClInclude Include="Engine\Include\Core\Debug\DebugDraw.h" />
-    <ClInclude Include="Engine\Include\Core\Maths\Color.h" />
-    <ClInclude Include="Engine\Include\Graphics\UI\UIPanel.h" />
-    <ClInclude Include="Engine\Include\Graphics\UI\WidgetElement.h" />
-    <ClInclude Include="Engine\Include\Core\Assets\Assets.h" />
-    <ClInclude Include="Engine\Include\Core\Assets\AssetsType\Texture.h" />
-    <ClInclude Include="Engine\Include\Core\CCommon.h" />
-    <ClInclude Include="Engine\Include\Core\CEngine.h" />
-    <ClInclude Include="Engine\Include\Core\Debug\CLog\CLog.h" />
-    <ClInclude Include="Engine\Include\Core\CPrerequisites.h" />
-    <ClInclude Include="Engine\Include\Core\Levels\TemplateLevel\TemplateLevel.h" />
-    <ClInclude Include="Engine\Include\Core\Maths\Maths.h" />
-    <ClInclude Include="Engine\Include\Core\Maths\CRectangle.h" />
-    <ClInclude Include="Engine\Include\Core\Maths\Matrix\Matrix4.h" />
-    <ClInclude Include="Engine\Include\Core\Maths\Matrix\Matrix4Row.h" />
-    <ClInclude Include="Engine\Include\Core\Maths\Quaternion.h" />
-    <ClInclude Include="Engine\Include\Core\Maths\Transforms\Transform.h" />
-    <ClInclude Include="Engine\Include\Core\Maths\Transforms\Transform2D.h" />
-    <ClInclude Include="Engine\Include\Core\Maths\Vectors\Vector2.h" />
-    <ClInclude Include="Engine\Include\Core\Maths\Vectors\Vector3.h" />
-    <ClInclude Include="Engine\Include\Core\Maths\Vectors\Vector4.h" />
-    <ClInclude Include="Engine\Include\Core\Timer.h" />
-    <ClInclude Include="Engine\Include\Graphics\IRenderer.h" />
-    <ClInclude Include="Engine\Include\Graphics\RendererGL.h" />
-    <ClInclude Include="Engine\Include\Core\Levels\Level.h" />
-    <ClInclude Include="Engine\Include\Core\Levels\LevelManager.h" />
-    <ClInclude Include="Engine\Include\Graphics\Shader\Shader.h" />
-    <ClInclude Include="Engine\Include\Graphics\Shader\VertexArray.h" />
-    <ClInclude Include="Engine\Include\Input\Input.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Movements\PlayerController2D.h" />
-    <ClInclude Include="Engine\Include\Input\InputData.h" />
-    <ClInclude Include="Engine\Include\Physics\Collision\CollisionEvent.h" />
-    <ClInclude Include="Engine\Include\Physics\Collision\ICollisionListener.h" />
-    <ClInclude Include="Engine\Include\Physics\Physics.h" />
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Sprite\AnimatorComponent.h" />
+    <ClInclude Include="Engine\Core\Assets\AssetsType\Mesh.h" />
+    <ClInclude Include="Engine\Core\Debug\DebugDraw.h" />
+    <ClInclude Include="Engine\Core\Maths\Color.h" />
+    <ClInclude Include="Engine\Graphics\Shader\ShaderProgram.h" />
+    <ClInclude Include="Engine\Graphics\UI\UIPanel.h" />
+    <ClInclude Include="Engine\Graphics\UI\WidgetElement.h" />
+    <ClInclude Include="Engine\Core\Assets\Assets.h" />
+    <ClInclude Include="Engine\Core\Assets\AssetsType\Texture.h" />
+    <ClInclude Include="Engine\Core\CCommon.h" />
+    <ClInclude Include="Engine\Core\CEngine.h" />
+    <ClInclude Include="Engine\Core\Debug\CLog\CLog.h" />
+    <ClInclude Include="Engine\Core\CPrerequisites.h" />
+    <ClInclude Include="Engine\Core\Levels\TemplateLevel\TemplateLevel.h" />
+    <ClInclude Include="Engine\Core\Maths\Maths.h" />
+    <ClInclude Include="Engine\Core\Maths\CRectangle.h" />
+    <ClInclude Include="Engine\Core\Maths\Matrix\Matrix4.h" />
+    <ClInclude Include="Engine\Core\Maths\Matrix\Matrix4Row.h" />
+    <ClInclude Include="Engine\Core\Maths\Quaternion.h" />
+    <ClInclude Include="Engine\Core\Maths\Transforms\Transform.h" />
+    <ClInclude Include="Engine\Core\Maths\Transforms\Transform2D.h" />
+    <ClInclude Include="Engine\Core\Maths\Vectors\Vector2.h" />
+    <ClInclude Include="Engine\Core\Maths\Vectors\Vector3.h" />
+    <ClInclude Include="Engine\Core\Maths\Vectors\Vector4.h" />
+    <ClInclude Include="Engine\Core\Timer.h" />
+    <ClInclude Include="Engine\Graphics\IRenderer.h" />
+    <ClInclude Include="Engine\Graphics\RendererGL.h" />
+    <ClInclude Include="Engine\Core\Levels\Level.h" />
+    <ClInclude Include="Engine\Core\Levels\LevelManager.h" />
+    <ClInclude Include="Engine\Graphics\Shader\Shader.h" />
+    <ClInclude Include="Engine\Graphics\Shader\VertexArray.h" />
+    <ClInclude Include="Engine\Input\Input.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Movements\PlayerController2D.h" />
+    <ClInclude Include="Engine\Input\InputData.h" />
+    <ClInclude Include="Engine\Physics\Collision\CollisionEvent.h" />
+    <ClInclude Include="Engine\Physics\Collision\ICollisionListener.h" />
+    <ClInclude Include="Engine\Physics\Physics.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\Sprite\AnimatorComponent.h" />
     <ClInclude Include="Libraries\include\PCH\framework.h" />
     <ClInclude Include="Libraries\include\PCH\pch.h" />
-    <ClInclude Include="Engine\Include\Window\Window.h" />
+    <ClInclude Include="Engine\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Movement\CameraController.cpp" />
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Movement\PlayerController.cpp" />
-    <ClCompile Include="Engine\Source\Core\Debug\DebugDraw.cpp" />
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\OBBCollider.cpp" />
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\ColliderComponent.cpp" />
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Mesh\MeshComponent.cpp" />
-    <ClCompile Include="Engine\Source\Core\Assets\AssetsType\Mesh.cpp" />
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\UI\HUDComponent.cpp" />
-    <ClCompile Include="Engine\Source\Core\Maths\Color.cpp" />
-    <ClCompile Include="Engine\Source\Graphics\Shader\VertexArray.cpp" />
-    <ClCompile Include="Engine\Source\Core\Maths\Matrix\Matrix4.cpp" />
-    <ClCompile Include="Engine\Source\Core\Maths\Matrix\Matrix4Row.cpp" />
-    <ClCompile Include="Engine\Source\Core\Maths\Vectors\Vector4.cpp" />
-    <ClCompile Include="Engine\Source\Core\Maths\Quaternion.cpp" />
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Camera\SpringArmComponent.cpp" />
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Sprite\AnimatorComponent.cpp" />
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Physics\RigidBody.cpp" />
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\2D\CircleCollider.cpp" />
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Movement\PlayerController2D.cpp" />
-    <ClCompile Include="Engine\Source\Core\Maths\Vectors\Vector3.cpp" />
-    <ClCompile Include="Engine\Source\Graphics\UI\UIPanel.cpp" />
-    <ClCompile Include="Engine\Source\Physics\Collisions\CollisionEvent.cpp" />
-    <ClCompile Include="Engine\Source\Physics\Physics.cpp" />
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\2D\AABBCollider.cpp" />
-    <ClCompile Include="Engine\Source\Input\Input.cpp">
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\CameraController.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\PlayerController.cpp" />
+    <ClCompile Include="Engine\Core\Debug\DebugDraw.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\OBBCollider.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\ColliderComponent.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\Mesh\MeshComponent.cpp" />
+    <ClCompile Include="Engine\Core\Assets\AssetsType\Mesh.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\UI\HUDComponent.cpp" />
+    <ClCompile Include="Engine\Core\Maths\Color.cpp" />
+    <ClCompile Include="Engine\Graphics\Shader\VertexArray.cpp" />
+    <ClCompile Include="Engine\Core\Maths\Matrix\Matrix4.cpp" />
+    <ClCompile Include="Engine\Core\Maths\Matrix\Matrix4Row.cpp" />
+    <ClCompile Include="Engine\Core\Maths\Vectors\Vector4.cpp" />
+    <ClCompile Include="Engine\Core\Maths\Quaternion.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\Camera\SpringArmComponent.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\Sprite\AnimatorComponent.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Physics\RigidBody.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\2D\CircleCollider.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\PlayerController2D.cpp" />
+    <ClCompile Include="Engine\Core\Maths\Vectors\Vector3.cpp" />
+    <ClCompile Include="Engine\Graphics\UI\UIPanel.cpp" />
+    <ClCompile Include="Engine\Physics\Collision\CollisionEvent.cpp" />
+    <ClCompile Include="Engine\Physics\Physics.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\2D\AABBCollider.cpp" />
+    <ClCompile Include="Engine\Input\Input.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Camera\CameraComponent.cpp" />
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Sprite\FlipbookComponent.cpp" />
-    <ClCompile Include="Engine\Source\Core\Timer.cpp" />
-    <ClCompile Include="Engine\Source\Core\Maths\Vectors\Vector2.cpp" />
-    <ClCompile Include="Engine\Source\Graphics\Shader\Shader.cpp" />
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Sprite\SpriteComponent.cpp" />
-    <ClCompile Include="Engine\Source\Core\Assets\Assets.cpp" />
-    <ClCompile Include="Engine\Source\Core\Assets\AssetsType\Texture.cpp" />
-    <ClCompile Include="Engine\Source\Core\Levels\LevelManager.cpp" />
-    <ClCompile Include="Engine\Source\Core\CEngine.cpp" />
-    <ClCompile Include="Engine\Source\Core\Levels\Level.cpp" />
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Actor.cpp" />
-    <ClCompile Include="Engine\Source\Graphics\RendererGL.cpp" />
-    <ClCompile Include="Engine\Source\Application\Application.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\Camera\CameraComponent.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\Sprite\FlipbookComponent.cpp" />
+    <ClCompile Include="Engine\Core\Timer.cpp" />
+    <ClCompile Include="Engine\Core\Maths\Vectors\Vector2.cpp" />
+    <ClCompile Include="Engine\Graphics\Shader\Shader.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\Sprite\SpriteComponent.cpp" />
+    <ClCompile Include="Engine\Core\Assets\Assets.cpp" />
+    <ClCompile Include="Engine\Core\Assets\AssetsType\Texture.cpp" />
+    <ClCompile Include="Engine\Core\Levels\LevelManager.cpp" />
+    <ClCompile Include="Engine\Core\CEngine.cpp" />
+    <ClCompile Include="Engine\Core\Levels\Level.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Actor.cpp" />
+    <ClCompile Include="Engine\Graphics\RendererGL.cpp" />
+    <ClCompile Include="Engine\Application\Application.cpp" />
     <ClCompile Include="Libraries\include\PCH\dllmain.cpp" />
     <ClCompile Include="Libraries\include\PCH\glad.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -280,7 +281,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Window\Window.cpp" />
+    <ClCompile Include="Engine\Window\Window.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

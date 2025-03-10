@@ -33,94 +33,94 @@
     <ClInclude Include="Libraries\include\PCH\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Application\Application.h">
+    <ClInclude Include="Engine\Application\Application.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Window\Window.h">
+    <ClInclude Include="Engine\Window\Window.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\CCommon.h">
+    <ClInclude Include="Engine\Core\CCommon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\Debug\CLog\CLog.h">
+    <ClInclude Include="Engine\Core\Debug\CLog\CLog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\CPrerequisites.h">
+    <ClInclude Include="Engine\Core\CPrerequisites.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\Maths\Vectors\Vector2.h">
+    <ClInclude Include="Engine\Core\Maths\Vectors\Vector2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\Maths\Vectors\Vector3.h">
+    <ClInclude Include="Engine\Core\Maths\Vectors\Vector3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\Maths\Maths.h">
+    <ClInclude Include="Engine\Core\Maths\Maths.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\Maths\CRectangle.h">
+    <ClInclude Include="Engine\Core\Maths\CRectangle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Graphics\RendererGL.h">
+    <ClInclude Include="Engine\Graphics\RendererGL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\Maths\Transforms\Transform2D.h">
+    <ClInclude Include="Engine\Core\Maths\Transforms\Transform2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\Maths\Transforms\Transform.h">
+    <ClInclude Include="Engine\Core\Maths\Transforms\Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\Levels\LevelManager.h">
+    <ClInclude Include="Engine\Core\Levels\LevelManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\Levels\Level.h">
+    <ClInclude Include="Engine\Core\Levels\Level.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Actor.h">
+    <ClInclude Include="Engine\Core\ActorComponent\Actor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Component.h">
+    <ClInclude Include="Engine\Core\ActorComponent\Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\CEngine.h">
+    <ClInclude Include="Engine\Core\CEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\Levels\TemplateLevel\TemplateLevel.h">
+    <ClInclude Include="Engine\Core\Levels\TemplateLevel\TemplateLevel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\Assets\Assets.h">
+    <ClInclude Include="Engine\Core\Assets\Assets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\Assets\AssetsType\Texture.h">
+    <ClInclude Include="Engine\Core\Assets\AssetsType\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Sprite\SpriteComponent.h">
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\Sprite\SpriteComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Graphics\Shader\Shader.h">
+    <ClInclude Include="Engine\Graphics\Shader\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Sprite\FlipbookComponent.h">
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\Sprite\FlipbookComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\Timer.h">
+    <ClInclude Include="Engine\Core\Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Camera\CameraComponent.h">
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\Camera\CameraComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Input\Input.h">
+    <ClInclude Include="Engine\Input\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Movements\PlayerController2D.h">
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Movements\PlayerController2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Input\InputData.h">
+    <ClInclude Include="Engine\Input\InputData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Physics\Physics.h">
+    <ClInclude Include="Engine\Physics\Physics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Physics\RigidBody.h">
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\RigidBody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\Collider2DComponent.h">
@@ -129,82 +129,85 @@
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\AABBCollider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\HitResult.h">
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\HitResult.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Physics\Collision\ICollisionListener.h">
+    <ClInclude Include="Engine\Physics\Collision\ICollisionListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Physics\Collision\CollisionEvent.h">
+    <ClInclude Include="Engine\Physics\Collision\CollisionEvent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\2D\CircleCollider.h">
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\2D\CircleCollider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Sprite\AnimatorComponent.h">
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\Sprite\AnimatorComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Camera\SpringArmComponent.h">
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\Camera\SpringArmComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\Maths\Quaternion.h">
+    <ClInclude Include="Engine\Core\Maths\Quaternion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\Maths\Vectors\Vector4.h">
+    <ClInclude Include="Engine\Core\Maths\Vectors\Vector4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\Maths\Matrix\Matrix4.h">
+    <ClInclude Include="Engine\Core\Maths\Matrix\Matrix4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\Maths\Matrix\Matrix4Row.h">
+    <ClInclude Include="Engine\Core\Maths\Matrix\Matrix4Row.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Graphics\IRenderer.h">
+    <ClInclude Include="Engine\Graphics\IRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Graphics\Shader\VertexArray.h">
+    <ClInclude Include="Engine\Graphics\Shader\VertexArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\UI\HUDComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Graphics\UI\WidgetElement.h">
+    <ClInclude Include="Engine\Graphics\UI\WidgetElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Graphics\UI\UIPanel.h">
+    <ClInclude Include="Engine\Graphics\UI\UIPanel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\UI\HUDComponent.h">
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\UI\HUDComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\Assets\AssetsType\Mesh.h">
+    <ClInclude Include="Engine\Core\Assets\AssetsType\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Graphics\Mesh\MeshComponent.h">
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\Mesh\MeshComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\2D\AABBCollider.h">
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\2D\AABBCollider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\ColliderComponent.h">
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\ColliderComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\OBBCollider.h">
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\OBBCollider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\SphereCollider.h">
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\SphereCollider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\Debug\DebugDraw.h">
+    <ClInclude Include="Engine\Core\Debug\DebugDraw.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\Maths\Color.h">
+    <ClInclude Include="Engine\Core\Maths\Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Movements\PlayerController.h">
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Movements\PlayerController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Movements\CameraController.h">
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Movements\CameraController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Shader\ShaderProgram.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -215,127 +218,127 @@
     <ClCompile Include="Libraries\include\PCH\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Application\Application.cpp">
+    <ClCompile Include="Engine\Application\Application.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Window\Window.cpp">
+    <ClCompile Include="Engine\Window\Window.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
     <ClCompile Include="Libraries\include\PCH\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Graphics\RendererGL.cpp">
+    <ClCompile Include="Engine\Graphics\RendererGL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Actor.cpp">
+    <ClCompile Include="Engine\Core\ActorComponent\Actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\Levels\Level.cpp">
+    <ClCompile Include="Engine\Core\Levels\Level.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\CEngine.cpp">
+    <ClCompile Include="Engine\Core\CEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\Levels\LevelManager.cpp">
+    <ClCompile Include="Engine\Core\Levels\LevelManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\Assets\AssetsType\Texture.cpp">
+    <ClCompile Include="Engine\Core\Assets\AssetsType\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\Assets\Assets.cpp">
+    <ClCompile Include="Engine\Core\Assets\Assets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Sprite\SpriteComponent.cpp">
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\Sprite\SpriteComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Graphics\Shader\Shader.cpp">
+    <ClCompile Include="Engine\Graphics\Shader\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\Maths\Vectors\Vector2.cpp">
+    <ClCompile Include="Engine\Core\Maths\Vectors\Vector2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Sprite\FlipbookComponent.cpp">
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\Sprite\FlipbookComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\Timer.cpp">
+    <ClCompile Include="Engine\Core\Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Camera\CameraComponent.cpp">
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\Camera\CameraComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Input\Input.cpp">
+    <ClCompile Include="Engine\Input\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\2D\AABBCollider.cpp">
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\2D\AABBCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Physics\Physics.cpp">
+    <ClCompile Include="Engine\Physics\Physics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Physics\Collisions\CollisionEvent.cpp">
+    <ClCompile Include="Engine\Physics\Collision\CollisionEvent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Movement\PlayerController2D.cpp">
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\PlayerController2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\2D\CircleCollider.cpp">
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\2D\CircleCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Physics\RigidBody.cpp">
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Physics\RigidBody.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Sprite\AnimatorComponent.cpp">
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\Sprite\AnimatorComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Camera\SpringArmComponent.cpp">
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\Camera\SpringArmComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\Maths\Vectors\Vector3.cpp">
+    <ClCompile Include="Engine\Core\Maths\Vectors\Vector3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\Maths\Quaternion.cpp">
+    <ClCompile Include="Engine\Core\Maths\Quaternion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\Maths\Vectors\Vector4.cpp">
+    <ClCompile Include="Engine\Core\Maths\Vectors\Vector4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\Maths\Matrix\Matrix4.cpp">
+    <ClCompile Include="Engine\Core\Maths\Matrix\Matrix4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\Maths\Matrix\Matrix4Row.cpp">
+    <ClCompile Include="Engine\Core\Maths\Matrix\Matrix4Row.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Graphics\Shader\VertexArray.cpp">
+    <ClCompile Include="Engine\Graphics\Shader\VertexArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Graphics\UI\UIPanel.cpp">
+    <ClCompile Include="Engine\Graphics\UI\UIPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\UI\HUDComponent.cpp">
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\UI\HUDComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\Assets\AssetsType\Mesh.cpp">
+    <ClCompile Include="Engine\Core\Assets\AssetsType\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Graphic\Mesh\MeshComponent.cpp">
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\Mesh\MeshComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\ColliderComponent.cpp">
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\ColliderComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Collisions\OBBCollider.cpp">
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\OBBCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\Maths\Color.cpp">
+    <ClCompile Include="Engine\Core\Maths\Color.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\Debug\DebugDraw.cpp">
+    <ClCompile Include="Engine\Core\Debug\DebugDraw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Movement\PlayerController.cpp">
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\PlayerController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Source\Core\ActorComponent\Component\Movement\CameraController.cpp">
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\CameraController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
