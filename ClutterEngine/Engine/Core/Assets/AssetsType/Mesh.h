@@ -6,20 +6,39 @@
 
 namespace clt
 {
+	struct CLUTTER_API Vertex
+	{
+		Vector3 position;
+		Vector3 normal;
+		Vector2 texCoord;
+	};
+
 	class CLUTTER_API Mesh
 	{
 		std::vector<Texture*> mTextures;
 		VertexArray* mVAO;
 
+		std::vector<Vertex> mVertices;
+
 		Shader mShader;
+
+		float* ToVerticeArray();
+
 	public:
 
+		Mesh() {};
 		Mesh(const float* pVertices, u32 pVerticeCount);
+		Mesh(std::vector<Vertex> pVertices);
 		~Mesh() = default;
 
 		void Unload();
 
-		Texture* GetTexture(int pTextureIndex) { return mTextures[pTextureIndex]; }
+		Texture* GetTexture(int pTextureIndex) 
+		{ 
+			if (mTextures.empty() || mTextures.size() < pTextureIndex) return nullptr;
+			return mTextures[pTextureIndex]; 
+		
+		}
 		VertexArray& GetVAO() { return *mVAO; }
 		Shader& GetShader() { return mShader; }
 

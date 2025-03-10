@@ -14,10 +14,38 @@ Mesh::Mesh(const float* pVertices, u32 pVerticeCount)
     mVAO = new VertexArray(pVertices, pVerticeCount);
 }
 
+Mesh::Mesh(std::vector<Vertex> pVertices) : mVertices(std::move(pVertices))
+{
+	mShader = Shader();
+	mShader.Load(basicVertPah, meshFragPath);
+
+	mVAO = new VertexArray(ToVerticeArray(), mVertices.size());
+}
+
 void Mesh::Unload()
 {
 	delete mVAO;
 	mVAO = nullptr;
+}
+
+float* Mesh::ToVerticeArray()
+{
+    float* array = new float[mVertices.size() * 8];
+    int counter = 0;
+    for (int i = 0; i < mVertices.size(); i++)
+    {
+        array[counter + 0] = mVertices[i].position.x;
+        array[counter + 1] = mVertices[i].position.y;
+        array[counter + 2] = mVertices[i].position.z;
+        array[counter + 3] = mVertices[i].normal.x;
+        array[counter + 4] = mVertices[i].normal.y;
+        array[counter + 5] = mVertices[i].normal.z;
+        array[counter + 6] = mVertices[i].texCoord.x;
+        array[counter + 7] = mVertices[i].texCoord.y;
+        counter += 8;
+    }
+    return array;
+
 }
 
 void Mesh::AddTexture(Texture* pTexture)

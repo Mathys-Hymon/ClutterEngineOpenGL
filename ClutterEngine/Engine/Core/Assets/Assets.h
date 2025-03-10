@@ -26,6 +26,8 @@ namespace clt
 
 		void LoadTextureGL(TextureFilter pTexFilter, GLuint& textureID, int& width, int& height, int& channels, unsigned char* data);
 
+		Mesh* LoadMeshFromFile(const std::string& pFile);
+
 	public:
 		static Assets& Get();
 

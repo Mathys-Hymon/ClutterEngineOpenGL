@@ -2,10 +2,10 @@
 #include <Core/CCommon.h>
 #include <Core/Assets/Assets.h>
 #include <Graphics/IRenderer.h>
-#define TINYOBJLOADER_IMPLEMENTATION
-#include <obj/tiny_obj_loader.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
+#define TINYOBJLOADER_IMPLEMENTATION
+#include <obj/tiny_obj_loader.h>
 
 using namespace clt;
 
@@ -42,6 +42,54 @@ void Assets::LoadTextureGL(TextureFilter pTexFilter, GLuint& textureID, int& wid
     glGenerateMipmap(GL_TEXTURE_2D);
 
     glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+Mesh* Assets::LoadMeshFromFile(const std::string& pFile)
+{   
+    tinyobj::attrib_t attributes;
+    std::vector<tinyobj::shape_t> shapes;
+    std::vector<tinyobj::material_t> materials;
+
+    std::string errors;
+
+    bool success = tinyobj::LoadObj(&attributes, &shapes, &materials, &errors, +pFile.c_str());
+
+    if(success) CLUTTER_LOG(("Mesh " + pFile + " loaded sucessfully ").c_str())
+    else
+    {
+        CLUTTER_ERROR("Failed to load Mesh. \n " + pFile + " does not exist or is not .obj");
+        return nullptr;
+    }
+
+    std::vector<Vertex> vertices;
+
+    for (int i = 0; i < shapes.size(); i++)
+    {
+        tinyobj::shape_t& shape = shapes[i];
+        tinyobj::mesh_t& mesh = shape.mesh;
+        for (int j = 0; j < mesh.indices.size(); j++)
+        {
+            tinyobj::index_t i = mesh.indices[j];
+            Vector3 position = Vector3{
+                attributes.vertices[i.vertex_index * 3],
+                attributes.vertices[i.vertex_index * 3 + 1],
+                attributes.vertices[i.vertex_index * 3 + 2]
+            };
+            Vector3 normal = Vector3{
+                attributes.normals[i.normal_index * 3],
+                attributes.normals[i.normal_index * 3 + 1],
+                attributes.normals[i.normal_index * 3 + 2]
+            };
+            Vector2 texCoord = {
+                attributes.texcoords[i.texcoord_index * 2],
+                attributes.texcoords[i.texcoord_index * 2 + 1],
+            };
+            Vertex vert = { position, normal, texCoord };
+            vertices.push_back(vert);
+        }
+
+    }
+    return new Mesh(vertices);
 }
 
 Texture* Assets::LoadTexture(const std::string& path, const std::string& name, TextureFilter pTexFilter)
@@ -143,24 +191,17 @@ constexpr float cubeVertices[] = {
      0.5f,  0.5f,  0.5f,  1.0f, 1.0f
 };
 
-constexpr unsigned int cubeIndices[] = {
-   0, 2, 1,  1, 2, 3,       // avant
-   4, 5, 6,  5, 7, 6,       // arrière
-   8, 9, 10, 9, 11, 10,     // gauche
-   12, 13, 14, 13, 15, 14,  // droite
-   16, 17, 18, 17, 19, 18,  // bas
-   20, 21, 22, 21, 23, 22   // haut
-};
-
 
 Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName)
 {
     if (mMeshes.find(pName) != mMeshes.end()) return GetMesh(pName);
 
-    Mesh* mesh = new Mesh(cubeVertices, 24);
-    mMeshes[pName] = mesh;
-    mesh->AddTexture(GetTexture("crate"));
-    return nullptr;
+    Mesh* mesh = LoadMeshFromFile(pPath);
+
+    if(mesh) mMeshes[pName] = mesh;
+    if(!mesh->GetTexture(0)) mesh->AddTexture(GetTexture("crate"));
+
+    return mesh;
 }
 
 

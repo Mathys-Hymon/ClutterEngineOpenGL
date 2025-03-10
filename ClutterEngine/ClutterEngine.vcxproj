@@ -189,7 +189,6 @@
     <ClInclude Include="Engine\Core\Assets\AssetsType\Mesh.h" />
     <ClInclude Include="Engine\Core\Debug\DebugDraw.h" />
     <ClInclude Include="Engine\Core\Maths\Color.h" />
-    <ClInclude Include="Engine\Graphics\Shader\ShaderProgram.h" />
     <ClInclude Include="Engine\Graphics\UI\UIPanel.h" />
     <ClInclude Include="Engine\Graphics\UI\WidgetElement.h" />
     <ClInclude Include="Engine\Core\Assets\Assets.h" />

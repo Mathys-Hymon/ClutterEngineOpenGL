@@ -24,7 +24,8 @@ void MeshComponent::Draw(Matrix4Row viewProj)
         Matrix4Row wt = GetWorldTransform().GetMat4Transform();
         mMesh->GetShader().SetMat4Row("uWorldTransform", wt);
         mMesh->GetTexture(mTextureIndex)->Bind();
-        glDrawArrays(GL_TRIANGLES, 0, 8);
+
+        glDrawArrays(GL_TRIANGLES, 0, mMesh->GetVAO().GetVerticeCount());
     }
 
 }

@@ -207,9 +207,6 @@
     <ClInclude Include="Engine\Core\ActorComponent\Components\Movements\CameraController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Shader\ShaderProgram.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Libraries\include\PCH\dllmain.cpp">
