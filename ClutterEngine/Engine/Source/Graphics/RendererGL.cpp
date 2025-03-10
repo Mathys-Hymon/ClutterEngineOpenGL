@@ -144,9 +144,8 @@ void RendererGL::Draw()
        Matrix4Row tempTransform = comp->GetWorldTransform().GetMat4Transform();
        mUIShader.SetMat4Row("uWorldTransform", tempTransform);
        comp->GetTexture()->Bind();
-       glDrawArrays(GL_TRIANGLES,0, 4);
+       glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
    }
-
    mUiVAO->Unbind();
 }  
 

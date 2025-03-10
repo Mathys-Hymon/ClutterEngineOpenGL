@@ -30,13 +30,6 @@ TestLevel::~TestLevel()
 
 void TestLevel::Load()
 {
-	std::vector<clt::Texture*> runAnim;
-	std::vector<clt::Texture*> jumpAnim;
-
-	runAnim = clt::Assets::Get().BulkLoadTexture("Content/Resources/Sprites/", 1, "_playerWalk.png", "_PlayerWalk", TextureFilter::NEAREST);
-
-	jumpAnim = clt::Assets::Get().BulkLoadTexture("Content/Resources/Sprites/", 4, "_playerjumpv2.png", "_jump", TextureFilter::NEAREST);
-
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/theBlock.png", "tile", TextureFilter::NEAREST);
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/crate.png", "crate", TextureFilter::NEAREST);
 
