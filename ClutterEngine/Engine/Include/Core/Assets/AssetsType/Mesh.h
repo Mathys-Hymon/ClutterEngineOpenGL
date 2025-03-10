@@ -12,11 +12,9 @@ namespace clt
 		VertexArray* mVAO;
 
 		Shader mShader;
-
 	public:
 
-		Mesh();
-		Mesh(const float* pVertices, u32 pVerticeCount, const u32* pIndices, u32 pIndexCount);
+		Mesh(const float* pVertices, u32 pVerticeCount);
 		~Mesh() = default;
 
 		void Unload();

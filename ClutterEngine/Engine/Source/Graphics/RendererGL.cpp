@@ -27,19 +27,16 @@ bool RendererGL::Initialize(CEngine* pEngine)
 
    mUIShader.Load(spriteVertPath, spriteFragPath);
 
-   // set up vertex data
-   constexpr float vertices[] = {
-   -0.5f,  0.5f, 0.0f,            0.0f, 0.0f,       //top left
-    0.5f,  0.5f, 0.0f,            1.0f, 0.0f,      //top right
-    0.5f, -0.5f, 0.0f,           1.0f, 1.0f,     //bottom right
-   -0.5f, -0.5f, 0.0f,           0.0f, 1.0f };  //bottom left
-
-   constexpr unsigned int indices[] = {
-   0, 1, 2,
-   2, 3, 0
+   constexpr float spriteVertices[] = {
+       //POSITION                      NORMALS                     TEXCOORDS
+       -0.5f, 0.5f, 0.0f,              0.0f, 0.0f, 0.0f,           0.0f, 0.0f,     //top left
+       0.5f, 0.5f, 0.0f,               0.0f, 0.0f, 0.0f,           1.0f, 0.0f,     //top right
+       -0.5f, -0.5f, 0.0f,             0.0f, 0.0f, 0.0f,           0.0f, 1.0f,      //bottom left
+       0.5f, -0.5f, 0.0f,              0.0f, 0.0f, 0.0f,           1.0f, 1.0f,     //bottom right
    };
 
-   mUiVAO = new VertexArray(vertices, 4, indices, 6);
+
+   mUiVAO = new VertexArray(spriteVertices, 4);
 
    mUiViewProj = Matrix4Row::CreateSimpleViewProj(pEngine->GetWindow()->GetDimensions().x, 
                                                   pEngine->GetWindow()->GetDimensions().y);
@@ -147,7 +144,7 @@ void RendererGL::Draw()
        Matrix4Row tempTransform = comp->GetWorldTransform().GetMat4Transform();
        mUIShader.SetMat4Row("uWorldTransform", tempTransform);
        comp->GetTexture()->Bind();
-       glDrawElements(GL_TRIANGLES, mUiVAO->GetIndicesCount(), GL_UNSIGNED_INT, nullptr);
+       glDrawArrays(GL_TRIANGLES,0, 4);
    }
 
    mUiVAO->Unbind();

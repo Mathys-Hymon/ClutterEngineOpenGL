@@ -12,8 +12,7 @@ namespace clt
 
 	public:
 
-		MeshComponent(Mesh* pMesh = nullptr, int pDrawOrder = 0);
-		MeshComponent(Texture* pTexture, int pDrawOrder = 0);
+		MeshComponent(Mesh* pMesh, int pDrawOrder = 0);
 		virtual ~MeshComponent() = default;
 
 		virtual void SetOwner(Actor* pOwner) override;

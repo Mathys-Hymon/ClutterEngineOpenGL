@@ -280,7 +280,6 @@ void Input::Update(Window* pWindow)
 				}
 				if (!isVectorPressed) mPreviousKeyStates[vectMapping.XpositiveKey] = false;
 			}
-
 		}
 	}
 

@@ -29,7 +29,7 @@ void DebugDraw::Start()
         2, 3, 0
     };
 
-    mVAO = new VertexArray(vertices, 4, indices, 6);
+    mVAO = new VertexArray(vertices, 4);
 }
 
 void DebugDraw::Draw(Matrix4Row viewProj)
@@ -62,19 +62,13 @@ void DebugDraw::Draw(Matrix4Row viewProj)
             vertices[i] = transform * localPos;
         }
 
-        const u32 edges[24] = {
-            0, 1, 1, 3, 3, 2, 2, 0, // Face avant
-            4, 5, 5, 7, 7, 6, 6, 4, // Face arrière
-            0, 4, 1, 5, 2, 6, 3, 7  // Arêtes latérales
-        };
 
-        // Mise à jour du VAO avec les nouveaux vertices
-        mVAO->Set(reinterpret_cast<float*>(vertices), 8, edges, 24);
+        mVAO->Set(reinterpret_cast<float*>(vertices), 8);
 
 
         mShader->SetVec4f("uColor", box.color);
 
-        glDrawElements(GL_LINES, 24, GL_UNSIGNED_INT, edges);
+        //glDrawArrays(GL_LINES, 24);
     }
 
     mLines.clear();

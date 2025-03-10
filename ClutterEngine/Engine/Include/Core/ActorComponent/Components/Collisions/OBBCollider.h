@@ -10,9 +10,6 @@ namespace clt
 		bool CheckOBBvsOBB(OBBCollider* pOther, hitResult& outResult) const;
 		bool CheckOBBvsSphere(SphereCollider* pOther, hitResult& outResult) const;
 
-		float GetProjectionRadius(const Vector3& pAxis) const;
-		bool TestAxis(const Vector3& pAxis, OBBCollider* pOther, float& minOverlap, hitResult& outResult) const;
-
 	public:
 		Vector3 mBoxExtend;
 

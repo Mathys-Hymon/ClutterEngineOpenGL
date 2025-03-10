@@ -4,23 +4,8 @@
 
 using namespace clt;
 
-MeshComponent::MeshComponent(Mesh* pMesh, int pDrawOrder) : Component(pDrawOrder), mMesh(nullptr), mTextureIndex(0)
-{
-    if (pMesh)
-    {
-        mMesh = pMesh;
-    }
-    else
-    {
-        mMesh = new Mesh();
-    }
-}
-
-MeshComponent::MeshComponent(Texture* pTexture, int pDrawOrder) : Component(pDrawOrder), mMesh(nullptr), mTextureIndex(0)
-{
-        mMesh = new Mesh();
-        mMesh->AddTexture(pTexture);
-}
+MeshComponent::MeshComponent(Mesh* pMesh, int pDrawOrder) : Component(pDrawOrder), mMesh(pMesh), mTextureIndex(0)
+{}
 
 void MeshComponent::SetOwner(Actor* pOwner)
 {
@@ -39,7 +24,7 @@ void MeshComponent::Draw(Matrix4Row viewProj)
         Matrix4Row wt = GetWorldTransform().GetMat4Transform();
         mMesh->GetShader().SetMat4Row("uWorldTransform", wt);
         mMesh->GetTexture(mTextureIndex)->Bind();
-        glDrawElements(GL_TRIANGLES, mMesh->GetVAO().GetIndicesCount(), GL_UNSIGNED_INT, nullptr);
+        glDrawArrays(GL_TRIANGLES, 0, 8);
     }
 
 }

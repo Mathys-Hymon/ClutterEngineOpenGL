@@ -2,6 +2,8 @@
 #include <Core/CCommon.h>
 #include <Core/Assets/Assets.h>
 #include <Graphics/IRenderer.h>
+#define TINYOBJLOADER_IMPLEMENTATION
+#include <obj/tiny_obj_loader.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
 
@@ -107,6 +109,60 @@ Mesh* Assets::GetMesh(const std::string& name)
     }
     return it->second;
 }
+
+constexpr float cubeVertices[] = {
+    // Positions           // Coordonnées de texture
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,   // Face avant
+     0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,   // Face arrière
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,   // Face gauche
+    -0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+
+     0.5f, -0.5f, -0.5f,  0.0f, 0.0f,   // Face droite
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,   // Face bas
+     0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 1.0f,
+
+    -0.5f,  0.5f, -0.5f,  0.0f, 0.0f,   // Face haut
+     0.5f,  0.5f, -0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f
+};
+
+constexpr unsigned int cubeIndices[] = {
+   0, 2, 1,  1, 2, 3,       // avant
+   4, 5, 6,  5, 7, 6,       // arrière
+   8, 9, 10, 9, 11, 10,     // gauche
+   12, 13, 14, 13, 15, 14,  // droite
+   16, 17, 18, 17, 19, 18,  // bas
+   20, 21, 22, 21, 23, 22   // haut
+};
+
+
+Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName)
+{
+    if (mMeshes.find(pName) != mMeshes.end()) return GetMesh(pName);
+
+    Mesh* mesh = new Mesh(cubeVertices, 24);
+    mMeshes[pName] = mesh;
+    mesh->AddTexture(GetTexture("crate"));
+    return nullptr;
+}
+
 
 std::vector<Texture*> Assets::BulkGetTexture(const std::string& pName, int pLastIndex)
 {

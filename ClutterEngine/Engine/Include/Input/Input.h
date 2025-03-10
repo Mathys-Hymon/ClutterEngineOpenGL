@@ -63,7 +63,7 @@ namespace clt
 		Vector2 mLastMousePosition;
 		Vector2 mScrollDelta;
 
-		bool mShowMouse = true;
+		bool mShowMouse = false;
 		bool mLockMouse = true;
 
 		// Controller
