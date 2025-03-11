@@ -5,7 +5,8 @@
 
 using namespace clt;  
 
-Window::Window(u32 pWidth, u32 pHeight,std::string pName) : mName(pName), mDimensions(pWidth, pHeight)  
+Window::Window(u32 pWidth, u32 pHeight,std::string pName) 
+    : mName(pName), mDimensions{static_cast<float>(pWidth), static_cast<float>(pHeight)}  
 {  
    // Initialize GLFW  
     if (!glfwInit())

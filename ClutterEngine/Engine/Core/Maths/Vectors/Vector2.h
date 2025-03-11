@@ -35,6 +35,8 @@ struct Vector2
      */
     Vector2(float pX, float pY) : x(pX), y(pY) {}
 
+    Vector2(int pX, int pY) : x(pX), y(pY) {}
+
     Vector2(float pXY) : x(pXY), y(pXY) {}
 
     /**

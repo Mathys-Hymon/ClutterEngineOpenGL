@@ -3,7 +3,7 @@
 #include <Core/Maths/Transforms/Transform.h>
 #include <Core/Maths/Maths.h>
 
-struct Transform2D
+struct CLUTTER_API Transform2D
 {
     Vector2 location = { 0, 0 };
     Vector2 scale = { 1, 1 };

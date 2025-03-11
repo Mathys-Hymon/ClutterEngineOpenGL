@@ -11,6 +11,7 @@
 #include <Core/ActorComponent/Components/Graphics/Camera/SpringArmComponent.h>
 #include <Core/ActorComponent/Components/Graphics/Mesh/MeshComponent.h>
 #include <Core/ActorComponent/Components/Physics/RigidBody.h>
+#include <Graphics/UI/Elements/SpriteElement.h>
 
 #include <Core/Debug/DebugDraw.h>
 
@@ -45,6 +46,10 @@ void TestLevel::Load()
 	block  = AddActor(new clt::Actor("block"));
 	crate  = AddActor(new clt::Actor("crate"));
 	floorActor = AddActor(new clt::Actor("floor"));
+
+	camera->AddComponent<clt::HUDComponent>()->
+		CreateWidget<clt::UIPanel>("playerHUD")->
+		CreateElement<clt::WidgetElement>("SpriteTest", "crate");
 
 	camera->AddComponent<clt::CameraComponent>(70.0f);
 	camera->SetActorLocation({ 0, 0, 5 });

@@ -1,8 +1,8 @@
 #pragma once
 #include <Core/ActorComponent/Component.h>
+#include <Core/Assets/AssetsType/Texture.h>
 #include <Graphics/RendererGL.h>
 #include <Core/Levels/Level.h>
-#include <Core/Assets/AssetsType/Texture.h>
 
 namespace clt
 {
@@ -19,14 +19,9 @@ namespace clt
 		SpriteComponent(const SpriteComponent&) = delete;
 		SpriteComponent& operator = (const SpriteComponent&) = delete;
 
-		virtual ~SpriteComponent();
+		virtual ~SpriteComponent() { mOwner->GetLevel()->GetRenderer().RemoveSpriteComponent(this); };
 
 		virtual void SetOwner(Actor* pOwner) override;
-
-		virtual void Unload() override
-		{
-			mOwner->GetLevel()->GetRenderer().RemoveSpriteComponent(this);
-		};
 
 		virtual void SetTexture(Texture* pTexture);
 

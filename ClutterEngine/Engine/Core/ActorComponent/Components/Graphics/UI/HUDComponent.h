@@ -14,8 +14,10 @@ namespace clt
 		HUDComponent() : mCurrentWidget(nullptr), Component() {};
 		~HUDComponent() = default;
 
+		virtual void SetOwner(Actor* pOwner) override;
+
 		template<typename T, typename ...Args>
-		T* CreateWidget(std::string pName, Args && ...args, bool mSetActive = false);
+		T* CreateWidget(std::string pName, Args && ...args);
 
 		template<typename T>
 		T* GetWidget(const std::string pName);
@@ -31,7 +33,7 @@ namespace clt
 
 
 	template<typename T, typename ...Args>
-	inline T* HUDComponent::CreateWidget(std::string pName, Args && ...args, bool mSetActive)
+	inline T* HUDComponent::CreateWidget(std::string pName, Args && ...args)
 	{
 		static_assert(std::is_base_of<UIPanel, T>::value, "T must be a UIPanel");
 
@@ -45,7 +47,7 @@ namespace clt
 			T* pWidget = new T(std::forward<Args>(args)...);
 			mWidgets[pName] = pWidget;
 
-			if (mSetActive || !mCurrentWidget) mCurrentWidget = pWidget;
+			if (!mCurrentWidget) mCurrentWidget = pWidget;
 
 			return pWidget;
 		}

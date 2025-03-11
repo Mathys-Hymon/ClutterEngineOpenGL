@@ -191,5 +191,12 @@ void Assets::ClearTextures()
         delete pair.second;
     }
     mTextures.clear();
+
+    for (auto& pair : mMeshes)
+    {
+        delete pair.second;
+    }
+    mMeshes.clear();
+
     delete sInstance;
 }

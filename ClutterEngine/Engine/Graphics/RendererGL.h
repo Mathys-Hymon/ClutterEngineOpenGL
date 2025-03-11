@@ -57,6 +57,8 @@ namespace clt
 		void AddSpriteComponent(SpriteComponent* pComp);
 		void RemoveSpriteComponent(SpriteComponent* pComp);
 
+		void AddHUDComponent(HUDComponent* pComp);
+		void RemoveHUDComponent(HUDComponent* pComp);
 		
 		/**
    * @brief Begins the drawing process.

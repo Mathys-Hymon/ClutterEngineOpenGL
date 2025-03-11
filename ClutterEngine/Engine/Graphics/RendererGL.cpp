@@ -105,7 +105,34 @@ void RendererGL::RemoveSpriteComponent(SpriteComponent* pComp)
     gc = std::find(mSpriteComponents.begin(), mSpriteComponents.end(), pComp);
 
     if (gc != mSpriteComponents.end()) mSpriteComponents.erase(gc);
-}  
+}
+
+void RendererGL::AddHUDComponent(HUDComponent* pComp)
+{
+    int compDrawOrder = pComp->GetUpdateOrder();
+
+    if (!mHUD.empty())
+    {
+        std::vector<HUDComponent*>::iterator gc;
+        for (gc = mHUD.begin(); gc != mHUD.end(); gc++)
+        {
+            if (compDrawOrder < (*gc)->GetUpdateOrder()) break;
+        }
+        mHUD.insert(gc, pComp);
+    }
+    else
+    {
+        mHUD.emplace_back(pComp);
+    }
+}
+
+void RendererGL::RemoveHUDComponent(HUDComponent* pComp)
+{
+    std::vector<HUDComponent*>::iterator gc;
+    gc = std::find(mHUD.begin(), mHUD.end(), pComp);
+
+    if (gc != mHUD.end()) mHUD.erase(gc);
+}
 
 void RendererGL::BeginDraw()  
 {  
@@ -127,6 +154,8 @@ void RendererGL::Draw()
 
     for (MeshComponent* comp : mMeshComponents)
     {
+        if (!comp->IsActive()) continue;
+
         comp->Draw(viewProj);
     }
 
@@ -142,8 +171,11 @@ void RendererGL::Draw()
 
    for (auto& comp : mSpriteComponents)
    {
+       if (!comp->IsActive()) continue;
+
        Matrix4Row tempTransform = comp->GetWorldTransform().GetMat4Transform();
        mSpriteShader.SetMat4Row("uWorldTransform", tempTransform);
+
        comp->GetTexture()->Bind();
        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
    }
@@ -154,6 +186,8 @@ void RendererGL::Draw()
    {
        for (WidgetElement* element : hud->GetCurrentWidget()->GetElements())
        {
+           if (!element->mVisibility) continue;
+
            Matrix4Row tempTransform = element->GetTransform().To3D().GetMat4Transform();
            mSpriteShader.SetMat4Row("uWorldTransform", tempTransform);
 

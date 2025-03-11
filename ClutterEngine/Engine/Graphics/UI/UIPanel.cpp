@@ -15,6 +15,19 @@ void UIPanel::UpdateWidgetOrder(WidgetElement* mElement)
     }
 }
 
+clt::UIPanel::~UIPanel()
+{
+    for (WidgetElement* element : mElementsByZOrder)
+    {
+        delete element;
+
+        element = nullptr;
+    }
+
+    mElementsByName.clear();
+    mElementsByZOrder.clear();
+}
+
 void UIPanel::RemoveElement(const std::string& pName)
 {
 }

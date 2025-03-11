@@ -1,7 +1,15 @@
 #include "pch.h"
 #include <Core/ActorComponent/Components/Graphics/UI/HUDComponent.h>
+#include <Graphics/RendererGL.h>
+#include <Core/Levels/Level.h>
 
 using namespace clt;
+
+void HUDComponent::SetOwner(Actor* pOwner)
+{
+	Component::SetOwner(pOwner);
+	mOwner->GetLevel()->GetRenderer().AddHUDComponent(this);
+}
 
 void HUDComponent::ShowWidget(const std::string pName)
 {

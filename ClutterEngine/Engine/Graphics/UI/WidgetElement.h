@@ -23,17 +23,17 @@ namespace clt
 
 		bool mVisibility;
 
-		WidgetElement(const std::string textureName, Vector2 size = { 25,25 }, Vector2 position = { 0, 0 }, int ZOrder = 0) : mZOrder(ZOrder), mVisibility(true), mOwner(nullptr), mTexture(nullptr)
+		WidgetElement(const std::string textureName, Vector2 size = { 1,1 }, Vector2 position = { 0, 0 }, int ZOrder = 0) : mZOrder(ZOrder), mVisibility(true), mOwner(nullptr), mTexture(nullptr)
 		{
-			mTransform.scale = size;
-			mTransform.location = position;
+			mTexture = Assets::Get().GetTexture(textureName);
 
-			mTexture = Assets::Get().GetTexture("textureName");
+			mTransform.location = position;
+			mTransform.scale = size * Vector2{ mTexture->GetHeight(), mTexture->GetWidth() };
 		};
 
-		WidgetElement(Texture* texture, Vector2 size = { 25,25 }, Vector2 position = { 0, 0 }, int ZOrder = 0) : mZOrder(ZOrder), mVisibility(true), mOwner(nullptr), mTexture(nullptr)
+		WidgetElement(Texture* texture, Vector2 size = { 1,1 }, Vector2 position = { 0, 0 }, int ZOrder = 0) : mZOrder(ZOrder), mVisibility(true), mOwner(nullptr), mTexture(nullptr)
 		{
-			mTransform.scale = size;
+			mTransform.scale = size * Vector2{ mTexture->GetHeight(), mTexture->GetWidth() };
 			mTransform.location = position;
 
 			mTexture = texture;
@@ -41,7 +41,7 @@ namespace clt
 
 		~WidgetElement() = default;
 
-		virtual void Update() = 0;
+		virtual void Update() {};
 
 		int GetZOrder() const { return mZOrder; };
 		void SetZOrder(int ZOrder)
@@ -61,7 +61,7 @@ namespace clt
 
 		Texture* GetTexture() const { return mTexture; }
 
-		void SetSize(Vector2 size)         { mTransform.scale = size; };
+		void SetSize(Vector2 size) { mTransform.scale = size * Vector2{ mTexture->GetHeight(), mTexture->GetWidth()}; };
 
 		void SetPosition(Vector2 position) { mTransform.location = position; };
 

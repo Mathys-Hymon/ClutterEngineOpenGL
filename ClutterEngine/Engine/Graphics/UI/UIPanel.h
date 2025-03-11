@@ -15,6 +15,8 @@ namespace clt
 		friend WidgetElement;
 
 	public:
+		UIPanel() {};
+		~UIPanel();
 
 		template<typename T, typename... Args>
 		T* CreateElement(const std::string& pName, Args&&... args);
