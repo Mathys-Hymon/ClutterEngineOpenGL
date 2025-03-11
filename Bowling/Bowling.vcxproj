@@ -130,7 +130,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>..\ClutterEngine\Engine;Content</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ClutterEngine\Engine;Content;Content\Resources</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -148,7 +148,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>..\ClutterEngine\Engine;Content</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ClutterEngine\Engine;Content;Content\Resources</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -158,17 +158,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Content\Maps\MainMap.cpp" />
+    <ClCompile Include="Content\Maps\LevelMap.cpp" />
+    <ClCompile Include="Content\Maps\MainMenuMap.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Content\Maps\MainMap.h" />
+    <ClInclude Include="Content\Maps\LevelMap.h" />
+    <ClInclude Include="Content\Maps\MainMenuMap.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Shaders\basic.frag" />
     <None Include="Content\Shaders\basic.vert" />
     <None Include="Content\Shaders\sprite.frag" />
-    <None Include="Content\Shaders\transform.vert" />
+    <None Include="Content\Shaders\sprite.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

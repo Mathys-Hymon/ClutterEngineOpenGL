@@ -174,7 +174,7 @@
     <None Include="Content\Shaders\basic.frag" />
     <None Include="Content\Shaders\basic.vert" />
     <None Include="Content\Shaders\sprite.frag" />
-    <None Include="Content\Shaders\transform.vert" />
+    <None Include="Content\Shaders\sprite.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

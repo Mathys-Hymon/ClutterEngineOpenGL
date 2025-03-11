@@ -21,7 +21,7 @@ namespace clt
 		std::unordered_map<std::string, Texture*> mTextures;
 		std::unordered_map<std::string, Mesh*> mMeshes;
 
-		Assets() = default;
+		 Assets() = default;
 		~Assets() = default;
 
 		void LoadTextureGL(TextureFilter pTexFilter, GLuint& textureID, int& width, int& height, int& channels, unsigned char* data);

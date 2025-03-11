@@ -3,8 +3,8 @@
 
 using namespace clt;
 
-const auto basicVertPah = "Content/Shaders/basic.vert";
-const auto meshFragPath = "Content/Shaders/basic.frag";
+const auto basicVertPah = "Content/Resources/Shaders/basic.vert";
+const auto meshFragPath = "Content/Resources/Shaders/basic.frag";
 
 Mesh::Mesh(const float* pVertices, u32 pVerticeCount)
 {

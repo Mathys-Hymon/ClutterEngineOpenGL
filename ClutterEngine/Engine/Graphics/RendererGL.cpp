@@ -23,8 +23,8 @@ bool RendererGL::Initialize(CEngine* pEngine)
    Assets::Get().SetRenderer(this);
 
    // File paths for vertex and fragment shaders  
-   const auto spriteVertPath = "Content/Shaders/transform.vert";  
-   const auto spriteFragPath = "Content/Shaders/sprite.frag";  
+   const auto spriteVertPath = "Content/Resources/Shaders/sprite.vert";
+   const auto spriteFragPath = "Content/Resources/Shaders/sprite.frag";
 
    mSpriteShader.Load(spriteVertPath, spriteFragPath);
 
@@ -36,12 +36,10 @@ bool RendererGL::Initialize(CEngine* pEngine)
        0.5f, -0.5f, 0.0f,              0.0f, 0.0f, 0.0f,           1.0f, 1.0f,     //bottom right
    };
 
-
    mSpriteVAO = new VertexArray(spriteVertices, 4);
 
    mUiViewProj = Matrix4Row::CreateSimpleViewProj(pEngine->GetWindow()->GetDimensions().x, 
                                                   pEngine->GetWindow()->GetDimensions().y);
-
    DebugDraw::Get().Start();
 }  
 
@@ -164,6 +162,7 @@ void RendererGL::Draw()
     glDisable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     mSpriteShader.Use();
 
    mSpriteShader.SetMat4Row("uViewProj", viewProj);

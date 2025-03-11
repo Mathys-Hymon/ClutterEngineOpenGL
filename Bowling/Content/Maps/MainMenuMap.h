@@ -2,11 +2,11 @@
 #include <Core/Levels/Level.h>
 #include <string>
 
-class MainMap : public clt::Level
+class MainMenuMap : public clt::Level
 {
 public:
-	MainMap(std::string pName = "MainMap");
-	~MainMap();
+	MainMenuMap(std::string pName = "MainMenu");
+	~MainMenuMap();
 
 	void Load() override;
 	void Update() override;

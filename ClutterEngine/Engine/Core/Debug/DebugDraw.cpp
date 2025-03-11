@@ -3,8 +3,8 @@
 
 using namespace clt;
 
-const auto basicVertPah = "Content/Shaders/basic.vert";
-const auto basicFragPath = "Content/Shaders/basic.frag";
+const auto basicVertPah = "Content/Resources/Shaders/basic.vert";
+const auto basicFragPath = "Content/Resources/Shaders/basic.frag";
 
 DebugDraw& DebugDraw::Get()
 {

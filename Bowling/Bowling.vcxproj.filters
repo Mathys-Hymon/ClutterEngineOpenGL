@@ -18,12 +18,18 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Content\Maps\MainMap.cpp">
+    <ClCompile Include="Content\Maps\MainMenuMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Content\Maps\LevelMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Content\Maps\MainMap.h">
+    <ClInclude Include="Content\Maps\MainMenuMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Content\Maps\LevelMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -31,6 +37,6 @@
     <None Include="Content\Shaders\basic.frag" />
     <None Include="Content\Shaders\basic.vert" />
     <None Include="Content\Shaders\sprite.frag" />
-    <None Include="Content\Shaders\transform.vert" />
+    <None Include="Content\Shaders\sprite.vert" />
   </ItemGroup>
 </Project>

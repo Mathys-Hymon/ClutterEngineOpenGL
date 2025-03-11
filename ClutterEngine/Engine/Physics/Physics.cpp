@@ -65,7 +65,7 @@ void Physics::Update()
     {
         if (!rb->mIsKinematic && rb->IsActive())
         {
-            rb->AddVelocity(mGravity * rb->GetGravityScale() * Timer::deltaTime);
+            if(!rb->mIsGrounded) rb->AddVelocity(mGravity * rb->GetGravityScale() * Timer::deltaTime);
             rb->GetOwner()->AddActorLocationOffset(rb->GetVelocity() * Timer::deltaTime);
 
             if(!rb->mLockRotation) rb->UpdateRotation(Timer::deltaTime);
@@ -174,12 +174,9 @@ void Physics::ResolveCollisions()
                 }
             }
 
-
-
             // Case 2: Only rbB is dynamic
             else if (!rbA && rbB && !rbB->mIsKinematic && rbB->IsActive())
             {
-
                 // Apply position correction to ActorB
                 result.ActorB->AddActorLocationOffset(safeCorrection);
 
