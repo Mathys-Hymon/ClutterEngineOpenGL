@@ -19,18 +19,7 @@ void UIPanel::RemoveElement(const std::string& pName)
 {
 }
 
-void UIPanel::Draw()
-{
-    for (WidgetElement* element : mElementsByZOrder)
-    {
-        if(element->mVisibility ) element->Draw();
-    }
-}
-
 void UIPanel::Update()
 {
-    for (WidgetElement* element : mElementsByZOrder)
-    {
-        element->Update();
-    }
+    for (WidgetElement* element : mElementsByZOrder)        element->Update();
 }

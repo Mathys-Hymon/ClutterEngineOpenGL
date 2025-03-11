@@ -132,7 +132,9 @@ void Physics::ResolveCollisions()
                 // Calculate velocity, normal and tangent vectors
                 Vector3 velocity = rbA->GetVelocity();
                 Vector3 normal = -result.Normal.Normalized();
-                Vector3 tangent = Vector2(-normal.y, normal.x).Normalized();
+
+                Vector3 arbitrary = (std::abs(normal.x) < 0.9f) ? Vector3(1, 0, 0) : Vector3(0, 1, 0);
+                Vector3 tangent = Vector3::Cross(normal, arbitrary).Normalized();
 
                 float velocityAlongNormal = Vector3::Dot(velocity, normal);
 
@@ -184,7 +186,8 @@ void Physics::ResolveCollisions()
                 // Calculate velocity, normal and tangent vectors
                 Vector3 velocity = rbB->GetVelocity();
                 Vector3 normal = result.Normal.Normalized();
-                Vector3 tangent = (velocity - normal * Vector3::Dot(velocity, normal)).Normalized();
+                Vector3 arbitrary = (std::abs(normal.x) < 0.9f) ? Vector3(1, 0, 0) : Vector3(0, 1, 0);
+                Vector3 tangent = Vector3::Cross(normal, arbitrary).Normalized();
 
                 float velocityAlongNormal = Vector3::Dot(velocity, normal);
 

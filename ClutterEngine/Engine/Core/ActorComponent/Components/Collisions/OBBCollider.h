@@ -10,6 +10,8 @@ namespace clt
 		bool CheckOBBvsOBB(OBBCollider* pOther, hitResult& outResult) const;
 		bool CheckOBBvsSphere(SphereCollider* pOther, hitResult& outResult) const;
 
+		void GetOBBAxis(Vector3 (&axes)[3]) const;
+
 	public:
 		Vector3 mBoxExtend;
 

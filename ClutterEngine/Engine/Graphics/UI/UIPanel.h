@@ -24,10 +24,10 @@ namespace clt
 
 		void RemoveElement(const std::string& pName);
 
-		void Draw();
 		virtual void Update();
-	};
 
+		std::vector<WidgetElement*> GetElements() { return mElementsByZOrder; }
+	};
 
 	template<typename T, typename ...Args>
 	inline T* UIPanel::CreateElement(const std::string& pName, Args && ...args)
@@ -55,7 +55,6 @@ namespace clt
 			return pElement;
 		}
 	}
-
 
 	template<typename T>
 	inline T* UIPanel::GetElement(const std::string& pName)

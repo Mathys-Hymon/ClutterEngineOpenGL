@@ -6,7 +6,7 @@ namespace clt
 	class CLUTTER_API CameraController : public PlayerController
 	{
 	public:
-		CameraController(std::string pMovementCallback, float pSpeed = 2);
+		CameraController(std::string pMovementCallback, std::string pVerticalMovementCallback, float pSpeed = 2);
 		~CameraController() = default;
 
 		/**

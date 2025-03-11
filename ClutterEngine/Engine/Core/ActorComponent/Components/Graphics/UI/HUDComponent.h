@@ -24,6 +24,8 @@ namespace clt
 
 		void RemoveWidget(const std::string& pName);
 
+		UIPanel* GetCurrentWidget() const { return mCurrentWidget; };
+
 		virtual void Update() override;
 	};
 

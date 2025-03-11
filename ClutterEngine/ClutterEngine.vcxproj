@@ -169,6 +169,7 @@
     <ClInclude Include="Engine\Core\ActorComponent\Actor.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Component.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\2D\AABBCollider.h" />
+    <ClInclude Include="Engine\Graphics\UI\Elements\SpriteElement.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\AABBCollider.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\2D\CircleCollider.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\Collider2DComponent.h" />

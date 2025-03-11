@@ -1,5 +1,6 @@
 #pragma once
 #include <Core/Maths/Vectors/Vector2.h>
+#include <Core/Maths/Transforms/Transform.h>
 #include <Core/Maths/Maths.h>
 
 struct Transform2D
@@ -14,6 +15,17 @@ struct Transform2D
 
     Vector2 Right() const { return Vector2(Maths::Cos(rotation), -Maths::Sin(rotation)); }
     Vector2 Up() const { return Vector2(Maths::Sin(rotation), -Maths::Cos(rotation)); }
+
+    inline Transform To3D()
+    {
+        Transform temp;
+
+        temp.SetScale(scale);
+        temp.SetRotation(rotation);
+        temp.SetLocation(location);
+
+        return temp;
+    }
 
     friend Transform2D operator+(Transform2D left, Transform2D right)
     {

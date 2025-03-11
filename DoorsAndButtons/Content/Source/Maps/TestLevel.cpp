@@ -33,7 +33,7 @@ void TestLevel::Load()
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/theBlock.png", "tile", TextureFilter::NEAREST);
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/crate.png", "crate", TextureFilter::NEAREST);
 
-	clt::Assets::Get().LoadMesh("Content/Resources/Mesh/sphere.obj", "Sphere");
+	clt::Assets::Get().LoadMesh("Content/Resources/Mesh/cube.obj", "cube");
 
 	clt::Input::Get().MapKeysToVect( EKey::A, EKey::D, EKey::W, EKey::S, "PlayerMovement");
 	clt::Input::Get().MapKeysToAxis(EKey::LeftShift, EKey::LeftControl, "MovementVertical");
@@ -48,21 +48,21 @@ void TestLevel::Load()
 
 	camera->AddComponent<clt::CameraComponent>(70.0f);
 	camera->SetActorLocation({ 0, 0, 5 });
-	camera->AddComponent<clt::CameraController>("PlayerMovement");
+	camera->AddComponent<clt::CameraController>("PlayerMovement", "MovementVertical");
 
 
 	crate->AddComponent<clt::SpriteComponent>(clt::Assets::Get().GetTexture("crate"));
-	crate->SetActorScale(50);
-	crate->SetActorLocation({ 100, 0 });
 
-	floorActor->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetMesh("Sphere"));
+	floorActor->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetMesh("cube"));
 	floorActor->AddComponent<clt::OBBCollider>();
 	floorActor->SetActorScale({ 5,0.5f,6 });
 	floorActor->SetActorLocation({ 0, -2, 0 });
 
-	block->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetMesh("Sphere"));
+	block->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetMesh("cube"));
 	block->AddComponent<clt::OBBCollider>();
 	block->AddComponent<clt::RigidBody>();
+	block->SetActorScale(0.5f);
+
 }
 
 void TestLevel::Update()

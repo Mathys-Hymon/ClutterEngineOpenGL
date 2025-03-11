@@ -4,11 +4,11 @@
 
 using namespace clt;
 
-CameraController::CameraController(std::string pMovementCallback, float pSpeed) : PlayerController(pSpeed)
+CameraController::CameraController(std::string pMovementCallback, std::string pVerticalMovementCallback, float pSpeed) : PlayerController(pSpeed)
 {
 	Input::Get().RegisterVectCallback(pMovementCallback, [this](Vector2 value) { this->Movement(value); });
+	Input::Get().RegisterAxisCallback(pVerticalMovementCallback, [this](float value) { this->MoveVertically(value); });
 	//Input::Get().RegisterMouseCallback([this](Vector2 value) { this->Rotation(value); });
-	//Input::Get().RegisterScrollCallback([this](float value) { this->MoveVertically(value); });
 }
 
 void CameraController::Movement(Vector2 pDirection)
@@ -16,7 +16,7 @@ void CameraController::Movement(Vector2 pDirection)
 	Vector3 forward = pDirection.y * mOwner->getTransform().Forward();
 	Vector3 right = pDirection.x * mOwner->getTransform().Right();
 
-	mOwner->AddActorLocationOffset(forward - right);
+	mOwner->AddActorLocationOffset(-forward + right);
 }
 
 void CameraController::MoveVertically(float pDirection)

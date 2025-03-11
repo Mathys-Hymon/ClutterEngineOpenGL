@@ -27,5 +27,5 @@ void HUDComponent::RemoveWidget(const std::string& pName)
 
 void HUDComponent::Update()
 {
-	if (mCurrentWidget) mCurrentWidget->Draw();
+	if (mCurrentWidget) mCurrentWidget->Update();
 }

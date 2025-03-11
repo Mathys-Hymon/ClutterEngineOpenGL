@@ -4,6 +4,7 @@
 #include <Graphics/Shader/Shader.h>
 #include <Core/Maths/CRectangle.h>
 #include <Graphics/Shader/VertexArray.h>
+#include <Core/ActorComponent/Components/Graphics/UI/HUDComponent.h>
 #include <Graphics/IRenderer.h>
 
 namespace clt
@@ -19,9 +20,11 @@ namespace clt
 	{
 		std::vector<SpriteComponent*> mSpriteComponents;
 		std::vector<MeshComponent*> mMeshComponents;
+		std::vector<HUDComponent*> mHUD;
 
-		Shader mUIShader;
-		VertexArray* mUiVAO;
+		Shader mSpriteShader;
+		VertexArray* mSpriteVAO;
+
 
 		Matrix4Row mUiViewProj;
 
@@ -53,6 +56,7 @@ namespace clt
 
 		void AddSpriteComponent(SpriteComponent* pComp);
 		void RemoveSpriteComponent(SpriteComponent* pComp);
+
 		
 		/**
    * @brief Begins the drawing process.
