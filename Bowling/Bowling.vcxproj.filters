@@ -38,5 +38,9 @@
     <None Include="Content\Shaders\basic.vert" />
     <None Include="Content\Shaders\sprite.frag" />
     <None Include="Content\Shaders\sprite.vert" />
+    <None Include="Content\Resources\Shaders\basic.frag" />
+    <None Include="Content\Resources\Shaders\basic.vert" />
+    <None Include="Content\Resources\Shaders\sprite.frag" />
+    <None Include="Content\Resources\Shaders\sprite.vert" />
   </ItemGroup>
 </Project>

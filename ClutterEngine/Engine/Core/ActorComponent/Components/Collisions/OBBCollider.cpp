@@ -19,7 +19,7 @@ bool OBBCollider::CheckOBBvsOBB(OBBCollider* pOther, hitResult& outResult) const
     if (!pOther) return false;
 
  	Vector3 centerA = GetWorldLocation();
-	Vector3 centerB = pOther->GetOwner()->GetActorLocation();
+	Vector3 centerB = pOther->GetWorldLocation();
 
 	Vector3 axesA[3];
 	Vector3 axesB[3];
@@ -44,7 +44,7 @@ bool OBBCollider::CheckOBBvsOBB(OBBCollider* pOther, hitResult& outResult) const
                 std::abs(Vector3::Dot(axesA[2], nAxis))
             )));
         float projB =
-            std::abs(Vector3::Dot(pOther->mBoxExtend * GetWorldScale(), Vector3(
+            std::abs(Vector3::Dot(pOther->mBoxExtend * pOther->GetWorldScale(), Vector3(
                 std::abs(Vector3::Dot(axesB[0], nAxis)),
                 std::abs(Vector3::Dot(axesB[1], nAxis)),
                 std::abs(Vector3::Dot(axesB[2], nAxis))

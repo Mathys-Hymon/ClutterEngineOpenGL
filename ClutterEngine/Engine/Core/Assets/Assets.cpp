@@ -158,18 +158,22 @@ Mesh* Assets::GetMesh(const std::string& name)
     return it->second;
 }
 
-Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName)
+Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, std::vector<Texture*> pTextures)
 {
     if (mMeshes.find(pName) != mMeshes.end()) return GetMesh(pName);
 
     Mesh* mesh = LoadMeshFromFile(pPath);
 
     if(mesh) mMeshes[pName] = mesh;
-    if(!mesh->GetTexture(0)) mesh->AddTexture(GetTexture("crate"));
+    if(!mesh->GetTexture(0) && pTextures.empty()) mesh->AddTexture(GetTexture("default"));
+
+    for (Texture* tex : pTextures)
+    {
+        mesh->AddTexture(tex);
+    }
 
     return mesh;
 }
-
 
 std::vector<Texture*> Assets::BulkGetTexture(const std::string& pName, int pLastIndex)
 {

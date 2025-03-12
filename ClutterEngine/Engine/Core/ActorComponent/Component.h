@@ -102,7 +102,7 @@ namespace clt
         Transform GetRelativeTransform()   const { return mRelativeTransform;            };
 
         Vector3 GetWorldLocation()         const { return mOwner->GetActorLocation() + mRelativeTransform.Location(); };
-        Vector3 GetWorldScale()            const { return mOwner->GetScale() * mRelativeTransform.Scale();            };
+        Vector3 GetWorldScale()            const { return mRelativeTransform.Scale() * mOwner->GetScale();            };
         Quaternion GetWorldRotation()      const { return Quaternion::Concatenate(mOwner->GetRotation(), mRelativeTransform.Rotation()); };
         Transform GetWorldTransform()      const { return mOwner->getTransform() + mRelativeTransform;                };
 

@@ -31,7 +31,7 @@ namespace clt
 
 	public:
 
-		CameraComponent(float pFOV = 90.0f, ProjectionMode pProjectionMode = ProjectionMode::Perspective, float pNearPlane = 0.1f, float pFarPlane = 10000.0f);
+		CameraComponent(float pFOV = 70.0f, ProjectionMode pProjectionMode = ProjectionMode::Perspective, float pNearPlane = 0.1f, float pFarPlane = 10000.0f);
 
 		virtual void Update() override;
 
