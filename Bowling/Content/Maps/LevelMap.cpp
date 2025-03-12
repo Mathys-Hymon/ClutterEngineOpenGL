@@ -21,7 +21,7 @@ void LevelMap::Load()
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/ballTexture.png", "ballTexture");
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/pinTexture.png", "pinTexture");
 
-	clt::Assets::Get().LoadMesh("Content/Resources/Mesh/ball.obj", "ball");
+	clt::Assets::Get().LoadMesh("Content/Resources/Mesh/sphere.obj", "ball");
 	clt::Assets::Get().LoadMesh("Content/Resources/Mesh/pin.obj", "pin");
 	clt::Assets::Get().LoadMesh("Content/Resources/Mesh/cube.obj", "floor");
 
@@ -42,7 +42,7 @@ void LevelMap::Load()
 	camera->SetActorLocation({ 0, 0, 5 });
 
 	pin->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetMesh("pin"));
-	pin->AddComponent<clt::OBBCollider>();
+	pin->AddComponent<clt::OBBCollider>(Vector3{ 10, 30, 10 });
 	pin->AddComponent<clt::RigidBody>();
 
 	ball->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetMesh("ball"));
@@ -52,18 +52,22 @@ void LevelMap::Load()
 	floorBlock->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetMesh("floor"));
 	floorBlock->AddComponent<clt::OBBCollider>();
 
-	pin->SetActorScale(0.5f);
-	pin->SetActorLocation({ 0, 1, 0 });
+	pin->SetActorScale(0.1f);
+	pin->SetActorLocation({ 0, 1, 0.5 });
 
 	floorBlock->SetActorScale({ 5, 0.3f, 5 });
 	floorBlock->SetActorLocation({ 0, -2, 0 });
 
-	ball->SetActorScale(0.2f);
-	ball->SetActorLocation({ 0, 0, 0});
+	ball->SetActorScale(0.1f);
+	ball->SetActorLocation({ -1, 1, 0});
+
 }
 
 void LevelMap::Update()
 {
+	ball->GetComponentOfType<clt::RigidBody>()->AddVelocity({ 1, 0, 0 });
+
+	ball->AddActorRotationOffset(-1);
 }
 
 void LevelMap::Close()

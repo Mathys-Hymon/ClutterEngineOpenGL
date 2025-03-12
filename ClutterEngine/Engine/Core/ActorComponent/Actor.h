@@ -205,7 +205,15 @@ namespace clt
         {
             if (rotOffset.Length() == 0) return;
 
-            Quaternion increment(rotOffset.x, rotOffset.y, rotOffset.z, 1);
+            Quaternion increment(rotOffset.x * Timer::deltaTime, rotOffset.y * Timer::deltaTime, rotOffset.z * Timer::deltaTime, 1);
+            mTransform.SetRotation(Quaternion::Concatenate(mTransform.Rotation(), increment));
+        }
+
+        void AddActorRotationOffset(float rotOffset)
+        {
+            if (rotOffset == 0) return;
+
+            Quaternion increment(mTransform.Rotation().x, mTransform.Rotation().y, rotOffset * Timer::deltaTime, 1);
             mTransform.SetRotation(Quaternion::Concatenate(mTransform.Rotation(), increment));
         }
 

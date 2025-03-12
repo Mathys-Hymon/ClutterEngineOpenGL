@@ -10,4 +10,5 @@
 // add headers that you want to pre-compile here
 #include "framework.h"
 #include <iostream>
+#include <Core/Debug/DebugDraw.h>
 #endif //PCH_H

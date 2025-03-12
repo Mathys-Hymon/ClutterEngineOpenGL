@@ -1,103 +1,173 @@
 #include "pch.h"
 #include <Core/Debug/DebugDraw.h>
+#include <Core/Maths/Transforms/Transform.h>
+#include <glad/glad.h>
 
 using namespace clt;
 
-const auto basicVertPah = "Content/Resources/Shaders/basic.vert";
-const auto basicFragPath = "Content/Resources/Shaders/basic.frag";
+// --- Shaders for Debug Drawing: Vertex Shader and Fragment Shader ---
+const char* debugVertexShader = R"(
+#version 460 core
+layout (location = 0) in vec3 aPos;          // Vertex position
 
+uniform mat4 uViewProj;                      // Combined view and projection matrix
+uniform mat4 uModel;                         // Model transformation matrix
+void main() {
+    gl_Position = vec4(aPos, 1.0) * uModel * uViewProj;  // Transform vertex position
+}
+)";
+
+const char* debugFragmentShader = R"(
+#version 460 core
+out vec4 FragColor;        // Output color
+uniform vec4 uColor;       // Uniform color for the debug shapes
+void main() {
+    FragColor = uColor;    // Set fragment color
+}
+)";
+
+// --- DebugDraw Class Implementation ---
 DebugDraw& DebugDraw::Get()
 {
-    static DebugDraw instance;
+    static DebugDraw instance;  // Singleton instance for DebugDraw
     return instance;
 }
 
+// Start the debug drawing, this initializes the necessary shaders and buffers
 void DebugDraw::Start()
 {
+    // Create and load the shader program from the provided source code
     mShader = new Shader();
-    mShader->Load(basicVertPah, basicFragPath);
+    mShader->Compile(debugVertexShader, debugFragmentShader);
 
-    float vertices[] = {
-    -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
-     1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-     1.0f,  1.0f, 0.0f, 1.0f, 1.0f,
-    -1.0f,  1.0f, 0.0f, 0.0f, 1.0f
+    // Initialize the Vertex Array Object (VAO) for drawing lines (2 vertices)
+    mLineVAO = new VertexArray(nullptr, 2, BufferUsage::DYNAMIC);
+
+    // Cube edges defined by 24 vertices (pairs of vertices for each edge)
+    constexpr float cubeWireframe[] = {
+            // Edge 1: v0 -> v1 (front top edge)
+        -0.5f,  0.5f,  0.5f,   0.0f,  0.0f,  1.0f,   0.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,   0.0f,  0.0f,  1.0f,   1.0f, 0.0f,
+            // Edge 2: v1 -> v2 (front right edge)
+         0.5f,  0.5f,  0.5f,   0.0f,  0.0f,  1.0f,   1.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,   0.0f,  0.0f,  1.0f,   1.0f, 1.0f,
+            // Edge 3: v2 -> v3 (front bottom edge)
+         0.5f, -0.5f,  0.5f,   0.0f,  0.0f,  1.0f,   1.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,   0.0f,  0.0f,  1.0f,   0.0f, 1.0f,
+            // Edge 4: v3 -> v0 (front left edge)
+        -0.5f, -0.5f,  0.5f,   0.0f,  0.0f,  1.0f,   0.0f, 1.0f,
+        -0.5f,  0.5f,  0.5f,   0.0f,  0.0f,  1.0f,   0.0f, 0.0f,
+
+            // Edge 5: v4 -> v5 (back top edge)
+        -0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,   0.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,   1.0f, 0.0f,
+            // Edge 6: v5 -> v6 (back right edge)
+         0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,   1.0f, 0.0f,
+         0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,   1.0f, 1.0f,
+            // Edge 7: v6 -> v7 (back bottom edge)
+         0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,   1.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,   0.0f, 1.0f,
+            // Edge 8: v7 -> v4 (back left edge)
+        -0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,   0.0f, 1.0f,
+        -0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,   0.0f, 0.0f,
+
+            // Edge 9: v0 -> v4 (connecting top left edge)
+        -0.5f,  0.5f,  0.5f,   0.0f,  0.0f,  0.0f,   0.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,   0.0f,  0.0f,  0.0f,   0.0f, 0.0f,
+            // Edge 10: v1 -> v5 (connecting top right edge)
+         0.5f,  0.5f,  0.5f,   0.0f,  0.0f,  0.0f,   1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,   0.0f,  0.0f,  0.0f,   1.0f, 0.0f,
+            // Edge 11: v2 -> v6 (connecting bottom right edge)
+         0.5f, -0.5f,  0.5f,   0.0f,  0.0f,  0.0f,   1.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,   0.0f,  0.0f,  0.0f,   1.0f, 1.0f,
+            // Edge 12: v3 -> v7 (connecting bottom left edge)
+        -0.5f, -0.5f,  0.5f,   0.0f,  0.0f,  0.0f,   0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,   0.0f,  0.0f,  0.0f,   0.0f, 1.0f
     };
 
-    u32 indices[] = {
-        0, 1, 2,
-        2, 3, 0
-    };
 
-    mVAO = new VertexArray(vertices, 4);
+    // Initialize the VAO for cubes (8 vertices, 24 edges for a wireframe)
+    mCubeVAO = new VertexArray(cubeWireframe, sizeof(cubeWireframe) / (sizeof(float) * 8));
 }
 
+// Draw the debug objects (lines, boxes, spheres)
 void DebugDraw::Draw(Matrix4Row viewProj)
 {
+    // Use the shader program for drawing
     mShader->Use();
-    mShader->SetMat4Row("uViewProj", viewProj);
-    mVAO->Bind();
+    mShader->SetMat4Row("uViewProj", viewProj);  // Set the combined view and projection matrix
 
+
+    // Draw lines (e.g., for drawing lines between points)
     for (const auto& line : mLines)
     {
+        // Set up vertices for the line (2 points)
         Vector3 vertices[2] = { line.start, line.end };
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
+        // Update the line's vertices in the VAO (dynamic update for each frame)
+        mLineVAO->Set(reinterpret_cast<float*>(vertices), 2);
+
+        // Set the line's color
         mShader->SetVec4f("uColor", line.color);
 
+        // Bind the VAO and draw the line
+        mLineVAO->Bind();
+
+        glLineWidth(line.lineWidth);
         glDrawArrays(GL_LINES, 0, 2);
     }
 
+    mCubeVAO->Bind();
+
+    // Draw boxes (wireframe cubes)
     for (const auto& box : mBoxes)
     {
-        Matrix4Row transform = Matrix4Row::CreateTranslation(box.center) * Matrix4Row::CreateFromQuaternion(box.rotation);
-        Vector3 vertices[8];
-        for (int i = 0; i < 8; i++)
-        {
-            Vector3 localPos = {
-                (i & 1) ? box.extents.x : -box.extents.x,
-                (i & 2) ? box.extents.y : -box.extents.y,
-                (i & 4) ? box.extents.z : -box.extents.z
-            };
-            vertices[i] = transform * localPos;
-        }
+        Matrix4Row tempTransform = Transform{ box.center, box.extents * 2, box.rotation }.GetMat4Transform();
+        // Set the transformation matrix for the cube
+        mShader->SetMat4Row("uModel", tempTransform);
 
-
-        mVAO->Set(reinterpret_cast<float*>(vertices), 8);
-
-
+        // Set the cube's color
         mShader->SetVec4f("uColor", box.color);
 
-        //glDrawArrays(GL_LINES, 24);
+        glLineWidth(box.lineWidth);
+        glDrawArrays(GL_LINES, 0, mCubeVAO->GetVerticeCount());
     }
 
+    mCubeVAO->Unbind();
+
+    // Clear the lists after drawing
     mLines.clear();
     mBoxes.clear();
     mSpheres.clear();
-
-    mVAO->Unbind();
 }
 
+// Clean up resources when closing the DebugDraw
 void DebugDraw::Close()
 {
     delete mShader;
     mShader = nullptr;
 
-    delete mVAO;
-    mVAO = nullptr;
+    delete mLineVAO;
+    mLineVAO = nullptr;
+
+    delete mCubeVAO;
+    mCubeVAO = nullptr;
 }
 
-void DebugDraw::DrawLine(const Vector3& start, const Vector3& end, const Color& color)
+// Add a line to the drawing queue
+void DebugDraw::DrawLine(const Vector3& start, const Vector3& end, const Color& color, float lineThickness)
 {
-    mLines.push_back({ start, end, color });
+    mLines.push_back({ start, end, color, lineThickness });
 }
 
-void DebugDraw::DrawBox(const Vector3& center, const Vector3& extents, const Color& color, const Quaternion& rotation)
+// Add a box (cube) to the drawing queue
+void DebugDraw::DrawBox(const Vector3& center, const Vector3& extents, const Color& color, float lineThickness, const Quaternion& rotation)
 {
-    mBoxes.push_back({ center, extents, color, rotation });
+    mBoxes.push_back({ center, extents, color, rotation, lineThickness });
 }
 
-void DebugDraw::DrawSphere(const Vector3& center, float radius, const Color& color)
+// Function to draw spheres will go here if implemented in the future
+void DebugDraw::DrawSphere(const Vector3& center, float radius, const Color& color, float lineThickness)
 {
-    mSpheres.push_back({ center,radius,color });
+    mSpheres.push_back({ center,radius,color, lineThickness });
 }

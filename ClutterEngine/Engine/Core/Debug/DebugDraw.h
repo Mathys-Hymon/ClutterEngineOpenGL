@@ -17,6 +17,7 @@ namespace clt
 			Vector3 start;
 			Vector3 end;
 			Color color;
+			float lineWidth = 1;
 		};
 
 		struct Box
@@ -25,6 +26,7 @@ namespace clt
 			Vector3 extents;
 			Color color;
 			Quaternion rotation;
+			float lineWidth = 1;
 		};
 
 		struct Sphere
@@ -32,6 +34,7 @@ namespace clt
 			Vector3 center;
 			float radius;
 			Color color;
+			float lineWidth = 1;
 		};
 
 		std::vector<Line> mLines;   
@@ -39,7 +42,9 @@ namespace clt
 		std::vector<Sphere> mSpheres;
 
 		Shader* mShader;
-		VertexArray* mVAO;
+		VertexArray* mCubeVAO;
+		VertexArray* mLineVAO;
+		VertexArray* mSphereVAO;
 
 		void Start();
 		void Draw(Matrix4Row viewProj);
@@ -54,10 +59,10 @@ namespace clt
 
 		static DebugDraw& Get();
 
-		void DrawLine(const Vector3& start, const Vector3& end, const Color& color);
+		void DrawLine(const Vector3& start, const Vector3& end, const Color& color = Color::red, float lineThickness = 1);
 
-		void DrawBox(const Vector3& center, const Vector3& extents, const Color& color = Color::red, const Quaternion& rotation = Quaternion::Identity);
+		void DrawBox(const Vector3& center, const Vector3& extents, const Color& color = Color::red, float lineThickness = 1, const Quaternion & rotation = Quaternion::Identity);
 
-		void DrawSphere(const Vector3& center, float radius, const Color& color);
+		void DrawSphere(const Vector3& center, float radius, const Color& color = Color::red, float lineThickness = 1);
 	};
 }

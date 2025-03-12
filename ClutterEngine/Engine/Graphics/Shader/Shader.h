@@ -11,6 +11,7 @@
 
 namespace clt
 {
+	class DebugDraw;
 	class CLUTTER_API Shader
 	{
 		GLuint mID;
@@ -18,6 +19,7 @@ namespace clt
 
 		void Compile(const GLchar* pVertData, const GLchar* pFragData);
 
+		friend DebugDraw;
 	public:
 		Shader() : mID(0) {}
 		~Shader()

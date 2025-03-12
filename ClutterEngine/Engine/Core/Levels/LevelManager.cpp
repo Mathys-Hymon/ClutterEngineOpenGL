@@ -11,8 +11,6 @@ LevelManager::LevelManager(std::vector<Level*>& pLevels, RendererGL* pRenderer, 
 		level->SetManager(pRenderer, pPhysics);
 		mLevels.emplace(level->mTitle, level);
 	}
-
-	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/default.png", "default");
 	mActualLevel->Load();
 }
 

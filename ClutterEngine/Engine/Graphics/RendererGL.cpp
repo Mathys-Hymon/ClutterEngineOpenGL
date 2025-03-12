@@ -21,6 +21,7 @@ bool RendererGL::Initialize(CEngine* pEngine)
    else CLUTTER_ERROR("Cant initialise GLAD");  
 
    Assets::Get().SetRenderer(this);
+   Assets::Get().LoadTexture("Content/Resources/Sprites/default.png", "default");
 
    // File paths for vertex and fragment shaders  
    const auto spriteVertPath = "Content/Resources/Shaders/sprite.vert";

@@ -4,19 +4,28 @@
 
 using namespace clt;
 
-OBBCollider::OBBCollider(Vector3 pBoxExtend) : ColliderComponent(), mBoxExtend(pBoxExtend / 10)
+OBBCollider::OBBCollider(Vector3 pBoxExtend) : ColliderComponent(), mBoxExtend(pBoxExtend)
 {
 	mType = Type::OBB;
+
+    mBoxExtend /= 10;
 }
 
-OBBCollider::OBBCollider(float pBoxExtend) : ColliderComponent(), mBoxExtend(pBoxExtend / 10)
+OBBCollider::OBBCollider(float pBoxExtend) : ColliderComponent(), mBoxExtend(pBoxExtend)
 {
 	mType = Type::OBB;
+
+    mBoxExtend /= 10;
 }
 
 bool OBBCollider::CheckOBBvsOBB(OBBCollider* pOther, hitResult& outResult) const
 {
-    if (!pOther) return false;
+    if (!pOther)
+    {
+        DebugDraw::Get().DrawBox(GetWorldLocation(), mBoxExtend * GetWorldScale(), Color::green, 2, GetWorldRotation());
+        return false;
+    }
+
 
  	Vector3 centerA = GetWorldLocation();
 	Vector3 centerB = pOther->GetWorldLocation();
@@ -37,18 +46,26 @@ bool OBBCollider::CheckOBBvsOBB(OBBCollider* pOther, hitResult& outResult) const
             return true;
         Vector3 nAxis = axis.Normalized();
 
-        float projA =
-            std::abs(Vector3::Dot(mBoxExtend * GetWorldScale(), Vector3(
-                std::abs(Vector3::Dot(axesA[0], nAxis)),
-                std::abs(Vector3::Dot(axesA[1], nAxis)),
-                std::abs(Vector3::Dot(axesA[2], nAxis))
-            )));
-        float projB =
-            std::abs(Vector3::Dot(pOther->mBoxExtend * pOther->GetWorldScale(), Vector3(
-                std::abs(Vector3::Dot(axesB[0], nAxis)),
-                std::abs(Vector3::Dot(axesB[1], nAxis)),
-                std::abs(Vector3::Dot(axesB[2], nAxis))
-            )));
+        Vector3 scaleA = GetWorldScale();
+        Vector3 scaledExtentsA = Vector3(std::abs(scaleA.x) * mBoxExtend.x,
+            std::abs(scaleA.y) * mBoxExtend.y,
+            std::abs(scaleA.z) * mBoxExtend.z);
+
+        float projA = scaledExtentsA.x * std::abs(Vector3::Dot(axesA[0], nAxis)) +
+            scaledExtentsA.y * std::abs(Vector3::Dot(axesA[1], nAxis)) +
+            scaledExtentsA.z * std::abs(Vector3::Dot(axesA[2], nAxis));
+
+        // Calcul pour la boîte B
+        Vector3 scaleB = pOther->GetWorldScale();
+        Vector3 scaledExtentsB = Vector3(std::abs(scaleB.x) * pOther->mBoxExtend.x,
+            std::abs(scaleB.y) * pOther->mBoxExtend.y,
+            std::abs(scaleB.z) * pOther->mBoxExtend.z);
+
+        float projB = scaledExtentsB.x * std::abs(Vector3::Dot(axesB[0], nAxis)) +
+            scaledExtentsB.y * std::abs(Vector3::Dot(axesB[1], nAxis)) +
+            scaledExtentsB.z * std::abs(Vector3::Dot(axesB[2], nAxis));
+
+        // Projection du vecteur de séparation sur nAxis
         float distance = std::abs(Vector3::Dot(t, nAxis));
 
         if (distance > projA + projB)
@@ -68,12 +85,20 @@ bool OBBCollider::CheckOBBvsOBB(OBBCollider* pOther, hitResult& outResult) const
     for (int i = 0; i < 3; ++i)
     {
         if (!TestAxis(axesA[i]))
+        {
+            DebugDraw::Get().DrawBox(centerA, mBoxExtend * GetWorldScale(), Color::red, 2, GetWorldRotation());
+            DebugDraw::Get().DrawBox(centerB, pOther->mBoxExtend * pOther->GetWorldScale(), Color::red, 2, pOther->GetWorldRotation());
             return false;
+        }
     }
     for (int i = 0; i < 3; ++i)
     {
         if (!TestAxis(axesB[i]))
+        {
+            DebugDraw::Get().DrawBox(centerA, mBoxExtend * GetWorldScale(), Color::red, 2, GetWorldRotation());
+            DebugDraw::Get().DrawBox(centerB, pOther->mBoxExtend * pOther->GetWorldScale(), Color::red, 2, pOther->GetWorldRotation());
             return false;
+        }
     }
     for (int i = 0; i < 3; ++i)
     {
@@ -81,7 +106,11 @@ bool OBBCollider::CheckOBBvsOBB(OBBCollider* pOther, hitResult& outResult) const
         {
             Vector3 axis = Vector3::Cross(axesA[i], axesB[j]);
             if (!TestAxis(axis))
+            {
+                DebugDraw::Get().DrawBox(centerA, mBoxExtend * GetWorldScale(), Color::red, 2, GetWorldRotation());
+                DebugDraw::Get().DrawBox(centerB, pOther->mBoxExtend * pOther->GetWorldScale(), Color::red, 2, pOther->GetWorldRotation());
                 return false;
+            }
         }
     }
 
@@ -93,6 +122,9 @@ bool OBBCollider::CheckOBBvsOBB(OBBCollider* pOther, hitResult& outResult) const
     outResult.ColliderA = const_cast<OBBCollider*>(this);
     outResult.ColliderB = pOther;
 
+    DebugDraw::Get().DrawBox(centerA, mBoxExtend * GetWorldScale(), Color::green, 2, GetWorldRotation());
+    DebugDraw::Get().DrawBox(centerB, pOther->mBoxExtend * pOther->GetWorldScale(), Color::green, 2, pOther->GetWorldRotation());
+
     return true;
 }
 
@@ -103,9 +135,9 @@ bool OBBCollider::CheckOBBvsSphere(SphereCollider* pOther, hitResult& outResult)
 
 void OBBCollider::GetOBBAxis(Vector3(&axes)[3]) const
 {
-	axes[0] = GetWorldTransform().Forward();
-	axes[1] = GetWorldTransform().Right();
-	axes[2] = GetWorldTransform().Up();
+	axes[0] = GetWorldTransform().Right();
+	axes[1] = GetWorldTransform().Up();
+	axes[2] = GetWorldTransform().Forward();
 }
 
 bool OBBCollider::CheckCollision(ColliderComponent* pOther, hitResult& outResult) const

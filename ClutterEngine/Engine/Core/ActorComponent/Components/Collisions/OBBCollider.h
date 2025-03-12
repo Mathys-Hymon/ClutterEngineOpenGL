@@ -15,8 +15,8 @@ namespace clt
 	public:
 		Vector3 mBoxExtend;
 
-		OBBCollider(Vector3 pBoxExtend = 1);
-		OBBCollider(float pBoxExtend);
+		OBBCollider(Vector3 pBoxExtend);
+		OBBCollider(float pBoxExtend = 10.0f);
 
 		~OBBCollider() = default;
 
