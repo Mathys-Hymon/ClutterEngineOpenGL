@@ -25,7 +25,8 @@ Quaternion::Quaternion(const Vector3& axis, float angle)
 
 Quaternion::Quaternion(float inAll)
 {
-	Set(0, 0, inAll, 1);
+	Quaternion temp = Quaternion::FromEuler({ 0, 0, inAll });
+	Set(temp.x, temp.y, temp.z, temp.w);
 }
 
 void Quaternion::Set(float inX, float inY, float inZ, float inW)

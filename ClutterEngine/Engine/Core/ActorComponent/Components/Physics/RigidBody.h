@@ -19,6 +19,7 @@ namespace clt
    * @param deltaTime The time elapsed since the last update.
    */
 		void UpdateRotation(float deltaTime);
+		float CalculateInertia() const;
 
 	public:
 

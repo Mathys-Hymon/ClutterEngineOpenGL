@@ -25,10 +25,30 @@ void RigidBody::AddForce(const Vector3& pForce)
 
 void RigidBody::UpdateRotation(float deltaTime)
 {
-	mAngularVelocity += (mTorque / mInertia) * deltaTime;
-	mTorque = Vector3::Zero;
-	mAngularVelocity *= std::pow(0.98f, deltaTime * 60.0f);
-	Quaternion rotationDelta = Quaternion::FromEuler(mAngularVelocity * deltaTime);
-	std::cout << mAngularVelocity.ToString() << std::endl;
-	mOwner->AddActorRotationOffset(rotationDelta);
+    // Calcul de l'accélération angulaire à partir du torque accumulé et de l'inertie
+    Vector3 angularAcceleration = mTorque / CalculateInertia();
+    mAngularVelocity += angularAcceleration * deltaTime;
+
+    // Appliquer une friction angulaire (air friction) pour réduire progressivement l'angularVelocity.
+    // Le coefficient (ici 0.98) peut être ajusté pour avoir l'effet désiré.
+    const float dampingCoefficient = 0.98f;
+    mAngularVelocity *= std::pow(dampingCoefficient, deltaTime * 60.0f);
+
+    // Si la vitesse angulaire est significative, mettre à jour la rotation
+    if (mAngularVelocity.Length() > 0.0001f)
+    {
+        // Vous pouvez ajuster le facteur (ici deltaTime) pour moduler l'effet de la rotation
+        Quaternion deltaRot = Quaternion::FromEuler(mAngularVelocity * deltaTime);
+        mOwner->SetActorRotation(Quaternion::Concatenate(deltaRot, mOwner->GetRotation()));
+    }
+
+    // Réinitialiser le torque pour le prochain frame
+    mTorque = Vector3::Zero;
+}
+
+float RigidBody::CalculateInertia() const
+{
+	const Vector3 size = GetWorldScale();
+
+	return (1.0f / 12.0f) * mMass * (size.x * size.x + size.y * size.y + size.z * size.z);
 }
