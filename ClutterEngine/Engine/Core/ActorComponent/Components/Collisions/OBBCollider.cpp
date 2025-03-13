@@ -116,11 +116,13 @@ bool OBBCollider::CheckOBBvsOBB(OBBCollider* pOther, hitResult& outResult) const
 
     outResult.Normal = smallestAxis;
     outResult.Penetration = minOverlap;
-    outResult.Point = centerA + (t * 0.5f);
+    outResult.Point = ComputeHitPoint(pOther);
     outResult.ActorA = GetOwner();
     outResult.ActorB = pOther->GetOwner();
     outResult.ColliderA = const_cast<OBBCollider*>(this);
     outResult.ColliderB = pOther;
+
+    DebugDraw::Get().DrawBox(outResult.Point, 0.01f, Color::red, 5);
 
     DebugDraw::Get().DrawBox(centerA, mBoxExtend * GetWorldScale(), Color::green, 2, GetWorldRotation());
     DebugDraw::Get().DrawBox(centerB, pOther->mBoxExtend * pOther->GetWorldScale(), Color::green, 2, pOther->GetWorldRotation());
@@ -138,6 +140,87 @@ void OBBCollider::GetOBBAxis(Vector3(&axes)[3]) const
 	axes[0] = GetWorldTransform().Right();
 	axes[1] = GetWorldTransform().Up();
 	axes[2] = GetWorldTransform().Forward();
+}
+
+Vector3 OBBCollider::ComputeHitPoint(const OBBCollider* boxB) const
+{
+    std::vector<Vector3> contactPoints;
+
+    // Lambda pour obtenir les sommets d'un OBB
+    auto GetOBBVertices = [](const OBBCollider* box) -> std::vector<Vector3>
+        {
+            std::vector<Vector3> vertices;
+            Vector3 center = box->GetWorldLocation();
+            Vector3 axes[3];
+            box->GetOBBAxis(axes);
+
+            Vector3 scale = box->GetWorldScale();
+            Vector3 extents = Vector3(std::abs(scale.x) * box->mBoxExtend.x,
+                std::abs(scale.y) * box->mBoxExtend.y,
+                std::abs(scale.z) * box->mBoxExtend.z);
+
+            for (int x = -1; x <= 1; x += 2)
+            {
+                for (int y = -1; y <= 1; y += 2)
+                {
+                    for (int z = -1; z <= 1; z += 2)
+                    {
+                        vertices.push_back(center +
+                            axes[0] * (x * extents.x) +
+                            axes[1] * (y * extents.y) +
+                            axes[2] * (z * extents.z));
+                    }
+                }
+            }
+            return vertices;
+        };
+
+    // Lambda pour vérifier si un point est à l'intérieur d'un OBB
+    auto IsPointInsideOBB = [](const Vector3& point, const OBBCollider* box) -> bool
+        {
+            Vector3 center = box->GetWorldLocation();
+            Vector3 d = point - center;
+            Vector3 axes[3];
+            box->GetOBBAxis(axes);
+
+            Vector3 scale = box->GetWorldScale();
+            Vector3 extents = Vector3(std::abs(scale.x) * box->mBoxExtend.x,
+                std::abs(scale.y) * box->mBoxExtend.y,
+                std::abs(scale.z) * box->mBoxExtend.z);
+
+            for (int i = 0; i < 3; ++i)
+            {
+                if (std::abs(Vector3::Dot(d, axes[i])) > (i == 0 ? extents.x : (i == 1 ? extents.y : extents.z)))
+                    return false;
+            }
+            return true;
+        };
+
+    // Vérifier les sommets de A dans B
+    for (const auto& v : GetOBBVertices(this))
+    {
+        if (IsPointInsideOBB(v, boxB))
+            contactPoints.push_back(v);
+    }
+
+    // Vérifier les sommets de B dans A
+    for (const auto& v : GetOBBVertices(boxB))
+    {
+        if (IsPointInsideOBB(v, this))
+            contactPoints.push_back(v);
+    }
+
+    // Si aucun sommet détecté, utiliser le point intermédiaire des centres
+    if (contactPoints.empty())
+        return GetWorldLocation() + (boxB->GetWorldLocation() - GetWorldLocation()) * 0.5f;
+
+    // Calculer le centroïde des points de contact
+    Vector3 centroid(0, 0, 0);
+    for (const auto& cp : contactPoints)
+    {
+        centroid += cp;
+    }
+    return centroid / static_cast<float>(contactPoints.size());
 }
 
 bool OBBCollider::CheckCollision(ColliderComponent* pOther, hitResult& outResult) const

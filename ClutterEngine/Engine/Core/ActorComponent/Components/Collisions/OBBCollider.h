@@ -12,6 +12,8 @@ namespace clt
 
 		void GetOBBAxis(Vector3 (&axes)[3]) const;
 
+		Vector3 ComputeHitPoint(const OBBCollider* boxB) const;
+
 	public:
 		Vector3 mBoxExtend;
 

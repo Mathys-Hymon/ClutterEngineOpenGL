@@ -33,9 +33,12 @@ float Vector3::Length() const
 void Vector3::Normalize()
 {
 	float len = Length();
-	x /= len;
-	y /= len;
-	z /= len;
+	if (len != 0)
+	{
+		x /= len;
+		y /= len;
+		z /= len;
+	}
 }
 
 

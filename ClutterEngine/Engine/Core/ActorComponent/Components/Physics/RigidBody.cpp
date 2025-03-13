@@ -29,5 +29,6 @@ void RigidBody::UpdateRotation(float deltaTime)
 	mTorque = Vector3::Zero;
 	mAngularVelocity *= std::pow(0.98f, deltaTime * 60.0f);
 	Quaternion rotationDelta = Quaternion::FromEuler(mAngularVelocity * deltaTime);
+	std::cout << mAngularVelocity.ToString() << std::endl;
 	mOwner->AddActorRotationOffset(rotationDelta);
 }

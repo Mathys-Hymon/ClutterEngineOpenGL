@@ -88,6 +88,8 @@ void DebugDraw::Start()
 
     // Initialize the VAO for cubes (8 vertices, 24 edges for a wireframe)
     mCubeVAO = new VertexArray(cubeWireframe, sizeof(cubeWireframe) / (sizeof(float) * 8));
+
+    mSphereVAO = new VertexArray(nullptr, 0, BufferUsage::DYNAMIC);
 }
 
 // Draw the debug objects (lines, boxes, spheres)
@@ -97,7 +99,7 @@ void DebugDraw::Draw(Matrix4Row viewProj)
     mShader->Use();
     mShader->SetMat4Row("uViewProj", viewProj);  // Set the combined view and projection matrix
 
-
+    mLineVAO->Bind();
     // Draw lines (e.g., for drawing lines between points)
     for (const auto& line : mLines)
     {
@@ -109,9 +111,6 @@ void DebugDraw::Draw(Matrix4Row viewProj)
 
         // Set the line's color
         mShader->SetVec4f("uColor", line.color);
-
-        // Bind the VAO and draw the line
-        mLineVAO->Bind();
 
         glLineWidth(line.lineWidth);
         glDrawArrays(GL_LINES, 0, 2);
@@ -134,6 +133,59 @@ void DebugDraw::Draw(Matrix4Row viewProj)
     }
 
     mCubeVAO->Unbind();
+    mSphereVAO->Bind();
+
+    for (const auto& sphere : mSpheres)
+    {
+        int segments = 16;              // Number of segments for the circle
+        int vertexCount = segments + 1; // We generate an extra vertex to close the loop
+
+        // Create a float array to store vertex data (position, normal, texCoord) for each vertex
+        // Each vertex has 8 floats: 3 for position, 3 for normal, 2 for texture coordinates
+        std::vector<float> sphereData;
+        sphereData.resize(vertexCount * 8);
+
+        // Generate vertices for a circle in the XZ plane at the origin with given sphere.radius
+        for (int i = 0; i < vertexCount; i++)
+        {
+            float theta = (float)i / segments * 2.0f * 3.14159265f;
+            float x = cosf(theta) * sphere.radius;
+            float z = sinf(theta) * sphere.radius;
+
+            // Set position (x, 0, z)
+            sphereData[i * 8 + 0] = x;
+            sphereData[i * 8 + 1] = 0.0f;
+            sphereData[i * 8 + 2] = z;
+
+            // Set a dummy normal
+            sphereData[i * 8 + 3] = 0.0f;
+            sphereData[i * 8 + 4] = 1.0f;
+            sphereData[i * 8 + 5] = 0.0f;
+
+            // Set dummy texture coordinates
+            sphereData[i * 8 + 6] = 0.0f;
+            sphereData[i * 8 + 7] = 0.0f;
+        }
+
+        // Create a model transform that translates the circle to the sphere's center.
+        // Since our circle is generated at the origin, we only need translation.
+        Matrix4Row model = Matrix4Row::CreateTranslation(sphere.center);
+        mShader->SetMat4Row("uModel", model);
+        mShader->SetVec4f("uColor", sphere.color);
+
+        // Update the sphere VAO with the generated vertex data.
+        // 'vertexCount' is the number of vertices (each vertex has 8 floats).
+        mSphereVAO->Set(sphereData.data(), vertexCount);
+
+        // Set the line width for drawing the sphere outline
+        glLineWidth(sphere.lineWidth);
+
+        // Draw the circle using GL_LINE_LOOP (all vertices are connected in a loop)
+        glDrawArrays(GL_LINE_LOOP, 0, vertexCount);
+    }
+
+    // Unbind the VAO after drawing all spheres
+    mSphereVAO->Unbind();
 
     // Clear the lists after drawing
     mLines.clear();
