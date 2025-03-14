@@ -82,17 +82,13 @@ namespace clt
          */
         void Unload();
 
-        /**
-         * @brief Adds an actor to the level.
-         * @param pActor Pointer to the actor to be added.
-         */
-        Actor* AddActor(Actor* pActor);
-
+        template<typename T, typename... Args>
+        T* AddActor(Args&&... args);
         /**
          * @brief Removes an actor from the level.
          * @param pActor Pointer to the actor to be removed.
          */
-        void RemoveActor(Actor* pActor);
+        void DestroyActor(Actor* pActor);
 
         template<typename T>
         std::vector<T*> GetAllActorOfType()
@@ -138,4 +134,27 @@ namespace clt
 
         friend LevelManager;
     };
+
+    template<typename T, typename ...Args>
+    inline T* Level::AddActor(Args && ...args)
+    {
+        size_t hashCode = typeid(T).hash_code();
+
+        if (mActors.find(hashCode) != mActors.end()) {
+            std::cerr << "A component of this type already exists in the Actor.\n";
+            return nullptr;
+        }
+        else {
+            T* pActor = new T(std::forward<Args>(args)...);
+
+            if(mUpdatingActors) mPendingActors.emplace_back(pActor);
+            else
+            {
+                mActors[hashCode].emplace_back(pActor);
+                pActor->mLevel = this;
+            }
+
+            return pActor;
+        }
+    }
 }

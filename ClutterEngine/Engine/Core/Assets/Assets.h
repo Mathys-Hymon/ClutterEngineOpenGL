@@ -35,6 +35,8 @@ namespace clt
 
 		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, std::vector<Texture*> pTextures = {});
 
+		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, const std::string& pTexture);
+
 		void SetRenderer(IRenderer* pRenderer) { mRenderer = pRenderer; };
 
 		std::vector<Texture*> BulkLoadTexture(const std::string& pPath, int pLastIndex, const std::string& pFileName, const std::string& pName, TextureFilter pTexFilter = TextureFilter::LINEAR);

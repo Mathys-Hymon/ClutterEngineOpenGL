@@ -55,7 +55,6 @@ bool OBBCollider::CheckOBBvsOBB(OBBCollider* pOther, hitResult& outResult) const
             scaledExtentsA.y * std::abs(Vector3::Dot(axesA[1], nAxis)) +
             scaledExtentsA.z * std::abs(Vector3::Dot(axesA[2], nAxis));
 
-        // Calcul pour la boîte B
         Vector3 scaleB = pOther->GetWorldScale();
         Vector3 scaledExtentsB = Vector3(std::abs(scaleB.x) * pOther->mBoxExtend.x,
             std::abs(scaleB.y) * pOther->mBoxExtend.y,
@@ -65,7 +64,6 @@ bool OBBCollider::CheckOBBvsOBB(OBBCollider* pOther, hitResult& outResult) const
             scaledExtentsB.y * std::abs(Vector3::Dot(axesB[1], nAxis)) +
             scaledExtentsB.z * std::abs(Vector3::Dot(axesB[2], nAxis));
 
-        // Projection du vecteur de séparation sur nAxis
         float distance = std::abs(Vector3::Dot(t, nAxis));
 
         if (distance > projA + projB)
@@ -218,7 +216,6 @@ Vector3 OBBCollider::ComputeHitPoint(const OBBCollider* boxB) const
 {
     std::vector<Vector3> contactPoints;
 
-    // Lambda pour obtenir les sommets d'un OBB
     auto GetOBBVertices = [](const OBBCollider* box) -> std::vector<Vector3>
         {
             std::vector<Vector3> vertices;
@@ -247,7 +244,6 @@ Vector3 OBBCollider::ComputeHitPoint(const OBBCollider* boxB) const
             return vertices;
         };
 
-    // Lambda pour vérifier si un point est à l'intérieur d'un OBB
     auto IsPointInsideOBB = [](const Vector3& point, const OBBCollider* box) -> bool
         {
             Vector3 center = box->GetWorldLocation();
@@ -268,25 +264,21 @@ Vector3 OBBCollider::ComputeHitPoint(const OBBCollider* boxB) const
             return true;
         };
 
-    // Vérifier les sommets de A dans B
     for (const auto& v : GetOBBVertices(this))
     {
         if (IsPointInsideOBB(v, boxB))
             contactPoints.push_back(v);
     }
 
-    // Vérifier les sommets de B dans A
     for (const auto& v : GetOBBVertices(boxB))
     {
         if (IsPointInsideOBB(v, this))
             contactPoints.push_back(v);
     }
 
-    // Si aucun sommet détecté, utiliser le point intermédiaire des centres
     if (contactPoints.empty())
         return GetWorldLocation() + (boxB->GetWorldLocation() - GetWorldLocation()) * 0.5f;
 
-    // Calculer le centroïde des points de contact
     Vector3 centroid(0, 0, 0);
     for (const auto& cp : contactPoints)
     {

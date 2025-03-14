@@ -24,12 +24,21 @@
     <ClCompile Include="Content\Maps\LevelMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Content\Gameplay\PinManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Content\Maps\MainMenuMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Content\Maps\LevelMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Content\Gameplay\PinManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Content\Gameplay\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

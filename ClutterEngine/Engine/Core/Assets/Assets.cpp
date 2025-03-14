@@ -160,7 +160,7 @@ Mesh* Assets::GetMesh(const std::string& name)
 
 Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, std::vector<Texture*> pTextures)
 {
-    if (mMeshes.find(pName) != mMeshes.end()) return GetMesh(pName);
+    if (mMeshes.find(pName) != mMeshes.end()) return mMeshes[pName];
 
     Mesh* mesh = LoadMeshFromFile(pPath);
 
@@ -171,6 +171,20 @@ Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, std::
     {
         mesh->AddTexture(tex);
     }
+
+    return mesh;
+}
+
+Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, const std::string& pTexture)
+{
+    if (mMeshes.find(pName) != mMeshes.end()) return GetMesh(pName);
+
+    Mesh* mesh = LoadMeshFromFile(pPath);
+
+    if (mesh) mMeshes[pName] = mesh;
+    if (!mesh->GetTexture(0) && pTexture.empty()) mesh->AddTexture(GetTexture("default"));
+
+        mesh->AddTexture(GetTexture(pTexture));
 
     return mesh;
 }

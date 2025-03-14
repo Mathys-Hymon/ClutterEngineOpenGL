@@ -20,6 +20,8 @@ namespace clt
     class Level;
     class CLUTTER_API Actor
     {
+        
+
         /**
          * @brief Internal method to update the actor.
          */
@@ -33,12 +35,10 @@ namespace clt
 
         bool mIsUpdatingComponents; ///< Flag indicating if components are being updated.
 
-    protected:
         std::string mName;
         ActorState mState; ///< The state of the actor.
         Level* mLevel; ///< The scene the actor is attached to.
         Transform mTransform; ///< The transform of the actor.
-
         std::unordered_map<size_t, Component*> mComponents; ///< Map of components by their ID.
         std::vector<Component*> mComponentsByUpdateOrder; ///< Components ordered by update order.
         std::vector<Component*> mComponentsToAdd; ///< Components to be added.
