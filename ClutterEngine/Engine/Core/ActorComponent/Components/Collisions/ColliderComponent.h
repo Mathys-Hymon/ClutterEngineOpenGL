@@ -7,24 +7,24 @@ namespace clt
 	class CLUTTER_API ColliderComponent : public Component
 	{
 	public:
-		enum class Type {Null, OBB, Sphere, AABB, Circle };
+		enum class ColliderType {Null, OBB, Sphere, AABB, Circle };
 
 	protected:
 
 		virtual void SetOwner(Actor* pOwner) override;
 		bool mTrigger = false; ///< Indicates if the collider is a trigger.
-		Type mType; ///< The type of the collider.
+		ColliderType mType; ///< The type of the collider.
 
 	public:
 
 		float mFriction;
 		float mBounciness;
 
-		ColliderComponent() : Component(), mFriction(2.5f), mBounciness(0.3f), mType(Type::Null) {};
+		ColliderComponent() : Component(), mFriction(2.5f), mBounciness(0.3f), mType(ColliderType::Null) {};
 		~ColliderComponent() = default;
 
 		virtual bool CheckCollision(ColliderComponent* pOther, hitResult& outResult) const = 0;
-		const Type GetType() const { return mType; };
+		const ColliderType GetType() const { return mType; };
 
 		bool IsTrigger() const { return mTrigger; };
 	};

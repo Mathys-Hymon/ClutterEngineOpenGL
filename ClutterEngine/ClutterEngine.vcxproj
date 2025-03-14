@@ -229,6 +229,7 @@
     <ClInclude Include="Engine\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\SphereCollider.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\CameraController.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\PlayerController.cpp" />
     <ClCompile Include="Engine\Core\Debug\DebugDraw.cpp" />

@@ -31,7 +31,7 @@ clt::Assets::Get().LoadMesh("Content/Resources/Mesh/cube.obj", "floor");
 clt::Input::Get().MapKeysToVect(EKey::A, EKey::D, EKey::W, EKey::S, "PlayerMovement");  
 clt::Input::Get().MapKeysToAxis(EKey::LeftShift, EKey::LeftControl, "MovementVertical");  
 
-int maxRow = 1;  
+int maxRow = 5;  
 
 for (int row = 1; row <= maxRow; row++)  
 {  
@@ -43,6 +43,7 @@ for (int row = 1; row <= maxRow; row++)
 		tempActor->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetMesh("pin"));
 		tempActor->AddComponent<clt::OBBCollider>(Vector3{ 10, 20, 10 });
 		tempActor->GetComponentOfType<clt::OBBCollider>()->SetRelativeLocation({ 0, 0.2f, 0 });
+		tempActor->GetComponentOfType<clt::OBBCollider>()->mFriction = 0.5f;
 		tempActor->AddComponent<clt::RigidBody>()->mLockRotation = false;
 		tempActor->SetActorScale(0.1f);
 
@@ -63,13 +64,13 @@ camera->AddComponent<clt::CameraComponent>();
 camera->SetActorLocation({ 0, 0, 5 });  
 
 ball->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetMesh("ball"));  
-ball->AddComponent<clt::OBBCollider>();  
-ball->GetComponentOfType<clt::OBBCollider>()->mFriction = 0.1f;  
+ball->AddComponent<clt::SphereCollider>();  
+ball->GetComponentOfType<clt::SphereCollider>()->mFriction = 0.1f;
 ball->AddComponent<clt::RigidBody>()->mLockRotation = false;  
 
 floorBlock->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetMesh("floor"));  
 floorBlock->AddComponent<clt::OBBCollider>();  
-floorBlock->GetComponentOfType<clt::OBBCollider>()->mFriction = 5;
+floorBlock->GetComponentOfType<clt::OBBCollider>()->mFriction = 0.1f;
 
 
 floorBlock->SetActorScale({ 5, 0.3f, 5 });  
@@ -85,6 +86,7 @@ ball->SetActorRotation(23);
 
 void LevelMap::Update()  
 {
+	ball->AddActorRotationOffset(2);
 }  
 
 void LevelMap::Close()  

@@ -6,12 +6,12 @@ using namespace clt;
 
 CircleCollider::CircleCollider(float pRadius) : mRadius(pRadius)
 {
-	mType = Type::Circle;
+	mType = ColliderType::Circle;
 }
 
 bool CircleCollider::CheckCollision(ColliderComponent* pOther, hitResult& outResult) const
 {
-	if (pOther->GetType() == Type::Circle)
+	if (pOther->GetType() == ColliderType::Circle)
 	{
 		return CheckCircleVsCircle(static_cast<CircleCollider*>(pOther), outResult);
 	}

@@ -14,13 +14,20 @@ namespace clt
 
 		Vector3 ComputeHitPoint(const OBBCollider* boxB) const;
 
-	public:
 		Vector3 mBoxExtend;
+
+		friend SphereCollider;
+	public:
 
 		OBBCollider(Vector3 pBoxExtend);
 		OBBCollider(float pBoxExtend = 10.0f);
 
 		~OBBCollider() = default;
+
+		void SetBoxExtend(Vector3 pBoxExtend) { mBoxExtend = pBoxExtend; };
+		void SetBoxExtend(float   pBoxExtend) { mBoxExtend = pBoxExtend; };
+
+		Vector3 GetBoxExtend() const { return mBoxExtend; };
 
 		bool CheckCollision(ColliderComponent* pOther, hitResult& outResult) const override;
 	};

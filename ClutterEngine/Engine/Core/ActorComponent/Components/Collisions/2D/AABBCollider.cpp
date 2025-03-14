@@ -7,17 +7,17 @@ using namespace clt;
 
 AABBCollider::AABBCollider(Vector2 pBoxExtend) : mBoxExtend(pBoxExtend)  
 {  
-   mType = Type::AABB;  
+   mType = ColliderType::AABB;  
 }  
 
 AABBCollider::AABBCollider(float pBoxExtend) : mBoxExtend(pBoxExtend)  
 {  
-   mType = Type::AABB;  
+   mType = ColliderType::AABB;  
 }  
 
 bool AABBCollider::CheckCollision(ColliderComponent* pOther, hitResult& outResult) const  
 {  
-   if (pOther->GetType() == Type::AABB)  
+   if (pOther->GetType() == ColliderType::AABB)  
    {  
        return CheckAABBvsAABB(static_cast<AABBCollider*>(pOther), outResult);  
    }  

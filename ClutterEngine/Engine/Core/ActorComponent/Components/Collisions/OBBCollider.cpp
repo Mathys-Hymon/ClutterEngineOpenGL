@@ -6,14 +6,14 @@ using namespace clt;
 
 OBBCollider::OBBCollider(Vector3 pBoxExtend) : ColliderComponent(), mBoxExtend(pBoxExtend)
 {
-	mType = Type::OBB;
+	mType = ColliderType::OBB;
 
     mBoxExtend /= 10;
 }
 
 OBBCollider::OBBCollider(float pBoxExtend) : ColliderComponent(), mBoxExtend(pBoxExtend)
 {
-	mType = Type::OBB;
+	mType = ColliderType::OBB;
 
     mBoxExtend /= 10;
 }
@@ -132,7 +132,79 @@ bool OBBCollider::CheckOBBvsOBB(OBBCollider* pOther, hitResult& outResult) const
 
 bool OBBCollider::CheckOBBvsSphere(SphereCollider* pOther, hitResult& outResult) const
 {
-	return false;
+    if (!pOther)
+        return false;
+
+    // Retrieve the sphere's center and radius
+    Vector3 sphereCenter = pOther->GetWorldLocation();
+    // Assuming GetWorldScale() returns a vector with a uniform factor for the radius
+    float sphereRadius = pOther->GetRadius() * pOther->GetWorldScale().x;
+
+    // Retrieve the OBB's center and its axes
+    Vector3 obbCenter = GetWorldLocation();
+    Vector3 axes[3];
+    GetOBBAxis(axes);
+
+    // Compute the vector between the sphere center and the OBB center
+    Vector3 d = sphereCenter - obbCenter;
+    Vector3 closestPoint = obbCenter;
+
+    // Calculate the half-extents of the OBB considering its scale
+    Vector3 scale = GetWorldScale();
+    Vector3 extents(std::abs(scale.x) * mBoxExtend.x,
+        std::abs(scale.y) * mBoxExtend.y,
+        std::abs(scale.z) * mBoxExtend.z);
+
+    // For each OBB axis, clamp the projection of 'd' onto the axis and add the corresponding contribution
+    {
+        float proj = Vector3::Dot(d, axes[0]);
+        float clamped = std::max(-extents.x, std::min(proj, extents.x));
+        closestPoint += axes[0] * clamped;
+    }
+    {
+        float proj = Vector3::Dot(d, axes[1]);
+        float clamped = std::max(-extents.y, std::min(proj, extents.y));
+        closestPoint += axes[1] * clamped;
+    }
+    {
+        float proj = Vector3::Dot(d, axes[2]);
+        float clamped = std::max(-extents.z, std::min(proj, extents.z));
+        closestPoint += axes[2] * clamped;
+    }
+
+    // Compute the vector from the sphere center to the closest point on the OBB and its squared distance
+    Vector3 v = sphereCenter - closestPoint;
+    float distSq = v.LengthSq();
+
+    if (distSq > sphereRadius * sphereRadius)
+    {
+        // No collision: draw the OBB in red for debugging
+        DebugDraw::Get().DrawBox(obbCenter, mBoxExtend * GetWorldScale(), Color::red, 2, GetWorldRotation());
+        return false;
+    }
+
+    float distance = std::sqrt(distSq);
+    float penetration = sphereRadius - distance;
+
+    // Compute the collision normal
+    Vector3 normal;
+    if (distance > 1e-6f)
+        normal = v / distance;
+
+    else normal = Vector3(1, 0, 0); // Arbitrary normal
+        
+    outResult.Normal = normal;
+    outResult.Penetration = penetration;
+    outResult.Point = closestPoint;
+    outResult.ActorA = GetOwner();
+    outResult.ActorB = pOther->GetOwner();
+    outResult.ColliderA = const_cast<OBBCollider*>(this);
+    outResult.ColliderB = pOther;
+
+    // Debug: draw the contact point
+    DebugDraw::Get().DrawBox(closestPoint, 0.01f, Color::red, 5);
+
+    return true;
 }
 
 void OBBCollider::GetOBBAxis(Vector3(&axes)[3]) const
@@ -225,8 +297,8 @@ Vector3 OBBCollider::ComputeHitPoint(const OBBCollider* boxB) const
 
 bool OBBCollider::CheckCollision(ColliderComponent* pOther, hitResult& outResult) const
 {
-	if (pOther->GetType() == Type::OBB) return CheckOBBvsOBB(static_cast<OBBCollider*>(pOther), outResult);
-	else if (pOther->GetType() == Type::Sphere) return CheckOBBvsSphere(static_cast<SphereCollider*>(pOther), outResult);
+	if (pOther->GetType() == ColliderType::OBB) return CheckOBBvsOBB(static_cast<OBBCollider*>(pOther), outResult);
+	else if (pOther->GetType() == ColliderType::Sphere) return CheckOBBvsSphere(static_cast<SphereCollider*>(pOther), outResult);
 
 	return false;
 }

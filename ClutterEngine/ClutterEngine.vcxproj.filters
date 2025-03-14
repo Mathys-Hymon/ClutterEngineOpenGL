@@ -344,5 +344,8 @@
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\CameraController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\SphereCollider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
