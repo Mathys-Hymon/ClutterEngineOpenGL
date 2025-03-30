@@ -31,39 +31,40 @@ clt::Input::Get().MapKeysToVect(EKey::A, EKey::D, EKey::W, EKey::S, "PlayerMovem
 clt::Input::Get().MapKeysToAxis(EKey::LeftShift, EKey::LeftControl, "MovementVertical");
 
 int maxRow = 5;  
+//
+//for (int row = 1; row <= maxRow; row++)  
+//{  
+//	for (int col = 1; col < row; col++)  
+//	{  
+//		std::string tempName = "pin_" + std::to_string(pins.size());
+//
+//		clt::Actor* tempActor = AddActor<clt::Actor>(tempName);
+//		tempActor->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetMesh("pin"));
+//		tempActor->AddComponent<clt::OBBCollider>(Vector3{ 10, 20, 10 });
+//		tempActor->GetComponentOfType<clt::OBBCollider>()->SetRelativeLocation({ 0, 0.2f, 0 });
+//		tempActor->GetComponentOfType<clt::OBBCollider>()->mFriction = 0.5f;
+//		tempActor->AddComponent<clt::RigidBody>()->mLockRotation = false;
+//		tempActor->SetActorScale(0.1f);
+//
+//		float x = (static_cast<float>(col * 2) / static_cast<float>(row));
+//		float y = - 1.6f;
+//		float z = -static_cast<float>(row) / 4;
+//		
+//		tempActor->SetActorLocation({ x ,y, z });
+//
+//		pins.push_back(tempActor);
+//	}  
+//}  
 
-for (int row = 1; row <= maxRow; row++)  
-{  
-	for (int col = 1; col < row; col++)  
-	{  
-		std::string tempName = "pin_" + std::to_string(pins.size());
+camera = AddActor<clt::Actor>("camera");
+camera->AddComponent<clt::CameraComponent>();
 
-		clt::Actor* tempActor = AddActor<clt::Actor>(tempName);
-		tempActor->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetMesh("pin"));
-		tempActor->AddComponent<clt::OBBCollider>(Vector3{ 10, 20, 10 });
-		tempActor->GetComponentOfType<clt::OBBCollider>()->SetRelativeLocation({ 0, 0.2f, 0 });
-		tempActor->GetComponentOfType<clt::OBBCollider>()->mFriction = 0.5f;
-		tempActor->AddComponent<clt::RigidBody>()->mLockRotation = false;
-		tempActor->SetActorScale(0.1f);
-
-		float x = (static_cast<float>(col * 2) / static_cast<float>(row));
-		float y = - 1.6f;
-		float z = -static_cast<float>(row) / 4;
-		
-		tempActor->SetActorLocation({ x ,y, z });
-
-		pins.push_back(tempActor);
-	}  
-}  
-
-camera = AddActor<clt::Actor>("camera");  
-camera->AddComponent<clt::CameraController>("PlayerMovement", "MovementVertical");
+//camera->AddComponent<clt::CameraController>("PlayerMovement", "MovementVertical");
 
 ball = AddActor<clt::Actor>("ball");  
 
 floorBlock = AddActor<clt::Cube>("floor");  
 
-camera->AddComponent<clt::CameraComponent>();  
 camera->SetActorLocation({ 0, 0, 5 });  
 
 ball->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetMesh("ball"));  
@@ -89,7 +90,7 @@ ball->SetActorRotation(23);
 
 void LevelMap::Update()  
 {
-	ball->AddActorRotationOffset(2);
+	//ball->AddActorRotationOffset(2);
 }  
 
 void LevelMap::Close()  

@@ -4,10 +4,11 @@
 
 namespace clt
 {
-	class Cube : public Actor
+	class CLUTTER_API Cube : public Actor
 	{
 
 	public:
+		 Cube(const char* name);
 		 Cube(std::string name);
 		 Cube(std::string name, std::string texture);
 		 Cube(std::string name, Texture* texture);

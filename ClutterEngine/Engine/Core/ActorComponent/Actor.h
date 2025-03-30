@@ -20,8 +20,6 @@ namespace clt
     class Level;
     class CLUTTER_API Actor
     {
-        
-
         /**
          * @brief Internal method to update the actor.
          */
@@ -48,7 +46,7 @@ namespace clt
         /**
          * @brief Constructor for the Actor class.
          */
-        Actor(std::string pName);
+        Actor(std::string pName = "Actor");
 
         /**
          * @brief Destructor for the Actor class.
@@ -236,8 +234,7 @@ namespace clt
         }
         else {
             T* pComponent = new T(std::forward<Args>(args)...);
-            if (mIsUpdatingComponents) mComponentsToAdd.emplace_back(pComponent);
-            else AddComponentInternal(pComponent);
+            mComponentsToAdd.emplace_back(pComponent);
 
             return pComponent;
         }

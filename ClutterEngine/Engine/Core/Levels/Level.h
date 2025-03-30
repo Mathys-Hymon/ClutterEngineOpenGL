@@ -138,13 +138,9 @@ namespace clt
     template<typename T, typename ...Args>
     inline T* Level::AddActor(Args && ...args)
     {
+        static_assert(std::is_base_of<Actor, T>::value, "T must be an Actor");
         size_t hashCode = typeid(T).hash_code();
 
-        if (mActors.find(hashCode) != mActors.end()) {
-            std::cerr << "A component of this type already exists in the Actor.\n";
-            return nullptr;
-        }
-        else {
             T* pActor = new T(std::forward<Args>(args)...);
 
             if(mUpdatingActors) mPendingActors.emplace_back(pActor);
@@ -155,6 +151,5 @@ namespace clt
             }
 
             return pActor;
-        }
     }
 }

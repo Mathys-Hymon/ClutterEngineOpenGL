@@ -7,21 +7,24 @@ using namespace clt;
 
 Cube::Cube(std::string name) : Actor(name)
 {
-	Assets::Get().LoadMesh("Content/Resources/Mesh/cube.obj", "cube");
-	AddComponent<MeshComponent>(clt::Assets::Get().GetMesh("cube"));
+	AddComponent<MeshComponent>(Assets::Get().LoadMesh("Content/Resources/Mesh/cube.obj", "cube"));
+	AddComponent<OBBCollider>();
+}
+
+Cube::Cube(const char* name) : Actor(std::string(name))
+{
+	AddComponent<MeshComponent>(Assets::Get().LoadMesh("Content/Resources/Mesh/cube.obj", "cube"));
 	AddComponent<OBBCollider>();
 }
 
 Cube::Cube(std::string name, std::string texture) : Actor(name)
 {
-	Assets::Get().LoadMesh("Content/Resources/Mesh/cube.obj", "cube", texture);
-	AddComponent<MeshComponent>(clt::Assets::Get().GetMesh("cube"));
+	AddComponent<MeshComponent>(Assets::Get().LoadMesh("Content/Resources/Mesh/cube.obj", "cube"));
 	AddComponent<OBBCollider>();
 }
 
 Cube::Cube(std::string name, Texture* texture) : Actor(name)
 {
-	Assets::Get().LoadMesh("Content/Resources/Mesh/cube.obj", "cube", {texture});
-	AddComponent<MeshComponent>(clt::Assets::Get().GetMesh("cube"));
+	AddComponent<MeshComponent>(Assets::Get().LoadMesh("Content/Resources/Mesh/cube.obj", "cube"));
 	AddComponent<OBBCollider>();
 }
