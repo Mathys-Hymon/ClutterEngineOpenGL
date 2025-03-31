@@ -141,13 +141,12 @@ namespace clt
         static_assert(std::is_base_of<Actor, T>::value, "T must be an Actor");
         size_t hashCode = typeid(T).hash_code();
 
-            T* pActor = new T(std::forward<Args>(args)...);
+            T* pActor = new T(this, std::forward<Args>(args)...);
 
             if(mUpdatingActors) mPendingActors.emplace_back(pActor);
             else
             {
                 mActors[hashCode].emplace_back(pActor);
-                pActor->mLevel = this;
             }
 
             return pActor;

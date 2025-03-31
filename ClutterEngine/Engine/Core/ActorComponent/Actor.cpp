@@ -5,7 +5,7 @@
 using namespace clt;                                  // Use clt namespace
 
 // Constructor
-Actor::Actor(std::string pName) : mState(ActorState::Active), mLevel(nullptr), mIsUpdatingComponents(false), mName(pName)
+Actor::Actor(Level* pLevel, std::string pName) :mLevel(pLevel), mState(ActorState::Active), mIsUpdatingComponents(false), mName(pName)
 {
 }
 

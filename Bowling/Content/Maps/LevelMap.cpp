@@ -65,14 +65,13 @@ ball = AddActor<clt::Actor>("ball");
 
 floorBlock = AddActor<clt::Cube>("floor");  
 
-camera->SetActorLocation({ 0, 0, 5 });  
+camera->SetActorLocation({ 0, 0, 5 });
 
 ball->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetMesh("ball"));  
 ball->AddComponent<clt::SphereCollider>();  
 ball->GetComponentOfType<clt::SphereCollider>()->mFriction = 0.1f;
 ball->AddComponent<clt::RigidBody>()->mLockRotation = false;  
 
-floorBlock->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetMesh("floor"));  
 floorBlock->AddComponent<clt::OBBCollider>();  
 floorBlock->GetComponentOfType<clt::OBBCollider>()->mFriction = 0.1f;
 

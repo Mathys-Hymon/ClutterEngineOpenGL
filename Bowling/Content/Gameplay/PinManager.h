@@ -7,7 +7,7 @@ class PinManager : public clt::Actor
 
 public :
 
-	PinManager(std::string pName);
+	PinManager(clt::Level* pLevel, std::string pName);
 	~PinManager();
 
 	void RespawnPins();
