@@ -29,16 +29,16 @@ namespace clt
 		{
 			mTexture = Assets::Get().GetTexture(textureName);
 
-			mTransform.scale.x =  size.x * mTexture->GetWidth();
-			mTransform.scale.y = -size.y * mTexture->GetHeight();
+			mTransform.scale.x =  size.x;
+			mTransform.scale.y = -size.y;
 
 			mTransform.location = position;
 		};
 
 		WidgetElement(Texture* texture, Vector2 size = { 1,1 }, Vector2 position = { 0, 0 }, int ZOrder = 0) : mZOrder(ZOrder), mVisibility(true), mOwner(nullptr), mTexture(texture)
 		{
-			mTransform.scale.x =  size.x * mTexture->GetWidth();
-			mTransform.scale.y = -size.y * mTexture->GetHeight();
+			mTransform.scale.x =  size.x;
+			mTransform.scale.y = -size.y;
 
 			mTransform.location = position;
 
@@ -59,35 +59,47 @@ namespace clt
 			}
 		}
 
-		Vector2 GetSize()     const { return -mTransform.scale;    };
+		Vector2 GetSize()     const 
+		{ 
+			return {
+				 mTransform.scale.x,
+				-mTransform.scale.y
+					};
+		
+		};
 		Vector2 GetPosition() const { return mTransform.location; };
 		float GetRotation()   const { return mTransform.rotation; };
 
-		Transform2D GetTransform() const { return mTransform; };
+		Transform2D GetTransform() const 
+		{
+			return { mTransform.location,
+					 mTransform.scale,
+					 mTransform.rotation
+			};
+		};
 
 		void SetTexture(Texture* pTexture) 
 		{ 
-			mTexture = pTexture; 
-			this->SetSize(mTransform.scale);
+			mTexture = pTexture;
 		}
 
 		void SetTexture(std::string pTexture) 
 		{ 
-			mTexture = Assets::Get().GetTexture(pTexture); 
-			this->SetSize(mTransform.scale);
+			mTexture = Assets::Get().GetTexture(pTexture);
 		}
+		
 		Texture* GetTexture() const { return mTexture; }
 
 		void SetSize(Vector2 size) 
 		{ 
-			mTransform.scale.x =  size.x * mTexture->GetWidth();
-			mTransform.scale.y = -size.y * mTexture->GetHeight();
+			mTransform.scale.x =  size.x;
+			mTransform.scale.y = -size.y;
 		};
 
 		void SetSize(float size)
 		{
-			mTransform.scale.x = size * mTexture->GetWidth();
-			mTransform.scale.y = -size * mTexture->GetHeight();
+			mTransform.scale.x = size;
+			mTransform.scale.y = -size;
 		};
 
 		void SetPosition(Vector2 position) { mTransform.location = position; };

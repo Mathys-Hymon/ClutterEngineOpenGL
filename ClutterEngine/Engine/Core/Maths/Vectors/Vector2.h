@@ -11,6 +11,7 @@
 #include "cmath"
 #include <glm/glm.hpp>
 #include "string"
+#include <glad/glad.h>
 
 /**
  * @brief A 2D vector structure.
@@ -36,6 +37,8 @@ struct Vector2
     Vector2(float pX, float pY) : x(pX), y(pY) {}
 
     Vector2(int pX, int pY) : x(pX), y(pY) {}
+
+    Vector2(GLuint pX, GLuint pY) : x(pX), y(pY) {}
 
     Vector2(float pXY) : x(pXY), y(pXY) {}
 

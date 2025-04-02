@@ -58,6 +58,8 @@ namespace clt
    */
 		inline int GetHeight() const { return mHeight; };
 
+		inline Vector2 GetSize() const { return { mWidth, mHeight }; }
+
 		/**
    * @brief Gets the OpenGL texture ID.
    * @return The OpenGL texture ID.

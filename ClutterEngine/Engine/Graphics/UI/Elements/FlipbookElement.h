@@ -7,13 +7,13 @@ namespace clt
 	{
 		std::vector<Texture*> mFlipbookTextures;
 		bool mLooping, mIsPaused;
-		float mCurrentFrame;
+		float mCurrentFrame, mNextFrame;
 		float mAnimFps;
 
 	public:
 		FlipbookElement() = delete;
 
-		FlipbookElement(const std::vector<Texture*>& pTexture, bool pLooping = true, float pAnimFps = 24, Vector2 size = { 1,1 }, Vector2 position = { 0, 0 }, int ZOrder = 0) : WidgetElement(pTexture[0],size, position, ZOrder), mFlipbookTextures(pTexture), mLooping(pLooping), mIsPaused(false), mAnimFps(pAnimFps), mCurrentFrame(0)
+		FlipbookElement(const std::vector<Texture*> pTexture, bool pLooping = true, float pAnimFps = 24, Vector2 size = { 1.0f ,1.0f }, Vector2 position = { 0, 0 }, int ZOrder = 0) : WidgetElement(pTexture[0],size, position, ZOrder), mFlipbookTextures(pTexture), mLooping(pLooping), mIsPaused(false), mAnimFps(pAnimFps), mCurrentFrame(0), mNextFrame(1)
 		{};
 
 		std::vector<Texture*> GetFlipbookTextures() const { return mFlipbookTextures; };

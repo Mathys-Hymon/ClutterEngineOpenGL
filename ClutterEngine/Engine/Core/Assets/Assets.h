@@ -4,6 +4,7 @@
 #include <Core/Assets/AssetsType/Mesh.h>
 #include <Core/Assets/AssetsType/Font.h>
 
+
 enum class TextureFilter
 {
 	NEAREST,
@@ -23,7 +24,7 @@ namespace clt
 		std::unordered_map<std::string, Mesh*> mMeshes;
 		std::unordered_map<std::string, Font*> mFonts;
 
-		 Assets() = default;
+		 Assets();
 		~Assets() = default;
 
 		void LoadTextureGL(TextureFilter pTexFilter, GLuint& textureID, int& width, int& height, int& channels, unsigned char* data);
@@ -39,7 +40,7 @@ namespace clt
 
 		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, const std::string& pTexture);
 
-		Font* LoadFont(const std::string& pPath, const std::string& pName);
+		Font* LoadFont(const std::string& pPath, const std::string& pName, GLuint pFontSize = 48);
 
 		void SetRenderer(IRenderer* pRenderer) { mRenderer = pRenderer; };
 

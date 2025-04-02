@@ -10,15 +10,23 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-
 using namespace clt;
 
 Assets* Assets::sInstance = nullptr;
+FT_Library mFTLibrary;
 
 Assets& Assets::Get()
 {
     if (!sInstance)  sInstance = new Assets();
     return *sInstance;
+}
+
+Assets::Assets()
+{
+    if (FT_Init_FreeType(&mFTLibrary))
+    {
+       CLUTTER_ERROR("FREETYPE: Could not init FreeType Library");
+    }
 }
 
 void Assets::LoadTextureGL(TextureFilter pTexFilter, GLuint& textureID, int& width, int& height, int& channels, unsigned char* data)
@@ -164,7 +172,13 @@ Mesh* Assets::GetMesh(const std::string& name)
 
 Font* Assets::GetFont(const std::string& name)
 {
-    return nullptr;
+    auto it = mFonts.find(name);
+    if (it == mFonts.end())
+    {
+        CLUTTER_WARNING(("Unable to find Font: " + name).c_str());
+        return nullptr;
+    }
+    return it->second;
 }
 
 Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, std::vector<Texture*> pTextures)
@@ -198,12 +212,67 @@ Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, const
     return mesh;
 }
 
-Font* Assets::LoadFont(const std::string& pPath, const std::string& pName)
+Font* Assets::LoadFont(const std::string& pPath, const std::string& pName, GLuint pFontSize)
 {
-    if (mFonts.find(pName) != mFonts.end()) return GetFont(pName);
+    if (mFonts.find(pName) != mFonts.end()) return mFonts[pName];
+
+    FT_Face face;
+    if (FT_New_Face(mFTLibrary, pPath.c_str(), 0, &face))
+    {
+        CLUTTER_ERROR("FREETYPE: Failed to load font:", pPath);
+    }
+
+    FT_Set_Pixel_Sizes(face, 0, pFontSize);
+
+    glPixelStoref(GL_UNPACK_ALIGNMENT, 1);
 
     Font* font = new Font();
 
+    for (unsigned char c = 0; c < 128; c++)
+    {
+        if (FT_Load_Char(face, c, FT_LOAD_RENDER))
+        {
+            CLUTTER_WARNING("FREETYTPE: Failed to load Glyph n", c);
+            continue;
+        }
+        GLuint texture;
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glTexImage2D(
+            GL_TEXTURE_2D,
+            0,
+            GL_RED,
+            face->glyph->bitmap.width,
+            face->glyph->bitmap.rows,
+            0,
+            GL_RED,
+            GL_UNSIGNED_BYTE,
+            face->glyph->bitmap.buffer
+        );
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        Character character = 
+        {
+            texture,
+            Vector2{ face->glyph->bitmap.width, face->glyph->bitmap.rows },
+            Vector2{ face->glyph->bitmap_left, face->glyph->bitmap_top},
+            static_cast<unsigned int>(face->glyph->advance.x)
+        };
+
+        font->mCharacters.insert({ c, character });
+    }
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+    FT_Done_Face(face);
+    CLUTTER_INFO("font: ", pName, " loaded succesfully !");
+
+    mFonts[pName] = font;
+
+    return font;
 }
 
 std::vector<Texture*> Assets::BulkGetTexture(const std::string& pName, int pLastIndex)
@@ -232,6 +301,8 @@ void Assets::ClearTextures()
         delete pair.second;
     }
     mMeshes.clear();
+
+    FT_Done_FreeType(mFTLibrary);
 
     delete sInstance;
 }

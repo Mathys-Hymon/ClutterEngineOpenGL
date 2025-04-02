@@ -25,8 +25,14 @@ void FlipbookElement::Update()
 		while (mCurrentFrame >= mFlipbookTextures.size())
 		{
 			mCurrentFrame -= mFlipbookTextures.size();
+			mNextFrame = mCurrentFrame + 1.0f;
 		}
 
-		SetTexture(mFlipbookTextures[static_cast<int>(mCurrentFrame)]);
+		if (mCurrentFrame > mNextFrame)
+		{
+			SetTexture(mFlipbookTextures[static_cast<int>(mCurrentFrame)]);
+			mNextFrame = mCurrentFrame + 1.0f;
+		}
+
 	}
 }

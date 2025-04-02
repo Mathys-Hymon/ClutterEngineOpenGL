@@ -18,6 +18,7 @@ void LevelMap::Load()
 	clt::Assets::Get().LoadMesh("Content/Resources/Mesh/sphere.obj", "ball");
 	weapon.push_back(clt::Assets::Get().LoadTexture("Content/Resources/Sprites/playerWeapon.png", "weapon"));
 
+	clt::Assets::Get().LoadFont("Content/Resources/Font/ClassicFont.ttf", "Classic");
 
 	camera = AddActor<clt::Actor>("camera");
 	camera->AddComponent<clt::CameraComponent>();

@@ -17,5 +17,9 @@ namespace clt
 	{
 	public:
 		std::unordered_map<char, Character> mCharacters;
+		GLuint mFontSize;
+
+		Font() : mFontSize(0) {};
+		~Font() = default;
 	};
 }
