@@ -219,7 +219,7 @@ Font* Assets::LoadFont(const std::string& pPath, const std::string& pName, GLuin
     FT_Face face;
     if (FT_New_Face(mFTLibrary, pPath.c_str(), 0, &face))
     {
-        CLUTTER_ERROR("FREETYPE: Failed to load font:", pPath);
+        CLUTTER_ERROR("FREETYPE: Failed to load font:" + pPath);
     }
 
     FT_Set_Pixel_Sizes(face, 0, pFontSize);
@@ -232,7 +232,7 @@ Font* Assets::LoadFont(const std::string& pPath, const std::string& pName, GLuin
     {
         if (FT_Load_Char(face, c, FT_LOAD_RENDER))
         {
-            CLUTTER_WARNING("FREETYTPE: Failed to load Glyph n", c);
+            CLUTTER_WARNING("FREETYTPE: Failed to load Glyph n"+ c);
             continue;
         }
         GLuint texture;
@@ -268,7 +268,7 @@ Font* Assets::LoadFont(const std::string& pPath, const std::string& pName, GLuin
 
     glBindTexture(GL_TEXTURE_2D, 0);
     FT_Done_Face(face);
-    CLUTTER_INFO("font: ", pName, " loaded succesfully !");
+    CLUTTER_LOG(("Font " + pPath + " loaded sucessfully ").c_str());
 
     mFonts[pName] = font;
 

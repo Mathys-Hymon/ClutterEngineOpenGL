@@ -73,7 +73,7 @@ namespace clt
 		Transform2D GetTransform() const 
 		{
 			return { mTransform.location,
-					 mTransform.scale,
+					 mTransform.scale * mTexture->GetSize(),
 					 mTransform.rotation
 			};
 		};

@@ -7,49 +7,50 @@
 #include <Core/Debug/DebugDraw.h>
 #include <Core/CEngine.h>
 
-using namespace clt;  
+using namespace clt;
 
 RendererGL::RendererGL() : mEngine(nullptr), mSpriteVAO(nullptr)
-{}
+{
+}
 
 bool RendererGL::Initialize(CEngine* pEngine)
-{  
+{
     mEngine = pEngine;
 
-   // Initialize GLAD to load OpenGL functions  
-   if (gladLoadGL()) CLUTTER_LOG("GLAD initialised successfully")  
-   else CLUTTER_ERROR("Cant initialise GLAD");  
+    // Initialize GLAD to load OpenGL functions  
+    if (gladLoadGL()) CLUTTER_LOG("GLAD initialised successfully")
+    else CLUTTER_ERROR("Cant initialise GLAD");
 
-   Assets::Get().SetRenderer(this);
-   Assets::Get().LoadTexture("Content/Resources/Sprites/default.png", "default");
+    Assets::Get().SetRenderer(this);
+    Assets::Get().LoadTexture("Content/Resources/Sprites/default.png", "default");
 
-   // File paths for vertex and fragment shaders  
-   const auto spriteVertPath = "Content/Resources/Shaders/sprite.vert";
-   const auto spriteFragPath = "Content/Resources/Shaders/sprite.frag";
+    // File paths for vertex and fragment shaders  
+    const auto spriteVertPath = "Content/Resources/Shaders/sprite.vert";
+    const auto spriteFragPath = "Content/Resources/Shaders/sprite.frag";
 
-   mSpriteShader.Load(spriteVertPath, spriteFragPath);
+    mSpriteShader.Load(spriteVertPath, spriteFragPath);
 
-   constexpr float spriteVertices[] = {
-       //POSITION                      NORMALS                     TEXCOORDS
-       -0.5f, 0.5f, 0.0f,              0.0f, 0.0f, 0.0f,           0.0f, 0.0f,     //top left
-       0.5f, 0.5f, 0.0f,               0.0f, 0.0f, 0.0f,           1.0f, 0.0f,     //top right
-       -0.5f, -0.5f, 0.0f,             0.0f, 0.0f, 0.0f,           0.0f, 1.0f,      //bottom left
-       0.5f, -0.5f, 0.0f,              0.0f, 0.0f, 0.0f,           1.0f, 1.0f,     //bottom right
-   };
+    constexpr float spriteVertices[] = {
+        //POSITION                      NORMALS                     TEXCOORDS
+        -0.5f, 0.5f, 0.0f,              0.0f, 0.0f, 0.0f,           0.0f, 0.0f,     //top left
+        0.5f, 0.5f, 0.0f,               0.0f, 0.0f, 0.0f,           1.0f, 0.0f,     //top right
+        -0.5f, -0.5f, 0.0f,             0.0f, 0.0f, 0.0f,           0.0f, 1.0f,      //bottom left
+        0.5f, -0.5f, 0.0f,              0.0f, 0.0f, 0.0f,           1.0f, 1.0f,     //bottom right
+    };
 
-   mSpriteVAO = new VertexArray(spriteVertices, 4);
+    mSpriteVAO = new VertexArray(spriteVertices, 4);
 
-   mUiViewProj = Matrix4Row::CreateSimpleViewProj(pEngine->GetWindow()->GetDimensions().x, 
-                                                  pEngine->GetWindow()->GetDimensions().y);
-   DebugDraw::Get().Start();
-}  
+    mUiViewProj = Matrix4Row::CreateSimpleViewProj(pEngine->GetWindow()->GetDimensions().x,
+        pEngine->GetWindow()->GetDimensions().y);
+    DebugDraw::Get().Start();
+}
 
-void RendererGL::Close()  
-{  
-   mSpriteComponents.clear();  
+void RendererGL::Close()
+{
+    mSpriteComponents.clear();
 
-   Assets::Get().ClearTextures();  
-   delete mSpriteVAO;
+    Assets::Get().ClearTextures();
+    delete mSpriteVAO;
 }
 
 void RendererGL::AddMeshComponent(MeshComponent* pComp)
@@ -79,8 +80,8 @@ void RendererGL::RemoveMeshComponent(MeshComponent* pComp)
     if (gc != mMeshComponents.end()) mMeshComponents.erase(gc);
 }
 
-void RendererGL::AddSpriteComponent(SpriteComponent* pComp)  
-{  
+void RendererGL::AddSpriteComponent(SpriteComponent* pComp)
+{
     int compDrawOrder = pComp->GetUpdateOrder();
 
     if (!mSpriteComponents.empty())
@@ -96,10 +97,10 @@ void RendererGL::AddSpriteComponent(SpriteComponent* pComp)
     {
         mSpriteComponents.emplace_back(pComp);
     }
-}  
+}
 
-void RendererGL::RemoveSpriteComponent(SpriteComponent* pComp)  
-{  
+void RendererGL::RemoveSpriteComponent(SpriteComponent* pComp)
+{
     std::vector<SpriteComponent*>::iterator gc;
     gc = std::find(mSpriteComponents.begin(), mSpriteComponents.end(), pComp);
 
@@ -133,17 +134,17 @@ void RendererGL::RemoveHUDComponent(HUDComponent* pComp)
     if (gc != mHUD.end()) mHUD.erase(gc);
 }
 
-void RendererGL::BeginDraw()  
-{  
-   glClearColor(0.45f, 0.45f, 1.0f, 1.0f);       // Define the background Color  
-   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-   glEnable(GL_DEPTH_TEST);
-   glDepthFunc(GL_LESS);
-   glDisable(GL_BLEND);
-}  
+void RendererGL::BeginDraw()
+{
+    glClearColor(0.45f, 0.45f, 1.0f, 1.0f);       // Define the background Color  
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+    glDisable(GL_BLEND);
+}
 
-void RendererGL::Draw()  
-{  
+void RendererGL::Draw()
+{
     // Get the active camera
     CameraComponent* camera = CameraComponent::GetActiveCamera();
     Matrix4Row viewProj;
@@ -166,39 +167,39 @@ void RendererGL::Draw()
 
     mSpriteShader.Use();
 
-   mSpriteShader.SetMat4Row("uViewProj", viewProj);
-   mSpriteVAO->Bind();
+    mSpriteShader.SetMat4Row("uViewProj", viewProj);
+    mSpriteVAO->Bind();
 
-   for (auto& comp : mSpriteComponents)
-   {
-       if (!comp->IsActive()) continue;
+    for (auto& comp : mSpriteComponents)
+    {
+        if (!comp->IsActive()) continue;
 
-       Matrix4Row tempTransform = comp->GetWorldTransform().GetMat4Transform();
-       mSpriteShader.SetMat4Row("uWorldTransform", tempTransform);
+        Matrix4Row tempTransform = comp->GetWorldTransform().GetMat4Transform();
+        mSpriteShader.SetMat4Row("uWorldTransform", tempTransform);
 
-       comp->GetTexture()->Bind();
-       glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-   }
+        comp->GetTexture()->Bind();
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    }
 
-   mSpriteShader.SetMat4Row("uViewProj", mUiViewProj);
+    mSpriteShader.SetMat4Row("uViewProj", mUiViewProj);
 
-   for (HUDComponent* hud : mHUD)
-   {
-       for (WidgetElement* element : hud->GetCurrentWidget()->GetElements())
-       {
-           if (!element->mVisibility || element->GetTexture() == nullptr) continue;
+    for (HUDComponent* hud : mHUD)
+    {
+        for (WidgetElement* element : hud->GetCurrentWidget()->GetElements())
+        {
+            if (!element->mVisibility || element->GetTexture() == nullptr) continue;
 
-           Matrix4Row tempTransform = element->GetTransform().To3D().GetMat4Transform();
-           mSpriteShader.SetMat4Row("uWorldTransform", tempTransform);
+            Matrix4Row tempTransform = element->GetTransform().To3D().GetMat4Transform();
+            mSpriteShader.SetMat4Row("uWorldTransform", tempTransform);
 
-           element->GetTexture()->Bind();
-           glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-       }
-   }
+            element->GetTexture()->Bind();
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        }
+    }
 
-   mSpriteVAO->Unbind();
-}  
+    mSpriteVAO->Unbind();
+}
 
-void RendererGL::EndDraw()  
-{  
+void RendererGL::EndDraw()
+{
 }
