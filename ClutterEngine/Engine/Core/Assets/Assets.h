@@ -2,6 +2,9 @@
 #include <unordered_map>
 #include <Core/Assets/AssetsType/Texture.h>
 #include <Core/Assets/AssetsType/Mesh.h>
+#include <ft2build.h>
+
+#include FT_FREETYPE_H
 
 enum class TextureFilter
 {

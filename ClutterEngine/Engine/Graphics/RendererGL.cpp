@@ -186,7 +186,7 @@ void RendererGL::Draw()
    {
        for (WidgetElement* element : hud->GetCurrentWidget()->GetElements())
        {
-           if (!element->mVisibility) continue;
+           if (!element->mVisibility || element->GetTexture() == nullptr) continue;
 
            Matrix4Row tempTransform = element->GetTransform().To3D().GetMat4Transform();
            mSpriteShader.SetMat4Row("uWorldTransform", tempTransform);

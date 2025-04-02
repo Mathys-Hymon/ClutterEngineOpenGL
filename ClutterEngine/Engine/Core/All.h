@@ -48,3 +48,5 @@
 #include <Core/Timer.h>
 
 #include <Input/Input.h>
+
+#include <Graphics/UI/Elements/FlipbookElement.h>

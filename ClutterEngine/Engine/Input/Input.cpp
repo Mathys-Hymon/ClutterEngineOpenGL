@@ -205,6 +205,12 @@ void Input::Update(Window* pWindow)
 		}
 	}
 
+	if (!mShowMouse)
+	{
+		glfwSetCursorPos(pGLFWindow, pWindow->GetDimensions().x / 2.0, pWindow->GetDimensions().y / 2.0);
+		mLastMousePosition = Vector2(pWindow->GetDimensions().x / 2.0f, pWindow->GetDimensions().y / 2.0f);
+	}
+
 	double mouseX, mouseY;
 	glfwGetCursorPos(pGLFWindow, &mouseX, &mouseY);
 	Vector2 currentMousePos(static_cast<float>(mouseX), static_cast<float>(mouseY));
@@ -283,7 +289,7 @@ void Input::Update(Window* pWindow)
 		}
 	}
 
-	glfwSetInputMode(pGLFWindow, GLFW_CURSOR, mShowMouse ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_HIDDEN);
+	glfwSetInputMode(pGLFWindow, GLFW_CURSOR, mShowMouse ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED);
 
 	mScrollDelta = 0.0f;
 }

@@ -156,9 +156,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Content\Character\DoomController.cpp" />
+    <ClCompile Include="Content\Maps\LevelMap.cpp" />
     <ClCompile Include="DOOM.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Content\Character\DoomController.h" />
     <ClInclude Include="Content\Maps\LevelMap.h" />
     <ClInclude Include="Content\Maps\MainMenuMap.h" />
   </ItemGroup>

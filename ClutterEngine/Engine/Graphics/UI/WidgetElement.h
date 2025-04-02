@@ -23,17 +23,23 @@ namespace clt
 
 		bool mVisibility;
 
+		WidgetElement() = delete;
+
 		WidgetElement(const std::string textureName, Vector2 size = { 1,1 }, Vector2 position = { 0, 0 }, int ZOrder = 0) : mZOrder(ZOrder), mVisibility(true), mOwner(nullptr), mTexture(nullptr)
 		{
 			mTexture = Assets::Get().GetTexture(textureName);
 
+			mTransform.scale.x =  size.x * mTexture->GetWidth();
+			mTransform.scale.y = -size.y * mTexture->GetHeight();
+
 			mTransform.location = position;
-			mTransform.scale = size * Vector2{ mTexture->GetHeight(), mTexture->GetWidth() };
 		};
 
-		WidgetElement(Texture* texture, Vector2 size = { 1,1 }, Vector2 position = { 0, 0 }, int ZOrder = 0) : mZOrder(ZOrder), mVisibility(true), mOwner(nullptr), mTexture(nullptr)
+		WidgetElement(Texture* texture, Vector2 size = { 1,1 }, Vector2 position = { 0, 0 }, int ZOrder = 0) : mZOrder(ZOrder), mVisibility(true), mOwner(nullptr), mTexture(texture)
 		{
-			mTransform.scale = size * Vector2{ mTexture->GetHeight(), mTexture->GetWidth() };
+			mTransform.scale.x =  size.x * mTexture->GetWidth();
+			mTransform.scale.y = -size.y * mTexture->GetHeight();
+
 			mTransform.location = position;
 
 			mTexture = texture;
@@ -53,15 +59,36 @@ namespace clt
 			}
 		}
 
-		Vector2 GetSize()     const { return mTransform.scale;    };
+		Vector2 GetSize()     const { return -mTransform.scale;    };
 		Vector2 GetPosition() const { return mTransform.location; };
 		float GetRotation()   const { return mTransform.rotation; };
 
 		Transform2D GetTransform() const { return mTransform; };
 
+		void SetTexture(Texture* pTexture) 
+		{ 
+			mTexture = pTexture; 
+			this->SetSize(mTransform.scale);
+		}
+
+		void SetTexture(std::string pTexture) 
+		{ 
+			mTexture = Assets::Get().GetTexture(pTexture); 
+			this->SetSize(mTransform.scale);
+		}
 		Texture* GetTexture() const { return mTexture; }
 
-		void SetSize(Vector2 size) { mTransform.scale = size * Vector2{ mTexture->GetHeight(), mTexture->GetWidth()}; };
+		void SetSize(Vector2 size) 
+		{ 
+			mTransform.scale.x =  size.x * mTexture->GetWidth();
+			mTransform.scale.y = -size.y * mTexture->GetHeight();
+		};
+
+		void SetSize(float size)
+		{
+			mTransform.scale.x = size * mTexture->GetWidth();
+			mTransform.scale.y = -size * mTexture->GetHeight();
+		};
 
 		void SetPosition(Vector2 position) { mTransform.location = position; };
 

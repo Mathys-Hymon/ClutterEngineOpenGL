@@ -59,7 +59,7 @@ int maxRow = 5;
 camera = AddActor<clt::Actor>("camera");
 camera->AddComponent<clt::CameraComponent>();
 
-//camera->AddComponent<clt::CameraController>("PlayerMovement", "MovementVertical");
+camera->AddComponent<clt::CameraController>("PlayerMovement", "MovementVertical");
 
 ball = AddActor<clt::Actor>("ball");  
 

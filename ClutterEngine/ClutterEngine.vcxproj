@@ -75,7 +75,7 @@
     <LibraryPath>Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>Libraries\include;Libraries\include\PCH;$(IncludePath)</IncludePath>
+    <IncludePath>Libraries\include;Libraries\include\PCH;Libraries\include\FreeType;$(IncludePath)</IncludePath>
     <LibraryPath>Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -171,7 +171,9 @@
     <ClInclude Include="Engine\Core\ActorComponent\Component.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\2D\AABBCollider.h" />
     <ClInclude Include="Engine\Core\All.h" />
-    <ClInclude Include="Engine\Graphics\UI\Elements\SpriteElement.h" />
+    <ClInclude Include="Engine\Core\Assets\AssetsType\Font.h" />
+    <ClInclude Include="Engine\Graphics\UI\Elements\FlipbookElement.h" />
+    <ClInclude Include="Engine\Graphics\UI\Elements\TextElement.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\AABBCollider.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\2D\CircleCollider.h" />
     <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\Collider2DComponent.h" />
@@ -252,6 +254,7 @@
     <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\2D\CircleCollider.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\PlayerController2D.cpp" />
     <ClCompile Include="Engine\Core\Maths\Vectors\Vector3.cpp" />
+    <ClCompile Include="Engine\Graphics\UI\Elements\FlipbookElement.cpp" />
     <ClCompile Include="Engine\Graphics\UI\UIPanel.cpp" />
     <ClCompile Include="Engine\Physics\Collision\CollisionEvent.cpp" />
     <ClCompile Include="Engine\Physics\Physics.cpp" />

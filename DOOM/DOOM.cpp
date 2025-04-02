@@ -4,7 +4,7 @@
 
 int main()
 {
-    clt::Application app(1280.0f, 720.0f, "DOOM");
+    clt::Application app(1280.0f, 720.0f, "DOOM", {new LevelMap()});
 
     return 0;
 }

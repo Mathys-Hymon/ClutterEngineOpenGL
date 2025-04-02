@@ -8,7 +8,7 @@ CameraController::CameraController(std::string pMovementCallback, std::string pV
 {
 	Input::Get().RegisterVectCallback(pMovementCallback, [this](Vector2 value) { this->Movement(value); });
 	Input::Get().RegisterAxisCallback(pVerticalMovementCallback, [this](float value) { this->MoveVertically(value); });
-	//Input::Get().RegisterMouseCallback([this](Vector2 value) { this->Rotation(value); });
+	Input::Get().RegisterMouseCallback([this](Vector2 value) { this->Rotation(value); });
 }
 
 void CameraController::Movement(Vector2 pDirection)

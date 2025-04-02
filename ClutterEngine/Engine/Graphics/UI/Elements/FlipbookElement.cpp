@@ -1,0 +1,32 @@
+#include "pch.h"
+#include <Core/Timer.h>
+#include "FlipbookElement.h"
+
+using namespace clt;
+
+void FlipbookElement::SetFlipbookTextures(const std::vector<Texture*> pTextures)
+{
+	mFlipbookTextures = pTextures;
+	if (mFlipbookTextures.size() > 0)
+	{
+		SetTexture(mFlipbookTextures[0]);
+	}
+}
+
+void FlipbookElement::Update()
+{
+	WidgetElement::Update();
+
+	if (((!mLooping && mCurrentFrame < mFlipbookTextures.size() - 1) || (mLooping)) && (!mIsPaused))
+	{
+		if (mFlipbookTextures.size() == 0) return;
+		mCurrentFrame += mAnimFps * Timer::deltaTime;
+
+		while (mCurrentFrame >= mFlipbookTextures.size())
+		{
+			mCurrentFrame -= mFlipbookTextures.size();
+		}
+
+		SetTexture(mFlipbookTextures[static_cast<int>(mCurrentFrame)]);
+	}
+}

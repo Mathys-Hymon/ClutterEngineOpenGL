@@ -37,5 +37,13 @@ namespace clt
         float mMaxSprintSpeed;
 
         float mAirControl;
+
+        virtual void OnCollisionEnter(const clt::hitResult& result) override {};
+        virtual void OnCollisionStay(const clt::hitResult& result)  override {};
+        virtual void OnCollisionExit(const clt::hitResult& result)  override {};
+
+        virtual void OnTriggerEnter(const clt::hitResult& result) override {};
+        virtual void OnTriggerStay(const clt::hitResult& result)  override {};
+        virtual void OnTriggerExit(const clt::hitResult& result)  override {};
 	};
 }
