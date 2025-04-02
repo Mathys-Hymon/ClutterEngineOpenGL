@@ -2,9 +2,7 @@
 #include <unordered_map>
 #include <Core/Assets/AssetsType/Texture.h>
 #include <Core/Assets/AssetsType/Mesh.h>
-#include <ft2build.h>
-
-#include FT_FREETYPE_H
+#include <Core/Assets/AssetsType/Font.h>
 
 enum class TextureFilter
 {
@@ -23,6 +21,7 @@ namespace clt
 
 		std::unordered_map<std::string, Texture*> mTextures;
 		std::unordered_map<std::string, Mesh*> mMeshes;
+		std::unordered_map<std::string, Font*> mFonts;
 
 		 Assets() = default;
 		~Assets() = default;
@@ -40,12 +39,15 @@ namespace clt
 
 		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, const std::string& pTexture);
 
+		Font* LoadFont(const std::string& pPath, const std::string& pName);
+
 		void SetRenderer(IRenderer* pRenderer) { mRenderer = pRenderer; };
 
 		std::vector<Texture*> BulkLoadTexture(const std::string& pPath, int pLastIndex, const std::string& pFileName, const std::string& pName, TextureFilter pTexFilter = TextureFilter::LINEAR);
 
 		Texture* GetTexture(const std::string& name);
 		Mesh* GetMesh(const std::string& name);
+		Font* GetFont(const std::string& name);
 
 		std::vector<Texture*> BulkGetTexture(const std::string& name, int pLastIndex);
 

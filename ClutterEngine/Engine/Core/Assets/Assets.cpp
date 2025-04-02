@@ -7,6 +7,10 @@
 #define TINYOBJLOADER_IMPLEMENTATION
 #include <obj/tiny_obj_loader.h>
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
+
 using namespace clt;
 
 Assets* Assets::sInstance = nullptr;
@@ -158,6 +162,11 @@ Mesh* Assets::GetMesh(const std::string& name)
     return it->second;
 }
 
+Font* Assets::GetFont(const std::string& name)
+{
+    return nullptr;
+}
+
 Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, std::vector<Texture*> pTextures)
 {
     if (mMeshes.find(pName) != mMeshes.end()) return mMeshes[pName];
@@ -187,6 +196,14 @@ Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, const
         mesh->AddTexture(GetTexture(pTexture));
 
     return mesh;
+}
+
+Font* Assets::LoadFont(const std::string& pPath, const std::string& pName)
+{
+    if (mFonts.find(pName) != mFonts.end()) return GetFont(pName);
+
+    Font* font = new Font();
+
 }
 
 std::vector<Texture*> Assets::BulkGetTexture(const std::string& pName, int pLastIndex)
