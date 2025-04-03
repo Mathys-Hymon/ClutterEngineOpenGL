@@ -187,17 +187,20 @@ void RendererGL::Draw()
     {
         for (WidgetElement* element : hud->GetCurrentWidget()->GetElements())
         {
-            if (!element->mVisibility || element->GetTexture() == nullptr) continue;
+            if (!element->mVisibility) continue;
 
             Matrix4Row tempTransform = element->GetTransform().To3D().GetMat4Transform();
             mSpriteShader.SetMat4Row("uWorldTransform", tempTransform);
 
-            element->GetTexture()->Bind();
-            glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+            element->Draw(this);
         }
     }
 
     mSpriteVAO->Unbind();
+}
+
+void RendererGL::RenderText(const std::string& text, float x, float y, float scale, Color color, Font* font)
+{
 }
 
 void RendererGL::EndDraw()

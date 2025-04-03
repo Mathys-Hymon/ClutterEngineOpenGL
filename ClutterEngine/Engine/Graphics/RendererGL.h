@@ -25,7 +25,6 @@ namespace clt
 		Shader mSpriteShader;
 		VertexArray* mSpriteVAO;
 
-
 		Matrix4Row mUiViewProj;
 
 		CEngine* mEngine;
@@ -70,6 +69,7 @@ namespace clt
    */
 		void Draw() override;
 
+		void RenderText(const std::string& text, float x, float y, float scale, Color color, Font* font);
 		/**
    * @brief Ends the drawing process.
    */

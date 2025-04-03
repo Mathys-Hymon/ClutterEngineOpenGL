@@ -15,7 +15,7 @@ void FlipbookElement::SetFlipbookTextures(const std::vector<Texture*> pTextures)
 
 void FlipbookElement::Update()
 {
-	WidgetElement::Update();
+	SpriteElement::Update();
 
 	if (((!mLooping && mCurrentFrame < mFlipbookTextures.size() - 1) || (mLooping)) && (!mIsPaused))
 	{

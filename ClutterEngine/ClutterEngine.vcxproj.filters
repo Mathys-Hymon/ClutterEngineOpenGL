@@ -222,6 +222,9 @@
     <ClInclude Include="Engine\Core\Assets\AssetsType\Font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Graphics\UI\Elements\SpriteElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Libraries\include\PCH\dllmain.cpp">
@@ -360,6 +363,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Graphics\UI\Elements\FlipbookElement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\UI\Elements\TextElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -9,12 +9,11 @@ namespace clt
 {
 	class CLUTTER_API WidgetElement
 	{
+	protected:
 		int mZOrder;
 		UIPanel* mOwner;
 
 		Transform2D mTransform;
-
-		Texture* mTexture;
 
 		void SetOwner(UIPanel* pOwner) { mOwner = pOwner; };
 
@@ -23,31 +22,20 @@ namespace clt
 
 		bool mVisibility;
 
-		WidgetElement() = delete;
-
-		WidgetElement(const std::string textureName, Vector2 size = { 1,1 }, Vector2 position = { 0, 0 }, int ZOrder = 0) : mZOrder(ZOrder), mVisibility(true), mOwner(nullptr), mTexture(nullptr)
+		WidgetElement(Vector2 size = { 1,1 }, Vector2 position = { 0, 0 }, int ZOrder = 0) : mZOrder(ZOrder), mVisibility(true), mOwner(nullptr)
 		{
-			mTexture = Assets::Get().GetTexture(textureName);
 
 			mTransform.scale.x =  size.x;
 			mTransform.scale.y = -size.y;
 
 			mTransform.location = position;
-		};
-
-		WidgetElement(Texture* texture, Vector2 size = { 1,1 }, Vector2 position = { 0, 0 }, int ZOrder = 0) : mZOrder(ZOrder), mVisibility(true), mOwner(nullptr), mTexture(texture)
-		{
-			mTransform.scale.x =  size.x;
-			mTransform.scale.y = -size.y;
-
-			mTransform.location = position;
-
-			mTexture = texture;
 		};
 
 		~WidgetElement() = default;
 
 		virtual void Update() {};
+
+		virtual void Draw(RendererGL* renderer) = 0;
 
 		int GetZOrder() const { return mZOrder; };
 		void SetZOrder(int ZOrder)
@@ -70,25 +58,10 @@ namespace clt
 		Vector2 GetPosition() const { return mTransform.location; };
 		float GetRotation()   const { return mTransform.rotation; };
 
-		Transform2D GetTransform() const 
+		virtual Transform2D GetTransform() const 
 		{
-			return { mTransform.location,
-					 mTransform.scale * mTexture->GetSize(),
-					 mTransform.rotation
-			};
+			return mTransform;
 		};
-
-		void SetTexture(Texture* pTexture) 
-		{ 
-			mTexture = pTexture;
-		}
-
-		void SetTexture(std::string pTexture) 
-		{ 
-			mTexture = Assets::Get().GetTexture(pTexture);
-		}
-		
-		Texture* GetTexture() const { return mTexture; }
 
 		void SetSize(Vector2 size) 
 		{ 
