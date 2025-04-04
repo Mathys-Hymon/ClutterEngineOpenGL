@@ -5,7 +5,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
 #define TINYOBJLOADER_IMPLEMENTATION
-#include <obj/tiny_obj_loader.h>
+#include <tinyLoader/tiny_obj_loader.h>
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
