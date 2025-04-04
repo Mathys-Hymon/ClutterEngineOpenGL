@@ -12,13 +12,17 @@ namespace clt
 
 	public:
 
-		MeshComponent(Mesh* pMesh, int pDrawOrder = 0);
+		MeshComponent(Mesh* pMesh, int pDrawOrder = 0, Vector2 pTextureTiling = {1,1});
 		virtual ~MeshComponent() = default;
 
 		virtual void SetOwner(Actor* pOwner) override;
 
 		virtual void Draw(Matrix4Row viewProj);
 		virtual void SetMesh(Mesh& pMesh) { mMesh = &pMesh; };
+		Mesh* GetMesh() const { return mMesh; };
+
+		void SetTexture(Texture* texture, size_t index = 0);
+		void SetTexture(std::string& texture, size_t index = 0);
 		void SetTextureIndex(size_t pTextureIndex);
 
 	};

@@ -16,6 +16,8 @@ namespace clt
 	class CLUTTER_API Mesh
 	{
 		std::vector<Texture*> mTextures;
+		Vector2 mTextureTiling = { 1,1 };
+
 		VertexArray* mVAO;
 
 		std::vector<Vertex> mVertices;
@@ -43,6 +45,13 @@ namespace clt
 		Shader& GetShader() { return mShader; }
 
 		void AddTexture(Texture* pTexture);
+
+		void SetTexture(Texture* texture,size_t index);
+		void SetTexture(std::string& texture, size_t index);
+
+		void SetTextureTiling(Vector2 tiling) { mTextureTiling = tiling; };
+		Vector2 GetTextureTiling() const { return mTextureTiling; };
+
 		void SetMesh(VertexArray* pVAO);
 		void SetMesh(const float* pVertices, u32 pVerticeCount, const u32* pIndices, u32 pIndexCount);
 	};

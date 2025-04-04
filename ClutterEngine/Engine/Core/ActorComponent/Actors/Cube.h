@@ -8,10 +8,10 @@ namespace clt
 	{
 
 	public:
-		 Cube(Level* pLevel, const char* name);
-		 Cube(Level* pLevel, std::string name);
-		 Cube(Level* pLevel, std::string name, std::string texture);
-		 Cube(Level* pLevel, std::string name, Texture* texture);
+		 Cube(Level* pLevel, const char* name, Vector2 mTiling = {4,4});
+		 Cube(Level* pLevel, std::string name, Vector2 mTiling = { 4,4 });
+		 Cube(Level* pLevel, std::string name, std::string texture, Vector2 mTiling = { 4,4 });
+		 Cube(Level* pLevel, std::string name, Texture* texture, Vector2 mTiling = { 4,4 });
 
 		~Cube() = default;
 	};

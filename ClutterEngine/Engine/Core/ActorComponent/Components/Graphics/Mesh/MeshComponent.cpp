@@ -4,8 +4,10 @@
 
 using namespace clt;
 
-MeshComponent::MeshComponent(Mesh* pMesh, int pDrawOrder) : Component(pDrawOrder), mMesh(pMesh), mTextureIndex(0)
-{}
+MeshComponent::MeshComponent(Mesh* pMesh, int pDrawOrder, Vector2 pTextureTiling) : Component(pDrawOrder), mMesh(pMesh), mTextureIndex(0)
+{
+    if (mMesh) mMesh->SetTextureTiling(pTextureTiling);
+}
 
 void MeshComponent::SetOwner(Actor* pOwner)
 {
@@ -23,11 +25,21 @@ void MeshComponent::Draw(Matrix4Row viewProj)
 
         Matrix4Row wt = GetWorldTransform().GetMat4Transform();
         mMesh->GetShader().SetMat4Row("uWorldTransform", wt);
+        mMesh->GetShader().SetVec2f("uTiling", mMesh->GetTextureTiling());
         mMesh->GetTexture(mTextureIndex)->Bind();
 
         glDrawArrays(GL_TRIANGLES, 0, mMesh->GetVAO().GetVerticeCount());
     }
+}
 
+void MeshComponent::SetTexture(Texture* texture, size_t index)
+{
+    mMesh->SetTexture(texture, index);
+}    
+     
+void MeshComponent::SetTexture(std::string& texture, size_t index)
+{
+    mMesh->SetTexture(texture, index);
 }
 
 void MeshComponent::SetTextureIndex(size_t pTextureIndex)

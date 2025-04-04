@@ -168,6 +168,7 @@
     <ClInclude Include="Engine\Application\Application.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Actor.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Actors\Cube.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Actors\Sphere.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Component.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\2D\AABBCollider.h" />
     <ClInclude Include="Engine\Core\All.h" />
@@ -234,6 +235,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\ActorComponent\Actors\Cube.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Actors\Sphere.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\SphereCollider.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\CameraController.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\PlayerController.cpp" />
@@ -291,6 +293,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Engine\Window\Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="..\..\sphere.obj" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

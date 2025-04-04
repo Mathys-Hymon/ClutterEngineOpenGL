@@ -225,6 +225,9 @@
     <ClInclude Include="Engine\Graphics\UI\Elements\SpriteElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Core\ActorComponent\Actors\Sphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Libraries\include\PCH\dllmain.cpp">
@@ -368,5 +371,11 @@
     <ClCompile Include="Engine\Graphics\UI\Elements\TextElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Core\ActorComponent\Actors\Sphere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="..\..\sphere.obj" />
   </ItemGroup>
 </Project>

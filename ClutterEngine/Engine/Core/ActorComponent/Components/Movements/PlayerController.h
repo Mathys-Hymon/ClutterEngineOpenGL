@@ -36,6 +36,8 @@ namespace clt
         float mMaxWalkSpeed; ///< Speed of the player.  
         float mMaxSprintSpeed;
 
+        float mMaxAcceleration;
+
         float mAirControl;
 
         virtual void OnCollisionEnter(const clt::hitResult& result) override {};

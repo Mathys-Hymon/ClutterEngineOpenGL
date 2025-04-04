@@ -1,5 +1,6 @@
 #include "pch.h"
 #include <Core/Assets/AssetsType/Mesh.h>
+#include <Core/Assets/Assets.h>
 
 using namespace clt;
 
@@ -51,6 +52,32 @@ float* Mesh::ToVerticeArray()
 void Mesh::AddTexture(Texture* pTexture)
 {
     mTextures.push_back(pTexture);
+}
+
+void Mesh::SetTexture(Texture* texture, size_t index)
+{    
+    if (mTextures.size() >= index)
+    {
+        mTextures.emplace_back(texture);
+    }
+    else
+    {
+        mTextures[index] = texture;
+    }
+}    
+     
+void Mesh::SetTexture(std::string& texture, size_t index)
+{
+    Texture* tempTexture = Assets::Get().GetTexture(texture);
+
+    if (mTextures.size() <= index)
+    {
+        mTextures.emplace_back(tempTexture);
+    }
+    else
+    {
+        mTextures[index] = tempTexture;
+    }
 }
 
 void Mesh::SetMesh(VertexArray* pVAO)

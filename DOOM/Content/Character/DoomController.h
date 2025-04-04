@@ -3,6 +3,9 @@
 
 class DoomController : public clt::PlayerController
 {
+	float mRotationVelocity;
+	Vector2 mMovementVelocity;
+
 public:
 
 	DoomController();
@@ -10,6 +13,8 @@ public:
 
 	void RotateCamera(Vector2 movement);
 	void Move(Vector2 movement);
+
+	virtual void Update() override;
 
 	virtual void OnCollisionEnter(const clt::hitResult& result) override {};
 	virtual void OnCollisionStay(const clt::hitResult& result)  override {};
