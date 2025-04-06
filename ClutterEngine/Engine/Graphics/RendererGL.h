@@ -12,6 +12,7 @@ namespace clt
 	class CEngine;
 	class SpriteComponent;
 	class MeshComponent;
+	class TextElement;
 	/**
   * @class Renderer
   * @brief Responsible for rendering graphical components.
@@ -25,10 +26,14 @@ namespace clt
 		Shader mSpriteShader;
 		VertexArray* mSpriteVAO;
 
+		Shader mTextShader;
+		VertexArray* mTextVAO;
+
 		Matrix4Row mUiViewProj;
 
 		CEngine* mEngine;
 
+		friend TextElement;
 	public:
 		/**
    * @brief Constructor for Renderer.
@@ -69,7 +74,7 @@ namespace clt
    */
 		void Draw() override;
 
-		void RenderText(const std::string& text, float x, float y, float scale, Color color, Font* font);
+		void BindText(Color textColor = Color::white);
 		/**
    * @brief Ends the drawing process.
    */

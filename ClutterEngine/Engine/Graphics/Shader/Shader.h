@@ -40,6 +40,7 @@ namespace clt
 		void SetVec2f(const GLchar* pName, GLfloat pX, GLfloat pY);
 
 		void SetVec3f(const GLchar* pName, const Vector3& pValue);
+		void SetVec3f(const GLchar* pName, const Color& pValue);
 		void SetVec3f(const GLchar* pName, GLfloat pX, GLfloat pY, GLfloat pZ);
 
 		void SetVec4f(const GLchar* pName, const Vector4& pValue);

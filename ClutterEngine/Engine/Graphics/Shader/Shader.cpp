@@ -133,6 +133,11 @@ void Shader::SetVec3f(const GLchar* pName, const Vector3& pValue)
     glUniform3f(glGetUniformLocation(mID, pName), pValue.x, pValue.y, pValue.z);
 }
 
+void Shader::SetVec3f(const GLchar* pName, const Color& pValue)
+{
+    glUniform3f(glGetUniformLocation(mID, pName), pValue.r, pValue.g, pValue.b);
+}
+
 void Shader::SetVec3f(const GLchar* pName, GLfloat pX, GLfloat pY, GLfloat pZ)
 {
     glUniform3f(glGetUniformLocation(mID, pName), pX, pY, pZ);

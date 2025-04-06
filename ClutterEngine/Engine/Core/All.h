@@ -51,3 +51,4 @@
 #include <Input/Input.h>
 
 #include <Graphics/UI/Elements/FlipbookElement.h>
+#include <Graphics/UI/Elements/TextElement.h>

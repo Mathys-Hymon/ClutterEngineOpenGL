@@ -30,6 +30,11 @@ bool RendererGL::Initialize(CEngine* pEngine)
 
     mSpriteShader.Load(spriteVertPath, spriteFragPath);
 
+    const auto textVertPath = "Content/Resources/Shaders/text.vert";
+    const auto textFragPath = "Content/Resources/Shaders/text.frag";
+
+    mTextShader.Load(textVertPath, textFragPath);
+
     constexpr float spriteVertices[] = {
         //POSITION                      NORMALS                     TEXCOORDS
         -0.5f, 0.5f, 0.0f,              0.0f, 0.0f, 0.0f,           0.0f, 0.0f,     //top left
@@ -39,6 +44,7 @@ bool RendererGL::Initialize(CEngine* pEngine)
     };
 
     mSpriteVAO = new VertexArray(spriteVertices, 4);
+    mTextVAO = new VertexArray(spriteVertices, 4, BufferUsage::DYNAMIC);
 
     mUiViewProj = Matrix4Row::CreateSimpleViewProj(pEngine->GetWindow()->GetDimensions().x,
         pEngine->GetWindow()->GetDimensions().y);
@@ -199,8 +205,14 @@ void RendererGL::Draw()
     mSpriteVAO->Unbind();
 }
 
-void RendererGL::RenderText(const std::string& text, float x, float y, float scale, Color color, Font* font)
+void RendererGL::BindText(Color textColor)
 {
+    mTextShader.Use();
+    mTextShader.SetVec3f("textColor", textColor);
+    mTextShader.SetMat4Row("projection", mUiViewProj);
+
+    glActiveTexture(GL_TEXTURE0);
+    mTextVAO->Bind();
 }
 
 void RendererGL::EndDraw()
