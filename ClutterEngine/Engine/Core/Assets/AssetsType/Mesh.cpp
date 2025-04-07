@@ -11,8 +11,10 @@ Mesh::Mesh(const float* pVertices, u32 pVerticeCount)
 {
     mShader = ShaderProgram();
 
-    auto frag = new Shader(meshFragPath, ShaderType::FRAGMENT);
-    auto vert = new Shader(basicVertPah, ShaderType::VERTEX);
+    Shader* frag = new Shader();
+    frag->Load(meshFragPath, ShaderType::FRAGMENT);
+    Shader* vert = new Shader();
+    vert->Load(basicVertPah, ShaderType::VERTEX);
     mShader.Compose({ frag, vert });
 
     mVAO = new VertexArray(pVertices, pVerticeCount);
@@ -22,8 +24,10 @@ Mesh::Mesh(std::vector<Vertex> pVertices) : mVertices(std::move(pVertices))
 {
     mShader = ShaderProgram();
 
-    auto frag = new Shader(meshFragPath, ShaderType::FRAGMENT);
-    auto vert = new Shader(basicVertPah, ShaderType::VERTEX);
+    Shader* frag = new Shader();
+    frag->Load(meshFragPath, ShaderType::FRAGMENT);
+    Shader* vert = new Shader();
+    vert->Load(basicVertPah, ShaderType::VERTEX);
     mShader.Compose({ frag, vert });
 
 	mVAO = new VertexArray(ToVerticeArray(), mVertices.size());

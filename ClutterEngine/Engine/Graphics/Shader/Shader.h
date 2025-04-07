@@ -22,18 +22,18 @@ namespace clt
 
 	public:
 		Shader() : mID(0), mType(ShaderType::VERTEX) {}
-		Shader(const GLchar* pFileName, ShaderType pShaderType) { Load(pFileName, pShaderType); }
+		Shader(int pID, std::string pCode, ShaderType pShaderType) : mID(pID),mCode(pCode), mType(pShaderType) { Load(pCode, pShaderType); }
 		~Shader()
 		{
 			if (mID) glDeleteProgram(mID);
 			mID = 0;
 		}
 
-		int GetID() const { return mID; }
+		int GetID() { return mID; }
 
-		void Load(const GLchar* pFileName, ShaderType pShaderType);
+		void Load(std::string pFileName, ShaderType pShaderType);
 		void Use();
 
-		std::string GetCode() const { return mCode; };
+		const std::string GetCode() const { return mCode; };
 	};
 }

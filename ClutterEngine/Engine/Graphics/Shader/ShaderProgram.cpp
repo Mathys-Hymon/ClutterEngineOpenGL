@@ -3,20 +3,27 @@
 
 using namespace clt;
 
-clt::ShaderProgram::ShaderProgram() : mID(0)
+ShaderProgram::ShaderProgram() : mID(0)
 {
 }
 
-void clt::ShaderProgram::Unload()
+void ShaderProgram::Unload()
 {
     glDeleteProgram(mID);
+
+    for (Shader* s : mShaders)
+    {
+        if (s != nullptr) delete s;
+        s = nullptr;
+    }
 }
 
-void clt::ShaderProgram::Compose(std::vector<Shader*> shaders)
+void ShaderProgram::Compose(std::vector<Shader*> shaders)
 {
+    mShaders = shaders;
     mID = glCreateProgram();
 
-    for (Shader* s : shaders)
+    for (Shader* s : mShaders)
     {
         glAttachShader(mID, s->GetID());
     }

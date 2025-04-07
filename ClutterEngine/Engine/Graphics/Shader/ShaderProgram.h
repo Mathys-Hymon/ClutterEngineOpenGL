@@ -12,6 +12,7 @@ namespace clt
 	class CLUTTER_API ShaderProgram
 	{
 		GLuint mID;
+		std::vector<Shader*> mShaders; 
 
 	public :
 		ShaderProgram();

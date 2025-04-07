@@ -37,6 +37,8 @@ void LevelMap::Load()
 
 void LevelMap::Update()
 {
+
+	clt::DebugDraw::Get().DrawBox({ 3,0,0 }, {1,1,1});
 }
 
 void LevelMap::Close()
