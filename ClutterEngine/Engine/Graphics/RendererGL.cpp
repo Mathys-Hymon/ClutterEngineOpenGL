@@ -9,7 +9,7 @@
 
 using namespace clt;
 
-RendererGL::RendererGL() : mEngine(nullptr), mSpriteVAO(nullptr)
+RendererGL::RendererGL() : mEngine(nullptr), mSpriteVAO(nullptr), mTextVAO(nullptr)
 {
 }
 
@@ -35,7 +35,8 @@ bool RendererGL::Initialize(CEngine* pEngine)
 
     mTextShader.Load(textVertPath, textFragPath);
 
-    constexpr float spriteVertices[] = {
+    constexpr float spriteVertices[] = 
+    {
         //POSITION                      NORMALS                     TEXCOORDS
         -0.5f, 0.5f, 0.0f,              0.0f, 0.0f, 0.0f,           0.0f, 0.0f,     //top left
         0.5f, 0.5f, 0.0f,               0.0f, 0.0f, 0.0f,           1.0f, 0.0f,     //top right
@@ -61,7 +62,15 @@ void RendererGL::Close()
 
 void RendererGL::WireframeMode(bool wireframe)
 {
-    if (wireframe)  glPolygonMode(GL_FRONT_AND_BACK, wireframe ? GL_LINE : GL_FILL);
+    glPolygonMode(GL_FRONT_AND_BACK, wireframe ? GL_LINE : GL_FILL);
+    mWireframe = wireframe;
+}
+
+void RendererGL::ToggleWireframe()
+{
+    glPolygonMode(GL_FRONT_AND_BACK, mWireframe ? GL_LINE : GL_FILL);
+    mWireframe = !mWireframe;
+    std::cout << mWireframe << std::endl;
 }
 
 void RendererGL::AddMeshComponent(MeshComponent* pComp)

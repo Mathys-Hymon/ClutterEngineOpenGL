@@ -58,6 +58,15 @@ namespace clt
    */
 		RendererGL* GetRenderer() const { return mRenderer.get(); }
 
+		bool isEditorMode() const
+		{
+			#ifdef EDITOR
+				return true;
+			#else
+				return false;
+			#endif
+
+		}
 		/**
    * @brief Gets the level manager instance.
    * @return A pointer to the level manager instance.

@@ -57,6 +57,7 @@ namespace clt
 		void Close() override;
 
 		void WireframeMode(bool wireframe) override;
+		void ToggleWireframe() override;
 
 		void AddMeshComponent(MeshComponent* pComp);
 		void RemoveMeshComponent(MeshComponent* pComp);

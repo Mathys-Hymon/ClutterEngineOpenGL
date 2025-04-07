@@ -1,6 +1,9 @@
 #include "DefaultMap.h"
+#include <Core/All.h>
 
-DefaultMap::DefaultMap(std::string pName)
+clt::Actor* camera;
+
+DefaultMap::DefaultMap(std::string pName) : clt::Level(pName)
 {
 }
 
@@ -10,6 +13,8 @@ DefaultMap::~DefaultMap()
 
 void DefaultMap::Load()
 {
+	camera = AddActor<clt::Actor>("camera");
+	camera->AddComponent<clt::CameraComponent>();
 }
 
 void DefaultMap::Update()

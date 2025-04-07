@@ -3,6 +3,7 @@
 #include <Application/Application.h>	
 #include <Core/Timer.h>
 #include <Core/Levels/TemplateLevel/TemplateLevel.h>
+#include <Input/Input.h>
 #include <GLFW/glfw3.h>
 
 using namespace clt;
@@ -14,7 +15,13 @@ Application::Application(int pWidth, int pHeight, std::string pName, std::vector
 	if (pLevels.empty()) pLevels.push_back(new TemplateLevel());
 
 	mEngine->Init(pWidth, pHeight, pName, pLevels);
-	CLUTTER_INFO("Application created");
+	CLUTTER_INFO("Application created")
+
+	if (mEngine->isEditorMode())
+	{
+		Input::Get().MapKeyToAction(EKey::F1, "toggleWireframe");
+		Input::Get().RegisterActionCallback("toggleWireframe", [this] { this->ShowWireframe(); });
+	}
 
 	Run();
 }
@@ -43,6 +50,11 @@ void Application::Render()
 	GetRenderer()->BeginDraw();
 	GetRenderer()->Draw();
 	GetRenderer()->EndDraw();
+}
+
+void Application::ShowWireframe()
+{
+	mEngine->GetRenderer()->ToggleWireframe();
 }
 
 Application::~Application()	

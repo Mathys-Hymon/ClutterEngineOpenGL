@@ -114,9 +114,9 @@ namespace clt
    * @param pActionName Name of the action.
    * @param pState State of the input.
    */
-		void MapKeyToAction(EKey pKey, const std::string& pActionName, EInputState pState);
-		void MapKeyToAction(EMouseButton pKey, const std::string& pActionName, EInputState pState);
-		void MapKeyToAction(EControllerButton pKey, const std::string& pActionName, EInputState pState);
+		void MapKeyToAction(EKey pKey, const std::string& pActionName, EInputState pState = EInputState::Pressed);
+		void MapKeyToAction(EMouseButton pKey, const std::string& pActionName, EInputState pState = EInputState::Pressed);
+		void MapKeyToAction(EControllerButton pKey, const std::string& pActionName, EInputState pState = EInputState::Pressed);
 
 		/**
    * @brief Registers a callback for an action.

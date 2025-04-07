@@ -15,6 +15,8 @@ namespace clt
 
         void Render();
 
+        void ShowWireframe();
+
     public:
 
         Application(int pWidth = 800, int pHeight = 600, std::string pName = "Clutter Editor", std::vector<Level*> pLevels = {});

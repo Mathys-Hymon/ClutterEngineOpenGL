@@ -27,4 +27,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\Resources\Shaders\basic.frag" />
+    <None Include="Content\Resources\Shaders\basic.vert" />
+    <None Include="Content\Resources\Shaders\sprite.frag" />
+    <None Include="Content\Resources\Shaders\sprite.vert" />
+    <None Include="Content\Resources\Shaders\text.frag" />
+    <None Include="Content\Resources\Shaders\text.vert" />
+  </ItemGroup>
 </Project>
