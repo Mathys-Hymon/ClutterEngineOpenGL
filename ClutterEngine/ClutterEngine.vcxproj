@@ -243,6 +243,7 @@
     <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\2D\AABBCollider.h" />
     <ClInclude Include="Engine\Core\All.h" />
     <ClInclude Include="Engine\Core\Assets\AssetsType\Font.h" />
+    <ClInclude Include="Engine\Graphics\Shader\ShaderProgram.h" />
     <ClInclude Include="Engine\Graphics\UI\Elements\FlipbookElement.h" />
     <ClInclude Include="Engine\Graphics\UI\Elements\SpriteElement.h" />
     <ClInclude Include="Engine\Graphics\UI\Elements\TextElement.h" />
@@ -316,6 +317,7 @@
     <ClCompile Include="Engine\Core\Assets\AssetsType\Mesh.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\UI\HUDComponent.cpp" />
     <ClCompile Include="Engine\Core\Maths\Color.cpp" />
+    <ClCompile Include="Engine\Graphics\Shader\ShaderProgram.cpp" />
     <ClCompile Include="Engine\Graphics\Shader\VertexArray.cpp" />
     <ClCompile Include="Engine\Core\Maths\Matrix\Matrix4.cpp" />
     <ClCompile Include="Engine\Core\Maths\Matrix\Matrix4Row.cpp" />

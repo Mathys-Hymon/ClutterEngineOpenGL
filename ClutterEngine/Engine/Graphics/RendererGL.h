@@ -24,10 +24,10 @@ namespace clt
 		std::vector<MeshComponent*> mMeshComponents;
 		std::vector<HUDComponent*> mHUD;
 
-		Shader mSpriteShader;
+		ShaderProgram mSpriteShader;
 		VertexArray* mSpriteVAO;
 
-		Shader mTextShader;
+		ShaderProgram mTextShader;
 		VertexArray* mTextVAO;
 
 		Matrix4Row mUiViewProj;

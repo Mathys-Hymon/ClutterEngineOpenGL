@@ -2,7 +2,7 @@
 #include <Core/CCommon.h>
 #include <Core/Assets/AssetsType/Texture.h>
 #include <Graphics/Shader/VertexArray.h>
-#include <Graphics/Shader/Shader.h>
+#include <Graphics/Shader/ShaderProgram.h>
 
 namespace clt
 {
@@ -22,7 +22,7 @@ namespace clt
 
 		std::vector<Vertex> mVertices;
 
-		Shader mShader;
+		ShaderProgram mShader;
 
 		float* ToVerticeArray();
 
@@ -42,7 +42,7 @@ namespace clt
 		
 		}
 		VertexArray& GetVAO() { return *mVAO; }
-		Shader& GetShader() { return mShader; }
+		ShaderProgram& GetShader() { return mShader; }
 
 		void AddTexture(Texture* pTexture);
 

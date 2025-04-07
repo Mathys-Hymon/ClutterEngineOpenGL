@@ -9,16 +9,22 @@ const auto meshFragPath = "Content/Resources/Shaders/basic.frag";
 
 Mesh::Mesh(const float* pVertices, u32 pVerticeCount)
 {
-    mShader = Shader();
-    mShader.Load(basicVertPah, meshFragPath);
+    mShader = ShaderProgram();
+
+    auto frag = new Shader(meshFragPath, ShaderType::FRAGMENT);
+    auto vert = new Shader(basicVertPah, ShaderType::VERTEX);
+    mShader.Compose({ frag, vert });
 
     mVAO = new VertexArray(pVertices, pVerticeCount);
 }
 
 Mesh::Mesh(std::vector<Vertex> pVertices) : mVertices(std::move(pVertices))
 {
-	mShader = Shader();
-	mShader.Load(basicVertPah, meshFragPath);
+    mShader = ShaderProgram();
+
+    auto frag = new Shader(meshFragPath, ShaderType::FRAGMENT);
+    auto vert = new Shader(basicVertPah, ShaderType::VERTEX);
+    mShader.Compose({ frag, vert });
 
 	mVAO = new VertexArray(ToVerticeArray(), mVertices.size());
 }

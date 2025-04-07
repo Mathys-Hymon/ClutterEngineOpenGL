@@ -37,8 +37,10 @@ DebugDraw& DebugDraw::Get()
 void DebugDraw::Start()
 {
     // Create and load the shader program from the provided source code
-    mShader = new Shader();
-    mShader->Compile(debugVertexShader, debugFragmentShader);
+    mShader = new ShaderProgram();
+    auto frag = new Shader(debugFragmentShader, ShaderType::FRAGMENT);
+    auto vert = new Shader(debugVertexShader, ShaderType::VERTEX);
+    mShader->Compose({ frag, vert});
 
     // Initialize the Vertex Array Object (VAO) for drawing lines (2 vertices)
     mLineVAO = new VertexArray(nullptr, 2, BufferUsage::DYNAMIC);

@@ -1,7 +1,7 @@
 #pragma once
 #include <Core/CCommon.h>
 #include <Core/Maths/Quaternion.h>
-#include <Graphics/Shader/Shader.h>
+#include <Graphics/Shader/ShaderProgram.h>
 #include <Graphics/Shader/VertexArray.h>
 #include <Core/Maths/Color.h>
 
@@ -41,7 +41,7 @@ namespace clt
 		std::vector<Box> mBoxes;    
 		std::vector<Sphere> mSpheres;
 
-		Shader* mShader;
+		ShaderProgram* mShader;
 		VertexArray* mCubeVAO;
 		VertexArray* mLineVAO;
 		VertexArray* mSphereVAO;

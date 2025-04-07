@@ -28,12 +28,18 @@ bool RendererGL::Initialize(CEngine* pEngine)
     const auto spriteVertPath = "Content/Resources/Shaders/sprite.vert";
     const auto spriteFragPath = "Content/Resources/Shaders/sprite.frag";
 
-    mSpriteShader.Load(spriteVertPath, spriteFragPath);
+    auto spriteFrag = new Shader(spriteFragPath, ShaderType::FRAGMENT);
+    auto spriteVert = new Shader(spriteVertPath, ShaderType::VERTEX);
+
+    mSpriteShader.Compose({ spriteFrag, spriteVert });
 
     const auto textVertPath = "Content/Resources/Shaders/text.vert";
     const auto textFragPath = "Content/Resources/Shaders/text.frag";
 
-    mTextShader.Load(textVertPath, textFragPath);
+    auto frag = new Shader(textFragPath, ShaderType::FRAGMENT);
+    auto vert = new Shader(textVertPath, ShaderType::VERTEX);
+
+    mTextShader.Compose({ frag, vert });
 
     constexpr float spriteVertices[] = 
     {
