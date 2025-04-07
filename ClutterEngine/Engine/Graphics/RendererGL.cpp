@@ -70,7 +70,6 @@ void RendererGL::ToggleWireframe()
 {
     glPolygonMode(GL_FRONT_AND_BACK, mWireframe ? GL_LINE : GL_FILL);
     mWireframe = !mWireframe;
-    std::cout << mWireframe << std::endl;
 }
 
 void RendererGL::AddMeshComponent(MeshComponent* pComp)
