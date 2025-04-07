@@ -16,6 +16,7 @@ namespace clt
 		~IRenderer() = default;
 
 		virtual bool Initialize(CEngine* pEngine) = 0;
+		virtual void WireframeMode(bool wireframe) = 0;
 		virtual void BeginDraw() = 0;
 		virtual void Draw() = 0;
 		virtual void EndDraw() = 0;

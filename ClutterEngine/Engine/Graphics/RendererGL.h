@@ -13,7 +13,8 @@ namespace clt
 	class SpriteComponent;
 	class MeshComponent;
 	class TextElement;
-	/**
+
+  /**
   * @class Renderer
   * @brief Responsible for rendering graphical components.
   */
@@ -54,6 +55,8 @@ namespace clt
 		bool Initialize(CEngine* pEngine) override;
 
 		void Close() override;
+
+		void WireframeMode(bool wireframe) override;
 
 		void AddMeshComponent(MeshComponent* pComp);
 		void RemoveMeshComponent(MeshComponent* pComp);

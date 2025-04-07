@@ -35,7 +35,7 @@ float* Mesh::ToVerticeArray()
     int counter = 0;
     for (int i = 0; i < mVertices.size(); i++)
     {
-        array[counter + 0] = mVertices[i].position.x;
+        array[counter]     = mVertices[i].position.x;
         array[counter + 1] = mVertices[i].position.y;
         array[counter + 2] = mVertices[i].position.z;
         array[counter + 3] = mVertices[i].normal.x;

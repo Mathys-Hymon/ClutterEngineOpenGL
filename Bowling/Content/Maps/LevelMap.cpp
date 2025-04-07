@@ -17,6 +17,7 @@ LevelMap::LevelMap(std::string pName) : clt::Level(pName)
 
 LevelMap::~LevelMap()  
 {  
+
 }  
 
 void LevelMap::Load()  

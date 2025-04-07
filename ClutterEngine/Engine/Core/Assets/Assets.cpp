@@ -29,7 +29,7 @@ Assets::Assets()
     }
 }
 
-void Assets::LoadTextureGL(TextureFilter pTexFilter, GLuint& textureID, int& width, int& height, int& channels, unsigned char* data)
+void Assets::LoadTextureGL(TextureFilter pTexFilter, GLuint& textureID, int& width, int& height, int& channels, unsigned char* data, bool generateMipMaps)
 {
 
     glGenTextures(1, &textureID);
@@ -38,15 +38,17 @@ void Assets::LoadTextureGL(TextureFilter pTexFilter, GLuint& textureID, int& wid
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
+    if (generateMipMaps) glGenerateMipmap(GL_TEXTURE_2D);
+
     if (pTexFilter == TextureFilter::NEAREST)
     {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, generateMipMaps ? GL_NEAREST_MIPMAP_LINEAR : GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, generateMipMaps ? GL_NEAREST_MIPMAP_LINEAR : GL_NEAREST);
     }
     else
     {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, generateMipMaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, generateMipMaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
     }
 
     GLenum format = channels == 4 ? GL_RGBA : GL_RGB;
@@ -104,7 +106,7 @@ Mesh* Assets::LoadMeshFromFile(const std::string& pFile)
     return new Mesh(vertices);
 }
 
-Texture* Assets::LoadTexture(const std::string& path, const std::string& name, TextureFilter pTexFilter)
+Texture* Assets::LoadTexture(const std::string& path, const std::string& name, TextureFilter pTexFilter, bool generateMipMaps)
 {
     if (mTextures.find(name) != mTextures.end()) return GetTexture(name);
 
@@ -126,7 +128,7 @@ Texture* Assets::LoadTexture(const std::string& path, const std::string& name, T
     
     if (mRenderer && mRenderer->GetType() == RendererType::OPENGL)
     {
-        LoadTextureGL(pTexFilter, textureID, width, height, channels, data);
+        LoadTextureGL(pTexFilter, textureID, width, height, channels, data, generateMipMaps);
     }
     stbi_image_free(data);
 

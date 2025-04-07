@@ -59,6 +59,11 @@ void RendererGL::Close()
     delete mSpriteVAO;
 }
 
+void RendererGL::WireframeMode(bool wireframe)
+{
+    if (wireframe)  glPolygonMode(GL_FRONT_AND_BACK, wireframe ? GL_LINE : GL_FILL);
+}
+
 void RendererGL::AddMeshComponent(MeshComponent* pComp)
 {
     int compDrawOrder = pComp->GetUpdateOrder();

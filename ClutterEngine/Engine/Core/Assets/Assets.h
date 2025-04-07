@@ -27,14 +27,14 @@ namespace clt
 		 Assets();
 		~Assets() = default;
 
-		void LoadTextureGL(TextureFilter pTexFilter, GLuint& textureID, int& width, int& height, int& channels, unsigned char* data);
+		void LoadTextureGL(TextureFilter pTexFilter, GLuint& textureID, int& width, int& height, int& channels, unsigned char* data, bool generateMipMaps = true);
 
 		Mesh* LoadMeshFromFile(const std::string& pFile);
 
 	public:
 		static Assets& Get();
 
-		Texture* LoadTexture(const std::string& pPath, const std::string& pName, TextureFilter pTexFilter = TextureFilter::LINEAR);
+		Texture* LoadTexture(const std::string& pPath, const std::string& pName, TextureFilter pTexFilter = TextureFilter::LINEAR, bool generateMipMaps = true);
 
 		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, std::vector<Texture*> pTextures = {});
 

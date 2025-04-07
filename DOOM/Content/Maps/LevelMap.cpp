@@ -32,7 +32,7 @@ void LevelMap::Load()
 	camera->AddComponent<clt::HUDComponent>()->CreateWidget<clt::UIPanel>("PlayerScreen");
 	camera->GetComponentOfType<clt::HUDComponent>()->GetCurrentWidget()->CreateElement<clt::FlipbookElement>("mainWeapon", weapon, true, 5);
 
-	camera->GetComponentOfType<clt::HUDComponent>()->GetCurrentWidget()->CreateElement<clt::TextElement>("lifeText", "Hello world !","Classic");
+	//camera->GetComponentOfType<clt::HUDComponent>()->GetCurrentWidget()->CreateElement<clt::TextElement>("lifeText", "Hello world !","Classic");
 }
 
 void LevelMap::Update()

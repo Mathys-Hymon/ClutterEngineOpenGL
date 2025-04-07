@@ -45,7 +45,6 @@ void TextElement::Draw(RendererGL* renderer)
         };
 
         glBindTexture(GL_TEXTURE_2D, ch.TextureID);
-        renderer->mTextVAO->Set()
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
