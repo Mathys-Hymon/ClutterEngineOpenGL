@@ -222,10 +222,10 @@
     <ClInclude Include="Engine\Graphics\UI\Elements\SpriteElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Core\ActorComponent\Actors\Sphere.h">
+    <ClInclude Include="Engine\Graphics\Shader\ShaderProgram.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Shader\ShaderProgram.h">
+    <ClInclude Include="Engine\Core\ActorComponent\ChildActors\CubeActor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -368,16 +368,13 @@
     <ClCompile Include="Engine\Graphics\UI\Elements\TextElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Core\ActorComponent\Actors\Sphere.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Graphics\Shader\ShaderProgram.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Core\ActorComponent\Actors\CubeActor.cpp">
+    <ClCompile Include="Engine\Core\ActorComponent\ChildActors\CubeActor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
