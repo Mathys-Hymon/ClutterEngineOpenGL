@@ -16,6 +16,7 @@ namespace clt
         void Render();
 
         void ShowWireframe();
+        void ShowLitMode();
 
     public:
 

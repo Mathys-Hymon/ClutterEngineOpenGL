@@ -43,5 +43,9 @@
     <None Include="Content\Resources\Shaders\sprite.vert" />
     <None Include="Content\Resources\Shaders\text.frag" />
     <None Include="Content\Resources\Shaders\text.vert" />
+    <None Include="Content\Resources\Shaders\Mesh\basicTess.vert" />
+    <None Include="Content\Resources\Shaders\Mesh\basicTess.tesc" />
+    <None Include="Content\Resources\Shaders\Mesh\basicTess.tese" />
+    <None Include="Content\Resources\Shaders\Mesh\basicTess.frag" />
   </ItemGroup>
 </Project>

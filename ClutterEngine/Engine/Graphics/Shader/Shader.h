@@ -9,7 +9,10 @@ namespace clt
 	enum class CLUTTER_API ShaderType
 	{
 		VERTEX,
-		FRAGMENT,	
+		FRAGMENT,
+		TESSELATION_CONTROL,
+		TESSELATION_EVALUATION,
+		GEOMETRY
 	};
 
 	class DebugDraw;

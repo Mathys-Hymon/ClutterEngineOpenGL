@@ -19,8 +19,10 @@ Application::Application(int pWidth, int pHeight, std::string pName, std::vector
 
 	if (mEngine->isEditorMode())
 	{
-		Input::Get().MapKeyToAction(EKey::F1, "toggleWireframe");
-		Input::Get().RegisterActionCallback("toggleWireframe", [this] { this->ShowWireframe(); });
+		Input::Get().MapKeyToAction(EKey::F1, "enableFillMode");
+		Input::Get().MapKeyToAction(EKey::F2, "enableWireframeMode");
+		Input::Get().RegisterActionCallback("enableWireframeMode", [this] { this->ShowWireframe(); });
+		Input::Get().RegisterActionCallback("enableFillMode", [this] { this->ShowLitMode(); });
 	}
 
 	Run();
@@ -54,7 +56,12 @@ void Application::Render()
 
 void Application::ShowWireframe()
 {
-	mEngine->GetRenderer()->ToggleWireframe();
+	mEngine->GetRenderer()->WireframeMode(true);
+}
+
+void Application::ShowLitMode()
+{
+	mEngine->GetRenderer()->WireframeMode(false);
 }
 
 Application::~Application()	

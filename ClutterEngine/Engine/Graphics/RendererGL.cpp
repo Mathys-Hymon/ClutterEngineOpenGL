@@ -6,6 +6,7 @@
 #include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
 #include <Core/Debug/DebugDraw.h>
 #include <Core/CEngine.h>
+#include <GLFW/glfw3.h>
 
 using namespace clt;
 
@@ -18,7 +19,7 @@ bool RendererGL::Initialize(CEngine* pEngine)
     mEngine = pEngine;
 
     // Initialize GLAD to load OpenGL functions  
-    if (gladLoadGL()) CLUTTER_LOG("GLAD initialised successfully")
+    if (gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) CLUTTER_LOG("GLAD initialised successfully")
     else CLUTTER_ERROR("Cant initialise GLAD");
 
     Assets::Get().SetRenderer(this);
