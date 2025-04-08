@@ -135,8 +135,8 @@ namespace clt
         friend LevelManager;
     };
 
-    template<typename T, typename ...Args>
-    inline T* Level::AddActor(Args && ...args)
+    template<typename T, typename... Args>
+    inline T* Level::AddActor(Args&&... args)
     {
         static_assert(std::is_base_of<Actor, T>::value, "T must be an Actor");
         size_t hashCode = typeid(T).hash_code();

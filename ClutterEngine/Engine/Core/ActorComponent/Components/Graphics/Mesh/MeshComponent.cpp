@@ -28,7 +28,7 @@ void MeshComponent::Draw(Matrix4Row viewProj)
         mMesh->GetShader().SetVec2f("uTiling", mMesh->GetTextureTiling());
         mMesh->GetTexture(mTextureIndex)->Bind();
 
-        glDrawArrays(GL_TRIANGLES, 0, mMesh->GetVAO().GetVerticeCount());
+        glDrawArrays(mMesh->GetTesselated() ? GL_PATCHES : GL_TRIANGLES, 0, mMesh->GetVAO().GetVerticeCount());
     }
 }
 

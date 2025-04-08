@@ -58,7 +58,7 @@ void Assets::LoadTextureGL(TextureFilter pTexFilter, GLuint& textureID, int& wid
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-Mesh* Assets::LoadMeshFromFile(const std::string& pFile)
+Mesh* Assets::LoadMeshFromFile(const std::string& pFile, bool pTesselate)
 {   
     tinyobj::attrib_t attributes;
     std::vector<tinyobj::shape_t> shapes;
@@ -103,7 +103,7 @@ Mesh* Assets::LoadMeshFromFile(const std::string& pFile)
         }
 
     }
-    return new Mesh(vertices);
+    return new Mesh(vertices, pTesselate);
 }
 
 Texture* Assets::LoadTexture(const std::string& path, const std::string& name, TextureFilter pTexFilter, bool generateMipMaps)
@@ -161,12 +161,15 @@ Texture* Assets::GetTexture(const std::string& name)
     return it->second;
 }
 
-Mesh* Assets::GetMesh(const std::string& name)
+Mesh* Assets::GetMesh(const std::string& name, bool tesselate)
 {
-    auto it = mMeshes.find(name);
+    std::string tempName = name;
+    if (tesselate)  std::string name = name + "_tess";
+
+    auto it = mMeshes.find(tempName);
     if (it == mMeshes.end())
     {
-        CLUTTER_WARNING(("Unable to find The mesh: " + name).c_str());
+        CLUTTER_WARNING(("Unable to find The mesh: " + tempName).c_str());
         return nullptr;
     }
     return it->second;
@@ -183,13 +186,16 @@ Font* Assets::GetFont(const std::string& name)
     return it->second;
 }
 
-Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, std::vector<Texture*> pTextures)
+Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, std::vector<Texture*> pTextures, bool pTesselate)
 {
-    if (mMeshes.find(pName) != mMeshes.end()) return mMeshes[pName];
+    std::string name = pName;
+    if (pTesselate)  std::string name = name + "_tess";
 
-    Mesh* mesh = LoadMeshFromFile(pPath);
+    if (mMeshes.find(name) != mMeshes.end()) return mMeshes[name];
 
-    if(mesh) mMeshes[pName] = mesh;
+    Mesh* mesh = LoadMeshFromFile(pPath, pTesselate);
+
+    if(mesh) mMeshes[name] = mesh;
     if(!mesh->GetTexture(0) && pTextures.empty()) mesh->AddTexture(GetTexture("default"));
 
     for (Texture* tex : pTextures)
@@ -200,16 +206,34 @@ Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, std::
     return mesh;
 }
 
-Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, const std::string& pTexture)
+Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, const std::string& pTexture, bool pTesselate)
 {
-    if (mMeshes.find(pName) != mMeshes.end()) return GetMesh(pName);
+    std::string name = pName;
+    if (pTesselate)  std::string name = pName + "_tess";
 
-    Mesh* mesh = LoadMeshFromFile(pPath);
+    if (mMeshes.find(name) != mMeshes.end()) return GetMesh(name);
 
-    if (mesh) mMeshes[pName] = mesh;
+    Mesh* mesh = LoadMeshFromFile(pPath, pTesselate);
+
+    if (mesh) mMeshes[name] = mesh;
     if (!mesh->GetTexture(0) && pTexture.empty()) mesh->AddTexture(GetTexture("default"));
 
         mesh->AddTexture(GetTexture(pTexture));
+
+    return mesh;
+}
+
+Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, bool pTesselate)
+{
+    std::string name = pName;
+    if(pTesselate)  std::string name = pName + "_tess";
+
+    if (mMeshes.find(name) != mMeshes.end()) return mMeshes[name];
+
+    Mesh* mesh = LoadMeshFromFile(pPath, pTesselate);
+
+    if (mesh) mMeshes[name] = mesh;
+    if (!mesh->GetTexture(0)) mesh->AddTexture(GetTexture("default"));
 
     return mesh;
 }

@@ -47,5 +47,6 @@
     <None Include="Content\Resources\Shaders\Mesh\basicTess.tesc" />
     <None Include="Content\Resources\Shaders\Mesh\basicTess.tese" />
     <None Include="Content\Resources\Shaders\Mesh\basicTess.frag" />
+    <None Include="Content\Resources\Shaders\basic.tese" />
   </ItemGroup>
 </Project>

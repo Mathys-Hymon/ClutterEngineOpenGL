@@ -61,6 +61,8 @@ bool RendererGL::Initialize(CEngine* pEngine)
     mUiViewProj = Matrix4Row::CreateSimpleViewProj(pEngine->GetWindow()->GetDimensions().x,
         pEngine->GetWindow()->GetDimensions().y);
     DebugDraw::Get().Start();
+
+    glPatchParameteri(GL_PATCH_VERTICES, 3);
 }
 
 void RendererGL::Close()

@@ -44,6 +44,19 @@ void Shader::Load(std::string pFileName, ShaderType pShaderType, bool pPath)
     case ShaderType::FRAGMENT:
         mID = glCreateShader(GL_FRAGMENT_SHADER);
         break;
+
+    case ShaderType::TESSELATION_CONTROL:
+        mID = glCreateShader(GL_TESS_CONTROL_SHADER);
+        break;
+
+    case ShaderType::TESSELATION_EVALUATION:
+        mID = glCreateShader(GL_TESS_EVALUATION_SHADER);
+        break;
+
+    case ShaderType::GEOMETRY:
+        mID = glCreateShader(GL_GEOMETRY_SHADER);
+        break;
+
     default:
         CLUTTER_WARNING("This shader type has not yet been implemented.");
         mID = glCreateShader(GL_VERTEX_SHADER);

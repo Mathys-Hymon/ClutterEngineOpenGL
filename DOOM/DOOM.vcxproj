@@ -235,6 +235,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Resources\Shaders\basic.frag" />
+    <None Include="Content\Resources\Shaders\basic.tese" />
     <None Include="Content\Resources\Shaders\basic.vert" />
     <None Include="Content\Resources\Shaders\Mesh\basicTess.frag" />
     <None Include="Content\Resources\Shaders\Mesh\basicTess.tesc" />

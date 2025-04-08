@@ -23,14 +23,15 @@ namespace clt
 		std::vector<Vertex> mVertices;
 
 		ShaderProgram mShader;
+		bool mTesselate;
 
 		float* ToVerticeArray();
 
 	public:
 
 		Mesh() {};
-		Mesh(const float* pVertices, u32 pVerticeCount);
-		Mesh(std::vector<Vertex> pVertices);
+		Mesh(const float* pVertices, u32 pVerticeCount, bool tesselate);
+		Mesh(std::vector<Vertex> pVertices, bool tesselate);
 		~Mesh() = default;
 
 		void Unload();
@@ -51,6 +52,8 @@ namespace clt
 
 		void SetTextureTiling(Vector2 tiling) { mTextureTiling = tiling; };
 		Vector2 GetTextureTiling() const { return mTextureTiling; };
+
+		bool GetTesselated() const { return mTesselate; };
 
 		void SetMesh(VertexArray* pVAO);
 		void SetMesh(const float* pVertices, u32 pVerticeCount, const u32* pIndices, u32 pIndexCount);

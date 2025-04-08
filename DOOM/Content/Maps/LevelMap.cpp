@@ -4,7 +4,8 @@
 
 clt::Actor* camera;
 
-clt::Actor* floorSprite;
+clt::Actor* floorMesh;
+clt::Actor* wallMesh;
 
 LevelMap::LevelMap(std::string pName) : clt::Level(pName)
 {
@@ -24,7 +25,10 @@ void LevelMap::Load()
 
 	camera = AddActor<clt::Actor>("camera");
 
-	floorSprite = AddActor<clt::Cube>("floor");
+	floorMesh = AddActor<clt::CubeActor>("floor");
+	wallMesh = AddActor<clt::CubeActor>("wall");
+	wallMesh->SetActorLocation({ 2,0 });
+
 	camera->AddComponent<clt::CameraComponent>();
 	camera->AddComponent<DoomController>();
 	camera->SetActorLocation({ 0, 0, 5 });

@@ -210,9 +210,6 @@
     <ClInclude Include="Engine\Core\All.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Core\ActorComponent\Actors\Cube.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Graphics\UI\Elements\FlipbookElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -365,9 +362,6 @@
     <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\SphereCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Core\ActorComponent\Actors\Cube.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Graphics\UI\Elements\FlipbookElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -381,6 +375,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\ActorComponent\Actors\CubeActor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

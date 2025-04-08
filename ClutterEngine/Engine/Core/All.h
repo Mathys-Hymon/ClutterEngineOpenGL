@@ -23,7 +23,7 @@
 
 #include <Core/ActorComponent/Components/Physics/RigidBody.h>
 
-#include <Core/ActorComponent/Actors/Cube.h>
+#include <Core/ActorComponent/Actors/CubeActor.h>
 #include <Core/ActorComponent/Actors/Sphere.h>
 
 #include <Core/Assets/Assets.h>

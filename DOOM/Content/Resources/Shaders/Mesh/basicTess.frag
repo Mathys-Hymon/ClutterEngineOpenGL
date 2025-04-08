@@ -1,4 +1,4 @@
-#version 450
+#version 450 core
 
 in TESE_OUT{
    vec4 color;
@@ -6,11 +6,11 @@ in TESE_OUT{
 
 } frag_in;
 
-out vec4 FragColor;
+out vec4 outColor;
 
 uniform sampler2D uTexture;
 
 void main()
 {
-   FragColor = frag_in.color * texture(uTexture, frag_in.texCoord);
+   outColor = frag_in.color * texture(uTexture, frag_in.texCoord);
 }

@@ -10,6 +10,8 @@ namespace clt
 		Mesh* mMesh;
 		size_t mTextureIndex;
 
+		bool mSubdivide;
+
 	public:
 
 		MeshComponent(Mesh* pMesh, int pDrawOrder = 0, Vector2 pTextureTiling = {1,1});

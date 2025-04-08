@@ -29,16 +29,19 @@ namespace clt
 
 		void LoadTextureGL(TextureFilter pTexFilter, GLuint& textureID, int& width, int& height, int& channels, unsigned char* data, bool generateMipMaps = true);
 
-		Mesh* LoadMeshFromFile(const std::string& pFile);
+		Mesh* LoadMeshFromFile(const std::string& pFile, bool pTesselate);
 
 	public:
 		static Assets& Get();
 
 		Texture* LoadTexture(const std::string& pPath, const std::string& pName, TextureFilter pTexFilter = TextureFilter::LINEAR, bool generateMipMaps = true);
 
-		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, std::vector<Texture*> pTextures = {});
+		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, std::vector<Texture*> pTextures = {}, bool pTesselate = false);
 
-		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, const std::string& pTexture);
+		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, const std::string& pTexture, bool pTesselate = false);
+
+		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, bool pTesselate);
+
 
 		Font* LoadFont(const std::string& pPath, const std::string& pName, GLuint pFontSize = 48);
 
@@ -47,7 +50,7 @@ namespace clt
 		std::vector<Texture*> BulkLoadTexture(const std::string& pPath, int pLastIndex, const std::string& pFileName, const std::string& pName, TextureFilter pTexFilter = TextureFilter::LINEAR);
 
 		Texture* GetTexture(const std::string& name);
-		Mesh* GetMesh(const std::string& name);
+		Mesh* GetMesh(const std::string& name, bool tesselate = false);
 		Font* GetFont(const std::string& name);
 
 		std::vector<Texture*> BulkGetTexture(const std::string& name, int pLastIndex);
