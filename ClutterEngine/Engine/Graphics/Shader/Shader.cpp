@@ -5,28 +5,35 @@
 
 using namespace clt;
 
-void Shader::Load(std::string pFileName, ShaderType pShaderType)
+void Shader::Load(std::string pFileName, ShaderType pShaderType, bool pPath)
 {
     mType = pShaderType;
-    std::ifstream file;
-    file.open(pFileName);
 
-    if (file.fail())
+    if (!pPath)
     {
         mCode = pFileName;
-        CLUTTER_WARNING("shader files failed to load");
     }
-
-    std::string fileText = "";
-    std::string line = "";
-
-    while (std::getline(file, line))
+    else
     {
-        fileText += line + '\n';
-    }
+        std::ifstream file;
+        file.open(pFileName);
 
-    file.close();
-    mCode = fileText;
+        if (file.fail())
+        {
+            CLUTTER_WARNING("shader files failed to load :", pFileName);
+        }
+
+        std::string fileText = "";
+        std::string line = "";
+
+        while (std::getline(file, line))
+        {
+            fileText += line + '\n';
+        }
+
+        file.close();
+        mCode = fileText;
+    }
 
     switch (mType)
     {
@@ -46,6 +53,11 @@ void Shader::Load(std::string pFileName, ShaderType pShaderType)
     const char* source = mCode.c_str();
     glShaderSource(mID, 1, &source, NULL);
     glCompileShader(mID);
+
+    if (!pPath) return;
+
+    std::string temp = "shader files loaded sucessfully: " + pFileName;
+    CLUTTER_INFO(temp.c_str());
 }
 
 void Shader::Use()

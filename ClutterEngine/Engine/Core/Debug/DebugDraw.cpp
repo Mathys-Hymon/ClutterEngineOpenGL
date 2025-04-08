@@ -39,9 +39,9 @@ void DebugDraw::Start()
     // Create and load the shader program from the provided source code
     mShader = new ShaderProgram();
     Shader* frag = new Shader();
-    frag->Load(debugFragmentShader, ShaderType::FRAGMENT);
+    frag->Load(debugFragmentShader, ShaderType::FRAGMENT, false);
     Shader* vert = new Shader();
-    vert->Load(debugVertexShader, ShaderType::VERTEX);
+    vert->Load(debugVertexShader, ShaderType::VERTEX, false);
     mShader->Compose({ frag, vert});
 
     // Initialize the Vertex Array Object (VAO) for drawing lines (2 vertices)
