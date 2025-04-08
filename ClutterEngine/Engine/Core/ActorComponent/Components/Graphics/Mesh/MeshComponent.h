@@ -10,7 +10,7 @@ namespace clt
 		Mesh* mMesh;
 		size_t mTextureIndex;
 
-		bool mSubdivide;
+		bool mTesselate;
 
 	public:
 

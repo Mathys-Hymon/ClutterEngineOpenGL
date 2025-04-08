@@ -209,7 +209,7 @@ Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, std::
 Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, const std::string& pTexture, bool pTesselate)
 {
     std::string name = pName;
-    if (pTesselate)  std::string name = pName + "_tess";
+    if (pTesselate) name = pName + "_tess";
 
     if (mMeshes.find(name) != mMeshes.end()) return GetMesh(name);
 
@@ -226,7 +226,7 @@ Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, const
 Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, bool pTesselate)
 {
     std::string name = pName;
-    if(pTesselate)  std::string name = pName + "_tess";
+    if(pTesselate) name = pName + "_tess";
 
     if (mMeshes.find(name) != mMeshes.end()) return mMeshes[name];
 

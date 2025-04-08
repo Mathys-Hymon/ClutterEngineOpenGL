@@ -26,7 +26,7 @@ void LevelMap::Load()
 	camera = AddActor<clt::Actor>("camera");
 
 	floorMesh = AddActor<clt::CubeActor>("floor");
-	wallMesh = AddActor<clt::CubeActor>("wall");
+	wallMesh = AddActor<clt::CubeActor>("wall", true);
 	wallMesh->SetActorLocation({ 2,0 });
 
 	camera->AddComponent<clt::CameraComponent>();

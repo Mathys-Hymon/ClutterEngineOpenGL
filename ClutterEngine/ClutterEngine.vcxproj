@@ -356,6 +356,7 @@
     <ClCompile Include="Engine\Application\Application.cpp" />
     <ClCompile Include="glad.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Libraries\include\PCH\dllmain.cpp" />
     <ClCompile Include="Libraries\include\PCH\glad.c">
