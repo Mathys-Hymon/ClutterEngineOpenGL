@@ -9,11 +9,6 @@ Physics::Physics() : mGravity({ 0.0f, -300.0f, 0.0f })
 {
 }
 
-// Destructor
-Physics::~Physics()
-{
-}
-
 // Adds a collider to the physics engine
 void Physics::AddCollider(ColliderComponent* pCollider)
 {
@@ -33,16 +28,29 @@ void Physics::AddRigidbody(RigidBody* pRigidbody)
 // Removes a rigidbody from the physics engine
 void Physics::RemoveRigidBody(RigidBody* pRigidbody)
 {
-    // Implementation needed
+    auto it = std::find(mRigidbody.begin(), mRigidbody.end(), pRigidbody);
+
+    if (it != mRigidbody.end())
+    {
+        mRigidbody.erase(it);
+        pRigidbody = nullptr;
+    }
 }
 
 // Removes a collider from the physics engine
 void Physics::RemoveCollider(ColliderComponent* pCollider)
 {
-    mColliders.erase(std::remove(mColliders.begin(), mColliders.end(), pCollider), mColliders.end());
-    if (mColliderEvent.find(pCollider) != mColliderEvent.end()) {
+    if (mColliderEvent.find(pCollider) != mColliderEvent.end())
+    {
         delete mColliderEvent[pCollider];
         mColliderEvent.erase(pCollider);
+    }
+
+    auto it = std::find(mColliders.begin(), mColliders.end(), pCollider);
+
+    if (it != mColliders.end())
+    {
+        mColliders.erase(it);
     }
 }
 

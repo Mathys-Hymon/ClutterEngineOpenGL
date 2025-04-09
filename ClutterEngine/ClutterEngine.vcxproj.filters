@@ -228,6 +228,9 @@
     <ClInclude Include="Engine\Core\ActorComponent\ChildActors\CubeActor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Movements\FpsController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Libraries\include\PCH\dllmain.cpp">
@@ -377,5 +380,21 @@
     <ClCompile Include="Engine\Core\ActorComponent\ChildActors\CubeActor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\FpsController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EngineContent\Resources\Shader\Mesh\basicTess.frag" />
+    <None Include="EngineContent\Resources\Shader\Mesh\basicTess.tesc" />
+    <None Include="EngineContent\Resources\Shader\Mesh\basicTess.tese" />
+    <None Include="EngineContent\Resources\Shader\Mesh\basicTess.vert" />
+    <None Include="EngineContent\Resources\Shader\basic.frag" />
+    <None Include="EngineContent\Resources\Shader\basic.tese" />
+    <None Include="EngineContent\Resources\Shader\basic.vert" />
+    <None Include="EngineContent\Resources\Shader\sprite.frag" />
+    <None Include="EngineContent\Resources\Shader\sprite.vert" />
+    <None Include="EngineContent\Resources\Shader\text.frag" />
+    <None Include="EngineContent\Resources\Shader\text.vert" />
   </ItemGroup>
 </Project>

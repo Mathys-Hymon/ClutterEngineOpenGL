@@ -10,3 +10,8 @@ void ColliderComponent::SetOwner(Actor* pOwner)
 	Component::SetOwner(pOwner);
 	mOwner->GetLevel()->GetPhysics().AddCollider(this);
 }
+
+ColliderComponent::~ColliderComponent()
+{
+	mOwner->GetLevel()->GetPhysics().RemoveCollider(this);
+}

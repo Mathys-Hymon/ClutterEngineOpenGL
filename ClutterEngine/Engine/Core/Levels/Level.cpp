@@ -21,14 +21,19 @@ void Level::InternalUpdate()
 void Level::Unload()
 {
 	for (auto& pair : mActors) {
-		for (Actor* pActor : pair.second) {
-			delete pActor;
+		for (Actor* pActor : pair.second) 
+		{
+			if (pActor)
+			{
+				delete pActor;
+				pActor = nullptr;
+			}
 		}
 	}
 	mActors.clear();
 }
 
-void Level::DestroyActor(Actor* pActor)
+void Level::temp(Actor* pActor)
 {
 	if (!pActor) CLUTTER_ERROR("Cannot remove a null Actor.");
 	size_t typeHash = typeid(pActor).hash_code();
@@ -51,7 +56,10 @@ void Level::UpdateActors()
 	{
 		for (Actor* pActor : pair.second)
 		{
-			pActor->InternalUpdate();
+			if (pActor->mState == ActorState::Active)
+			{
+				pActor->InternalUpdate();
+			}
 		}
 	}
 	mUpdatingActors = false;

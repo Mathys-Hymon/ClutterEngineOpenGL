@@ -88,7 +88,11 @@ namespace clt
          * @brief Removes an actor from the level.
          * @param pActor Pointer to the actor to be removed.
          */
+        void temp(Actor* pActor);
+
+        template<typename T>
         void DestroyActor(Actor* pActor);
+
 
         template<typename T>
         std::vector<T*> GetAllActorOfType()
@@ -146,9 +150,30 @@ namespace clt
             if(mUpdatingActors) mPendingActors.emplace_back(pActor);
             else
             {
+                pActor->mLevel = this;
                 mActors[hashCode].emplace_back(pActor);
             }
 
             return pActor;
+    }
+    template<typename T>
+    inline void Level::DestroyActor(Actor* pActor)
+    {
+        static_assert(std::is_base_of<Actor, T>::value, "T must be an Actor");
+        size_t hashCode = typeid(T).hash_code();
+
+        auto& actors = mActors[hashCode];
+        auto it = std::find(actors.begin(), actors.end(), pActor);
+
+        if (it == actors.end()) return;
+        else
+        {
+            pActor->mState = ActorState::Dead;
+            mDeadActors.push_back(pActor);
+
+            actors.erase(it);
+
+            pActor = nullptr;
+        }
     }
 }

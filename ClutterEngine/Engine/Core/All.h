@@ -19,6 +19,7 @@
 #include <Core/ActorComponent/Components/Graphics/UI/HUDComponent.h>
 
 #include <Core/ActorComponent/Components/Movements/CameraController.h>
+#include <Core/ActorComponent/Components/Movements/FpsController.h>
 #include <Core/ActorComponent/Components/Movements/PlayerController2D.h>
 
 #include <Core/ActorComponent/Components/Physics/RigidBody.h>

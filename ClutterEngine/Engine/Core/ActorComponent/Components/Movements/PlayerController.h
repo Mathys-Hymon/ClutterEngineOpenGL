@@ -40,6 +40,8 @@ namespace clt
 
         float mAirControl;
 
+        Vector2 mMouseSpeed;
+
         virtual void OnCollisionEnter(const clt::hitResult& result) override {};
         virtual void OnCollisionStay(const clt::hitResult& result)  override {};
         virtual void OnCollisionExit(const clt::hitResult& result)  override {};

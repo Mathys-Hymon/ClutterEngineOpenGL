@@ -21,7 +21,7 @@ namespace clt
 		float mBounciness;
 
 		ColliderComponent() : Component(), mFriction(2.5f), mBounciness(0.3f), mType(ColliderType::Null) {};
-		~ColliderComponent() = default;
+		~ColliderComponent();
 
 		virtual bool CheckCollision(ColliderComponent* pOther, hitResult& outResult) const = 0;
 		const ColliderType GetType() const { return mType; };

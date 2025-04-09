@@ -66,4 +66,5 @@ void Application::ShowLitMode()
 
 Application::~Application()	
 {
+	mEngine->Close();
 }

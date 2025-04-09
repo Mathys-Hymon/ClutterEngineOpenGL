@@ -47,7 +47,7 @@ namespace clt
 		/**
    * @brief Destroys the Physics object.
    */
-		~Physics();
+		~Physics() = default;
 
 		void AddCollider(ColliderComponent* pCollider);
 

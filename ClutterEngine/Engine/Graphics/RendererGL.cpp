@@ -109,7 +109,10 @@ void RendererGL::RemoveMeshComponent(MeshComponent* pComp)
     std::vector<MeshComponent*>::iterator gc;
     gc = std::find(mMeshComponents.begin(), mMeshComponents.end(), pComp);
 
-    if (gc != mMeshComponents.end()) mMeshComponents.erase(gc);
+    if (gc != mMeshComponents.end())
+    {
+        mMeshComponents.erase(gc);
+    }
 }
 
 void RendererGL::AddSpriteComponent(SpriteComponent* pComp)

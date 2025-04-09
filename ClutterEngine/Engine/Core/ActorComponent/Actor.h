@@ -237,7 +237,6 @@ namespace clt
             
             if (mIsUpdatingComponents) mComponentsToAdd.emplace_back(pComponent);
             else AddComponentInternal(pComponent);
-            mComponentsToAdd.emplace_back(pComponent);
 
             return pComponent;
         }

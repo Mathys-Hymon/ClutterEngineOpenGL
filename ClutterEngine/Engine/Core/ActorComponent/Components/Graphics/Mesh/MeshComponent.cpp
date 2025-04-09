@@ -8,6 +8,10 @@ MeshComponent::MeshComponent(Mesh* pMesh, int pDrawOrder, Vector2 pTextureTiling
 {
     if (mMesh) mMesh->SetTextureTiling(pTextureTiling);
 }
+MeshComponent::~MeshComponent()
+{
+    if (mOwner) mOwner->GetLevel()->GetRenderer().RemoveMeshComponent(this);
+}
 
 void MeshComponent::SetOwner(Actor* pOwner)
 {

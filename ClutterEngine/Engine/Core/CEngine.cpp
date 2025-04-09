@@ -24,4 +24,7 @@ void CEngine::Update()
 void CEngine::Close()
 {
 	mRenderer->Close();
+	mRenderer.release();
+	mWindow.release();
+	mPhysics.release();
 }

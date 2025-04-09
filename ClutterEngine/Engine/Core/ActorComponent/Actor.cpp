@@ -15,6 +15,17 @@ Actor::~Actor()
    for (auto& pair : mComponents) {                 // Delete all components
        delete pair.second;
    }
+
+   for (auto& comp : mComponentsToAdd)
+   {
+       delete comp;
+   }
+
+   for (auto& comp : mComponentsToRemove)
+   {
+       delete comp;
+   }
+
    mComponents.clear();                             // Clear all component containers
    mComponentsByUpdateOrder.clear();
    mComponentsToAdd.clear();
