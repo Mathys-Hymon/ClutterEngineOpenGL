@@ -186,6 +186,25 @@ Font* Assets::GetFont(const std::string& name)
     return it->second;
 }
 
+Shader* Assets::GetShader(const std::string& pName, ShaderType pType)
+{
+    auto it = mShaders.find(pType);
+
+    if (it == mShaders.end())
+    {
+        CLUTTER_WARNING(("Unable to find the shader type of: " + pName).c_str());
+        return nullptr;
+    }
+    auto shader = it->second.find(pName);
+
+    if (shader == it->second.end())
+    {
+        CLUTTER_WARNING(("Unable to find Shader: " + pName).c_str());
+        return nullptr;
+    }
+    return shader->second;
+}
+
 Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, std::vector<Texture*> pTextures, bool pTesselate)
 {
     std::string name = pName;
@@ -301,6 +320,16 @@ Font* Assets::LoadFont(const std::string& pPath, const std::string& pName, GLuin
     return font;
 }
 
+Shader* Assets::LoadShader(const std::string& pPath, const std::string& pName, ShaderType pType)
+{
+    if (mShaders[pType][pName]) return GetShader(pName, pType);
+    Shader* temp = new Shader();
+    temp->Load(pPath, pType);
+
+    mShaders[pType][pName] = temp;
+    return temp;
+}
+
 std::vector<Texture*> Assets::BulkGetTexture(const std::string& pName, int pLastIndex)
 {
     std::vector<Texture*> tempAnim;
@@ -314,7 +343,7 @@ std::vector<Texture*> Assets::BulkGetTexture(const std::string& pName, int pLast
     return tempAnim;
 }
 
-void Assets::ClearTextures()
+void Assets::ClearAssets()
 {
     for (auto& pair : mTextures)
     {

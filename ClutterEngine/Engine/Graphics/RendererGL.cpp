@@ -69,7 +69,7 @@ void RendererGL::Close()
 {
     mSpriteComponents.clear();
 
-    Assets::Get().ClearTextures();
+    Assets::Get().ClearAssets();
     delete mSpriteVAO;
 }
 

@@ -24,6 +24,8 @@ namespace clt
 		std::unordered_map<std::string, Mesh*> mMeshes;
 		std::unordered_map<std::string, Font*> mFonts;
 
+		std::unordered_map<ShaderType, std::unordered_map<std::string, Shader*>> mShaders;
+
 		 Assets();
 		~Assets() = default;
 
@@ -33,28 +35,26 @@ namespace clt
 
 	public:
 		static Assets& Get();
+		void SetRenderer(IRenderer* pRenderer) { mRenderer = pRenderer; }
+
 
 		Texture* LoadTexture(const std::string& pPath, const std::string& pName, TextureFilter pTexFilter = TextureFilter::LINEAR, bool generateMipMaps = true);
-
-		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, std::vector<Texture*> pTextures = {}, bool pTesselate = false);
-
-		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, const std::string& pTexture, bool pTesselate = false);
-
-		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, bool pTesselate);
-
-
-		Font* LoadFont(const std::string& pPath, const std::string& pName, GLuint pFontSize = 48);
-
-		void SetRenderer(IRenderer* pRenderer) { mRenderer = pRenderer; };
-
 		std::vector<Texture*> BulkLoadTexture(const std::string& pPath, int pLastIndex, const std::string& pFileName, const std::string& pName, TextureFilter pTexFilter = TextureFilter::LINEAR);
 
-		Texture* GetTexture(const std::string& name);
-		Mesh* GetMesh(const std::string& name, bool tesselate = false);
-		Font* GetFont(const std::string& name);
+		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, std::vector<Texture*> pTextures = {}, bool pTesselate = false);
+		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, const std::string& pTexture, bool pTesselate = false);
+		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, bool pTesselate);
 
-		std::vector<Texture*> BulkGetTexture(const std::string& name, int pLastIndex);
+		Font* LoadFont(const std::string& pPath, const std::string& pName, GLuint pFontSize = 48);;
 
-		void ClearTextures();
+		Shader* LoadShader(const std::string& pPath, const std::string& pName, ShaderType pType);
+
+		Texture* GetTexture(const std::string& pName);
+		std::vector<Texture*> BulkGetTexture(const std::string& pName, int pLastIndex);
+		Mesh* GetMesh(const std::string& pName, bool pTesselate = false);
+		Font* GetFont(const std::string& pName);
+		Shader* GetShader(const std::string& pName, ShaderType pType);
+
+		void ClearAssets();
 	};
 }
