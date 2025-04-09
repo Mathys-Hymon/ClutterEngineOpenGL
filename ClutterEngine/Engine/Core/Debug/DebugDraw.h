@@ -7,10 +7,13 @@
 
 namespace clt
 {
+	class CEngine;
 	class RendererGL;
 	class CLUTTER_API DebugDraw
 	{
 		DebugDraw() = default;
+
+		CEngine* mEngine;
 
 		struct Line
 		{
@@ -46,7 +49,7 @@ namespace clt
 		VertexArray* mLineVAO;
 		VertexArray* mSphereVAO;
 
-		void Start();
+		void Start(CEngine* pEngine);
 		void Draw(Matrix4Row viewProj);
 		void Close();
 

@@ -60,7 +60,7 @@ bool RendererGL::Initialize(CEngine* pEngine)
 
     mUiViewProj = Matrix4Row::CreateSimpleViewProj(pEngine->GetWindow()->GetDimensions().x,
         pEngine->GetWindow()->GetDimensions().y);
-    DebugDraw::Get().Start();
+    DebugDraw::Get().Start(mEngine);
 
     glPatchParameteri(GL_PATCH_VERTICES, 3);
 }
@@ -193,7 +193,6 @@ void RendererGL::Draw()
 
         comp->Draw(viewProj);
     }
-
     DebugDraw::Get().Draw(viewProj);
 
     glDisable(GL_DEPTH_TEST);
