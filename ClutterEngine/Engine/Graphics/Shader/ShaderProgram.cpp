@@ -29,6 +29,15 @@ void ShaderProgram::Compose(std::vector<Shader*> shaders)
     }
 
     glLinkProgram(mID);
+    Use();
+
+    GLint success;
+    glGetProgramiv(mID, GL_LINK_STATUS, &success);
+    if (!success) {
+        GLchar infoLog[512];
+        glGetProgramInfoLog(mID, 512, NULL, infoLog);
+        CLUTTER_WARNING(("Shader program linking failed: " + std::string(infoLog)).c_str());
+    }
 }
 
 void ShaderProgram::Use()

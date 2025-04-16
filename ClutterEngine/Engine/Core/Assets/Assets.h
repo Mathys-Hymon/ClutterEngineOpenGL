@@ -45,7 +45,7 @@ namespace clt
 		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, const std::string& pTexture, bool pTesselate = false);
 		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, bool pTesselate);
 
-		Font* LoadFont(const std::string& pPath, const std::string& pName, GLuint pFontSize = 48);;
+		Font* LoadFont(const std::string& pPath, const std::string& pName, GLuint pFontSize = 128);
 
 		Shader* LoadShader(const std::string& pPath, const std::string& pName, ShaderType pType);
 

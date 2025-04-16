@@ -11,6 +11,9 @@ namespace clt
 		Color mColor;
 		Font* mFont;
 
+		GLuint VAO;
+		GLuint VBO;
+
 		TextElement(std::string text = "Hello World !", std::string font = "ClutterFont.ttf", Color color = Color::white, float textSize = 48, Vector2 position = { 0, 0 }, int ZOrder = 0);
 
 		TextElement(std::string text, Font* font, Color color = Color::white, float textSize = 48, Vector2 position = { 0, 0 }, int ZOrder = 0);

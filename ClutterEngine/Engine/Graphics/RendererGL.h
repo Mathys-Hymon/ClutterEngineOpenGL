@@ -77,8 +77,6 @@ namespace clt
    * @brief Draws all added graphic components.
    */
 		void Draw() override;
-
-		void BindText(Color textColor = Color::white);
 		/**
    * @brief Ends the drawing process.
    */

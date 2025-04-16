@@ -58,10 +58,12 @@ bool RendererGL::Initialize(CEngine* pEngine)
     mSpriteVAO = new VertexArray(spriteVertices, 4);
     mTextVAO = new VertexArray(spriteVertices, 4, BufferUsage::DYNAMIC);
 
-    mUiViewProj = Matrix4Row::CreateSimpleViewProj(pEngine->GetWindow()->GetDimensions().x,
-        pEngine->GetWindow()->GetDimensions().y);
+    mUiViewProj = Matrix4Row::CreateOrtho(pEngine->GetWindow()->GetDimensions().x,
+        pEngine->GetWindow()->GetDimensions().y, 0.00001f, 100000);
     DebugDraw::Get().Start(mEngine);
 
+    mTextShader.SetMat4Row("projection", mUiViewProj);
+    mSpriteShader.SetMat4Row("uViewProj", mUiViewProj);
     glPatchParameteri(GL_PATCH_VERTICES, 3);
 }
 
@@ -176,6 +178,7 @@ void RendererGL::BeginDraw()
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     glDisable(GL_BLEND);
+    glDisable(GL_CULL_FACE);
 }
 
 void RendererGL::Draw()
@@ -196,6 +199,7 @@ void RendererGL::Draw()
     DebugDraw::Get().Draw(viewProj);
 
     glDisable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -231,16 +235,6 @@ void RendererGL::Draw()
     }
 
     mSpriteVAO->Unbind();
-}
-
-void RendererGL::BindText(Color textColor)
-{
-    mTextShader.Use();
-    mTextShader.SetVec3f("textColor", textColor);
-    mTextShader.SetMat4Row("projection", mUiViewProj);
-
-    glActiveTexture(GL_TEXTURE0);
-    mTextVAO->Bind();
 }
 
 void RendererGL::EndDraw()

@@ -308,7 +308,7 @@ Font* Assets::LoadFont(const std::string& pPath, const std::string& pName, GLuin
             static_cast<unsigned int>(face->glyph->advance.x)
         };
 
-        font->mCharacters.insert({ c, character });
+        font->mCharacters.insert(std::pair<GLchar, Character>(c, character));
     }
 
     glBindTexture(GL_TEXTURE_2D, 0);
