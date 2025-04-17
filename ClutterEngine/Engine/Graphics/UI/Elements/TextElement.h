@@ -2,23 +2,48 @@
 #include <Graphics/UI/WidgetElement.h>
 #include <Graphics/RendererGL.h>
 
+
+enum class CLUTTER_API alignment
+{
+	Left,
+	Center,
+	Right,
+};
+
 namespace clt
 {
 	class CLUTTER_API TextElement : public WidgetElement
 	{
-	public:
 		std::string mText;
 		Color mColor;
 		Font* mFont;
 
-		GLuint VAO;
-		GLuint VBO;
+		float mWidth;
 
-		TextElement(std::string text = "Hello World !", std::string font = "ClutterFont.ttf", Color color = Color::white, float textSize = 48, Vector2 position = { 0, 0 }, int ZOrder = 0);
+		alignment mAlignment;
 
-		TextElement(std::string text, Font* font, Color color = Color::white, float textSize = 48, Vector2 position = { 0, 0 }, int ZOrder = 0);
+		GLuint VAO, VBO;
 
-		virtual ~TextElement() = default;
+		void CalculateWidth();
+
+	public:
+
+
+		TextElement(std::string text = "Hello World !", std::string font = "BebasNeue", Color color = Color::white, float textSize = 1, Vector2 position = { 0, 0 }, int ZOrder = 0);
+
+		TextElement(std::string text, Color color, float textSize = 1, Vector2 position = { 0, 0 }, int ZOrder = 0);
+
+		TextElement(std::string text, Font* font, Color color = Color::white, float textSize = 1, Vector2 position = { 0, 0 }, int ZOrder = 0);
+
+		~TextElement();
+
+		void SetText(std::string text);
+
+		void SetSize(float size);
+
+		void SetAlignment(alignment alignment);
+
+		float GetTextWidth() const { return mWidth; };
 
 		virtual void Draw(RendererGL* renderer) override;
 	};

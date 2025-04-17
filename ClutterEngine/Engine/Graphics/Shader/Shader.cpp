@@ -20,7 +20,8 @@ void Shader::Load(std::string pFileName, ShaderType pShaderType, bool pPath)
 
         if (file.fail())
         {
-            CLUTTER_WARNING("shader files failed to load :", pFileName);
+            CLUTTER_WARNING(("shader files failed to load :" + pFileName).c_str());
+            return;
         }
 
         std::string fileText = "";

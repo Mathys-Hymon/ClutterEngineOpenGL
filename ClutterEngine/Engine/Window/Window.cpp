@@ -6,7 +6,7 @@
 using namespace clt;  
 
 Window::Window(u32 pWidth, u32 pHeight,std::string pName) 
-    : mName(pName), mDimensions{static_cast<float>(pWidth), static_cast<float>(pHeight)}  
+    : mDimensions{static_cast<float>(pWidth), static_cast<float>(pHeight)}  
 {  
    // Initialize GLFW  
     if (!glfwInit())
@@ -23,6 +23,7 @@ Window::Window(u32 pWidth, u32 pHeight,std::string pName)
 
    // Create a GLFW window  
    mGlfwWindow = glfwCreateWindow(pWidth, pHeight, pName.c_str(), nullptr, nullptr);
+
 
    // Check if the window creation failed  
    if (mGlfwWindow == nullptr) {  
@@ -54,7 +55,12 @@ void Window::ResizeViewport(unsigned int startWidth, unsigned int startHeight, u
 {  
    // Resize the OpenGL viewport  
    glViewport(startWidth, startHeight, width, height);  
-}  
+}
+
+void Window::RenameViewport(const char* name)
+{
+    glfwSetWindowTitle(mGlfwWindow, name);
+}
 
 bool Window::ShouldClose() const  
 {  

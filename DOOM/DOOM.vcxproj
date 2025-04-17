@@ -246,9 +246,6 @@
     <None Include="Content\Resources\Shaders\text.frag" />
     <None Include="Content\Resources\Shaders\text.vert" />
   </ItemGroup>
-  <ItemGroup>
-    <Font Include="C:\Users\marty\Downloads\BebasNeue-Regular.otf" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

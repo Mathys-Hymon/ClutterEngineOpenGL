@@ -5,6 +5,22 @@
 #include <Core/Assets/Assets.h>
 #include <Graphics/UI/UIPanel.h>
 
+enum class CLUTTER_API anchor
+{
+	Center,
+	Top,
+	Bottom,
+
+	Left,
+	UpLeft,
+	BottomLeft,
+
+	Right,
+	UpRight,
+	BottomRight,
+
+};
+
 namespace clt
 {
 	class CLUTTER_API WidgetElement
@@ -13,6 +29,7 @@ namespace clt
 		int mZOrder;
 		UIPanel* mOwner;
 
+		anchor mAnchor;
 		Transform2D mTransform;
 
 		void SetOwner(UIPanel* pOwner) { mOwner = pOwner; };

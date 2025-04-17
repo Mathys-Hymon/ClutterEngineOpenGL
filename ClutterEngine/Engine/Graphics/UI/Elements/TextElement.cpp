@@ -5,8 +5,20 @@ using namespace clt;
 
 
 
+void TextElement::CalculateWidth()
+{
+    float width = 0.0f;
+    for (const char& c : mText)
+    {
+        Character ch = mFont->mCharacters.at(c);
+        width += (ch.Advance >> 6);
+    }
+    
+    mWidth = width;
+}
+
 TextElement::TextElement(std::string text, std::string font, Color color, float textSize, Vector2 position, int ZOrder)
-	: WidgetElement(textSize, position, ZOrder), mText(text), mFont(nullptr), mColor(color)
+    : WidgetElement(textSize, position, ZOrder), mText(text), mFont(nullptr), mColor(color), mAlignment(alignment::Center)
 {
 	mFont = Assets::Get().GetFont(font);
 
@@ -19,9 +31,29 @@ TextElement::TextElement(std::string text, std::string font, Color color, float 
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+
+    CalculateWidth();
 }
 
-TextElement::TextElement(std::string text, Font* font, Color color, float textSize, Vector2 position, int ZOrder) : WidgetElement(textSize, position, ZOrder), mText(text), mFont(font), mColor(color)
+TextElement::TextElement(std::string text, Color color, float textSize, Vector2 position, int ZOrder)
+    : WidgetElement(textSize, position, ZOrder), mText(text), mFont(nullptr), mColor(color), mAlignment(alignment::Center)
+{
+    mFont = Assets::Get().GetFont("BebasNeue");
+
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+
+    CalculateWidth();
+}
+
+TextElement::TextElement(std::string text, Font* font, Color color, float textSize, Vector2 position, int ZOrder) : WidgetElement(textSize, position, ZOrder), mText(text), mFont(font), mColor(color), mAlignment(alignment::Center)
 {
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -32,6 +64,31 @@ TextElement::TextElement(std::string text, Font* font, Color color, float textSi
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+
+    CalculateWidth();
+}
+
+TextElement::~TextElement()
+{
+    glDeleteBuffers(1, &VBO);
+    glDeleteVertexArrays(1, &VAO);
+}
+
+void TextElement::SetText(std::string text)
+{
+    mText = text;
+    CalculateWidth();
+}
+
+void TextElement::SetSize(float size)
+{
+    mTransform.scale = size;
+    CalculateWidth();
+}
+
+void TextElement::SetAlignment(alignment alignment)
+{
+    mAlignment = alignment;
 }
 
 void TextElement::Draw(RendererGL* renderer)
@@ -43,6 +100,15 @@ void TextElement::Draw(RendererGL* renderer)
     glBindVertexArray(VAO);
 
     float x = mTransform.location.x;
+
+    if (mAlignment == alignment::Center)
+    {
+        x -= (GetTextWidth() * 0.5f) * mTransform.scale.x;
+    }
+    else if (mAlignment == alignment::Right)
+    {
+        x -= GetTextWidth() * mTransform.scale.x;
+    }
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     std::string::const_iterator c;
@@ -78,5 +144,4 @@ void TextElement::Draw(RendererGL* renderer)
 
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
-
 }

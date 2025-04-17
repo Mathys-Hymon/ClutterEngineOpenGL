@@ -54,6 +54,8 @@ namespace clt
          */
         void ResizeViewport(unsigned int startWidth, unsigned int startHeight, unsigned int width, unsigned int height);
 
+        void RenameViewport(const char* name);
+
         /**
          * @brief Checks if the window should close.
          * @return True if the window should close, false otherwise.
@@ -73,6 +75,5 @@ namespace clt
     private:
         GLFWwindow* mGlfwWindow; ///< The GLFW window object.
         Vector2 mDimensions; ///< The dimensions of the window.
-        std::string mName; ///< The name of the window.
     };
 }

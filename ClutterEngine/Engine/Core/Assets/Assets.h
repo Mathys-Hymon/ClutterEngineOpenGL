@@ -37,7 +37,11 @@ namespace clt
 
 	public:
 		static Assets& Get();
-		void SetRenderer(IRenderer* pRenderer) { mRenderer = pRenderer; }
+		void SetRenderer(IRenderer* pRenderer) 
+		{
+			mRenderer = pRenderer;  
+			LoadEngineAssets();
+		}
 
 
 		Texture* LoadTexture(const std::string& pPath, const std::string& pName, TextureFilter pTexFilter = TextureFilter::LINEAR, bool generateMipMaps = true);

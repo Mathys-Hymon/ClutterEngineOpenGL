@@ -19,6 +19,10 @@ namespace clt
 		std::unique_ptr<RendererGL> mRenderer; ///< The renderer instance.
 		std::unique_ptr<LevelManager> mLevelManager; ///< The level manager instance.
 		std::unique_ptr<Physics> mPhysics; 
+
+		std::string mName;
+		float mRefreshFrameRate;
+
 	public:
 	/**
    * @brief Default constructor.

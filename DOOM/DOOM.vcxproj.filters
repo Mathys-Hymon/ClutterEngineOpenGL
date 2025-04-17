@@ -49,7 +49,4 @@
     <None Include="Content\Resources\Shaders\Mesh\basicTess.frag" />
     <None Include="Content\Resources\Shaders\basic.tese" />
   </ItemGroup>
-  <ItemGroup>
-    <Font Include="C:\Users\marty\Downloads\BebasNeue-Regular.otf" />
-  </ItemGroup>
 </Project>
