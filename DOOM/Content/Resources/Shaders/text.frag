@@ -1,13 +1,13 @@
-#version 330 core
+#version 450 core
 
 in vec2 TexCoords;
 out vec4 color;
 
-uniform sampler2D text;
-uniform vec4 textColor;
+uniform sampler2D image;
 
 void main()
-{
-    vec4 sampled = vec4(1.0, 1.0, 1.0, texture(text, TexCoords).r);
-    color = vec4(1,1,1,1);
+{    
+    color = texture(image, TexCoords);
+
+    if(color.a < 0.1) discard;
 }

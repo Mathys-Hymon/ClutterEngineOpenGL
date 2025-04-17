@@ -62,7 +62,9 @@ bool RendererGL::Initialize(CEngine* pEngine)
         pEngine->GetWindow()->GetDimensions().y, 0.00001f, 100000);
     DebugDraw::Get().Start(mEngine);
 
-    mTextShader.SetMat4Row("projection", mUiViewProj);
+    mTextShader.Use();
+    mTextShader.SetMat4Row("uViewProj", mUiViewProj);
+    mSpriteShader.Use();
     mSpriteShader.SetMat4Row("uViewProj", mUiViewProj);
     glPatchParameteri(GL_PATCH_VERTICES, 3);
 }
@@ -226,10 +228,11 @@ void RendererGL::Draw()
         for (WidgetElement* element : hud->GetCurrentWidget()->GetElements())
         {
             if (!element->mVisibility) continue;
+            mSpriteVAO->Bind();
+            mSpriteShader.Use();
 
             Matrix4Row tempTransform = element->GetTransform().To3D().GetMat4Transform();
             mSpriteShader.SetMat4Row("uWorldTransform", tempTransform);
-
             element->Draw(this);
         }
     }

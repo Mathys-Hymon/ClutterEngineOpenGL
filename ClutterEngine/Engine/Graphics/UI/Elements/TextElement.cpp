@@ -36,7 +36,8 @@ TextElement::TextElement(std::string text, Font* font, Color color, float textSi
 
 void TextElement::Draw(RendererGL* renderer)
 {
-   // renderer->mTextShader.Use();
+    renderer->mTextShader.Use();
+    renderer->mTextShader.SetMat4Row("uWorldTransform", GetTransform().To3D().GetMat4Transform());
     renderer->mTextShader.SetVec4f("textColor", mColor);
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(VAO);
@@ -75,6 +76,7 @@ void TextElement::Draw(RendererGL* renderer)
         x += (ch.Advance >> 6) * mTransform.scale.x;
     }
 
+    glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
 
 }
