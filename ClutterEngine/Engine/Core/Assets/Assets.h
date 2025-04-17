@@ -33,6 +33,8 @@ namespace clt
 
 		Mesh* LoadMeshFromFile(const std::string& pFile, bool pTesselate);
 
+		void LoadEngineAssets();
+
 	public:
 		static Assets& Get();
 		void SetRenderer(IRenderer* pRenderer) { mRenderer = pRenderer; }
