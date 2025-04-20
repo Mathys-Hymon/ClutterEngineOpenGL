@@ -43,7 +43,7 @@ namespace clt
 
 		void SetAlignment(alignment alignment);
 
-		float GetTextWidth() const { return mTransform.scale.x * mWidth; };
+		float GetTextWidth() const { return mWidth; };
 
 		virtual void Draw(RendererGL* renderer) override;
 	};

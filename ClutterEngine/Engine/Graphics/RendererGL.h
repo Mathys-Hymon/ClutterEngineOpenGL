@@ -28,6 +28,7 @@ namespace clt
 		VertexArray* mSpriteVAO;
 
 		ShaderProgram mTextShader;
+		VertexArray* mTextVAO;
 
 		Matrix4Row mUiViewProj;
 
