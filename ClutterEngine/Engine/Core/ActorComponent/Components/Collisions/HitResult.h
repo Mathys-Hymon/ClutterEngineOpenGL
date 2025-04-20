@@ -15,4 +15,13 @@ namespace clt
         Vector3 Normal;
         float Penetration = 0.0f;
     };
+
+    struct CLUTTER_API raycastHit
+    {
+        Actor* Actor = nullptr;
+        ColliderComponent* Collider = nullptr;
+        Vector3 Point;
+        Vector3 Normal;
+        float Distance;
+    };
 }

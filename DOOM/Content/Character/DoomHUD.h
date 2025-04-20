@@ -1,5 +1,12 @@
 #include "Core/All.h"
 
+enum class Weapons
+{
+	Hand,
+	Pistol,
+	ShotGun,
+};
+
 class DoomHUD : public clt::HUDComponent
 {
 public:

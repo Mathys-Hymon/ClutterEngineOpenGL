@@ -41,6 +41,8 @@ namespace clt
 
 		void SetSize(float size);
 
+		void SetColor(Color color);
+
 		void SetAlignment(alignment alignment);
 
 		float GetTextWidth() const { return mWidth; };
