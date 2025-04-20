@@ -24,9 +24,11 @@ namespace clt
 
 		virtual Transform2D GetTransform() const override
 		{
-			return { mTransform.location,
-					 mTransform.scale * mTexture->GetSize(),
-					 mTransform.rotation
+			return 
+			{ 
+				mTransform.location,
+				mTransform.scale * mTexture->GetSize(),
+				mTransform.rotation
 			};
 		};
 

@@ -3,7 +3,8 @@
 
 using namespace clt;
 
-DoomController::DoomController() : PlayerController(2), mRotationVelocity(0.0f), mMovementVelocity(0)
+DoomController::DoomController() : PlayerController(2), 
+mRotationVelocity(0.0f), mMovementVelocity(0)
 {
 	clt::Input::Get().MapKeysToVect(EKey::A, EKey::D, EKey::W, EKey::S, "PlayerMovement");
 	clt::Input::Get().MapKeyToAction(EMouseButton::Left, "PlayerShoot");
@@ -19,6 +20,8 @@ DoomController::DoomController() : PlayerController(2), mRotationVelocity(0.0f),
 void DoomController::Start()
 {
 	GetOwner()->AddComponent<DoomHUD>();
+	mHand = mOwner->GetComponentOfType<DoomHUD>()->GetCurrentWidget()->
+		GetElement<AnimatorElement>("playerWeapon");
 }
 
 void DoomController::RotateCamera(Vector2 movement)
@@ -34,6 +37,9 @@ void DoomController::Move(Vector2 movement)
 {
 	mMovementVelocity += movement * mMaxAcceleration;
 	mMovementVelocity.Clamp(-mMaxWalkSpeed, mMaxSprintSpeed);
+
+	if (movement.Length() != 0) mIsMoving = true;
+	else mIsMoving = false;
 }
 
 void DoomController::Shoot()
@@ -55,4 +61,12 @@ void DoomController::Update()
 		mOwner->AddActorLocationOffset(-mMovementVelocity.y * mOwner->GetTransform().Forward());
 		mMovementVelocity.y *= movementReduction;
 	}
+
+	Vector2 handPos;
+
+	if (mIsMoving) handPos = { Maths::Sin(Timer::timeSinceLoad * 4) * 300, -300 - 
+(Maths::Cos(Timer::timeSinceLoad * 8) * 70) };
+	else handPos = { 0,-300 };
+
+	mHand->SetPosition(Vector2::VInterp(mHand->GetPosition(), handPos, Timer::deltaTime, 4));
 }

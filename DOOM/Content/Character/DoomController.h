@@ -6,6 +6,8 @@ class DoomController : public clt::PlayerController
 	float mRotationVelocity;
 	Vector2 mMovementVelocity;
 
+	clt::AnimatorElement* mHand;
+
 public:
 
 	DoomController();

@@ -7,6 +7,8 @@
 using namespace clt;
 
 f32 Timer::deltaTime = 0;
+f32 Timer::timeSinceLoad = 0;
+
 static std::chrono::time_point<std::chrono::system_clock> mLastTime;
 
 f32 Timer::ComputeDeltaTime()
@@ -18,7 +20,8 @@ f32 Timer::ComputeDeltaTime()
 	mLastTime = currentTime;
 
 	deltaTime = (f32)elapsedTime.count();
-
+	timeSinceLoad += deltaTime;
+	
 	return deltaTime;
 }
 

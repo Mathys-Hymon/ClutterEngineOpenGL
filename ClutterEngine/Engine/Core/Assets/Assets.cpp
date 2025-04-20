@@ -143,14 +143,14 @@ Texture* Assets::LoadTexture(const std::string& path, const std::string& name, T
     return mTextures[name];
 }
 
-std::vector<Texture*> Assets::BulkLoadTexture(const std::string& pPath, int pLastIndex, const std::string& pFileName, const std::string& pName, TextureFilter pTexFilter)
+std::vector<Texture*> Assets::BulkLoadTexture(const std::string& pPath, int pLastIndex, const std::string& pFileName, const std::string& pName, TextureFilter pTexFilter, bool pMipMap)
 {
     std::vector<Texture*> tempAnim;
 
     for (int i = 0; i <= pLastIndex; i++)
     {
         std::string tempPaths = std::to_string(i) + pFileName;
-        tempAnim.emplace_back(Assets::Get().LoadTexture(pPath + tempPaths, std::to_string(i) + pName, pTexFilter));
+        tempAnim.emplace_back(Assets::Get().LoadTexture(pPath + tempPaths, std::to_string(i) + pName, pTexFilter, pMipMap));
     }
 
     return tempAnim;

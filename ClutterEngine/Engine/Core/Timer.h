@@ -14,6 +14,7 @@ namespace clt
 		static void DelayTime();
 
 		static f32 deltaTime;
+		static f32 timeSinceLoad;
 	};
 
 }

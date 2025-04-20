@@ -27,13 +27,14 @@ namespace clt
         MovementMode mMovement;
 
         bool mIsJumping;
+        bool mIsMoving;
         bool mIsSprinting;
         bool mIsCrouched;
 
         float mJumpHeight;
         int mJumpAmount;
 
-        float mMaxWalkSpeed; ///< Speed of the player.  
+        float mMaxWalkSpeed;
         float mMaxSprintSpeed;
 
         float mMaxAcceleration;

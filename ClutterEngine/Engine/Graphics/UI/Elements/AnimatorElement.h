@@ -8,7 +8,7 @@ namespace clt
 		std::unordered_map<std::string, FlipbookElement*> mAnims;
 
 	public:
-		AnimatorElement(std::string pAnimName, const std::vector<Texture*>& pTextures, bool pLooping = true, float pAnimFps = 24, Vector2 pSize = { 1.0f, 1.0f }, Vector2 pPosition = { 0.0f, 0.0f }, int zOrder = 100);
+		AnimatorElement(std::string pAnimName, const std::vector<Texture*>& pTextures, bool pLooping = true, float pAnimFps = 24, Vector2 pSize = { 1.0f, 1.0f }, Vector2 pPosition = { 0.0f, 0.0f }, int zOrder = 0);
 		AnimatorElement() = delete;
 		AnimatorElement(const FlipbookElement&) = delete;
 		AnimatorElement& operator = (const FlipbookElement&) = delete;
