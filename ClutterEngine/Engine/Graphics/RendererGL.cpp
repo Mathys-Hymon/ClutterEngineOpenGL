@@ -10,7 +10,7 @@
 
 using namespace clt;
 
-RendererGL::RendererGL() : mEngine(nullptr), mSpriteVAO(nullptr), mTextVAO(nullptr)
+RendererGL::RendererGL() : mEngine(nullptr), mSpriteVAO(nullptr)
 {
 }
 
@@ -55,7 +55,6 @@ bool RendererGL::Initialize(CEngine* pEngine)
     };
 
     mSpriteVAO = new VertexArray(spriteVertices, 4);
-    mTextVAO = new VertexArray(spriteVertices, 4, BufferUsage::DYNAMIC);
 
     mUiViewProj = Matrix4Row::CreateOrtho(pEngine->GetWindow()->GetDimensions().x,
         pEngine->GetWindow()->GetDimensions().y, 0.00001f, 100000);

@@ -117,7 +117,7 @@ void TextElement::Draw(RendererGL* renderer)
         Character ch = mFont->mCharacters[*c];
 
         float xpos = x + ch.Bearing.x * mTransform.scale.x;
-        float ypos = mTransform.location.y - (ch.Size.y - ch.Bearing.y) * mTransform.scale.y;
+        float ypos = -mTransform.location.y - (ch.Size.y - ch.Bearing.y) * mTransform.scale.y;
 
         float w = ch.Size.x * mTransform.scale.x;
         float h = ch.Size.y * mTransform.scale.y;
