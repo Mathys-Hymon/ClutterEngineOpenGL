@@ -97,7 +97,7 @@ namespace clt
          * @brief Gets the transform of the actor.
          * @return The transform of the actor.
          */
-        Transform getTransform() const { return mTransform; };
+        Transform GetTransform() const { return mTransform; };
 
         /**
          * @brief Gets the position of the actor.

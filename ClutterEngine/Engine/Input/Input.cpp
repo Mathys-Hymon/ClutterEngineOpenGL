@@ -28,6 +28,24 @@ void Input::RegisterActionCallback(const std::string& pActionName, std::function
 			break;
 		}
 	}
+
+	for (auto& [key, action] : mMouseActionMap)
+	{
+		if (action.name == pActionName)
+		{
+			action.callbacks.push_back(callback);
+			break;
+		}
+	}
+
+	for (auto& [key, action] : mControllerActionMap)
+	{
+		if (action.name == pActionName)
+		{
+			action.callbacks.push_back(callback);
+			break;
+		}
+	}
 }
 
 void Input::RegisterAxisCallback(const std::string& axisName, std::function<void(float)> callback)
@@ -143,7 +161,10 @@ void Input::Update(Window* pWindow)
 
 	for (auto& [key, action] : mMouseActionMap)
 	{
-		bool isKeyPressed = glfwGetKey(pGLFWindow, static_cast<int>(key)) == GLFW_PRESS;
+		int glfwBtn = static_cast<int>(key);
+		bool isKeyPressed = glfwGetMouseButton(pGLFWindow, glfwBtn) == GLFW_PRESS;
+
+		//bool isKeyPressed = glfwGetMouseButton(pGLFWindow, static_cast<int>(key)) == GLFW_PRESS;
 		bool wasKeyPressed = mPreviousMouseStates[key];
 
 		EInputState currentState = EInputState::Held;

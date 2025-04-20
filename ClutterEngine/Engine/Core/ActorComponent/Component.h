@@ -39,7 +39,7 @@ namespace clt
         /**
          * @brief Called when the component is started.
          */
-        void Start() {};
+        virtual void Start() {};
 
         /**
          * @brief Called every frame to update the component.
@@ -104,7 +104,7 @@ namespace clt
         Vector3 GetWorldLocation()         const { return mOwner->GetActorLocation() + mRelativeTransform.Location(); };
         Vector3 GetWorldScale()            const { return mRelativeTransform.Scale() * mOwner->GetScale();            };
         Quaternion GetWorldRotation()      const { return Quaternion::Concatenate(mOwner->GetRotation(), mRelativeTransform.Rotation()); };
-        Transform GetWorldTransform()      const { return mOwner->getTransform() + mRelativeTransform;                };
+        Transform GetWorldTransform()      const { return mOwner->GetTransform() + mRelativeTransform;                };
 
         Actor* GetOwner() const { return mOwner; };
 

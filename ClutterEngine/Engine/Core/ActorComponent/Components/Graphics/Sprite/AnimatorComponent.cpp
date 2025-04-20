@@ -9,6 +9,18 @@ AnimatorComponent::AnimatorComponent(std::string pAnimName, const std::vector<Te
 	mAnims[pAnimName] = new FlipbookComponent(pTextures, pLooping, pDrawOrder);
 }
 
+AnimatorComponent::~AnimatorComponent()
+{
+	for (auto& anim : mAnims)
+	{
+		if (anim.second)
+		{
+			delete anim.second;
+		}
+	}
+	mAnims.clear();
+}
+
 void AnimatorComponent::AddNewAnim(std::string pAnimName, const std::vector<Texture*>& pTextures, bool pLooping, int pDrawOrder)
 {
 	if (mAnims[pAnimName]) CLUTTER_WARNING(("Animation " + pAnimName + " already exists ").c_str())
@@ -28,5 +40,14 @@ void AnimatorComponent::PlayAnim(std::string pAnimName)
 
 void AnimatorComponent::RemoveAnim(std::string pAnimName)
 {
-	
+	auto it = mAnims.find(pAnimName);
+	if (it != mAnims.end())
+	{
+		delete it->second;
+		mAnims.erase(it);
+	}
+	else
+	{
+		CLUTTER_WARNING(("Animation " + pAnimName + " does not exist").c_str());
+	}
 }

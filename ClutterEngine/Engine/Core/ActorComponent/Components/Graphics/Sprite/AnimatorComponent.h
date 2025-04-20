@@ -13,7 +13,7 @@ namespace clt
 		AnimatorComponent(const FlipbookComponent&) = delete;
 		AnimatorComponent& operator = (const FlipbookComponent&) = delete;
 
-		virtual ~AnimatorComponent() {};
+		virtual ~AnimatorComponent();
 
 		void AddNewAnim(std::string pAnimName, const std::vector<Texture*>& pTextures, bool pLooping = true, int pDrawOrder = 100);
 		void PlayAnim(std::string pAnimName);

@@ -11,8 +11,12 @@ public:
 	DoomController();
 	~DoomController() = default;
 
+	virtual void Start() override;
+
 	void RotateCamera(Vector2 movement);
 	void Move(Vector2 movement);
+
+	void Shoot();
 
 	virtual void Update() override;
 

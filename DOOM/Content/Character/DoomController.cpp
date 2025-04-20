@@ -5,11 +5,23 @@ using namespace clt;
 DoomController::DoomController() : PlayerController(2), mRotationVelocity(0.0f), mMovementVelocity(0)
 {
 	clt::Input::Get().MapKeysToVect(EKey::A, EKey::D, EKey::W, EKey::S, "PlayerMovement");
+	clt::Input::Get().MapKeyToAction(EMouseButton::Left, "PlayerShoot");
+
+	clt::Input::Get().RegisterActionCallback("PlayerShoot", [this] {this->Shoot(); });
 	clt::Input::Get().RegisterMouseCallback([this](Vector2 value) { this->RotateCamera(value); });
 	clt::Input::Get().RegisterVectCallback("PlayerMovement", [this](Vector2 value) { this->Move(value); });
 	
 	mMaxAcceleration = 0.65f;
 	mMaxWalkSpeed = 2;
+}
+
+void DoomController::Start()
+{
+	std::vector<clt::Texture*> weapon = clt::Assets::Get().BulkLoadTexture("Content/Resources/Sprites/", 4, "_playerShoot.png", "pistolShoot", TextureFilter::NEAREST);
+
+	GetOwner()->AddComponent<clt::HUDComponent>()->CreateWidget<clt::UIPanel>("PlayerScreen");
+
+	GetOwner()->GetComponentOfType<clt::HUDComponent>()->GetCurrentWidget()->CreateElement<clt::AnimatorElement>("playerWeapon", "pistolShoot", weapon, true, 5)->SetSize(3);
 }
 
 void DoomController::RotateCamera(Vector2 movement)
@@ -18,7 +30,7 @@ void DoomController::RotateCamera(Vector2 movement)
 
 	mOwner->AddActorRotationOffset({0, mRotationVelocity, 0});
 
-	if( mRotationVelocity != 0) mRotationVelocity *= 45 * Timer::deltaTime;
+	if( mRotationVelocity != 0) mRotationVelocity *= 1 - (Timer::deltaTime * 12);
 }
 
 void DoomController::Move(Vector2 movement)
@@ -27,17 +39,23 @@ void DoomController::Move(Vector2 movement)
 	mMovementVelocity.Clamp(-mMaxWalkSpeed, mMaxSprintSpeed);
 }
 
+void DoomController::Shoot()
+{
+	CLUTTER_LOG("pan");
+}
+
 void DoomController::Update()
 {
+	float movementReduction = 1 - (Timer::deltaTime * 5);
 	if (mMovementVelocity.x != 0)
 	{
-		mOwner->AddActorLocationOffset(mMovementVelocity.x * mOwner->getTransform().Right());
-		mMovementVelocity.x *= 57 * Timer::deltaTime;
+		mOwner->AddActorLocationOffset(mMovementVelocity.x * mOwner->GetTransform().Right());
+		mMovementVelocity.x *= movementReduction;
 	}
 
 	if (mMovementVelocity.y != 0)
 	{
-		mOwner->AddActorLocationOffset(-mMovementVelocity.y * mOwner->getTransform().Forward());
-		mMovementVelocity.y *= 57 * Timer::deltaTime;
+		mOwner->AddActorLocationOffset(-mMovementVelocity.y * mOwner->GetTransform().Forward());
+		mMovementVelocity.y *= movementReduction;
 	}
 }

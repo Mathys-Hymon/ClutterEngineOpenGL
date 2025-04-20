@@ -23,6 +23,8 @@ namespace clt
 		void SetFlipbookFps(float pFps) { mAnimFps = pFps; };
 		void SetLooping(bool pLooping) { mLooping = pLooping; };
 
+		float GetFlipbookFps() const { return mAnimFps; };
+
 		void Play() { mIsPaused = false; };
 		void Pause() { mIsPaused = true; };
 		void Toggle() { mIsPaused = !mIsPaused; };
