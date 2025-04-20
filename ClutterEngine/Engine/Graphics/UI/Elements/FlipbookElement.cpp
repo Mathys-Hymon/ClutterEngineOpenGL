@@ -11,6 +11,8 @@ void FlipbookElement::SetFlipbookTextures(const std::vector<Texture*> pTextures)
 	{
 		SetTexture(mFlipbookTextures[0]);
 	}
+	mCurrentFrame = 0.0f;
+	mNextFrame = mCurrentFrame + 1.0f;
 }
 
 void FlipbookElement::Update()

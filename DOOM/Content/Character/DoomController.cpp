@@ -1,4 +1,5 @@
 #include "DoomController.h"
+#include "DoomHUD.h"
 
 using namespace clt;
 
@@ -17,11 +18,7 @@ DoomController::DoomController() : PlayerController(2), mRotationVelocity(0.0f),
 
 void DoomController::Start()
 {
-	std::vector<clt::Texture*> weapon = clt::Assets::Get().BulkLoadTexture("Content/Resources/Sprites/", 4, "_playerShoot.png", "pistolShoot", TextureFilter::NEAREST);
-
-	GetOwner()->AddComponent<clt::HUDComponent>()->CreateWidget<clt::UIPanel>("PlayerScreen");
-
-	GetOwner()->GetComponentOfType<clt::HUDComponent>()->GetCurrentWidget()->CreateElement<clt::AnimatorElement>("playerWeapon", "pistolShoot", weapon, true, 5)->SetSize(3);
+	GetOwner()->AddComponent<DoomHUD>();
 }
 
 void DoomController::RotateCamera(Vector2 movement)
@@ -41,7 +38,7 @@ void DoomController::Move(Vector2 movement)
 
 void DoomController::Shoot()
 {
-	CLUTTER_LOG("pan");
+	mOwner->GetComponentOfType<DoomHUD>()->TriggerShoot();
 }
 
 void DoomController::Update()

@@ -24,6 +24,9 @@
     <ClCompile Include="Content\Character\DoomController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Content\Character\DoomHUD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Content\Maps\MainMenuMap.h">
@@ -33,6 +36,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Content\Character\DoomController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Content\Character\DoomHUD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

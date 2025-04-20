@@ -31,9 +31,6 @@ void LevelMap::Load()
 	camera->AddComponent<clt::CameraComponent>();
 	camera->AddComponent<DoomController>();
 	camera->SetActorLocation({ 0, 0, 5 });
-
-	camera->GetComponentOfType<clt::HUDComponent>()->GetCurrentWidget()->CreateElement<clt::TextElement>("lifeText", "Bonjour a tous la team", "doomFont", Color::red, 0.6f);
-	camera->GetComponentOfType<clt::HUDComponent>()->GetCurrentWidget()->CreateElement<clt::SpriteElement>("sprite", "floor");
 }
 
 void LevelMap::Update()
