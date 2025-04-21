@@ -94,7 +94,7 @@ namespace clt
          */
         void AttachLevel(Level* pScene);
 
-        raycastHit LineTrace(Vector3 start, Vector3 direction, float maxDistance);
+        bool LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant = false);
 
         /**
          * @brief Gets the transform of the actor.

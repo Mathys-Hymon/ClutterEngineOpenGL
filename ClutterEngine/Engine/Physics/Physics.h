@@ -49,7 +49,7 @@ namespace clt
    */
 		~Physics() = default;
 
-		raycastHit LineTrace(Vector3 start, Vector3 direction, float maxDistance);
+		bool LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant = false);
 
 		void AddCollider(ColliderComponent* pCollider);
 

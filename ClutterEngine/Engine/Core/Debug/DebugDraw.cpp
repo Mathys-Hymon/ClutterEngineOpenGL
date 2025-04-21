@@ -127,9 +127,12 @@ void DebugDraw::Draw(Matrix4Row viewProj)
         glBindVertexArray(mLineVAO);
         for (const auto& line : mLines) 
         {
-            float vertices[] = 
+            Matrix4Row tempTransform = Transform{ Vector3::Zero, 1, Quaternion::Identity }.GetMat4Transform();
+            mShader->SetMat4Row("uModel", tempTransform);
+
+            float vertices[] =
             {
-                line.start.x, line.start.y, line.start.z,
+                line.start.x, line.start.y,line.start.z ,
                 line.end.x, line.end.y, line.end.z
             };
 
@@ -140,12 +143,47 @@ void DebugDraw::Draw(Matrix4Row viewProj)
             glLineWidth(line.lineWidth);
             glDrawArrays(GL_LINES, 0, 2);
         }
+        mLines.clear();
+
+        for (const auto& line : mPersistantLines)
+        {
+            Matrix4Row tempTransform = Transform{ Vector3::Zero, 1, Quaternion::Identity }.GetMat4Transform();
+            mShader->SetMat4Row("uModel", tempTransform);
+
+            float vertices[] =
+            {
+                line.start.x, line.start.y,line.start.z ,
+                line.end.x, line.end.y, line.end.z
+            };
+
+            glBindBuffer(GL_ARRAY_BUFFER, mLineVBO);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+
+            mShader->SetVec4f("uColor", line.color);
+            glLineWidth(line.lineWidth);
+            glDrawArrays(GL_LINES, 0, 2);
+        }
+
         glBindVertexArray(0);
 
         mCubeVAO->Bind();
 
         // Draw boxes (wireframe cubes)
         for (const auto& box : mBoxes)
+        {
+            Matrix4Row tempTransform = Transform{ box.center, box.extents * 2, box.rotation }.GetMat4Transform();
+            // Set the transformation matrix for the cube
+            mShader->SetMat4Row("uModel", tempTransform);
+
+            // Set the cube's color
+            mShader->SetVec4f("uColor", box.color);
+
+            glLineWidth(box.lineWidth);
+            glDrawArrays(GL_LINES, 0, mCubeVAO->GetVerticeCount());
+        }
+        mBoxes.clear();
+
+        for (const auto& box : mPersistantBoxes)
         {
             Matrix4Row tempTransform = Transform{ box.center, box.extents * 2, box.rotation }.GetMat4Transform();
             // Set the transformation matrix for the cube
@@ -215,8 +253,6 @@ void DebugDraw::Draw(Matrix4Row viewProj)
 
 
         // Clear the lists after drawing
-        mLines.clear();
-        mBoxes.clear();
         mSpheres.clear();
     }
 
@@ -239,19 +275,53 @@ void DebugDraw::Close()
 }
 
 // Add a line to the drawing queue
-void DebugDraw::DrawLine(const Vector3& start, const Vector3& end, const Color& color, float lineThickness)
+void DebugDraw::DrawLine(const Vector3& start, const Vector3& end, const Color& color, float lineThickness, bool persistant)
 {
-    if(mEngine->isEditorMode()) mLines.push_back({ start, end, color, lineThickness });
+    if (mEngine->isEditorMode())
+    {
+        if (persistant) mPersistantLines.push_back({ start, end, color, lineThickness });
+        else mLines.push_back({ start, end, color, lineThickness });
+    }
 }
 
 // Add a box (cube) to the drawing queue
-void DebugDraw::DrawBox(const Vector3& center, const Vector3& extents, const Color& color, float lineThickness, const Quaternion& rotation)
+void DebugDraw::DrawBox(const Vector3& center, const Vector3& extents, const Color& color, float lineThickness, const Quaternion& rotation, bool persistant)
 {
-    if(mEngine->isEditorMode()) mBoxes.push_back({ center, extents, color, rotation, lineThickness });
+    if (mEngine->isEditorMode())
+    {
+        if (persistant) mPersistantBoxes.push_back({ center, extents, color, rotation, lineThickness });
+        else mBoxes.push_back({ center, extents, color, rotation, lineThickness });
+    }
 }
 
 // Function to draw spheres will go here if implemented in the future
-void DebugDraw::DrawSphere(const Vector3& center, float radius, const Color& color, float lineThickness)
+void DebugDraw::DrawSphere(const Vector3& center, float radius, const Color& color, float lineThickness, bool persistant)
 {
-    if(mEngine->isEditorMode()) mSpheres.push_back({ center,radius,color, lineThickness });
+    if (mEngine->isEditorMode())
+    {
+        if (persistant) mPersistantSpheres.push_back({ center, radius, color, lineThickness });
+        else mSpheres.push_back({ center, radius, color, lineThickness });
+    }
+}
+
+void DebugDraw::FlushPersistantDraw()
+{
+    FlushPersistantBoxes();
+    FlushPersistantLines();
+    FlushPersistantSpheres();
+}
+
+void DebugDraw::FlushPersistantLines()
+{
+    mPersistantLines.clear();
+}
+
+void DebugDraw::FlushPersistantBoxes()
+{
+    mPersistantBoxes.clear();
+}
+
+void DebugDraw::FlushPersistantSpheres()
+{
+    mPersistantSpheres.clear();
 }

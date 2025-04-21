@@ -11,12 +11,11 @@ Physics::Physics() : mGravity({ 0.0f, -300.0f, 0.0f })
 {
 }
 
-raycastHit Physics::LineTrace(Vector3 start, Vector3 direction, float maxDistance)
+bool Physics::LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant)
 {
-    raycastHit bestHit;
-    bestHit.Distance = maxDistance;
+    hit.Distance = maxDistance;
 
-    direction = direction.Normalized();
+    direction = -direction.Normalized();
     Vector3 end = start + direction * maxDistance;
 
     for (ColliderComponent* collider : mColliders)
@@ -80,12 +79,12 @@ raycastHit Physics::LineTrace(Vector3 start, Vector3 direction, float maxDistanc
                 }
             }
 
-            if (hitFound && tMin < bestHit.Distance)
+            if (hitFound && tMin < hit.Distance)
             {
-                bestHit.Distance = tMin;
-                bestHit.Point = start + direction * tMin;
-                bestHit.Actor = owner;
-                bestHit.Collider = collider;
+                hit.Distance = tMin;
+                hit.Point = start + direction * tMin;
+                hit.Actor = owner;
+                hit.Collider = collider;
             }
         }
 
@@ -102,31 +101,30 @@ raycastHit Physics::LineTrace(Vector3 start, Vector3 direction, float maxDistanc
             if (distSq <= radius * radius)
             {
                 float t = projection - Maths::Sqrt(radius * radius - distSq);
-                if (t >= 0 && t < bestHit.Distance)
+                if (t >= 0 && t < hit.Distance)
                 {
-                    bestHit.Distance = t;
-                    bestHit.Point = start + direction * t;
-                    bestHit.Normal = (bestHit.Point - center).Normalized();
-                    bestHit.Actor = owner;
-                    bestHit.Collider = collider;
+                    hit.Distance = t;
+                    hit.Point = start + direction * t;
+                    hit.Normal = (hit.Point - center).Normalized();
+                    hit.Actor = owner;
+                    hit.Collider = collider;
                 }
             }
         }
     }
 
-    CLUTTER_LOG(bestHit.Distance);
-
-    if (bestHit.Actor)
+    if (hit.Actor)
     {
-        DebugDraw::Get().DrawLine(start, bestHit.Point, Color::red, 3.0f);
-        DebugDraw::Get().DrawLine(bestHit.Point, end, Color::green, 3.0f);
+        hit.hitResult = true;
+        DebugDraw::Get().DrawLine(start, hit.Point, Color::red, 3.0f, debugPersistant);
+        DebugDraw::Get().DrawLine(hit.Point, end, Color::green, 3.0f, debugPersistant);
 
-        DebugDraw::Get().DrawBox(bestHit.Point, 0.05f, Color::red, 3.0f);
+        DebugDraw::Get().DrawBox(hit.Point, 0.05f, Color::red, 3.0f, Quaternion::FromEuler(hit.Normal), debugPersistant);
     }
-    else DebugDraw::Get().DrawLine(start, end, Color::red, 3.0f);
+    else DebugDraw::Get().DrawLine(start, end, Color::red, 3.0f, debugPersistant);
 
 
-    return bestHit;
+    return hit.hitResult;
 }
 
 // Adds a collider to the physics engine

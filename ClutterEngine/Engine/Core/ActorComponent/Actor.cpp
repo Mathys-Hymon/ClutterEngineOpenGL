@@ -38,9 +38,9 @@ void Actor::AttachLevel(Level* pLevel)
     mLevel = pLevel;
 }
 
-raycastHit Actor::LineTrace(Vector3 start, Vector3 direction, float maxDistance)
+bool Actor::LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant)
 {
-    return mLevel->LineTrace(start, direction, maxDistance);
+    return mLevel->LineTrace(start, direction, maxDistance, hit, debugPersistant);
 }
 
 // Internal method to add a component

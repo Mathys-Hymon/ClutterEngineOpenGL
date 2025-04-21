@@ -40,9 +40,14 @@ namespace clt
 			float lineWidth = 1;
 		};
 
-		std::vector<Line> mLines;   
-		std::vector<Box> mBoxes;    
+		std::vector<Line> mLines;
+		std::vector<Line> mPersistantLines;
+
+		std::vector<Box> mBoxes;
+		std::vector<Box> mPersistantBoxes;
+
 		std::vector<Sphere> mSpheres;
+		std::vector<Sphere> mPersistantSpheres;
 
 		ShaderProgram* mShader;
 		VertexArray* mCubeVAO;
@@ -64,10 +69,16 @@ namespace clt
 
 		static DebugDraw& Get();
 
-		void DrawLine(const Vector3& start, const Vector3& end, const Color& color = Color::red, float lineThickness = 1);
+		void DrawLine(const Vector3& start, const Vector3& end, const Color& color = Color::red, float lineThickness = 1, bool persistant = false);
 
-		void DrawBox(const Vector3& center, const Vector3& extents, const Color& color = Color::red, float lineThickness = 1, const Quaternion & rotation = Quaternion::Identity);
+		void DrawBox(const Vector3& center, const Vector3& extents, const Color& color = Color::red, float lineThickness = 1, const Quaternion & rotation = Quaternion::Identity, bool persistant = false);
 
-		void DrawSphere(const Vector3& center, float radius, const Color& color = Color::red, float lineThickness = 1);
+		void DrawSphere(const Vector3& center, float radius, const Color& color = Color::red, float lineThickness = 1, bool persistant = false);
+
+		void FlushPersistantDraw();
+
+		void FlushPersistantLines();
+		void FlushPersistantBoxes();
+		void FlushPersistantSpheres();
 	};
 }

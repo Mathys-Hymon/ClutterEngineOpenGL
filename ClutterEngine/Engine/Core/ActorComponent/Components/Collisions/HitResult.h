@@ -5,12 +5,14 @@ namespace clt
 {
     class Actor;
     class ColliderComponent;
+}
+
     struct CLUTTER_API hitResult
     {
-        Actor* ActorA = nullptr;
-        Actor* ActorB = nullptr;
-        ColliderComponent* ColliderA = nullptr;
-        ColliderComponent* ColliderB = nullptr;
+        clt::Actor* ActorA = nullptr;
+        clt::Actor* ActorB = nullptr;
+        clt::ColliderComponent* ColliderA = nullptr;
+        clt::ColliderComponent* ColliderB = nullptr;
         Vector3 Point;
         Vector3 Normal;
         float Penetration = 0.0f;
@@ -18,10 +20,10 @@ namespace clt
 
     struct CLUTTER_API raycastHit
     {
-        Actor* Actor = nullptr;
-        ColliderComponent* Collider = nullptr;
+        bool hitResult = false;
+        clt::Actor* Actor = nullptr;
+        clt::ColliderComponent* Collider = nullptr;
         Vector3 Point;
         Vector3 Normal;
         float Distance = 0.0f;
     };
-}

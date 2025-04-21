@@ -22,11 +22,11 @@ public:
 
 	virtual void Update() override;
 
-	virtual void OnCollisionEnter(const clt::hitResult& result) override {};
-	virtual void OnCollisionStay(const clt::hitResult& result)  override {};
-	virtual void OnCollisionExit(const clt::hitResult& result)  override {};
+	virtual void OnCollisionEnter(const hitResult& result) override {};
+	virtual void OnCollisionStay(const hitResult& result)  override {};
+	virtual void OnCollisionExit(const hitResult& result)  override {};
 
-	virtual void OnTriggerEnter(const clt::hitResult& result) override {};
-	virtual void OnTriggerStay(const clt::hitResult& result)  override {};
-	virtual void OnTriggerExit(const clt::hitResult& result)  override {};
+	virtual void OnTriggerEnter(const hitResult& result) override {};
+	virtual void OnTriggerStay(const hitResult& result)  override {};
+	virtual void OnTriggerExit(const hitResult& result)  override {};
 };

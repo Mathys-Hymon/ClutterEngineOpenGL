@@ -50,9 +50,9 @@ void Level::temp(Actor* pActor)
 	}
 }
 
-raycastHit Level::LineTrace(Vector3 start, Vector3 direction, float maxDistance)
+bool Level::LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant)
 {
-	return mPhysics->LineTrace(start, direction, maxDistance);
+	return mPhysics->LineTrace(start, direction, maxDistance, hit, debugPersistant);
 }
 
 void Level::UpdateActors()

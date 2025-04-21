@@ -65,7 +65,7 @@ namespace clt
             mPhysics = pPhysics;
         };
 
-        raycastHit LineTrace(Vector3 start, Vector3 direction, float maxDistance);
+        bool LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant = false);
         /**
          * @brief Internal update function called by the engine.
          */

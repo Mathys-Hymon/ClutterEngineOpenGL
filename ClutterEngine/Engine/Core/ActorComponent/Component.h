@@ -71,9 +71,9 @@ namespace clt
          */
         int GetUpdateOrder() const { return mUpdateOrder; }
 
-        raycastHit LineTrace(Vector3 start, Vector3 direction, float maxDistance)
+        bool LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant = false)
         {
-            return mOwner->LineTrace(start, direction, maxDistance);
+            return mOwner->LineTrace(start, direction, maxDistance, hit, debugPersistant);
         };
 
         void SetRelativeLocation(const Vector3& loc) 
