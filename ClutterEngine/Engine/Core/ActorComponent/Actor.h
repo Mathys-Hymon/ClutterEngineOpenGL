@@ -1,6 +1,7 @@
 #pragma once
 #include <Core/CCommon.h>
 #include <Core/Maths/Transforms/Transform.h>
+#include "Core/ActorComponent/Components/Collisions/HitResult.h"
 #include <Core/Timer.h>
 #include <unordered_map>
 #include <vector>
@@ -92,6 +93,8 @@ namespace clt
          * @param pScene The scene to attach to.
          */
         void AttachLevel(Level* pScene);
+
+        raycastHit LineTrace(Vector3 start, Vector3 direction, float maxDistance);
 
         /**
          * @brief Gets the transform of the actor.

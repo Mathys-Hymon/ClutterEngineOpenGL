@@ -46,8 +46,10 @@ namespace clt
 
 		ShaderProgram* mShader;
 		VertexArray* mCubeVAO;
-		VertexArray* mLineVAO;
 		VertexArray* mSphereVAO;
+
+		GLuint mLineVAO;
+		GLuint mLineVBO;
 
 		void Start(CEngine* pEngine);
 		void Draw(Matrix4Row viewProj);

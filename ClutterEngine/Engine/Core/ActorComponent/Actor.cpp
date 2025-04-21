@@ -1,6 +1,7 @@
 #include "pch.h"                                      // Include precompiled header
 #include <Core/ActorComponent/Actor.h>                // Include Actor header
 #include <Core/ActorComponent/Component.h>
+#include "Core/Levels/Level.h"
 
 using namespace clt;                                  // Use clt namespace
 
@@ -32,9 +33,14 @@ Actor::~Actor()
    mComponentsToRemove.clear();
 }
 
-void clt::Actor::AttachLevel(Level* pLevel)
+void Actor::AttachLevel(Level* pLevel)
 {
     mLevel = pLevel;
+}
+
+raycastHit Actor::LineTrace(Vector3 start, Vector3 direction, float maxDistance)
+{
+    return mLevel->LineTrace(start, direction, maxDistance);
 }
 
 // Internal method to add a component

@@ -65,6 +65,7 @@ namespace clt
             mPhysics = pPhysics;
         };
 
+        raycastHit LineTrace(Vector3 start, Vector3 direction, float maxDistance);
         /**
          * @brief Internal update function called by the engine.
          */

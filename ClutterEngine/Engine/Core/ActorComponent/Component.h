@@ -71,22 +71,33 @@ namespace clt
          */
         int GetUpdateOrder() const { return mUpdateOrder; }
 
-        void SetRelativeLocation(const Vector3& loc) { 
+        raycastHit LineTrace(Vector3 start, Vector3 direction, float maxDistance)
+        {
+            return mOwner->LineTrace(start, direction, maxDistance);
+        };
+
+        void SetRelativeLocation(const Vector3& loc) 
+        { 
             mRelativeTransform.SetLocation(loc);
         };
-        void SetRelativeLocation(const Vector2& loc) {
+        void SetRelativeLocation(const Vector2& loc)
+        {
             mRelativeTransform.SetLocation(loc); 
         };
-        void SetRelativeScale(const Vector3& scale)  { 
+        void SetRelativeScale(const Vector3& scale)  
+        { 
             mRelativeTransform.SetScale(scale);
         };
-        void SetRelativeScale(const Vector2& scale) { 
+        void SetRelativeScale(const Vector2& scale) 
+        { 
             mRelativeTransform.SetScale(scale);
         };
-        void SetRelativeRotation(Quaternion rot)    { 
+        void SetRelativeRotation(Quaternion rot)    
+        { 
             mRelativeTransform.SetRotation(rot);
         };
-        void SetRelativeRotation(float rot) { 
+        void SetRelativeRotation(float rot) 
+        { 
             mRelativeTransform.SetRotation(rot);
         };
         void SetRelativeTransform(Transform& transform) 

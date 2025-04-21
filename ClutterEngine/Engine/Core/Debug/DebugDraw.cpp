@@ -50,9 +50,19 @@ void DebugDraw::Start(CEngine* pEngine)
         vert->Load(debugVertexShader, ShaderType::VERTEX, false);
         mShader->Compose({ frag, vert });
 
+        float lineVertices[] = { 0,0,0, 1,0,0 };
 
-        // Initialize the Vertex Array Object (VAO) for drawing lines (2 vertices)
-        mLineVAO = new VertexArray(nullptr, 2, BufferUsage::DYNAMIC);
+        glGenVertexArrays(1, &mLineVAO);
+        glGenBuffers(1, &mLineVBO);
+
+        glBindVertexArray(mLineVAO);
+        glBindBuffer(GL_ARRAY_BUFFER, mLineVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(lineVertices), lineVertices, GL_DYNAMIC_DRAW);
+
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+        glBindVertexArray(0);
 
         // Cube edges defined by 24 vertices (pairs of vertices for each edge)
         constexpr float cubeWireframe[] = {
@@ -113,22 +123,24 @@ void DebugDraw::Draw(Matrix4Row viewProj)
         mShader->Use();
         mShader->SetMat4Row("uViewProj", viewProj);  // Set the combined view and projection matrix
 
-        mLineVAO->Bind();
         // Draw lines (e.g., for drawing lines between points)
-        for (const auto& line : mLines)
+        glBindVertexArray(mLineVAO);
+        for (const auto& line : mLines) 
         {
-            // Set up vertices for the line (2 points)
-            Vector3 vertices[2] = { line.start, line.end };
+            float vertices[] = 
+            {
+                line.start.x, line.start.y, line.start.z,
+                line.end.x, line.end.y, line.end.z
+            };
 
-            // Update the line's vertices in the VAO (dynamic update for each frame)
-            mLineVAO->Set(reinterpret_cast<float*>(vertices), 2);
+            glBindBuffer(GL_ARRAY_BUFFER, mLineVBO);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
 
-            // Set the line's color
             mShader->SetVec4f("uColor", line.color);
-
             glLineWidth(line.lineWidth);
             glDrawArrays(GL_LINES, 0, 2);
         }
+        glBindVertexArray(0);
 
         mCubeVAO->Bind();
 
@@ -218,8 +230,8 @@ void DebugDraw::Close()
         delete mShader;
         mShader = nullptr;
 
-        delete mLineVAO;
-        mLineVAO = nullptr;
+        glDeleteVertexArrays(1, &mLineVAO);
+        glDeleteBuffers(1, &mLineVBO);
 
         delete mCubeVAO;
         mCubeVAO = nullptr;

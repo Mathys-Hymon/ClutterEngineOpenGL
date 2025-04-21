@@ -31,6 +31,22 @@ struct Vector3
 		return reinterpret_cast<const float*>(&x);
 	}
 
+	inline float& operator[](int index)
+	{
+		if (index == 0) return x;
+		if (index == 1) return y;
+		if (index == 2) return z;
+		throw std::out_of_range("Index out of range for Vector3");
+	}
+
+	inline const float& operator[](int index) const
+	{
+		if (index == 0) return x;
+		if (index == 1) return y;
+		if (index == 2) return z;
+		throw std::out_of_range("Index out of range for Vector3");
+	}
+
 
 	// Vector addition (a + b)
 	friend Vector3 operator+(const Vector3& a, const Vector3& b)

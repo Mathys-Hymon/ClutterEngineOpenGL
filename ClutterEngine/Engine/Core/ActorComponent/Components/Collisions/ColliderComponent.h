@@ -4,10 +4,10 @@
 
 namespace clt
 {
+	enum class CLUTTER_API ColliderType { Null, OBB, Sphere, AABB, Circle };
+
 	class CLUTTER_API ColliderComponent : public Component
 	{
-	public:
-		enum class ColliderType {Null, OBB, Sphere, AABB, Circle };
 
 	protected:
 

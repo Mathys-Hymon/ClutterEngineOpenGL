@@ -71,6 +71,7 @@ struct CLUTTER_API Quaternion
 		return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
 	}
 
+
 	// Spherical Linear Interpolation
 	static Quaternion Slerp(const Quaternion& a, const Quaternion& b, float f)
 	{

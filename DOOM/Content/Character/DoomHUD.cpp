@@ -30,5 +30,7 @@ void DoomHUD::TriggerShoot()
 {
 	GetCurrentWidget()->GetElement<clt::AnimatorElement>("playerWeapon")->PlayAnim("pistolShoot");
 
+	LineTrace(GetWorldLocation(), -GetWorldTransform().Forward(), 200);
+
 	CLUTTER_LOG("pan");
 }

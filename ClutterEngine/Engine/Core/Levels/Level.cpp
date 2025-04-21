@@ -1,5 +1,6 @@
 #include "pch.h"
 #include <Core/Levels/Level.h>
+#include "Physics/Physics.h"
 
 using namespace clt;
 
@@ -47,6 +48,11 @@ void Level::temp(Actor* pActor)
 		delete* it;
 		actors.erase(it);
 	}
+}
+
+raycastHit Level::LineTrace(Vector3 start, Vector3 direction, float maxDistance)
+{
+	return mPhysics->LineTrace(start, direction, maxDistance);
 }
 
 void Level::UpdateActors()

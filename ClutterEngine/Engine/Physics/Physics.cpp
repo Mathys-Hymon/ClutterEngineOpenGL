@@ -1,5 +1,7 @@
 #include "pch.h"  
 #include <Physics/Physics.h>  
+#include "Core/ActorComponent/Components/Collisions/OBBCollider.h"
+#include "Core/ActorComponent/Components/Collisions/SphereCollider.h"
 #include <Core/Timer.h>  
 
 using namespace clt;
@@ -7,6 +9,124 @@ using namespace clt;
 // Constructor initializing gravity vector
 Physics::Physics() : mGravity({ 0.0f, -300.0f, 0.0f })
 {
+}
+
+raycastHit Physics::LineTrace(Vector3 start, Vector3 direction, float maxDistance)
+{
+    raycastHit bestHit;
+    bestHit.Distance = maxDistance;
+
+    direction = direction.Normalized();
+    Vector3 end = start + direction * maxDistance;
+
+    for (ColliderComponent* collider : mColliders)
+    {
+        if (!collider->IsActive()) continue;
+
+        Actor* owner = collider->GetOwner();
+        Transform transform = owner->GetTransform();
+        Vector3 position = transform.Location();
+        Vector3 scale = transform.Scale();
+
+        if (collider->GetType() == ColliderType::OBB)
+        {
+            OBBCollider* obb = static_cast<OBBCollider*>(collider);
+            Vector3 axes[3];
+            obb->GetOBBAxis(axes);
+            Vector3 extents = obb->GetBoxExtend() * scale;
+
+            Vector3 localStart = start - position;
+            localStart = Vector3(
+                Vector3::Dot(localStart, axes[0]),
+                Vector3::Dot(localStart, axes[1]),
+                Vector3::Dot(localStart, axes[2])
+            );
+
+            Vector3 localDir = Vector3(
+                Vector3::Dot(direction, axes[0]),
+                Vector3::Dot(direction, axes[1]),
+                Vector3::Dot(direction, axes[2])
+            );
+
+            float tMin = 0.0f;
+            float tMax = maxDistance;
+            bool hitFound = true;
+
+            for (int axis = 0; axis < 3; axis++)
+            {
+                if (Maths::Abs(localDir[axis]) < 1e-6f)
+                {
+                    if (localStart[axis] < -extents[axis] || localStart[axis] > extents[axis])
+                    {
+                        hitFound = false;
+                        break;
+                    }
+                }
+                else
+                {
+                    float invDir = 1.0f / localDir[axis];
+                    float t1 = (-extents[axis] - localStart[axis]) * invDir;
+                    float t2 = (extents[axis] - localStart[axis]) * invDir;
+
+                    if (t1 > t2) std::swap(t1, t2);
+                    tMin = Maths::Max(tMin, t1);
+                    tMax = Maths::Min(tMax, t2);
+
+                    if (tMin > tMax)
+                    {
+                        hitFound = false;
+                        break;
+                    }
+                }
+            }
+
+            if (hitFound && tMin < bestHit.Distance)
+            {
+                bestHit.Distance = tMin;
+                bestHit.Point = start + direction * tMin;
+                bestHit.Actor = owner;
+                bestHit.Collider = collider;
+            }
+        }
+
+        else if (collider->GetType() == ColliderType::Sphere)
+        {
+            SphereCollider* sphere = static_cast<SphereCollider*>(collider);
+            float radius = sphere->GetRadius() * scale.x;
+            Vector3 center = position;
+
+            Vector3 toCenter = center - start;
+            float projection = Vector3::Dot(direction, toCenter);
+            float distSq = toCenter.LengthSq() - projection * projection;
+
+            if (distSq <= radius * radius)
+            {
+                float t = projection - Maths::Sqrt(radius * radius - distSq);
+                if (t >= 0 && t < bestHit.Distance)
+                {
+                    bestHit.Distance = t;
+                    bestHit.Point = start + direction * t;
+                    bestHit.Normal = (bestHit.Point - center).Normalized();
+                    bestHit.Actor = owner;
+                    bestHit.Collider = collider;
+                }
+            }
+        }
+    }
+
+    CLUTTER_LOG(bestHit.Distance);
+
+    if (bestHit.Actor)
+    {
+        DebugDraw::Get().DrawLine(start, bestHit.Point, Color::red, 3.0f);
+        DebugDraw::Get().DrawLine(bestHit.Point, end, Color::green, 3.0f);
+
+        DebugDraw::Get().DrawBox(bestHit.Point, 0.05f, Color::red, 3.0f);
+    }
+    else DebugDraw::Get().DrawLine(start, end, Color::red, 3.0f);
+
+
+    return bestHit;
 }
 
 // Adds a collider to the physics engine

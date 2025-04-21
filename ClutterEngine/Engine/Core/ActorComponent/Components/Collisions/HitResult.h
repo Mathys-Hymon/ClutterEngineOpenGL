@@ -22,6 +22,6 @@ namespace clt
         ColliderComponent* Collider = nullptr;
         Vector3 Point;
         Vector3 Normal;
-        float Distance;
+        float Distance = 0.0f;
     };
 }

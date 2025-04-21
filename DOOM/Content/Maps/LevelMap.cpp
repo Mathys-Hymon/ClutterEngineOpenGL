@@ -35,7 +35,7 @@ void LevelMap::Load()
 
 void LevelMap::Update()
 {
-
+	LineTrace({5, 0, 0 }, {-1, 0, 0}, 10);
 }
 
 void LevelMap::Close()

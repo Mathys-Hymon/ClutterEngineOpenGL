@@ -49,6 +49,8 @@ namespace clt
    */
 		~Physics() = default;
 
+		raycastHit LineTrace(Vector3 start, Vector3 direction, float maxDistance);
+
 		void AddCollider(ColliderComponent* pCollider);
 
 		void RemoveCollider(ColliderComponent* pCollider);
