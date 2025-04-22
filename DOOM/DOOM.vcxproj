@@ -227,6 +227,7 @@
     <ClCompile Include="Content\Character\DoomController.cpp" />
     <ClCompile Include="Content\Character\DoomHUD.cpp" />
     <ClCompile Include="Content\Maps\LevelMap.cpp" />
+    <ClCompile Include="Content\Maps\MainMenuMap.cpp" />
     <ClCompile Include="DOOM.cpp" />
   </ItemGroup>
   <ItemGroup>

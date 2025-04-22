@@ -336,6 +336,7 @@
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\PlayerController2D.cpp" />
     <ClCompile Include="Engine\Core\Maths\Vectors\Vector3.cpp" />
     <ClCompile Include="Engine\Graphics\UI\Elements\AnimatorElement.cpp" />
+    <ClCompile Include="Engine\Graphics\UI\Elements\ButtonElement.cpp" />
     <ClCompile Include="Engine\Graphics\UI\Elements\FlipbookElement.cpp" />
     <ClCompile Include="Engine\Graphics\UI\Elements\TextElement.cpp" />
     <ClCompile Include="Engine\Graphics\UI\UIPanel.cpp" />
