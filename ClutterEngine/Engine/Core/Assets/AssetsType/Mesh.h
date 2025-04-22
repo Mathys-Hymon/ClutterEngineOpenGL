@@ -42,6 +42,16 @@ namespace clt
 			return mTextures[pTextureIndex]; 
 		
 		}
+
+		bool HasTexture(Texture* pTextureIndex)
+		{
+			for (Texture* tex : mTextures)
+			{
+				if (tex->GetID() == pTextureIndex->GetID()) return true;
+			}
+			return false;
+		}
+
 		VertexArray& GetVAO() { return *mVAO; }
 		ShaderProgram& GetShader() { return mShader; }
 

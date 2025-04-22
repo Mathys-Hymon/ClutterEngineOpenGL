@@ -35,7 +35,7 @@ void CollisionEvent::NotifyStay(hitResult& result)
 {
 	for (ICollisionListener* listener : mListeners)
 	{
-		listener->OnCollisionEnter(result);
+		listener->OnCollisionStay(result);
 	}
 }
 
@@ -43,6 +43,6 @@ void CollisionEvent::NotifyExit(hitResult& result)
 {
 	for (ICollisionListener* listener : mListeners)
 	{
-		listener->OnCollisionEnter(result);
+		listener->OnCollisionExit(result);
 	}
 }

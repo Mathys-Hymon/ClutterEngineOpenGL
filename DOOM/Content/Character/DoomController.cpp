@@ -4,7 +4,7 @@
 using namespace clt;
 
 DoomController::DoomController() : PlayerController(2), 
-mRotationVelocity(0.0f), mMovementVelocity(0)
+mRotationVelocity(0.0f), mMovementVelocity(0), mWeapon(Weapons::Hand)
 {
 	clt::Input::Get().MapKeysToVect(EKey::A, EKey::D, EKey::W, EKey::S, "PlayerMovement");
 	clt::Input::Get().MapKeyToAction(EMouseButton::Left, "PlayerShoot");

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="DEBUG_EDITOR|Win32">
@@ -232,6 +232,7 @@
   <ItemGroup>
     <ClInclude Include="Content\Character\DoomController.h" />
     <ClInclude Include="Content\Character\DoomHUD.h" />
+    <ClInclude Include="Content\Gameplay\Sprites\Dir8Sprite.h" />
     <ClInclude Include="Content\Maps\LevelMap.h" />
     <ClInclude Include="Content\Maps\MainMenuMap.h" />
   </ItemGroup>

@@ -38,6 +38,7 @@ void MeshComponent::Draw(Matrix4Row viewProj)
 
 void MeshComponent::SetTexture(Texture* texture, size_t index)
 {
+    mTextureIndex = index;
     mMesh->SetTexture(texture, index);
 }    
      

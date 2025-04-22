@@ -16,7 +16,7 @@ void CameraController::Movement(Vector2 pDirection)
 	Vector3 forward = pDirection.y * mOwner->GetTransform().Forward();
 	Vector3 right = pDirection.x * mOwner->GetTransform().Right();
 
-	mOwner->AddActorLocationOffset(-forward + right);
+	mOwner->AddActorLocationOffset( (- forward + right) * mMaxWalkSpeed);
 }
 
 void CameraController::MoveVertically(float pDirection)
@@ -26,5 +26,5 @@ void CameraController::MoveVertically(float pDirection)
 
 void CameraController::Rotation(Vector2 pRotation)
 {
-	mOwner->AddActorRotationOffset((Vector3{ -pRotation.y, pRotation.x, 0 } *Timer::deltaTime) * 0.1f);
+	mOwner->AddActorRotationOffset((Vector3{ -pRotation.y, pRotation.x, 0 } *Timer::deltaTime));
 }

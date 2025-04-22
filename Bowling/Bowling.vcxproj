@@ -205,7 +205,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\x64\DEBUG_EDITOR;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>ClutterEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -229,13 +229,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Content\Gameplay\PinManager.cpp" />
+    <ClCompile Include="Content\Gameplay\BowlingLane.cpp" />
     <ClCompile Include="Content\Maps\LevelMap.cpp" />
     <ClCompile Include="Content\Maps\MainMenuMap.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Content\Gameplay\PinManager.h" />
+    <ClInclude Include="Content\Gameplay\BowlingLane.h" />
     <ClInclude Include="Content\Gameplay\Player.h" />
     <ClInclude Include="Content\Maps\LevelMap.h" />
     <ClInclude Include="Content\Maps\MainMenuMap.h" />
@@ -245,6 +245,8 @@
     <None Include="Content\Resources\Shaders\basic.vert" />
     <None Include="Content\Resources\Shaders\sprite.frag" />
     <None Include="Content\Resources\Shaders\sprite.vert" />
+    <None Include="Content\Resources\Shaders\text.frag" />
+    <None Include="Content\Resources\Shaders\text.vert" />
     <None Include="Content\Shaders\basic.frag" />
     <None Include="Content\Shaders\basic.vert" />
     <None Include="Content\Shaders\sprite.frag" />

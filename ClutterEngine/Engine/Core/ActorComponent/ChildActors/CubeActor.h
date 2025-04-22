@@ -1,6 +1,7 @@
 #pragma once
 #include <Core/CCommon.h>
 #include <Core/ActorComponent/Actor.h>
+#include "Core/Assets/AssetsType/Texture.h"
 
 namespace clt
 {
@@ -9,6 +10,9 @@ namespace clt
 	public:
 		CubeActor(Level* pLevel, std::string pName, Vector2 pTiling = {4,4}, bool pTesselate = false);
 		CubeActor(Level* pLevel, std::string pName, bool pTesselate, Vector2 pTiling = { 4,4 });
+
+		CubeActor(Level* pLevel, std::string pName, std::string pTexture, bool pTesselate = false, Vector2 pTiling = { 4,4 });
+		CubeActor(Level* pLevel, std::string pName, Texture* pTexture, bool pTesselate = false, Vector2 pTiling = { 4,4 });
 
 		~CubeActor() = default;
 	};

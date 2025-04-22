@@ -22,5 +22,9 @@ namespace clt
 		virtual void OnCollisionEnter(const hitResult& result) override {};
 		virtual void OnCollisionStay(const hitResult& result)  override {};
 		virtual void OnCollisionExit(const hitResult& result)  override {};
+
+		virtual void OnTriggerEnter(const hitResult& result) override {};
+		virtual void OnTriggerStay(const hitResult& result)  override {};
+		virtual void OnTriggerExit(const hitResult& result)  override {};
 	};
 }
