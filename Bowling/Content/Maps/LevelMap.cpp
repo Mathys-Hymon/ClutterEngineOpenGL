@@ -1,6 +1,7 @@
 #include "LevelMap.h"  
 #include <Core/All.h>  
 #include "Gameplay/BowlingLane.h"
+#include "Character/BowlingController.h"
 
 clt::Actor* camera;  
 
@@ -29,12 +30,9 @@ clt::Assets::Get().LoadTexture("Content/Resources/Sprites/DecoBanner.png", "bann
 clt::Assets::Get().LoadMesh("Content/Resources/Mesh/sphere.obj", "ball");
 clt::Assets::Get().LoadMesh("Content/Resources/Mesh/pin.obj", "pin", "pinTexture", false);
 
-clt::Input::Get().MapKeysToVect(EKey::A, EKey::D, EKey::W, EKey::S, "PlayerMovement");
-clt::Input::Get().MapKeysToAxis(EKey::LeftShift, EKey::LeftControl, "MovementVertical");
-
 camera = AddActor<clt::Actor>("camera");
 camera->AddComponent<clt::CameraComponent>();
-//camera->AddComponent<clt::CameraController>("PlayerMovement", "MovementVertical", 10);
+camera->AddComponent<BowlingController>();
 camera->SetActorLocation({ -1.5f, -0.6f, -13 });
 camera->SetActorRotation({ 0,180,0 });
 

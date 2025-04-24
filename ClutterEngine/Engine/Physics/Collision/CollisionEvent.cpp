@@ -23,26 +23,50 @@ void CollisionEvent::UnSubscribe(ICollisionListener* pListener)
 	}
 }
 
-void CollisionEvent::NotifyEnter(hitResult& result)
+void CollisionEvent::NotifyEnter(ColliderComponent* collider, hitResult& result)
 {
 	for (ICollisionListener* listener : mListeners)
 	{
-		listener->OnCollisionEnter(result);
+		listener->OnCollisionEnter(collider, result);
 	}	
 }
 
-void CollisionEvent::NotifyStay(hitResult& result)
+void CollisionEvent::NotifyStay(ColliderComponent* collider, hitResult& result)
 {
 	for (ICollisionListener* listener : mListeners)
 	{
-		listener->OnCollisionStay(result);
+		listener->OnCollisionStay(collider, result);
 	}
 }
 
-void CollisionEvent::NotifyExit(hitResult& result)
+void CollisionEvent::NotifyExit(ColliderComponent* collider, hitResult& result)
 {
 	for (ICollisionListener* listener : mListeners)
 	{
-		listener->OnCollisionExit(result);
+		listener->OnCollisionExit(collider,result);
+	}
+}
+
+void CollisionEvent::TriggerEnter(ColliderComponent* collider, hitResult& result)
+{
+	for (ICollisionListener* listener : mListeners)
+	{
+		listener->OnTriggerEnter(collider, result);
+	}
+}
+
+void CollisionEvent::TriggerStay(ColliderComponent* collider, hitResult& result)
+{
+	for (ICollisionListener* listener : mListeners)
+	{
+		listener->OnTriggerStay(collider, result);
+	}
+}
+
+void CollisionEvent::TriggerExit(ColliderComponent* collider, hitResult& result)
+{
+	for (ICollisionListener* listener : mListeners)
+	{
+		listener->OnTriggerExit(collider, result);
 	}
 }

@@ -27,6 +27,9 @@
     <ClCompile Include="Content\Gameplay\BowlingLane.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Content\Character\BowlingController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Content\Maps\MainMenuMap.h">
@@ -39,6 +42,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Content\Gameplay\BowlingLane.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Content\Character\BowlingController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

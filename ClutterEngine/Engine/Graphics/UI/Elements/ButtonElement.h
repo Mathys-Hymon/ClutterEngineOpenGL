@@ -26,7 +26,7 @@ namespace clt
 		void Dispatch(ButtonState state);
 
 	public:
-		ButtonElement();
+		ButtonElement(std::string text, std::string texture);
 		~ButtonElement();
 
 		virtual void Update() override;

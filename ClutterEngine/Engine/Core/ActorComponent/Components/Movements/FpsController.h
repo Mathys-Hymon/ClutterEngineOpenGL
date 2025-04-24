@@ -21,12 +21,12 @@ namespace clt
 
 		virtual void Update() override;
 
-		virtual void OnCollisionEnter(const hitResult& result) override {};
-		virtual void OnCollisionStay(const hitResult& result)  override {};
-		virtual void OnCollisionExit(const hitResult& result)  override {};
+		virtual void OnCollisionEnter(ColliderComponent* collider, const hitResult& result) override {};
+		virtual void OnCollisionStay(ColliderComponent* collider, const hitResult& result)  override {};
+		virtual void OnCollisionExit(ColliderComponent* collider, const hitResult& result)  override {};
 
-		virtual void OnTriggerEnter(const hitResult& result) override {};
-		virtual void OnTriggerStay(const hitResult& result)  override {};
-		virtual void OnTriggerExit(const hitResult& result)  override {};
+		virtual void OnTriggerEnter(ColliderComponent* collider, const hitResult& result) override {};
+		virtual void OnTriggerStay(ColliderComponent* collider, const hitResult& result)  override {};
+		virtual void OnTriggerExit(ColliderComponent* collider,  const hitResult& result)  override {};
 	};
 }

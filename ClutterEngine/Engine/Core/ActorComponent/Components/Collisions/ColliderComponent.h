@@ -4,6 +4,9 @@
 
 namespace clt
 {
+	class Physics;
+	class Level;
+
 	enum class CLUTTER_API ColliderType { Null, OBB, Sphere, AABB, Circle };
 
 	class CLUTTER_API ColliderComponent : public Component
@@ -22,6 +25,8 @@ namespace clt
 
 		ColliderComponent() : Component(), mFriction(2.5f), mBounciness(0.3f), mType(ColliderType::Null) {};
 		~ColliderComponent();
+
+		void Subscribe(class ICollisionListener* listener) const;
 
 		virtual bool CheckCollision(ColliderComponent* pOther, hitResult& outResult) const = 0;
 		const ColliderType GetType() const { return mType; };

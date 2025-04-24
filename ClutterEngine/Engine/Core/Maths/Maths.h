@@ -2,6 +2,7 @@
 
 #include <limits>
 #include <cmath>
+#include "Core/Timer.h"
 
 namespace Maths
 {
@@ -30,6 +31,7 @@ namespace Maths
     inline float ATan2(float opposite, float adjacent) { return atan2f(opposite, adjacent); }
     inline float Cot(float angle) { return 1.0f / Tan(angle); }
     inline float Lerp(float a, float b, float t) { return a + t * (b - a); }
+    inline float Finterp(float a, float b, float duration) { return a + (b - a) * Clamp(clt::Timer::deltaTime / Max(duration, 0.0001f), 0.0f, 1.0f); }
     inline float Sqrt(float val) { return sqrtf(val); }
     inline float Fmod(float numer, float denom) { return std::fmod(numer, denom); }
     inline int Round(float val) { return static_cast<int>(val); }

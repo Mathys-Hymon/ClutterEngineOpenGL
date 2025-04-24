@@ -434,13 +434,20 @@ void Physics::DispatchEvents()
                 {
                     if (mColliderEvent.count(result.ColliderA))
                     {
-                        mColliderEvent[result.ColliderA]->NotifyEnter(result);
+                        if (result.ColliderA->IsTrigger())
+                        {
+                            mColliderEvent[result.ColliderA]->TriggerEnter(result.ColliderA, result);
+                        }
+                        else  mColliderEvent[result.ColliderA]->NotifyEnter(result.ColliderA, result);
                     }
                     if (mColliderEvent.count(result.ColliderB))
                     {
-                        mColliderEvent[result.ColliderB]->NotifyEnter(result);
+                        if (result.ColliderB->IsTrigger())
+                        {
+                            mColliderEvent[result.ColliderB]->TriggerEnter(result.ColliderB, result);
+                        }
+                        else  mColliderEvent[result.ColliderB]->NotifyEnter(result.ColliderB, result);
                     }
-                    break;
                 }
             }
         }
@@ -458,11 +465,19 @@ void Physics::DispatchEvents()
                 {
                     if (mColliderEvent.count(result.ColliderA))
                     {
-                        mColliderEvent[result.ColliderA]->NotifyStay(result);
+                        if (result.ColliderA->IsTrigger())
+                        {
+                            mColliderEvent[result.ColliderA]->TriggerStay(result.ColliderA, result);
+                        }
+                        else  mColliderEvent[result.ColliderA]->NotifyStay(result.ColliderA, result);
                     }
                     if (mColliderEvent.count(result.ColliderB))
                     {
-                        mColliderEvent[result.ColliderB]->NotifyStay(result);
+                        if (result.ColliderB->IsTrigger())
+                        {
+                            mColliderEvent[result.ColliderB]->TriggerStay(result.ColliderB, result);
+                        }
+                        else  mColliderEvent[result.ColliderB]->NotifyStay(result.ColliderB, result);
                     }
                 }
             }
@@ -479,16 +494,26 @@ void Physics::DispatchEvents()
                 if ((prevResult.ColliderA == colliderPair.first && prevResult.ColliderB == colliderPair.second) ||
                     (prevResult.ColliderA == colliderPair.second && prevResult.ColliderB == colliderPair.first))
                 {
-                    if (mColliderEvent.count(colliderPair.first))
+                    if (mColliderEvent.count(prevResult.ColliderA))
                     {
-                        mColliderEvent[colliderPair.first]->NotifyExit(prevResult);
+                        if (prevResult.ColliderA->IsTrigger())
+                        {
+                            mColliderEvent[prevResult.ColliderA]->TriggerExit(prevResult.ColliderA, prevResult);
+                        }
+                        else  mColliderEvent[prevResult.ColliderA]->NotifyExit(prevResult.ColliderA, prevResult);
                     }
-                    if (mColliderEvent.count(colliderPair.second))
+                    if (mColliderEvent.count(prevResult.ColliderB))
                     {
-                        mColliderEvent[colliderPair.second]->NotifyExit(prevResult);
+                        if (prevResult.ColliderB->IsTrigger())
+                        {
+                            mColliderEvent[prevResult.ColliderB]->TriggerExit(prevResult.ColliderB, prevResult);
+                        }
+                        else  mColliderEvent[prevResult.ColliderB]->NotifyExit(prevResult.ColliderB, prevResult);
                     }
                 }
             }
         }
     }
+
+    mPreviousCollisions = currentCollisions;
 }

@@ -3,7 +3,9 @@
 
 using namespace clt;
 
-ButtonElement::ButtonElement() : SpriteElement(), TextElement()
+
+ButtonElement::ButtonElement(std::string text, std::string texture) :
+	SpriteElement(texture), TextElement(text)
 {
 }
 

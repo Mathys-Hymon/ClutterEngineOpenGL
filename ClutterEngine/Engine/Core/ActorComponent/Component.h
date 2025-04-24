@@ -23,6 +23,11 @@ namespace clt
             Start();
         };
 
+        bool LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant = false)
+        {
+            return mOwner->LineTrace(start, direction, maxDistance, hit, debugPersistant);
+        };
+
     public:
         /**
          * @brief Constructor for Component.
@@ -70,11 +75,6 @@ namespace clt
          * @return The update order of the component.
          */
         int GetUpdateOrder() const { return mUpdateOrder; }
-
-        bool LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant = false)
-        {
-            return mOwner->LineTrace(start, direction, maxDistance, hit, debugPersistant);
-        };
 
         void SetRelativeLocation(const Vector3& loc) 
         { 

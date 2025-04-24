@@ -90,11 +90,12 @@ void BowlingLane::RespawnPins(bool leftLane, bool isStatic)
             tempActor->SetActorLocation({ x, y, z });
             tempActor->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetMesh("pin"));
 
-            if (!isStatic)
+            if (!isStatic && leftLane)
             {
                 tempActor->AddComponent<clt::OBBCollider>(Vector3{ 10, 20, 10 })->SetRelativeLocation({ 0, 0.2f, 0 });
                 tempActor->GetComponentOfType<clt::OBBCollider>()->mFriction = 0.5f;
                 tempActor->AddComponent<clt::RigidBody>()->mLockRotation = false;
+                tempActor->GetComponentOfType<clt::OBBCollider>()->Subscribe(this);
             }
             tempActor->SetActorScale(0.1f);
 
@@ -102,4 +103,28 @@ void BowlingLane::RespawnPins(bool leftLane, bool isStatic)
             else mPinsRight.push_back(tempActor);
         }
     }
+}
+
+void BowlingLane::OnCollisionEnter(clt::ColliderComponent* collider, const hitResult& result)
+{
+}
+
+void BowlingLane::OnCollisionStay(clt::ColliderComponent* collider, const hitResult& result)
+{
+}
+
+void BowlingLane::OnCollisionExit(clt::ColliderComponent* collider, const hitResult& result)
+{
+}
+
+void BowlingLane::OnTriggerEnter(clt::ColliderComponent* collider, const hitResult& result)
+{
+}
+
+void BowlingLane::OnTriggerStay(clt::ColliderComponent* collider, const hitResult& result)
+{
+}
+
+void BowlingLane::OnTriggerExit(clt::ColliderComponent* collider, const hitResult& result)
+{
 }

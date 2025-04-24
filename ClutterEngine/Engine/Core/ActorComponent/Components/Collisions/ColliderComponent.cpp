@@ -1,5 +1,6 @@
 #include "pch.h"
 #include <Core/ActorComponent/Components/Collisions/ColliderComponent.h>
+#include <Physics/Collision/ICollisionListener.h>
 #include <Physics/Physics.h>
 #include <Core/Levels/Level.h>
 
@@ -14,4 +15,9 @@ void ColliderComponent::SetOwner(Actor* pOwner)
 ColliderComponent::~ColliderComponent()
 {
 	mOwner->GetLevel()->GetPhysics().RemoveCollider(this);
+}
+
+void ColliderComponent::Subscribe(ICollisionListener* listener) const
+{
+	mOwner->GetLevel()->GetPhysics().SubscribeTo(const_cast<ColliderComponent*>(this), listener); 
 }

@@ -8,12 +8,12 @@ namespace clt
 	{
 	public :
 		virtual ~ICollisionListener() = default;
-		virtual void OnCollisionEnter(const hitResult& result) = 0;
-		virtual void OnCollisionStay (const hitResult& result) = 0;
-		virtual void OnCollisionExit (const hitResult& result) = 0;
+		virtual void OnCollisionEnter(ColliderComponent* collider, const hitResult& result) = 0;
+		virtual void OnCollisionStay (ColliderComponent* collider, const hitResult& result) = 0;
+		virtual void OnCollisionExit (ColliderComponent* collider, const hitResult& result) = 0;
 
-		virtual void OnTriggerEnter(const hitResult& result) = 0;
-		virtual void OnTriggerStay (const hitResult& result) = 0;
-		virtual void OnTriggerExit (const hitResult& result) = 0;
+		virtual void OnTriggerEnter(ColliderComponent* collider, const hitResult& result) = 0;
+		virtual void OnTriggerStay (ColliderComponent* collider, const hitResult& result) = 0;
+		virtual void OnTriggerExit (ColliderComponent* collider, const hitResult& result) = 0;
 	};
 }

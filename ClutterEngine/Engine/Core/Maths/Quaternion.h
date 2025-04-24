@@ -188,6 +188,19 @@ struct CLUTTER_API Quaternion
 
     }
 
+	// Convert quaternion to Euler angles (pitch, yaw, roll)
+	Vector3 QuaternionToEuler() const
+	{
+		// Convert quaternion to Euler angles (pitch, yaw, roll)
+		float pitch = std::atan2(2.0f * (w * x + y * z),
+			1.0f - 2.0f * (x * x + y * y));
+		float yaw = std::asin(2.0f * (w * y - z * x));
+		float roll = std::atan2(2.0f * (w * z + x * y),
+			1.0f - 2.0f * ( y * y + z * z));
+
+		return Vector3(pitch, yaw, roll);
+	}
+
 	inline std::string ToString()
 	{
 		return "Rotation: ("

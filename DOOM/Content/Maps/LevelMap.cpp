@@ -17,7 +17,6 @@ LevelMap::~LevelMap()
 
 void LevelMap::Load()
 {
-	
 
 	clt::Assets::Get().LoadFont("Content/Resources/Font/DooM.ttf", "doomFont");
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/metalFloor.png", "floor", TextureFilter::NEAREST);
