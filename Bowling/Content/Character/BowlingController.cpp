@@ -27,8 +27,8 @@ void BowlingController::Move(float movement)
 
 	else if (mMode == mode::rotation)
 	{
-		CLUTTER_LOG(mOwner->GetRotation().QuaternionToEuler().ToString().c_str());
 		mRotation += movement * clt::Timer::deltaTime * 5;
+		mRotation = Maths::Clamp(mRotation, -200.0f, 200.0f);
 		mOwner->SetActorRotation({ 0, mRotation, 0});
 	}
 

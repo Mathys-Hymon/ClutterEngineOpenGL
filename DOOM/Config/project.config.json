@@ -1,0 +1,26 @@
+{
+  "project": {
+    "name": "DOOM",
+    "version": "1.0.0",
+    "engineVersion": "0.0.1",
+    "defaultScene": "Maps/TestLevel.h",
+    "mode": "2D"
+  },
+  "input": {
+    "action": {
+
+    },
+    "axis": {
+
+    },
+    "axis2D": {
+
+    }
+  },
+  "render": {
+    "resolution": [ 1280, 720 ],
+    "fullscreen": false,
+    "vsync": true,
+    "bakcgroundColor": [0,0,0,0],
+  }
+}
