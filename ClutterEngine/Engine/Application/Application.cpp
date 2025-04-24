@@ -8,13 +8,13 @@
 
 using namespace clt;
 
-Application::Application(int pWidth, int pHeight, std::string pName, std::vector<Level*> pLevels) : mName(pName)
+Application::Application(std::vector<Level*> pLevels, const std::string& configFile)
 {
 	mEngine = std::make_unique<CEngine>();
 
 	if (pLevels.empty()) pLevels.push_back(new TemplateLevel());
 
-	mEngine->Init(pWidth, pHeight, pName, pLevels);
+	mEngine->Init(configFile, pLevels);
 	CLUTTER_INFO("Application created")
 
 	if (mEngine->isEditorMode())

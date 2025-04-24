@@ -414,5 +414,6 @@
     <None Include="EngineContent\Resources\Shader\sprite.vert" />
     <None Include="EngineContent\Resources\Shader\text.frag" />
     <None Include="EngineContent\Resources\Shader\text.vert" />
+    <None Include="EngineContent\Config\project.config.json" />
   </ItemGroup>
 </Project>

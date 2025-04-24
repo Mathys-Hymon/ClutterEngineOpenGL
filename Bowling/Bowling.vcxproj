@@ -243,6 +243,7 @@
     <ClInclude Include="Content\Maps\MainMenuMap.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Config\project.config.json" />
     <None Include="Content\Resources\Shaders\basic.frag" />
     <None Include="Content\Resources\Shaders\basic.vert" />
     <None Include="Content\Resources\Shaders\sprite.frag" />

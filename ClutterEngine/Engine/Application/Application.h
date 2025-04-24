@@ -6,7 +6,6 @@ namespace clt
     class Level;
     class CLUTTER_API Application {
         
-        std::string mName;
         std::unique_ptr<CEngine> mEngine;
 
         void Run();
@@ -20,7 +19,7 @@ namespace clt
 
     public:
 
-        Application(int pWidth = 800, int pHeight = 600, std::string pName = "Clutter Editor", std::vector<Level*> pLevels = {});
+        Application(std::vector<Level*> pLevels, const std::string& configFile = "Config/project.config.json");
         ~Application();
 
         Window* GetWindow() const { return mEngine->GetWindow(); }

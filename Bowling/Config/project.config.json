@@ -4,7 +4,7 @@
    "version": "1.0.0",  
    "engineVersion": "0.0.1",  
    "defaultScene": "Maps/TestLevel.h",  
-   "mode": "2D"  
+   "2D": "false"
  },
   "input": {
     "action": [
@@ -25,6 +25,6 @@
    "resolution": [1280, 720],  
    "fullscreen": false,  
    "vsync": true,  
-   "backgroundColor": [0.45, 0.45, 1.0, 1.0]  
+   "backgroundColor": [0, 0, 0, 1.0]  
  }  
 }

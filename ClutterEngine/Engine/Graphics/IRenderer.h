@@ -1,5 +1,6 @@
 #pragma once
 #include <Core/CCommon.h>
+#include "Core/Maths/Color.h"
 
 namespace clt
 {
@@ -13,11 +14,13 @@ namespace clt
 	{
 	protected:
 		bool mWireframe;
+		Color mBackgroundColor;
+
 	public:
 
 		~IRenderer() = default;
 
-		virtual bool Initialize(CEngine* pEngine) = 0;
+		virtual bool Initialize(CEngine* pEngine, Color backgroundColor) = 0;
 		virtual void WireframeMode(bool wireframe) = 0;
 		virtual void ToggleWireframe() = 0;
 		virtual void BeginDraw() = 0;

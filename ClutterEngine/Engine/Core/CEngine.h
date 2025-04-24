@@ -41,7 +41,7 @@ namespace clt
    * @param pName The name of the window.
    * @param pLevels The levels to be managed by the level manager.
    */
-		void Init(int pWidth, int pHeight, std::string pName, std::vector<Level*> pLevels);
+		void Init(const std::string& path, std::vector<Level*> pLevels);
 
 		/**
    * @brief Updates the engine state.

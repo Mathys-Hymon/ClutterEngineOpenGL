@@ -384,6 +384,7 @@
     <ClCompile Include="Engine\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="EngineContent\Config\project.config.json" />
     <None Include="EngineContent\Resources\Shader\basic.frag" />
     <None Include="EngineContent\Resources\Shader\basic.tese" />
     <None Include="EngineContent\Resources\Shader\basic.vert" />

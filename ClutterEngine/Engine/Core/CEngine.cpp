@@ -1,16 +1,31 @@
 #include "pch.h"
 #include <Core/CEngine.h>
 #include <Input/Input.h>
+#include "json/json.hpp"
+#include <fstream>
+#include <iostream>
 
 using namespace clt;
+using json = nlohmann::json;
 
-void CEngine::Init(int pWidth, int pHeight, std::string pName, std::vector<Level*> pLevels)
+void CEngine::Init(const std::string& path, std::vector<Level*> pLevels)
 {
+	std::ifstream file(path);
+	if (!file.is_open()) {
+		CLUTTER_ERROR("Cannot load json config");
+	}
 
-	mName = pName;
-	mWindow = std::make_unique<Window>(pWidth, pHeight, pName);
+	json config;
+	file >> config;
+
+	auto res = config["render"]["resolution"];
+	auto color = config["render"]["backgroundColor"];
+	Color backgroundColor = { color[0], color[1], color[2], color[3] };
+
+	mName = config["project"]["name"];
+	mWindow = std::make_unique<Window>(res[0], res[1], mName);
 	mRenderer = std::make_unique<RendererGL>();
-	mRenderer->Initialize(this);
+	mRenderer->Initialize(this, backgroundColor);
 	mPhysics = std::make_unique<Physics>();
 
 	mLevelManager = std::make_unique<LevelManager>(pLevels, mRenderer.get(), mPhysics.get());

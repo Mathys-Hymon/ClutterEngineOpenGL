@@ -14,8 +14,9 @@ RendererGL::RendererGL() : mEngine(nullptr), mSpriteVAO(nullptr)
 {
 }
 
-bool RendererGL::Initialize(CEngine* pEngine)
+bool RendererGL::Initialize(CEngine* pEngine, Color backgroundColor)
 {
+    mBackgroundColor = backgroundColor;
     mEngine = pEngine;
 
     // Initialize GLAD to load OpenGL functions  
@@ -173,7 +174,7 @@ void RendererGL::RemoveHUDComponent(HUDComponent* pComp)
 
 void RendererGL::BeginDraw()
 {
-    glClearColor(0.45f, 0.45f, 1.0f, 1.0f);       // Define the background Color  
+    glClearColor(mBackgroundColor.r, mBackgroundColor.g, mBackgroundColor.b, mBackgroundColor.a);       // Define the background Color  
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);

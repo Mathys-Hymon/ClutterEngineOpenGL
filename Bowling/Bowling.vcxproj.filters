@@ -59,5 +59,6 @@
     <None Include="Content\Resources\Shaders\sprite.vert" />
     <None Include="Content\Resources\Shaders\text.vert" />
     <None Include="Content\Resources\Shaders\text.frag" />
+    <None Include="Config\project.config.json" />
   </ItemGroup>
 </Project>
