@@ -26,6 +26,7 @@ clt::Assets::Get().LoadTexture("Content/Resources/Sprites/ballTexture.png", "bal
 clt::Assets::Get().LoadTexture("Content/Resources/Sprites/pinMat.png", "pinTexture");
 clt::Assets::Get().LoadTexture("Content/Resources/Sprites/woodFloor.png", "floor");
 clt::Assets::Get().LoadTexture("Content/Resources/Sprites/DecoBanner.png", "banner");
+clt::Assets::Get().LoadTexture("Content/Resources/Sprites/bowlingPreviewRot.png", "previewRotation");
 
 clt::Assets::Get().LoadMesh("Content/Resources/Mesh/sphere.obj", "ball");
 clt::Assets::Get().LoadMesh("Content/Resources/Mesh/pin.obj", "pin", "pinTexture", false);
@@ -35,6 +36,7 @@ camera->AddComponent<clt::CameraComponent>();
 camera->AddComponent<BowlingController>();
 camera->SetActorLocation({ -1.5f, -0.6f, -13 });
 camera->SetActorRotation({ 0,180,0 });
+camera->AddComponent<clt::SpriteComponent>(clt::Assets::Get().LoadTexture("Content/Resources/Sprites/bowlingPreview.png", "previewTrajectory"))->SetRelativeLocation({0,0,2});
 
 lane1 = AddActor<BowlingLane>("manager", false, Vector3{ 0, 0, 0 });
 AddActor<BowlingLane>("manager", true, Vector3{ 6, 0, 0 });

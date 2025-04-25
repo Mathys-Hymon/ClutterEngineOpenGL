@@ -5,7 +5,7 @@
 
 using namespace clt;  
 
-Window::Window(u32 pWidth, u32 pHeight,std::string pName) 
+Window::Window(u32 pWidth, u32 pHeight,std::string pName, bool vsync)
     : mDimensions{static_cast<float>(pWidth), static_cast<float>(pHeight)}  
 {  
    // Initialize GLFW  
@@ -41,6 +41,8 @@ Window::Window(u32 pWidth, u32 pHeight,std::string pName)
        glfwTerminate();  
        return;  
    }  
+
+   glfwSwapInterval(vsync ? 1 : 0);
 
    // Set the viewport size  
    glViewport(0, 0, pWidth, pHeight);  

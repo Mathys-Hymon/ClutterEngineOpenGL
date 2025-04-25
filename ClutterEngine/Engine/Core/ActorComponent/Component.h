@@ -96,6 +96,12 @@ namespace clt
         { 
             mRelativeTransform.SetRotation(rot);
         };
+
+        void SetRelativeRotation(Vector3 rot)
+        {
+            mRelativeTransform.SetRotation(rot);
+        };
+
         void SetRelativeRotation(float rot) 
         { 
             mRelativeTransform.SetRotation(rot);

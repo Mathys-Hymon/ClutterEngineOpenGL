@@ -24,6 +24,7 @@ namespace clt
 		virtual void SetOwner(Actor* pOwner) override;
 
 		virtual void SetTexture(Texture* pTexture);
+		virtual void SetTexture(const std::string& pTexture);
 
 		void SetFlipX(bool pFlip)  { mFlipX = pFlip;  };
 		void SetFlipY(bool pFlipY) { mFlipY = pFlipY; };

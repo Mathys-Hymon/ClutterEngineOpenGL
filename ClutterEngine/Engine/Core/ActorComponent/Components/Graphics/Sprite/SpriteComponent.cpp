@@ -14,10 +14,13 @@ void SpriteComponent::SetOwner(Actor* pOwner)
 
 void SpriteComponent::SetTexture(Texture* pTexture)
 {
-    mOwner->GetLevel()->GetRenderer().RemoveSpriteComponent(this);
 	mTexture = pTexture;
 	mTexture->UpdateInfo(mTexWidth, mTexHeight);
+}
 
-    mOwner->GetLevel()->GetRenderer().AddSpriteComponent(this);
+void SpriteComponent::SetTexture(const std::string& pTexture)
+{
+    mTexture = Assets::Get().GetTexture(pTexture);
+    mTexture->UpdateInfo(mTexWidth, mTexHeight);
 }
  

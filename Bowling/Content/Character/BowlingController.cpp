@@ -36,16 +36,19 @@ void BowlingController::Move(float movement)
 
 void BowlingController::ChangeMod()
 {
+	auto* comp = mOwner->GetComponentOfType<clt::SpriteComponent>();
 	switch (mMode)
 	{
 	case BowlingController::mode::movement:
 		mMode = mode::rotation;
+		comp->SetTexture("previewRotation");
 		break;
 	case BowlingController::mode::rotation:
 		mMode = mode::shoot;
 		break;
 	case BowlingController::mode::shoot:
 		mMode = mode::movement;
+		comp->SetTexture("previewTrajectory");
 		break;
 	default:
 		break;

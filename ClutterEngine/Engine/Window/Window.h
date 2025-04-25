@@ -16,7 +16,7 @@ namespace clt
          * @param pHeight The height of the window.
          * @param pName The name of the window. Default is "Clutter Engine".
          */
-        Window(u32 pWidth, u32 pHeight, std::string pName = "Clutter Engine");
+        Window(u32 pWidth, u32 pHeight, std::string pName = "Clutter Engine", bool vsync = true);
 
         /**
          * @brief Deleted copy constructor to prevent copying.
