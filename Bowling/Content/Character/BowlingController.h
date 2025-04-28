@@ -1,5 +1,6 @@
 #pragma once
 #include <Core/All.h>
+#include "Gameplay/BowlingBall.h"
 
 class BowlingController : public clt::PlayerController
 {
@@ -15,6 +16,8 @@ class BowlingController : public clt::PlayerController
 	float mRotation;
 	
 	clt::SpriteElement* mSprite;
+	BowlingBall* mBall;
+
 
 public:
 	BowlingController();

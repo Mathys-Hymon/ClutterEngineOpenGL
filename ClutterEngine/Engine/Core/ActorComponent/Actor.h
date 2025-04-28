@@ -54,10 +54,15 @@ namespace clt
          */
         ~Actor();
 
+
+        virtual void Start() {};
+
         /**
          * @brief Virtual method to update the actor.
          */
         virtual void Update() {};
+
+        virtual void Destroy() {};
 
         /**
          * @brief Adds a component to the actor.
@@ -88,12 +93,6 @@ namespace clt
             }
         };
 
-        /**
-         * @brief Attaches the actor to a scene.
-         * @param pScene The scene to attach to.
-         */
-        void AttachLevel(Level* pScene);
-
         bool LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant = false);
 
         /**
@@ -117,17 +116,6 @@ namespace clt
         std::string GetName() const { return mName; };
 
         Quaternion GetRotation() const { return mTransform.Rotation(); };
-        /**
-         * @brief Virtual method called when the actor collides with another actor.
-         * @param other The other actor.
-         */
-        virtual void OnCollision(Actor* other) {};
-
-        /**
-         * @brief Virtual method called when the collision with another actor ends.
-         * @param other The other actor.
-         */
-        virtual void OnCollisionEnd(Actor* other) {};
 
         /**
          * @brief Sets the location of the actor.

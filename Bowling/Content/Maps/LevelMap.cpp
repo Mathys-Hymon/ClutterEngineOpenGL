@@ -2,9 +2,9 @@
 #include <Core/All.h>  
 #include "Gameplay/BowlingLane.h"
 #include "Character/BowlingController.h"
+#include "Gameplay/BowlingBall.h"
 
-clt::Actor* camera;  
-clt::Actor* player;
+clt::Actor* camera;
 
 BowlingLane* lane1;
 clt::CubeActor* ceiling;
@@ -22,16 +22,9 @@ LevelMap::~LevelMap()
 }  
 
 void LevelMap::Load()  
-{  
-clt::Assets::Get().LoadTexture("Content/Resources/Sprites/ballTexture.png", "ballTexture");
-clt::Assets::Get().LoadTexture("Content/Resources/Sprites/pinMat.png", "pinTexture");
-clt::Assets::Get().LoadTexture("Content/Resources/Sprites/woodFloor.png", "floor");
-clt::Assets::Get().LoadTexture("Content/Resources/Sprites/DecoBanner.png", "banner");
-clt::Assets::Get().LoadTexture("Content/Resources/Sprites/bowlingPreviewRot.png", "previewRotation");
-clt::Assets::Get().LoadTexture("Content/Resources/Sprites/bowlingPreview.png", "previewTrajectory");
+{
 
-clt::Assets::Get().LoadMesh("Content/Resources/Mesh/sphere.obj", "ball");
-clt::Assets::Get().LoadMesh("Content/Resources/Mesh/pin.obj", "pin", "pinTexture", false);
+AddActor<BowlingBall>("ball");
 
 camera = AddActor<clt::Actor>("camera");
 
@@ -41,10 +34,7 @@ camera->AddComponent<BowlingController>();
 camera->SetActorLocation({ -1.5f, -0.6f, -13 });
 camera->SetActorRotation({ 0,180,0 });
 
-ball = AddActor<clt::Actor>("ball");
-ball->AddComponent<clt::MeshComponent>("ball");
-ball->SetActorScale(0.1f);
-ball->SetActorLocation(camera->GetActorLocation() + Vector3{0,-0.5f,1});
+GetActorOfType<BowlingBall>()->SetActorLocation(camera->GetActorLocation() + Vector3{ 0,-0.5f,1 });
 
 lane1 = AddActor<BowlingLane>("manager", false, Vector3{ 0, 0, 0 });
 AddActor<BowlingLane>("manager", true, Vector3{ 6, 0, 0 });

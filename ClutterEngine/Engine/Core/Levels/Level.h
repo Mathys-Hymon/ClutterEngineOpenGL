@@ -89,7 +89,6 @@ namespace clt
          * @brief Removes an actor from the level.
          * @param pActor Pointer to the actor to be removed.
          */
-        void temp(Actor* pActor);
 
         template<typename T>
         void DestroyActor(Actor* pActor);
@@ -153,6 +152,7 @@ namespace clt
             {
                 pActor->mLevel = this;
                 mActors[hashCode].emplace_back(pActor);
+                pActor->Start();
             }
 
             return pActor;
@@ -171,6 +171,7 @@ namespace clt
         {
             pActor->mState = ActorState::Dead;
             mDeadActors.push_back(pActor);
+            pActor->Destroy();
 
             actors.erase(it);
 

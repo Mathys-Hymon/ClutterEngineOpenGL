@@ -26,28 +26,13 @@ void Level::Unload()
 		{
 			if (pActor)
 			{
+				pActor->Destroy();
 				delete pActor;
 				pActor = nullptr;
 			}
 		}
 	}
 	mActors.clear();
-}
-
-void Level::temp(Actor* pActor)
-{
-	if (!pActor) CLUTTER_ERROR("Cannot remove a null Actor.");
-	size_t typeHash = typeid(pActor).hash_code();
-
-	auto& actors = mActors[typeHash];
-	auto it = std::find(actors.begin(), actors.end(), pActor);
-
-	if(it == actors.end()) CLUTTER_ERROR(mTitle + " has no actor of type: " + typeid(*pActor).name())
-	else 
-	{
-		delete* it;
-		actors.erase(it);
-	}
 }
 
 bool Level::LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant)

@@ -51,7 +51,7 @@ namespace clt
          */
         virtual void Update() {};
 
-        virtual void Unload() {};
+        virtual void Destroy() {};
 
         /**
          * @brief Enables or disables the component.

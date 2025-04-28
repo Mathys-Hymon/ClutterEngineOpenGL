@@ -1,7 +1,10 @@
 #include "BowlingController.h"
 
-BowlingController::BowlingController() : PlayerController(), mMode(mode::movement), mRotation(-180), mShootForce(0)
+BowlingController::BowlingController() : PlayerController(), mMode(mode::movement), mRotation(-180), mShootForce(0), mSprite(nullptr)
 {
+	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/bowlingPreviewRot.png", "previewRotation");
+	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/bowlingPreview.png", "previewTrajectory");
+
 	clt::Input::Get().MapKeysToAxis(EKey::A, EKey::D,"PlayerMovement");
 	clt::Input::Get().MapKeyToAction(EKey::Space, "changeMod");
 
@@ -22,6 +25,8 @@ void BowlingController::Start()
 	mOwner->GetComponentOfType<clt::HUDComponent>()->CreateWidget<clt::UIPanel>("PlayerScreen");
 	mSprite = mOwner->GetComponentOfType<clt::HUDComponent>()->GetCurrentWidget()->CreateElement<clt::SpriteElement>("preview", "previewTrajectory", 1, Vector2{ 0, -300 }, 50);
 
+	mBall = mOwner->GetLevel()->GetActorOfType< BowlingBall>();
+
 }
 
 void BowlingController::Move(float movement)
@@ -36,6 +41,7 @@ void BowlingController::Move(float movement)
 		}
 		
 		float locationX = Maths::Clamp(mOwner->GetActorLocation().x + -movement * clt::Timer::deltaTime, -2.5f, -0.5f);
+
 		mOwner->SetActorLocation({ locationX, mOwner->GetActorLocation().y, mOwner->GetActorLocation().z });
 	}
 
@@ -46,6 +52,7 @@ void BowlingController::Move(float movement)
 		mOwner->SetActorRotation({ 0, mRotation, 0});
 	}
 
+	mBall->SetActorLocation((mOwner->GetActorLocation() - mOwner->GetTransform().Forward()) - Vector3{0,0.5,0});
 }
 
 void BowlingController::ChangeMod()
@@ -78,6 +85,11 @@ void BowlingController::ChargeShoot()
 void BowlingController::Shoot()
 {
 	CLUTTER_LOG("Shoot");
+
+	if (mBall)
+	{
+		mBall->GetComponentOfType
+	}
 	mShootForce = 0;
 }
 

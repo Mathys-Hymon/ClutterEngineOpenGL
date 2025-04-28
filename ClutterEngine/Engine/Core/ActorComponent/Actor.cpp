@@ -32,12 +32,6 @@ Actor::~Actor()
    mComponentsToAdd.clear();
    mComponentsToRemove.clear();
 }
-
-void Actor::AttachLevel(Level* pLevel)
-{
-    mLevel = pLevel;
-}
-
 bool Actor::LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant)
 {
     return mLevel->LineTrace(start, direction, maxDistance, hit, debugPersistant);

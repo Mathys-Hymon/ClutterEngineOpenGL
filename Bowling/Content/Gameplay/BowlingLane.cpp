@@ -3,12 +3,16 @@
 
 clt::CubeActor* laneFloor1;
 clt::CubeActor* laneFloor2;
-clt::CubeActor* gutterActor;
 clt::CubeActor* bannerActor;
 
 
 BowlingLane::BowlingLane(clt::Level* pLevel, std::string pName, bool isStatic,  Vector3 location) : clt::Actor(pLevel, pName)
 {
+    clt::Assets::Get().LoadTexture("Content/Resources/Sprites/pinMat.png", "pinTexture");
+    clt::Assets::Get().LoadTexture("Content/Resources/Sprites/woodFloor.png", "floor");
+    clt::Assets::Get().LoadTexture("Content/Resources/Sprites/DecoBanner.png", "banner");
+    clt::Assets::Get().LoadMesh("Content/Resources/Mesh/pin.obj", "pin", "pinTexture", false);
+
     SetActorLocation(location);
 
 	RespawnPins(true, isStatic);
@@ -33,8 +37,6 @@ BowlingLane::BowlingLane(clt::Level* pLevel, std::string pName, bool isStatic,  
     bannerActor->SetActorRotation({ 0,0, 90 });
     bannerActor->SetActorLocation(GetActorLocation()+ Vector3{ 0, 1, 10 });
     bannerActor->GetComponentOfType<clt::MeshComponent>()->SetTexture(clt::Assets::Get().GetTexture("banner"), 1);
-
-    //gutterActor = pLevel->AddActor<clt::CubeActor>("gutter", false);
 }
 
 BowlingLane::~BowlingLane()
@@ -95,7 +97,6 @@ void BowlingLane::RespawnPins(bool leftLane, bool isStatic)
                 tempActor->AddComponent<clt::OBBCollider>(Vector3{ 10, 20, 10 })->SetRelativeLocation({ 0, 0.2f, 0 });
                 tempActor->GetComponentOfType<clt::OBBCollider>()->mFriction = 0.5f;
                 tempActor->AddComponent<clt::RigidBody>()->mLockRotation = false;
-                tempActor->GetComponentOfType<clt::OBBCollider>()->Subscribe(this);
             }
             tempActor->SetActorScale(0.1f);
 
@@ -103,28 +104,4 @@ void BowlingLane::RespawnPins(bool leftLane, bool isStatic)
             else mPinsRight.push_back(tempActor);
         }
     }
-}
-
-void BowlingLane::OnCollisionEnter(clt::ColliderComponent* collider, const hitResult& result)
-{
-}
-
-void BowlingLane::OnCollisionStay(clt::ColliderComponent* collider, const hitResult& result)
-{
-}
-
-void BowlingLane::OnCollisionExit(clt::ColliderComponent* collider, const hitResult& result)
-{
-}
-
-void BowlingLane::OnTriggerEnter(clt::ColliderComponent* collider, const hitResult& result)
-{
-}
-
-void BowlingLane::OnTriggerStay(clt::ColliderComponent* collider, const hitResult& result)
-{
-}
-
-void BowlingLane::OnTriggerExit(clt::ColliderComponent* collider, const hitResult& result)
-{
 }
