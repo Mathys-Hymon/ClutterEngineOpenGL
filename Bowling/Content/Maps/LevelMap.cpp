@@ -37,6 +37,7 @@ camera->AddComponent<BowlingController>();
 camera->SetActorLocation({ -1.5f, -0.6f, -13 });
 camera->SetActorRotation({ 0,180,0 });
 camera->AddComponent<clt::SpriteComponent>(clt::Assets::Get().LoadTexture("Content/Resources/Sprites/bowlingPreview.png", "previewTrajectory"))->SetRelativeLocation({0,0,2});
+camera->GetComponentOfType<clt::SpriteComponent>()->SetRelativeRotation({ 0,0,0 });
 
 lane1 = AddActor<BowlingLane>("manager", false, Vector3{ 0, 0, 0 });
 AddActor<BowlingLane>("manager", true, Vector3{ 6, 0, 0 });
@@ -47,7 +48,6 @@ AddActor<BowlingLane>("manager", true, Vector3{ -12, 0, 0 });
 AddActor<BowlingLane>("manager", true, Vector3{ -18, 0, 0 });
 
 ceiling = AddActor<clt::CubeActor>("ceiling");
-//ceiling->RemoveComponent<clt::OBBCollider>();
 ceiling->SetActorLocation({0,5,0});
 ceiling->SetActorScale({ 50,0.1f,50 });
 

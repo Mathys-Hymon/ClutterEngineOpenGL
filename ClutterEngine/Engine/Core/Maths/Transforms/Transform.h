@@ -47,9 +47,8 @@ public:
 
     void SetRotation(Vector3 newRotation)
     {
-        Quaternion increment(newRotation.x, newRotation.y, newRotation.z, newRotation.Length());
-        rotation = Quaternion::Concatenate(rotation, increment);
-
+        rotation = Quaternion::Concatenate(Quaternion::Identity, Quaternion::FromEuler(newRotation));
+        mDirty = true;
     }
 
     void SetRotation(float newRotation)
