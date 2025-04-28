@@ -5,45 +5,54 @@ using namespace clt;
 
 void Input::MapKeyToAction(EKey pKey, const std::string& pActionName, EInputState pState)
 {
-	mKeyActionMap[pKey] = {pActionName, pState, {}};
+	mKeyActionMap[pKey].push_back({pActionName, pState, {}});
 }
 
 void Input::MapKeyToAction(EMouseButton pKey, const std::string& pActionName, EInputState pState)
 {
-	mMouseActionMap[pKey] = { pActionName, pState, {} };
+	mMouseActionMap[pKey].push_back({ pActionName, pState, {} });
 }
 
 void Input::MapKeyToAction(EControllerButton pKey, const std::string& pActionName, EInputState pState)
 {
-	mControllerActionMap[pKey] = { pActionName, pState, {} };
+	mControllerActionMap[pKey].push_back({ pActionName, pState, {} });
 }
 
 void Input::RegisterActionCallback(const std::string& pActionName, std::function<void()> callback)
 {
-	for (auto& [key, action] : mKeyActionMap)
+	for (auto& [key, actions] : mKeyActionMap)
 	{
-		if (action.name == pActionName)
+		for (auto& action : actions)
 		{
-			action.callbacks.push_back(callback);
-			break;
+			if (action.name == pActionName)
+			{
+				action.callbacks.push_back(callback);
+				break;
+			}
 		}
 	}
 
-	for (auto& [key, action] : mMouseActionMap)
+	for (auto& [key, actions] : mMouseActionMap)
 	{
-		if (action.name == pActionName)
+		for (auto& action : actions)
 		{
-			action.callbacks.push_back(callback);
-			break;
+			if (action.name == pActionName)
+			{
+				action.callbacks.push_back(callback);
+				break;
+			}
 		}
 	}
 
-	for (auto& [key, action] : mControllerActionMap)
+	for (auto& [key, actions] : mControllerActionMap)
 	{
-		if (action.name == pActionName)
+		for (auto& action : actions)
 		{
-			action.callbacks.push_back(callback);
-			break;
+			if (action.name == pActionName)
+			{
+				action.callbacks.push_back(callback);
+				break;
+			}
 		}
 	}
 }
@@ -107,7 +116,7 @@ void Input::Update(Window* pWindow)
 	glfwSetScrollCallback(pGLFWindow, ScrollCallback);
 		// INPUT MAPPING
 
-	for (auto& [key, action] : mKeyActionMap)
+	for (auto& [key, actions] : mKeyActionMap)
 	{
 		bool isKeyPressed = glfwGetKey(pGLFWindow, static_cast<int>(key)) == GLFW_PRESS;
 		bool wasKeyPressed = mPreviousKeyStates[key];
@@ -123,17 +132,20 @@ void Input::Update(Window* pWindow)
 			currentState = EInputState::Released;
 		}
 
-		if (currentState == action.state)
+		for (auto& action : actions)
 		{
-			for (std::function<void()> callback : action.callbacks)
+			if (currentState == action.state)
 			{
-				callback();
+				for (std::function<void()> callback : action.callbacks)
+				{
+					callback();
+				}
 			}
 		}
 		mPreviousKeyStates[key] = isKeyPressed;
 	}
 
-	for (auto& [key, action] : mControllerActionMap)
+	for (auto& [key, actions] : mControllerActionMap)
 	{
 		bool isKeyPressed = glfwGetKey(pGLFWindow, static_cast<int>(key)) == GLFW_PRESS;
 		bool wasKeyPressed = mPreviousControllerStates[key];
@@ -149,22 +161,24 @@ void Input::Update(Window* pWindow)
 			currentState = EInputState::Released;
 		}
 
-		if (currentState == action.state)
+		for (auto& action : actions)
 		{
-			for (std::function<void()> callback : action.callbacks)
+			if (currentState == action.state)
 			{
-				callback();
+				for (std::function<void()> callback : action.callbacks)
+				{
+					callback();
+				}
 			}
 		}
 		mPreviousControllerStates[key] = isKeyPressed;
 	}
 
-	for (auto& [key, action] : mMouseActionMap)
+	for (auto& [key, actions] : mMouseActionMap)
 	{
 		int glfwBtn = static_cast<int>(key);
 		bool isKeyPressed = glfwGetMouseButton(pGLFWindow, glfwBtn) == GLFW_PRESS;
 
-		//bool isKeyPressed = glfwGetMouseButton(pGLFWindow, static_cast<int>(key)) == GLFW_PRESS;
 		bool wasKeyPressed = mPreviousMouseStates[key];
 
 		EInputState currentState = EInputState::Held;
@@ -173,18 +187,26 @@ void Input::Update(Window* pWindow)
 		{
 			currentState = EInputState::Pressed;
 		}
-		else if (!isKeyPressed && !wasKeyPressed)
+		else if (!isKeyPressed && wasKeyPressed)
 		{
 			currentState = EInputState::Released;
 		}
-
-		if (currentState == action.state)
+		else if (!isKeyPressed && !wasKeyPressed)
 		{
-			for (std::function<void()> callback : action.callbacks)
+			currentState = EInputState::Idle;
+		}
+
+		for (auto& action : actions)
+		{
+			if (currentState == action.state)
 			{
-				callback();
+				for (std::function<void()> callback : action.callbacks)
+				{
+					callback();
+				}
 			}
 		}
+
 		mPreviousMouseStates[key] = isKeyPressed;
 	}
 

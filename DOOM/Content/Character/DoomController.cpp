@@ -19,6 +19,7 @@ mRotationVelocity(0.0f), mMovementVelocity(0), mWeapon(Weapons::Hand)
 
 void DoomController::Start()
 {
+
 	GetOwner()->AddComponent<DoomHUD>();
 	mHand = mOwner->GetComponentOfType<DoomHUD>()->GetCurrentWidget()->
 		GetElement<AnimatorElement>("playerWeapon");

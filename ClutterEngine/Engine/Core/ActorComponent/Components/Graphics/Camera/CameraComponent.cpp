@@ -60,6 +60,11 @@ void CameraComponent::SetActive(CameraComponent* cam)
 	ACTIVE_CAMERA = cam;
 }
 
+void CameraComponent::SetActive()
+{
+	ACTIVE_CAMERA = this;
+}
+
 CameraComponent* CameraComponent::GetActiveCamera()
 {
 	return ACTIVE_CAMERA;

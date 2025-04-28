@@ -38,6 +38,8 @@ namespace clt
 		void SetFOV(float pFOV);
 		void SetProjectionMode(ProjectionMode pProjectionMode);
 		void SetActive(CameraComponent* cam);
+		void SetActive();
+
 		static CameraComponent* GetActiveCamera();
 
 		const Matrix4Row& GetViewMatrix() 

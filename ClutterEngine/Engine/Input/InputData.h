@@ -170,5 +170,6 @@
   {  
       Pressed,  
       Held,  
-      Released  
+      Released,
+      Idle
   };

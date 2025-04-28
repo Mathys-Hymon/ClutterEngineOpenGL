@@ -43,7 +43,7 @@ namespace clt
 
 	private:
 
-		std::unordered_map<EKey, Action> mKeyActionMap;  /**< Map of key codes to actions */
+		std::unordered_map<EKey, std::vector<Action>> mKeyActionMap;  /**< Map of key codes to actions */
 		std::unordered_map<EKey, bool> mPreviousKeyStates;  /**< Map of previous key states */
 
 		std::unordered_map<std::string, AxisMapping> mAxisMap;
@@ -54,7 +54,7 @@ namespace clt
 
 
 		// Mouse
-		std::unordered_map<EMouseButton, Action> mMouseActionMap;
+		std::unordered_map<EMouseButton, std::vector<Action>> mMouseActionMap;
 		std::unordered_map<EMouseButton, bool> mPreviousMouseStates;
 		std::unordered_map<std::string, MouseAxisMapping> mMouseAxisMap;
 		std::vector<std::function<void(Vector2)>> mMouseDeltaCallback;
@@ -67,7 +67,7 @@ namespace clt
 		bool mLockMouse = true;
 
 		// Controller
-		std::unordered_map<EControllerButton, Action> mControllerActionMap;
+		std::unordered_map<EControllerButton, std::vector<Action>> mControllerActionMap;
 		std::unordered_map<EControllerButton, bool> mPreviousControllerStates;
 		std::unordered_map<std::string, EControllerAxis> mControllerAxisMap;
 

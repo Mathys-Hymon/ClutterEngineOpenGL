@@ -4,6 +4,7 @@
 #include "Character/BowlingController.h"
 
 clt::Actor* camera;  
+clt::Actor* player;
 
 BowlingLane* lane1;
 clt::CubeActor* ceiling;
@@ -27,17 +28,23 @@ clt::Assets::Get().LoadTexture("Content/Resources/Sprites/pinMat.png", "pinTextu
 clt::Assets::Get().LoadTexture("Content/Resources/Sprites/woodFloor.png", "floor");
 clt::Assets::Get().LoadTexture("Content/Resources/Sprites/DecoBanner.png", "banner");
 clt::Assets::Get().LoadTexture("Content/Resources/Sprites/bowlingPreviewRot.png", "previewRotation");
+clt::Assets::Get().LoadTexture("Content/Resources/Sprites/bowlingPreview.png", "previewTrajectory");
 
 clt::Assets::Get().LoadMesh("Content/Resources/Mesh/sphere.obj", "ball");
 clt::Assets::Get().LoadMesh("Content/Resources/Mesh/pin.obj", "pin", "pinTexture", false);
 
 camera = AddActor<clt::Actor>("camera");
+
 camera->AddComponent<clt::CameraComponent>();
+camera->AddComponent<clt::HUDComponent>();
 camera->AddComponent<BowlingController>();
 camera->SetActorLocation({ -1.5f, -0.6f, -13 });
 camera->SetActorRotation({ 0,180,0 });
-camera->AddComponent<clt::SpriteComponent>(clt::Assets::Get().LoadTexture("Content/Resources/Sprites/bowlingPreview.png", "previewTrajectory"))->SetRelativeLocation({0,0,2});
-camera->GetComponentOfType<clt::SpriteComponent>()->SetRelativeRotation({ 0,0,0 });
+
+ball = AddActor<clt::Actor>("ball");
+ball->AddComponent<clt::MeshComponent>("ball");
+ball->SetActorScale(0.1f);
+ball->SetActorLocation(camera->GetActorLocation() + Vector3{0,-0.5f,1});
 
 lane1 = AddActor<BowlingLane>("manager", false, Vector3{ 0, 0, 0 });
 AddActor<BowlingLane>("manager", true, Vector3{ 6, 0, 0 });
