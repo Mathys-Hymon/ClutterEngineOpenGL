@@ -23,8 +23,8 @@ bool SphereCollider::CheckSphereVsSphere(SphereCollider* pOther, hitResult& outR
     if (distSq > radiusSum * radiusSum)
     {
         // No collision: draw the spheres in red for debugging
-        DebugDraw::Get().DrawSphere(centerA, radiusA, Color::red, 2);
-        DebugDraw::Get().DrawSphere(centerB, radiusB, Color::red, 2);
+        DebugDraw::Get().DrawSphere(centerA, radiusA, Color::Red, 2);
+        DebugDraw::Get().DrawSphere(centerB, radiusB, Color::Red, 2);
         return false;
     }
 
@@ -51,7 +51,7 @@ bool SphereCollider::CheckSphereVsSphere(SphereCollider* pOther, hitResult& outR
     outResult.ColliderB = pOther;
 
     // Debug: draw the contact point as a small sphere
-    DebugDraw::Get().DrawSphere(contactPoint, 0.01f, Color::red, 5);
+    DebugDraw::Get().DrawSphere(contactPoint, 0.01f, Color::Red, 5);
 
     return true;
 }

@@ -28,9 +28,10 @@ AddActor<BowlingBall>("ball");
 camera = AddActor<clt::Actor>("camera");
 
 camera->AddComponent<clt::CameraComponent>();
+camera->AddComponent<clt::SpringArmComponent>(3);
 camera->AddComponent<clt::HUDComponent>();
 camera->AddComponent<BowlingController>();
-camera->SetActorLocation({ -1.5f, -0.6f, -13 });
+camera->SetActorLocation({ -1.5f, -0.6f, -9 });
 camera->SetActorRotation({ 0,180,0 });
 
 GetActorOfType<BowlingBall>()->SetActorLocation(camera->GetActorLocation() + Vector3{ 0,-0.5f,1 });

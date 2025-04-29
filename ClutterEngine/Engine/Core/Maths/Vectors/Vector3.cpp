@@ -3,15 +3,17 @@
 #include <Core/Maths/Matrix/Matrix4.h>
 #include <Core/Maths/Quaternion.h>
 
-const Vector3 Vector3::Zero(0.0f, 0.0f, 0.f);
-const Vector3 Vector3::unitX(1.0f, 0.0f, 0.0f);
-const Vector3 Vector3::unitY(0.0f, 1.0f, 0.0f);
-const Vector3 Vector3::unitZ(0.0f, 0.0f, 1.0f);
-const Vector3 Vector3::negUnitX(-1.0f, 0.0f, 0.0f);
-const Vector3 Vector3::negUnitY(0.0f, -1.0f, 0.0f);
-const Vector3 Vector3::negUnitZ(0.0f, 0.0f, -1.0f);
-const Vector3 Vector3::infinity(Maths::INFINITY_POS, Maths::INFINITY_POS, Maths::INFINITY_POS);
-const Vector3 Vector3::negInfinity(Maths::INFINITY_NEG, Maths::INFINITY_NEG, Maths::INFINITY_NEG);
+const Vector3 Vector3::Zero(0.0f, 0.0f, 0.0f);
+const Vector3 Vector3::One(1.0f, 1.0f, 1.0f);
+
+const Vector3 Vector3::Right(1.0f, 0.0f, 0.0f);
+const Vector3 Vector3::Up(0.0f, 1.0f, 0.0f);
+const Vector3 Vector3::Forward(0.0f, 0.0f, 1.0f);
+const Vector3 Vector3::Left(-1.0f, 0.0f, 0.0f);
+const Vector3 Vector3::Down(0.0f, -1.0f, 0.0f);
+const Vector3 Vector3::Backward(0.0f, 0.0f, -1.0f);
+const Vector3 Vector3::Infinity(Maths::INFINITY_POS, Maths::INFINITY_POS, Maths::INFINITY_POS);
+const Vector3 Vector3::NegInfinity(Maths::INFINITY_NEG, Maths::INFINITY_NEG, Maths::INFINITY_NEG);
 
 void Vector3::Set(float xP, float yP, float zP)
 {

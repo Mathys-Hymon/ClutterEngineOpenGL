@@ -1,6 +1,6 @@
 #include "BowlingController.h"
 
-BowlingController::BowlingController() : PlayerController(), mMode(mode::movement), mRotation(-180), mShootForce(0), mSprite(nullptr)
+BowlingController::BowlingController() : PlayerController(), mMode(mode::movement), mRotation(-180), mShootForce(0), mSprite(nullptr), mResetTimer(0)
 {
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/bowlingPreviewRot.png", "previewRotation");
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/bowlingPreview.png", "previewTrajectory");
@@ -53,7 +53,7 @@ void BowlingController::Move(float movement)
 		mOwner->SetActorRotation({ 0, mRotation, 0});
 	}
 	
-	if (movement != 0)
+	if (movement != 0 && mMode != mode::shoot)
 	{
 		mBall->SetActorLocation((mOwner->GetActorLocation() - mOwner->GetTransform().Forward()) - Vector3{ 0,0.5,0 });
 		mBall->GetComponentOfType<clt::RigidBody>()->SetSimulate(false);
@@ -79,26 +79,71 @@ void BowlingController::ChangeMod()
 
 void BowlingController::ChargeShoot()
 {
-	mShootForce += clt::Timer::deltaTime;
-	
-	mShootForce = Maths::Clamp(mShootForce, 0.0f, 1.0f);
-	mSprite->SetSize({ 1.0,mShootForce });
-	mSprite->SetPosition({ 0.0f ,-600 + mShootForce * 300});
-	mBall->GetComponentOfType<clt::RigidBody>()->SetSimulate(false);
+	if (mMode != mode::shoot)
+	{
+		mShootForce += clt::Timer::deltaTime;
 
-	mBall->SetActorLocation((mOwner->GetActorLocation() - mOwner->GetTransform().Forward()) - Vector3{ 0,0.5,0 });
+		mShootForce = Maths::Clamp(mShootForce, 0.0f, 1.0f);
+		mSprite->SetSize({ 1.0,mShootForce });
+		mSprite->SetPosition({ 0.0f ,-600 + mShootForce * 300 });
+		mBall->GetComponentOfType<clt::RigidBody>()->SetSimulate(false);
+
+		mBall->SetActorLocation((mOwner->GetActorLocation() - mOwner->GetTransform().Forward()) - Vector3{ 0,0.5,0 });
+	}
 }
 
 void BowlingController::Shoot()
 {
-	if (mBall)
+	if (mMode != mode::shoot)
 	{
-		mBall->GetComponentOfType<clt::RigidBody>()->SetSimulate(true);
-		mBall->GetComponentOfType<clt::RigidBody>()->AddForce(mOwner->GetTransform().Forward() * mShootForce * -2000 * mBall->GetComponentOfType<clt::RigidBody>()->GetMass());
+		if (mBall)
+		{
+			mBall->GetComponentOfType<clt::RigidBody>()->SetSimulate(true);
+			mBall->GetComponentOfType<clt::RigidBody>()->AddForce(mOwner->GetTransform().Forward() * mShootForce * -5000 * mBall->GetComponentOfType<clt::RigidBody>()->GetMass());
+		}
+		mShootForce = 0;
+		mMode = mode::shoot;
+		mSprite->mVisibility = false;
 	}
-	mShootForce = 0;
+
 }
 
 void BowlingController::Update()
 {
+	auto& cam = *mOwner->GetComponentOfType<clt::CameraComponent>();
+	if (mBall->GetActorLocation().z > 1 &&  mMode == mode::shoot)
+	{
+		mOwner->GetComponentOfType<clt::SpringArmComponent>()->SetWorldLocation({-1,-1,5});
+
+	}
+
+	if (mMode == mode::shoot)
+	{
+		cam.SetRelativeRotation(Quaternion::LookAt(GetWorldLocation(), mBall->GetActorLocation()));
+	}
+	else
+	{
+		cam.SetRelativeRotation(Vector3::Zero);
+	}
+
+	auto& rb = *mBall->GetComponentOfType<clt::RigidBody>();
+
+	if (rb.SimulatePhysics() && (rb.GetVelocity().LengthSq() < 10000 || !rb.IsGrounded()))
+	{
+		mResetTimer += clt::Timer::deltaTime;
+	}
+	else
+	{
+		mResetTimer = 0;
+	}
+
+	if (mResetTimer > 2 && mMode == mode::shoot)
+	{
+		mResetTimer;
+		mMode = mode::movement;
+		mSprite->mVisibility = true;
+		mOwner->GetComponentOfType<clt::SpringArmComponent>()->SetRelativeLocation(Vector3::Zero);
+		mBall->GetComponentOfType<clt::RigidBody>()->SetSimulate(false);
+		mBall->SetActorLocation((mOwner->GetActorLocation() - mOwner->GetTransform().Forward()) - Vector3{ 0,0.5,0 });
+	}
 }

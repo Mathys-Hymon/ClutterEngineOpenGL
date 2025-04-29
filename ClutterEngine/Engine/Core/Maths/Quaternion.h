@@ -188,6 +188,52 @@ struct CLUTTER_API Quaternion
 
     }
 
+
+	static Quaternion LookAt(const Vector3& sourcePoint, const Vector3& targetPoint, const Vector3& up = Vector3::Up)
+	{
+		Vector3 forward = Vector3::Normalize(targetPoint - sourcePoint);
+		Vector3 right = Vector3::Normalize(Vector3::Cross(up, forward));
+		Vector3 newUp = Vector3::Cross(forward, right);
+
+		float m00 = right.x, m01 = right.y, m02 = right.z;
+		float m10 = newUp.x, m11 = newUp.y, m12 = newUp.z;
+		float m20 = forward.x, m21 = forward.y, m22 = forward.z;
+
+		float trace = m00 + m11 + m22;
+		float qw, qx, qy, qz;
+
+		if (trace > 0.0f) {
+			float s = sqrtf(trace + 1.0f) * 2.0f;
+			qw = 0.25f * s;
+			qx = (m21 - m12) / s;
+			qy = (m02 - m20) / s;
+			qz = (m10 - m01) / s;
+		}
+		else if ((m00 > m11) && (m00 > m22)) {
+			float s = sqrtf(1.0f + m00 - m11 - m22) * 2.0f;
+			qw = (m21 - m12) / s;
+			qx = 0.25f * s;
+			qy = (m01 + m10) / s;
+			qz = (m02 + m20) / s;
+		}
+		else if (m11 > m22) {
+			float s = sqrtf(1.0f + m11 - m00 - m22) * 2.0f;
+			qw = (m02 - m20) / s;
+			qx = (m01 + m10) / s;
+			qy = 0.25f * s;
+			qz = (m12 + m21) / s;
+		}
+		else {
+			float s = sqrtf(1.0f + m22 - m00 - m11) * 2.0f;
+			qw = (m10 - m01) / s;
+			qx = (m02 + m20) / s;
+			qy = (m12 + m21) / s;
+			qz = 0.25f * s;
+		}
+
+		return Quaternion(qx, qy, qz, qw).Normalized();
+	}
+
 	// Convert quaternion to Euler angles (pitch, yaw, roll)
 	Vector3 QuaternionToEuler() const
 	{

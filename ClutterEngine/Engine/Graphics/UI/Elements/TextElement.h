@@ -28,11 +28,11 @@ namespace clt
 
 	public:
 
-		TextElement(std::string text = "Hello World !", std::string font = "BebasNeue", Color color = Color::white, float textSize = 1, Vector2 position = { 0, 0 }, int ZOrder = 0);
+		TextElement(std::string text = "Hello World !", std::string font = "BebasNeue", Color color = Color::White, float textSize = 1, Vector2 position = { 0, 0 }, int ZOrder = 0);
 
 		TextElement(std::string text, Color color, float textSize = 1, Vector2 position = { 0, 0 }, int ZOrder = 0);
 
-		TextElement(std::string text, Font* font, Color color = Color::white, float textSize = 1, Vector2 position = { 0, 0 }, int ZOrder = 0);
+		TextElement(std::string text, Font* font, Color color = Color::White, float textSize = 1, Vector2 position = { 0, 0 }, int ZOrder = 0);
 
 		~TextElement();
 

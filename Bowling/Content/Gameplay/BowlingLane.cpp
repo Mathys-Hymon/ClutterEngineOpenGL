@@ -100,8 +100,9 @@ void BowlingLane::RespawnPins(bool leftLane, bool isStatic)
             if (!isStatic && leftLane)
             {
                 tempActor->AddComponent<clt::OBBCollider>(Vector3{ 10, 20, 10 })->SetRelativeLocation({ 0, 0.2f, 0 });
-                tempActor->GetComponentOfType<clt::OBBCollider>()->mFriction = 1.0f;
-                tempActor->AddComponent<clt::RigidBody>()->SetMass(1.0f);
+                tempActor->GetComponentOfType<clt::OBBCollider>()->mFriction = 0.5f;
+                tempActor->AddComponent<clt::RigidBody>()->SetMass(0.1f);
+                tempActor->GetComponentOfType<clt::RigidBody>()->LockRotation(false);
             }
             tempActor->SetActorScale(0.1f);
 

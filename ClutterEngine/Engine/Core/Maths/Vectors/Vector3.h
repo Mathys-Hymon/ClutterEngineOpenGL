@@ -1,15 +1,27 @@
 #pragma once
+#include "Core/CCommon.h"
 #include <Core/Debug/CLog/CLog.h>
 #include <Core/Maths/Vectors/Vector2.h>
 #include <algorithm>
 /**
  * @brief A 3D vector structure.
  */
-struct Vector3
+struct CLUTTER_API Vector3
 {
 	float x = 0;
 	float y = 0;
 	float z = 0;
+
+	static const Vector3 Zero;
+	static const Vector3 One;
+	static const Vector3 Up;
+	static const Vector3 Down;
+	static const Vector3 Left;
+	static const Vector3 Right;
+	static const Vector3 Forward;
+	static const Vector3 Backward;
+	static const Vector3 Infinity;
+	static const Vector3 NegInfinity;
 
 	Vector3() : x(0.0f), y(0.0f), z(0.0f) {}
 
@@ -205,13 +217,18 @@ struct Vector3
  * @param interpSpeed The interpolation speed.
  * @return The interpolated vector.
  */
-	static Vector3 VInterp(const Vector3& current, const Vector3& target, float deltaTime, float interpSpeed)
+	static Vector3 VInterp(const Vector3& current, const Vector3& target, float interpSpeed, float deltaTime = -1)
 	{
+		float dt = deltaTime;
+		if (dt == -1)
+		{
+			dt = clt::Timer::deltaTime;
+		}
 		if (interpSpeed <= 0.0f)
 		{
 			return target;
 		}
-		Vector3 result = current + (target - current) * std::clamp(deltaTime * interpSpeed, 0.0f, 1.0f);
+		Vector3 result = current + (target - current) * std::clamp(dt * interpSpeed, 0.0f, 1.0f);
 
 		return result;
 	}
@@ -258,14 +275,4 @@ struct Vector3
 		if (z < minValue) z = minValue;
 		if (z > maxValue) z = maxValue;
 	}
-
-	static const Vector3 Zero;
-	static const Vector3 unitX;
-	static const Vector3 unitY;
-	static const Vector3 unitZ;
-	static const Vector3 negUnitX;
-	static const Vector3 negUnitY;
-	static const Vector3 negUnitZ;
-	static const Vector3 infinity;
-	static const Vector3 negInfinity;
 };

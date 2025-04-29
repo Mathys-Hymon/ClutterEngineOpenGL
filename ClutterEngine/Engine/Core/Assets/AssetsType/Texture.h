@@ -1,5 +1,6 @@
 #pragma once
 #include <Core/CCommon.h>
+#include "Core/Maths/Vectors/Vector2.h"
 #include <glad/glad.h>
 #include <string>
 

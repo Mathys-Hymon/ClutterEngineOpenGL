@@ -69,11 +69,11 @@ namespace clt
 
 		static DebugDraw& Get();
 
-		void DrawLine(const Vector3& start, const Vector3& end, const Color& color = Color::red, float lineThickness = 1, bool persistant = false);
+		void DrawLine(const Vector3& start, const Vector3& end, const Color& color = Color::Red, float lineThickness = 1, bool persistant = false);
 
-		void DrawBox(const Vector3& center, const Vector3& extents, const Color& color = Color::red, float lineThickness = 1, const Quaternion & rotation = Quaternion::Identity, bool persistant = false);
+		void DrawBox(const Vector3& center, const Vector3& extents, const Color& color = Color::Red, float lineThickness = 1, const Quaternion & rotation = Quaternion::Identity, bool persistant = false);
 
-		void DrawSphere(const Vector3& center, float radius, const Color& color = Color::red, float lineThickness = 1, bool persistant = false);
+		void DrawSphere(const Vector3& center, float radius, const Color& color = Color::Red, float lineThickness = 1, bool persistant = false);
 
 		void FlushPersistantDraw();
 

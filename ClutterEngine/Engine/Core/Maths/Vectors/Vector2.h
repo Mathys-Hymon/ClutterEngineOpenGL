@@ -16,7 +16,7 @@
 /**
  * @brief A 2D vector structure.
  */
-struct Vector2
+struct CLUTTER_API Vector2
 {
     float x = 0; ///< The x-coordinate of the vector.
     float y = 0; ///< The y-coordinate of the vector.

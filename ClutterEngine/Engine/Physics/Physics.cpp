@@ -116,12 +116,12 @@ bool Physics::LineTrace(Vector3 start, Vector3 direction, float maxDistance, ray
     if (hit.Actor)
     {
         hit.hitResult = true;
-        DebugDraw::Get().DrawLine(start, hit.Point, Color::red, 3.0f, debugPersistant);
-        DebugDraw::Get().DrawLine(hit.Point, end, Color::green, 3.0f, debugPersistant);
+        DebugDraw::Get().DrawLine(start, hit.Point, Color::Red, 3.0f, debugPersistant);
+        DebugDraw::Get().DrawLine(hit.Point, end, Color::Green, 3.0f, debugPersistant);
 
-        DebugDraw::Get().DrawBox(hit.Point, 0.05f, Color::red, 3.0f, Quaternion::FromEuler(hit.Normal), debugPersistant);
+        DebugDraw::Get().DrawBox(hit.Point, 0.05f, Color::Red, 3.0f, Quaternion::FromEuler(hit.Normal), debugPersistant);
     }
-    else DebugDraw::Get().DrawLine(start, end, Color::red, 3.0f, debugPersistant);
+    else DebugDraw::Get().DrawLine(start, end, Color::Red, 3.0f, debugPersistant);
 
 
     return hit.hitResult;

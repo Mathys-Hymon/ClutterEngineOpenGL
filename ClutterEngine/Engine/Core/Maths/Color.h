@@ -10,28 +10,28 @@ struct CLUTTER_API Color
 	float b = 0; ///< The blue component of the color.
 	float a = 0; ///< The alpha component of the color.
 
-	static const Color black; ///< A color with all components set to zero.
-	static const Color white; ///< A color with all components set to one.
-	static const Color red;   ///< A color with the red component set to one.
-	static const Color green; ///< A color with the green component set to one.
-	static const Color blue;  ///< A color with the blue component set to one.
-	static const Color yellow;///< A color with the red and green components set to one.
-	static const Color cyan;  ///< A color with the green and blue components set to one.
-	static const Color magenta;///< A color with the red and blue components set to one.
-	static const Color orange;///< A color with the red and green components set to one and the blue component set to zero.
-	static const Color purple;///< A color with the red and blue components set to one and the green component set to zero.
-	static const Color pink;  ///< A color with the red and blue components set to one and the green component set to zero.
-	static const Color brown;///< A color with the red and green components set to one and the blue component set to zero.
-	static const Color grey; ///< A color with all components set to 0.5.
-	static const Color dark_grey;///< A color with all components set to 0.25.
-	static const Color light_grey;///< A color with all components set to 0.75.
-	static const Color teal; ///< A color with the green and blue components set to 0.5 and the red component set to zero.
-	static const Color lime; ///< A color with the red and green components set to 0.5 and the blue component set to zero.
-	static const Color maroon;///< A color with the red component set to 0.5 and the green and blue components set to zero.
-	static const Color navy; ///< A color with the blue component set to 0.5 and the red and green components set to zero.
-	static const Color olive;///< A color with the red and green components set to 0.5 and the blue component set to zero.
-	static const Color silver;///< A color with all components set to 0.75.
-	static const Color gold; ///< A color with the red component set to 1 and the green and blue components set to 0.85.
+	static const Color Black; ///< A color with all components set to zero.
+	static const Color White; ///< A color with all components set to one.
+	static const Color Red;   ///< A color with the red component set to one.
+	static const Color Green; ///< A color with the green component set to one.
+	static const Color Blue;  ///< A color with the blue component set to one.
+	static const Color Yellow;///< A color with the red and green components set to one.
+	static const Color Cyan;  ///< A color with the green and blue components set to one.
+	static const Color Magenta;///< A color with the red and blue components set to one.
+	static const Color Orange;///< A color with the red and green components set to one and the blue component set to zero.
+	static const Color Purple;///< A color with the red and blue components set to one and the green component set to zero.
+	static const Color Pink;  ///< A color with the red and blue components set to one and the green component set to zero.
+	static const Color Brown;///< A color with the red and green components set to one and the blue component set to zero.
+	static const Color Grey; ///< A color with all components set to 0.5.
+	static const Color Dark_grey;///< A color with all components set to 0.25.
+	static const Color Light_grey;///< A color with all components set to 0.75.
+	static const Color Teal; ///< A color with the green and blue components set to 0.5 and the red component set to zero.
+	static const Color Lime; ///< A color with the red and green components set to 0.5 and the blue component set to zero.
+	static const Color Maroon;///< A color with the red component set to 0.5 and the green and blue components set to zero.
+	static const Color Navy; ///< A color with the blue component set to 0.5 and the red and green components set to zero.
+	static const Color Olive;///< A color with the red and green components set to 0.5 and the blue component set to zero.
+	static const Color Silver;///< A color with all components set to 0.75.
+	static const Color Gold; ///< A color with the red component set to 1 and the green and blue components set to 0.85.
 
 
 

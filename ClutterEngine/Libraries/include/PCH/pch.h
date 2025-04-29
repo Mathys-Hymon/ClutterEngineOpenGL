@@ -11,4 +11,7 @@
 #include "framework.h"
 #include <iostream>
 #include <Core/Debug/DebugDraw.h>
+#include <Core/Debug/CLog/CLog.h>
+#include <Core/Maths/Vectors/Vector2.h>
+#include <Core/Maths/Vectors/Vector3.h>
 #endif //PCH_H

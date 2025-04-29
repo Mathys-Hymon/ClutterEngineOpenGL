@@ -14,6 +14,8 @@ class BowlingController : public clt::PlayerController
 	mode mMode;
 	float mShootForce;
 	float mRotation;
+
+	float mResetTimer;
 	
 	clt::SpriteElement* mSprite;
 	BowlingBall* mBall;

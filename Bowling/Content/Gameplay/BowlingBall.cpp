@@ -8,10 +8,13 @@ BowlingBall::BowlingBall(clt::Level* pLevel, std::string pName) : clt::Actor(pLe
 	SetActorScale(0.2f);
 	AddComponent<clt::MeshComponent>("ball");
 	
-	AddComponent<clt::OBBCollider>(Vector3{ 10, 10, 10 })->mFriction = 0.5f;
+	AddComponent<clt::SphereCollider>()->mFriction = 0.5f;
 	AddComponent<clt::RigidBody>()->SetMass(1);
 }
 
-void BowlingBall::OnCollisionEnter(clt::ColliderComponent* collider, const hitResult& result)
+void BowlingBall::Update()
 {
+	Vector3 rot = GetComponentOfType<clt::RigidBody>()->GetVelocity();
+
+	GetComponentOfType<clt::MeshComponent>()->AddRelativeRotation(Vector3{rot.z,0,rot.x } * clt::Timer::deltaTime);
 }
