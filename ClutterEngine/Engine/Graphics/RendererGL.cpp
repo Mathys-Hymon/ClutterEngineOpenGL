@@ -14,13 +14,13 @@ RendererGL::RendererGL() : mEngine(nullptr), mSpriteVAO(nullptr)
 {
 }
 
-bool RendererGL::Initialize(CEngine* pEngine, Color backgroundColor)
+void RendererGL::Initialize(CEngine* pEngine, Color backgroundColor)
 {
     mBackgroundColor = backgroundColor;
     mEngine = pEngine;
 
     // Initialize GLAD to load OpenGL functions  
-    if (gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) CLUTTER_LOG("GLAD initialised successfully")
+    if (gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) CLUTTER_LOG("GLAD initialised successfully");
     else CLUTTER_ERROR("Cant initialise GLAD");
 
     Assets::Get().SetRenderer(this);
@@ -66,6 +66,7 @@ bool RendererGL::Initialize(CEngine* pEngine, Color backgroundColor)
     mSpriteShader.Use();
     mSpriteShader.SetMat4Row("uViewProj", mUiViewProj);
     glPatchParameteri(GL_PATCH_VERTICES, 3);
+
 }
 
 void RendererGL::Close()

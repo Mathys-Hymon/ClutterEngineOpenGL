@@ -51,7 +51,7 @@ namespace clt
    */
 		RendererGL& operator=(const RendererGL&) = delete;
 
-		bool Initialize(CEngine* pEngine, Color backgroundColor) override;
+		void Initialize(CEngine* pEngine, Color backgroundColor) override;
 
 		void Close() override;
 

@@ -68,7 +68,7 @@ Mesh* Assets::LoadMeshFromFile(const std::string& pFile, bool pTesselate)
 
     bool success = tinyobj::LoadObj(&attributes, &shapes, &materials, &errors, +pFile.c_str());
 
-    if(success) CLUTTER_LOG(("Mesh " + pFile + " loaded sucessfully ").c_str())
+    if (success) CLUTTER_LOG(("Mesh " + pFile + " loaded sucessfully ").c_str());
     else
     {
         CLUTTER_ERROR("Failed to load Mesh. \n " + pFile + " does not exist or is not .obj");
@@ -238,7 +238,7 @@ Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, const
 
     if (mMeshes.find(name) != mMeshes.end())
     {
-        CLUTTER_LOG(("An instance of " + pName + " already exists and is returned.").c_str())
+        CLUTTER_LOG(("An instance of " + pName + " already exists and is returned.").c_str());
         return GetMesh(name);
     }
 

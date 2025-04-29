@@ -15,7 +15,7 @@ Application::Application(std::vector<Level*> pLevels, const std::string& configF
 	if (pLevels.empty()) pLevels.push_back(new TemplateLevel());
 
 	mEngine->Init(configFile, pLevels);
-	CLUTTER_INFO("Application created")
+	CLUTTER_INFO("Application created");
 
 	if (mEngine->isEditorMode())
 	{
@@ -67,4 +67,5 @@ void Application::ShowLitMode()
 Application::~Application()	
 {
 	mEngine->Close();
+	CLog::Shutdown();
 }

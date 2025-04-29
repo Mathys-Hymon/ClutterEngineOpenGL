@@ -23,6 +23,8 @@ void CEngine::Init(const std::string& path, std::vector<Level*> pLevels)
 	Color backgroundColor = { color[0], color[1], color[2], color[3] };
 
 	mName = config["project"]["name"];
+	CLog::Init(mName);
+
 	mWindow = std::make_unique<Window>(res[0], res[1], mName, config["render"]["vsync"]);
 	mRenderer = std::make_unique<RendererGL>();
 	mRenderer->Initialize(this, backgroundColor);

@@ -69,7 +69,6 @@ namespace clt
 			#else
 				return false;
 			#endif
-
 		}
 		/**
    * @brief Gets the level manager instance.

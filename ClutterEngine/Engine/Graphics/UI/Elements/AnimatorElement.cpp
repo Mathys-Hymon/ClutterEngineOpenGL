@@ -22,13 +22,13 @@ AnimatorElement::~AnimatorElement()
 
 void AnimatorElement::AddNewAnim(std::string pAnimName, const std::vector<Texture*>& pTextures, bool pLooping, float pAnimFps, int pDrawOrder)
 {
-	if (mAnims[pAnimName]) CLUTTER_WARNING(("Animation " + pAnimName + " already exists ").c_str())
+	if (mAnims[pAnimName]) CLUTTER_WARNING(("Animation " + pAnimName + " already exists ").c_str());
 	else mAnims[pAnimName] = new FlipbookElement(pTextures, pLooping, pAnimFps);
 }
 
 void AnimatorElement::PlayAnim(std::string pAnimName)
 {
-	if (!mAnims[pAnimName]) CLUTTER_WARNING(("Unable to play " + pAnimName + " animation, animation not loaded or does not exist").c_str())
+	if (!mAnims[pAnimName]) CLUTTER_WARNING(("Unable to play " + pAnimName + " animation, animation not loaded or does not exist").c_str());
 	else
 	{
 		SetFlipbookTextures(mAnims[pAnimName]->GetFlipbookTextures());

@@ -187,15 +187,17 @@ void Physics::SubscribeTo(ColliderComponent* pCollider, ICollisionListener* pLis
 // Updates the physics engine, applying gravity and checking for collisions
 void Physics::Update()
 {
+    float dt = Timer::deltaTime;
+
     for (auto& rb : mRigidbody)
     {
         if (rb->mSimulatePhysics && !rb->mIsKinematic && rb->IsActive())
         {
-            rb->AddVelocity(mGravity * rb->GetGravityScale() * Timer::deltaTime);
+            rb->AddVelocity(mGravity * rb->GetGravityScale() * dt);
 
-            rb->GetOwner()->AddActorLocationOffset(rb->GetVelocity() * Timer::deltaTime);
+            rb->GetOwner()->AddActorLocationOffset(rb->GetVelocity() * dt);
 
-            if(!rb->mLockRotation) rb->UpdateRotation(Timer::deltaTime);
+            if(!rb->mLockRotation) rb->UpdateRotation(dt);
             rb->mIsGrounded = false;
         }
         else
@@ -233,8 +235,7 @@ void Physics::CheckCollisions()
 // Resolves detected collisions by adjusting positions and velocities
 void Physics::ResolveCollisions()
 {
-
-    const float rotationAmplification = 2.0f;
+    const float rotationAmplification = 0.5f;
 
     // Iterate through all current frame collisions
     for (auto& result : mCurrentFrameCollisions)
@@ -287,21 +288,10 @@ void Physics::ResolveCollisions()
                 // Apply torque if rotation is not locked
                 if (!rbA->mLockRotation)
                 {
-                    // Centre du collider A (souvent le centre de masse)
                     Vector3 centerA = result.ColliderA->GetWorldLocation();
-                    // r correspond à la distance entre le point d'impact et le centre du corps
                     Vector3 r = result.Point - centerA;
-
-                    // Calcul de la variation d'impulsion (en tenant compte du changement de vitesse dû à la collision)
-                    Vector3 impulseDelta = (velocity - rbA->GetVelocity()) * rbA->mMass;
-
-                    // Le bras de levier, plus r est grand, plus l'effet de rotation est fort.
-                    float leverArm = r.Length();
-                    // rotationAmplification est un facteur réglable pour affiner l'effet
-                    float rotationFactor = leverArm * rotationAmplification;
-
-                    // Calcul du torque : le produit vectoriel de r et de l'impulsion delta, multiplié par le facteur de rotation.
-                    Vector3 torqueImpulse = Vector3::Cross(r, impulseDelta) * rotationFactor;
+                    Vector3 impulse = (velocity - rbA->GetVelocity()) * rbA->mMass;
+                    Vector3 torqueImpulse = Vector3::Cross(r, impulse);
                     rbA->mTorque += torqueImpulse;
                 }
 
@@ -312,7 +302,6 @@ void Physics::ResolveCollisions()
                         Vector3(rbA->GetVelocity().x, std::clamp(rbA->GetVelocity().y, 0.0f, FLT_MAX), rbA->GetVelocity().z)
                     );
                     rbA->mIsGrounded = true;
-                    rbA->mAngularVelocity *= 0.2f;
                 }
             }
 
@@ -348,8 +337,9 @@ void Physics::ResolveCollisions()
                 {
                     Vector3 centerB = result.ColliderB->GetWorldLocation();
                     Vector3 r = result.Point - centerB;
-                    Vector3 totalImpulse = (velocity - rbB->GetVelocity()) * rbB->mMass;
-                    rbB->mTorque += Vector3::Cross(r, totalImpulse) * rotationAmplification;
+                    Vector3 impulse = (velocity - rbB->GetVelocity()) * rbB->mMass;
+                    Vector3 torqueImpulse = Vector3::Cross(r, impulse);
+                    rbB->mTorque += torqueImpulse;
                 }
 
                 // Check if rbB is grounded
@@ -357,7 +347,6 @@ void Physics::ResolveCollisions()
                 {
                     rbB->SetVelocity(Vector2(rbB->GetVelocity().x, std::clamp(rbB->GetVelocity().y, 0.0f, 10000.0f)));
                     rbB->mIsGrounded = true;
-                    rbB->mAngularVelocity *= 0.2f;
                 }
             }
 

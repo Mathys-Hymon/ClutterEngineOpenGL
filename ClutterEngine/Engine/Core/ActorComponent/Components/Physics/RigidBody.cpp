@@ -25,17 +25,18 @@ void RigidBody::AddForce(const Vector3& pForce)
 
 void RigidBody::UpdateRotation(float deltaTime)
 {
-    Vector3 angularAcceleration = mTorque / CalculateInertia();
+        Vector3 angularAcceleration = mTorque / CalculateInertia();
     mAngularVelocity += angularAcceleration * deltaTime;
 
     const float dampingCoefficient = 0.98f;
     mAngularVelocity *= std::pow(dampingCoefficient, deltaTime * 60.0f);
 
-    if (mAngularVelocity.Length() > 0.0001f)
+    if (mAngularVelocity.Length() > 0.0001f) 
     {
         Quaternion deltaRot = Quaternion::FromEuler(mAngularVelocity * deltaTime);
         mOwner->SetActorRotation(Quaternion::Concatenate(deltaRot, mOwner->GetRotation()));
     }
+
     mTorque = Vector3::Zero;
 }
 
@@ -43,5 +44,7 @@ float RigidBody::CalculateInertia() const
 {
 	const Vector3 size = GetWorldScale();
 
-	return (1.0f / 12.0f) * mMass * (size.x * size.x + size.y * size.y + size.z * size.z);
+    float baseInertia = (1.0f / 12.0f) * mMass * (size.x * size.x + size.y * size.y + size.z * size.z);
+
+    return baseInertia;
 }
