@@ -8,7 +8,7 @@ BowlingBall::BowlingBall(clt::Level* pLevel, std::string pName) : clt::Actor(pLe
 	SetActorScale(0.2f);
 	AddComponent<clt::MeshComponent>("ball");
 	
-	AddComponent<clt::SphereCollider>()->mFriction = 0.5f;
+	AddComponent<clt::OBBCollider>()->mFriction = 0.5f;
 	AddComponent<clt::RigidBody>()->SetMass(1);
 }
 
