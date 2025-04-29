@@ -20,13 +20,17 @@ BowlingLane::BowlingLane(clt::Level* pLevel, std::string pName, bool isStatic,  
 
     laneFloor1 = pLevel->AddActor<clt::CubeActor>("floor", clt::Assets::Get().GetTexture("floor"), false, Vector2{ 15,30 });
 
-    laneFloor1->GetComponentOfType<clt::OBBCollider>()->mFriction = 0.1f;
+    laneFloor2 = pLevel->AddActor<clt::CubeActor>("floor2", false, Vector2{ 15,30 });
+
+    if (!isStatic)
+    {
+        laneFloor1->GetComponentOfType<clt::OBBCollider>()->mFriction = 0.01f;
+        laneFloor2->GetComponentOfType<clt::OBBCollider>()->mFriction = 0.01f;
+    }
+
     laneFloor1->SetActorScale({ 1.1f, 0.3f, 15 });
     laneFloor1->SetActorLocation(GetActorLocation() + Vector3{ -1.5f, -2, 0 });
 
-    laneFloor2 = pLevel->AddActor<clt::CubeActor>("floor2", false, Vector2{ 15,30 });
-
-    laneFloor2->GetComponentOfType<clt::OBBCollider>()->mFriction = 0.1f;
     laneFloor2->SetActorScale({ 1.1f, 0.3f, 15 });
     laneFloor2->SetActorLocation(GetActorLocation() + Vector3{ 1.5f, -2, 0 });
 
@@ -79,7 +83,8 @@ void BowlingLane::RespawnPins(bool leftLane, bool isStatic)
         mPinsRight.clear();
     }
 
-    for (int row = 0; row < totalRows; ++row) {
+    for (int row = 0; row < totalRows; ++row) 
+    {
         int pinsInRow = row + 1;
 
         float rowStartX = startX - (spacing * row / 2.0f);
@@ -95,8 +100,8 @@ void BowlingLane::RespawnPins(bool leftLane, bool isStatic)
             if (!isStatic && leftLane)
             {
                 tempActor->AddComponent<clt::OBBCollider>(Vector3{ 10, 20, 10 })->SetRelativeLocation({ 0, 0.2f, 0 });
-                tempActor->GetComponentOfType<clt::OBBCollider>()->mFriction = 0.5f;
-                tempActor->AddComponent<clt::RigidBody>()->mLockRotation = false;
+                tempActor->GetComponentOfType<clt::OBBCollider>()->mFriction = 1.0f;
+                tempActor->AddComponent<clt::RigidBody>()->SetMass(1.0f);
             }
             tempActor->SetActorScale(0.1f);
 

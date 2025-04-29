@@ -4,23 +4,27 @@
     "version": "1.0.0",
     "engineVersion": "0.0.1",
     "defaultScene": "Maps/TestLevel.h",
-    "mode": "2D"
+    "2D": false
   },
   "input": {
-    "action": {
-
-    },
-    "axis": {
-
-    },
-    "axis2D": {
-
-    }
+    "action": [
+      {
+        "key": "Ekey::Space",
+        "name": "changeMod"
+      }
+    ],
+    "vector": {},
+    "axis2D": [
+      {
+        "keys": [ "Ekey::A", "Ekey::D" ],
+        "name": "PlayerMovement"
+      }
+    ]
   },
   "render": {
     "resolution": [ 1280, 720 ],
     "fullscreen": false,
-    "vsync": true,
-    "bakcgroundColor": [0,0,0,0],
+    "vsync": false,
+    "backgroundColor": [ 0, 0, 0, 1.0 ]
   }
 }

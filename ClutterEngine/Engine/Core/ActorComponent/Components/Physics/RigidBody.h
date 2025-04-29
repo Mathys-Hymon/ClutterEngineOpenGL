@@ -14,6 +14,16 @@ namespace clt
 		Vector3 mAngularVelocity; ///< The angular velocity of the rigid body.
 		Vector3 mTorque; ///< The torque applied to the rigid body.
 
+
+		float mMass; ///< The mass of the rigid body.
+		float mInertia; ///< The inertia of the rigid body.
+
+		bool mSimulatePhysics = true; ///< Flag to simulate physics.
+		bool mIsKinematic = false; ///< Flag to set the rigid body as kinematic.
+		bool mIsGrounded = false; ///< Flag to check if the rigid body is grounded.
+		bool mCanStepOn = true; ///< Flag to check if the rigid body can step on.
+		bool mLockRotation = false; ///< Flag to lock rotation.
+
 		/**
    * @brief Updates the rotation of the rigid body.
    * @param deltaTime The time elapsed since the last update.
@@ -35,15 +45,6 @@ namespace clt
    * @brief Default destructor.
    */
 		~RigidBody() = default;
-
-		float mMass; ///< The mass of the rigid body.
-		float mInertia; ///< The inertia of the rigid body.
-
-		bool mSimulatePhysics = false; ///< Flag to simulate physics.
-		bool mIsKinematic = false; ///< Flag to set the rigid body as kinematic.
-		bool mIsGrounded = false; ///< Flag to check if the rigid body is grounded.
-		bool mCanStepOn = true; ///< Flag to check if the rigid body can step on.
-		bool mLockRotation = false; ///< Flag to lock rotation.
 
 		/**
    * @brief Sets the owner of the component.
@@ -100,6 +101,20 @@ namespace clt
    * @return The current gravity scale.
    */
 		float GetGravityScale()  const { return mGravityScale;  };
+
+		bool IsGrounded() const { return mIsGrounded; };
+
+		bool SimulatePhysics() const { return mSimulatePhysics; };
+
+		void SetSimulate(bool simulate = true) { mSimulatePhysics = simulate; };
+
+		void SetMass(float mass) { mMass = mass; };
+
+		float GetMass() const { return mMass; };
+
+		void LockRotation(bool lock = true) { mLockRotation = lock; };
+
+		bool IsRotationLocked() const { return mLockRotation; };
 
 		friend Physics;
 	};

@@ -236,7 +236,11 @@ Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, const
     std::string name = pName;
     if (pTesselate) name = pName + "_tess";
 
-    if (mMeshes.find(name) != mMeshes.end()) return GetMesh(name);
+    if (mMeshes.find(name) != mMeshes.end())
+    {
+        CLUTTER_LOG(("An instance of " + pName + " already exists and is returned.").c_str())
+        return GetMesh(name);
+    }
 
     Mesh* mesh = LoadMeshFromFile(pPath, pTesselate);
 

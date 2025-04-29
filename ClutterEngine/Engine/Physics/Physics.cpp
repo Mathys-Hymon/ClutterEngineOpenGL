@@ -189,7 +189,7 @@ void Physics::Update()
 {
     for (auto& rb : mRigidbody)
     {
-        if (!rb->mIsKinematic && rb->IsActive())
+        if (rb->mSimulatePhysics && !rb->mIsKinematic && rb->IsActive())
         {
             rb->AddVelocity(mGravity * rb->GetGravityScale() * Timer::deltaTime);
 
@@ -197,6 +197,10 @@ void Physics::Update()
 
             if(!rb->mLockRotation) rb->UpdateRotation(Timer::deltaTime);
             rb->mIsGrounded = false;
+        }
+        else
+        {
+            rb->mVelocity = 0;
         }
     }
 
@@ -270,7 +274,9 @@ void Physics::ResolveCollisions()
 
                 float frictionImpulseMag = combinedFriction * fabs(impulseNormal);
                 Vector3 frictionImpulse = Vector3::Zero;
-                if (velocityTangent.Length() > 0.001f) {
+
+                if (velocityTangent.Length() > 0.001f) 
+                {
                     frictionImpulse = -std::min(frictionImpulseMag, velocityTangent.Length() * mass) * velocityTangent.Normalized();
                 }
 

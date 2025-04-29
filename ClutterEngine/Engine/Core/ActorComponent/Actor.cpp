@@ -52,20 +52,6 @@ void Actor::AddComponentInternal(Component* pComponent)
    pComponent->SetOwner(this);
 }
 
-// Remove a component from the actor
-template<typename T>
-inline void Actor::RemoveComponent()
-{
-   static_assert(std::is_base_of<Component, T>::value, "T must be a Component");
-
-   size_t hashCode = typeid(T).hash_code();
-   auto it = mComponents.find(hashCode);
-   if (it != mComponents.end()) 
-   {
-       mComponentsToRemove.push_back(it->second.get());
-   }
-}
-
 // Internal update method
 void Actor::InternalUpdate()
 {
@@ -89,14 +75,13 @@ void Actor::InternalUpdate()
    {
        std::vector<Component*>::iterator it = std::find(mComponentsByUpdateOrder.begin(), mComponentsByUpdateOrder.end(), pComponent);
 
-       if (it != mComponentsByUpdateOrder.end()) 
+       size_t hashCode = typeid(*pComponent).hash_code();
+
+       if (it != mComponentsByUpdateOrder.end())
        {
            std::iter_swap(it, mComponentsByUpdateOrder.end() - 1);
            mComponentsByUpdateOrder.pop_back();
        }
-
-       size_t hashCode = typeid(*pComponent).hash_code();
-       
        auto comp = mComponents.find(hashCode);
        delete comp->second;
        mComponents.erase(comp);

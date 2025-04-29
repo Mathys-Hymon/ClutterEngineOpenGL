@@ -3,8 +3,8 @@
 
 class BowlingBall : public clt::Actor, public clt::ICollisionListener
 {
-
 public:
+
 	BowlingBall(clt::Level* pLevel, std::string pName = "Actor");
 	~BowlingBall() = default;
 

@@ -27,6 +27,8 @@ void BowlingController::Start()
 
 	mBall = mOwner->GetLevel()->GetActorOfType< BowlingBall>();
 
+	mBall->GetComponentOfType<clt::RigidBody>()->SetSimulate(false);
+
 }
 
 void BowlingController::Move(float movement)
@@ -44,15 +46,18 @@ void BowlingController::Move(float movement)
 
 		mOwner->SetActorLocation({ locationX, mOwner->GetActorLocation().y, mOwner->GetActorLocation().z });
 	}
-
 	else if (mMode == mode::rotation)
 	{
 		mRotation += movement * clt::Timer::deltaTime * 5;
 		mRotation = Maths::Clamp(mRotation, -200.0f, 200.0f);
 		mOwner->SetActorRotation({ 0, mRotation, 0});
 	}
-
-	mBall->SetActorLocation((mOwner->GetActorLocation() - mOwner->GetTransform().Forward()) - Vector3{0,0.5,0});
+	
+	if (movement != 0)
+	{
+		mBall->SetActorLocation((mOwner->GetActorLocation() - mOwner->GetTransform().Forward()) - Vector3{ 0,0.5,0 });
+		mBall->GetComponentOfType<clt::RigidBody>()->SetSimulate(false);
+	}
 }
 
 void BowlingController::ChangeMod()
@@ -78,17 +83,18 @@ void BowlingController::ChargeShoot()
 	
 	mShootForce = Maths::Clamp(mShootForce, 0.0f, 1.0f);
 	mSprite->SetSize({ 1.0,mShootForce });
-	mSprite->SetPosition({ 0.0f ,-600 + mShootForce * 300 });
-	CLUTTER_LOG(mShootForce);
+	mSprite->SetPosition({ 0.0f ,-600 + mShootForce * 300});
+	mBall->GetComponentOfType<clt::RigidBody>()->SetSimulate(false);
+
+	mBall->SetActorLocation((mOwner->GetActorLocation() - mOwner->GetTransform().Forward()) - Vector3{ 0,0.5,0 });
 }
 
 void BowlingController::Shoot()
 {
-	CLUTTER_LOG("Shoot");
-
 	if (mBall)
 	{
-		mBall->GetComponentOfType
+		mBall->GetComponentOfType<clt::RigidBody>()->SetSimulate(true);
+		mBall->GetComponentOfType<clt::RigidBody>()->AddForce(mOwner->GetTransform().Forward() * mShootForce * -2000 * mBall->GetComponentOfType<clt::RigidBody>()->GetMass());
 	}
 	mShootForce = 0;
 }

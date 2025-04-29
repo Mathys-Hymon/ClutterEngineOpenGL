@@ -75,7 +75,17 @@ namespace clt
          * @brief Removes a component of type T from the actor.
          */
         template<typename T>
-        void RemoveComponent();
+        void RemoveComponent()
+        {
+            static_assert(std::is_base_of<Component, T>::value, "T must be a Component");
+
+            size_t hashCode = typeid(T).hash_code();
+            auto it = mComponents.find(hashCode);
+            if (it != mComponents.end())
+            {
+                mComponentsToRemove.push_back(it->second);
+            }
+        }
 
         template<typename T>
         T* GetComponentOfType()

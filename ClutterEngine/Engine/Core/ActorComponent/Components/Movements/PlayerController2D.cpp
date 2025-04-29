@@ -69,7 +69,7 @@ void PlayerController2D::Movement(float pDirection)
 {
 	if (mRb)
 	{
-		if (mRb->mIsGrounded)
+		if (mRb->IsGrounded())
 		{
 			mRb->AddVelocity({ pDirection * mMaxWalkSpeed, 0.0f , 0.0f});
 		}
@@ -102,7 +102,7 @@ void PlayerController2D::Movement(float pDirection)
 
 void PlayerController2D::Update()
 {
-	if (mRb && mRb->mIsGrounded)
+	if (mRb && mRb->IsGrounded())
 	{
 		if (mIsJumping && mRb->GetVelocity().y <= 1.0f)
 		{
@@ -118,7 +118,7 @@ void PlayerController2D::Update()
 
 void PlayerController2D::Jump()
 {
-	if (mRb && mRb->mIsGrounded)
+	if (mRb && mRb->IsGrounded())
 	{
 		mRb->AddVelocity({ 0, 230 });
 		mOwner->GetComponentOfType<AnimatorComponent>()->PlayAnim("jump");

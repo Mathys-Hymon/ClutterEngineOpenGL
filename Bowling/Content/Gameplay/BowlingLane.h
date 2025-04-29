@@ -2,6 +2,7 @@
 #include "Core/All.h"
 
 class BowlingLane : public clt::Actor
+{
 	std::vector<clt::Actor*> mPinsLeft;
 	std::vector<clt::Actor*> mPinsRight;
 
