@@ -183,12 +183,12 @@ namespace clt
          */
         void AddActorLocationOffset(const Vector3& locOffset) 
         { 
-            mTransform.SetLocation(mTransform.Location() + (locOffset * Timer::deltaTime));
+            mTransform.SetLocation(mTransform.Location() + locOffset);
         };
 
         void AddActorLocationOffset(const Vector2& locOffset)
         {
-            mTransform.SetLocation(mTransform.Location() + (Vector3{locOffset.x, locOffset.y, 0} * Timer::deltaTime));
+            mTransform.SetLocation(mTransform.Location() + Vector3{locOffset.x, locOffset.y, 0});
         };
 
         /**

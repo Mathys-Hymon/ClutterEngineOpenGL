@@ -8,8 +8,11 @@ using namespace clt;
 
 f32 Timer::deltaTime = 0;
 f32 Timer::timeSinceLoad = 0;
+f32 Timer::clampedDeltaTime = 0;
 
 static std::chrono::time_point<std::chrono::system_clock> mLastTime;
+
+const float maxDeltaTime = 0.033f; // 33ms ~ 30 FPS
 
 f32 Timer::ComputeDeltaTime()
 {
@@ -21,6 +24,8 @@ f32 Timer::ComputeDeltaTime()
 
 	deltaTime = (f32)elapsedTime.count();
 	timeSinceLoad += deltaTime;
+
+	clampedDeltaTime = std::min(deltaTime, maxDeltaTime);
 	
 	return deltaTime;
 }

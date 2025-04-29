@@ -6,26 +6,27 @@
 
 using namespace clt;
 
-RigidBody::RigidBody(float pMass, int pUpdadeOrder) : Component(pUpdadeOrder), mAcceleration(Vector3::Zero), mAngularVelocity(0.0f), mMass(pMass), mVelocity(Vector3::Zero), mGravityScale(1), mInertia(1.0f), mTorque(0.0f)
-{}
+RigidBody::RigidBody(float pMass, int pUpdadeOrder) : Component(pUpdadeOrder), mAcceleration(Vector3::Zero), mAngularVelocity(0.0f), mMass(pMass), mVelocity(Vector3::Zero), mGravityScale(1), mInertia(1.0f), mTorque(0.0f), mInvMass((mMass != 0.0f) ? 1.0f / mMass : 0.0f)
+{
+}
 
 void RigidBody::SetOwner(Actor* pOwner)
 {
 	Component::SetOwner(pOwner);
 	mOwner->GetLevel()->GetPhysics().AddRigidbody(this);
+    CalculateInertia();
 }
 
-void RigidBody::AddForce(const Vector3& pForce)
+void RigidBody::AddAngularImpulse(const Vector3& pImpulse)
 {
-	if (!mIsKinematic && mSimulatePhysics)
-	{
-		mVelocity += pForce / mMass;
-	}
+    if (mLockRotation || mInvMass == 0.0f) return;
+
+    mAngularVelocity += pImpulse * mInvInertia;
 }
 
 void RigidBody::UpdateRotation(float deltaTime)
 {
-        Vector3 angularAcceleration = mTorque / CalculateInertia();
+        Vector3 angularAcceleration = mTorque * mInvInertia;
     mAngularVelocity += angularAcceleration * deltaTime;
 
     const float dampingCoefficient = 0.98f;
@@ -40,11 +41,33 @@ void RigidBody::UpdateRotation(float deltaTime)
     mTorque = Vector3::Zero;
 }
 
-float RigidBody::CalculateInertia() const
+void RigidBody::CalculateInertia()
 {
-	const Vector3 size = GetWorldScale();
+    const Vector3 size = GetWorldScale();
 
-    float baseInertia = (1.0f / 12.0f) * mMass * (size.x * size.x + size.y * size.y + size.z * size.z);
+    mInertia.x = (1.0f / 12.0f) * mMass * (size.y * size.y + size.z * size.z);
+    mInertia.y = (1.0f / 12.0f) * mMass * (size.x * size.x + size.z * size.z);
+    mInertia.z = (1.0f / 12.0f) * mMass * (size.x * size.x + size.y * size.y);
 
-    return baseInertia;
+    mInvInertia = Vector3(
+        mInertia.x > 0 ? 1.0f / mInertia.x : 0.0f,
+        mInertia.y > 0 ? 1.0f / mInertia.y : 0.0f,
+        mInertia.z > 0 ? 1.0f / mInertia.z : 0.0f);
+}
+
+void RigidBody::ApplyForces(float dt)
+{
+    if (mMass <= 0.0f || !mOwner || !mSimulatePhysics) return;
+
+    mAcceleration = mForce * mInvMass;
+    mVelocity += mAcceleration * dt;
+
+    mOwner->AddActorLocationOffset(mVelocity * dt);
+
+    if (!mLockRotation)
+    {
+        UpdateRotation(dt);
+    }
+
+    mForce = Vector3::Zero;
 }

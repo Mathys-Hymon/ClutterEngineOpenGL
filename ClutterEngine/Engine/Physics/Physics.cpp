@@ -7,7 +7,7 @@
 using namespace clt;
 
 // Constructor initializing gravity vector
-Physics::Physics() : mGravity({ 0.0f, -300.0f, 0.0f })
+Physics::Physics() : mGravity({ 0.0f, -9.81f, 0.0f })
 {
 }
 
@@ -187,17 +187,15 @@ void Physics::SubscribeTo(ColliderComponent* pCollider, ICollisionListener* pLis
 // Updates the physics engine, applying gravity and checking for collisions
 void Physics::Update()
 {
-    float dt = Timer::deltaTime;
+    float dt = Timer::clampedDeltaTime;
 
     for (auto& rb : mRigidbody)
     {
         if (rb->mSimulatePhysics && !rb->mIsKinematic && rb->IsActive())
         {
-            rb->AddVelocity(mGravity * rb->GetGravityScale() * dt);
+            rb->ApplyForces(dt);
+            rb->AddForce(mGravity * rb->GetGravityScale() * rb->GetMass());
 
-            rb->GetOwner()->AddActorLocationOffset(rb->GetVelocity() * dt);
-
-            if(!rb->mLockRotation) rb->UpdateRotation(dt);
             rb->mIsGrounded = false;
         }
         else
@@ -235,171 +233,61 @@ void Physics::CheckCollisions()
 // Resolves detected collisions by adjusting positions and velocities
 void Physics::ResolveCollisions()
 {
-    const float rotationAmplification = 0.5f;
-
     // Iterate through all current frame collisions
-    for (auto& result : mCurrentFrameCollisions)
+    for (auto& hit : mCurrentFrameCollisions)
     {
-        // Get the rigid bodies involved in the collision
-        RigidBody* rbA = result.ActorA->GetComponentOfType<RigidBody>();
-        RigidBody* rbB = result.ActorB->GetComponentOfType<RigidBody>();
+        if (!hit.ColliderA || !hit.ColliderB) return;
 
-        // Determine the restitution (bounciness) for the collision
-        float restitution = std::max(result.ColliderA->mBounciness, result.ColliderB->mBounciness);
+        RigidBody* rbA = hit.ActorA->GetComponentOfType<clt::RigidBody>();
+        RigidBody* rbB = hit.ActorB->GetComponentOfType<clt::RigidBody>();
 
-        // Check if neither collider is a trigger
-        if (!result.ColliderA->IsTrigger() && !result.ColliderB->IsTrigger())
+        if (!rbA && !rbB) return;
+
+        const Vector3& normal = hit.Normal;
+        float penetration = hit.Penetration;
+
+        const float totalMass = (rbA ? rbA->GetMass() : 0.0f) + (rbB ? rbB->GetMass() : 0.0f);
+        if (penetration > 0.0f && totalMass > 0.0f)
         {
-            // Calculate the correction vector to resolve penetration
-            const Vector3 safeCorrection = (result.Normal * result.Penetration) * 50;
+            Vector3 correction = normal * (penetration / totalMass) * 0.8f;
 
-            // Calculate combined friction
-            float combinedFriction = result.ColliderA->mFriction * result.ColliderB->mFriction;
-
-            // Case 1: Only rbA is dynamic
-            if (rbA && !rbA->mIsKinematic && rbA->IsActive() && !rbB)
-            {
-                // Apply position correction to ActorA
-                result.ActorA->AddActorLocationOffset(-safeCorrection);
-
-                // Calculate velocity, normal and tangent vectors
-                Vector3 velocity = rbA->GetVelocity();
-                Vector3 normal = -result.Normal.Normalized();
-                float velocityNormal = Vector3::Dot(velocity, normal);
-                Vector3 velocityNormalV = velocityNormal * normal;
-                Vector3 velocityTangent = velocity - velocityNormalV;
-
-                float mass = rbA->mMass;
-
-                float impulseNormal = -(1.0f + restitution) * velocityNormal * mass;
-
-                float frictionImpulseMag = combinedFriction * fabs(impulseNormal);
-                Vector3 frictionImpulse = Vector3::Zero;
-
-                if (velocityTangent.Length() > 0.001f) 
-                {
-                    frictionImpulse = -std::min(frictionImpulseMag, velocityTangent.Length() * mass) * velocityTangent.Normalized();
-                }
-
-                Vector3 deltaV = (impulseNormal * normal + frictionImpulse) / mass;
-                velocity += deltaV;
-                rbA->SetVelocity(velocity);
-
-                // Apply torque if rotation is not locked
-                if (!rbA->mLockRotation)
-                {
-                    Vector3 centerA = result.ColliderA->GetWorldLocation();
-                    Vector3 r = result.Point - centerA;
-                    Vector3 impulse = (velocity - rbA->GetVelocity()) * rbA->mMass;
-                    Vector3 torqueImpulse = Vector3::Cross(r, impulse);
-                    rbA->mTorque += torqueImpulse;
-                }
-
-                // Check if rbA is grounded
-                if (-result.Normal.y > 0.5f )
-                {
-                    rbA->SetVelocity(
-                        Vector3(rbA->GetVelocity().x, std::clamp(rbA->GetVelocity().y, 0.0f, FLT_MAX), rbA->GetVelocity().z)
-                    );
-                    rbA->mIsGrounded = true;
-                }
-            }
-
-            // Case 2: Only rbB is dynamic
-            else if (!rbA && rbB && !rbB->mIsKinematic && rbB->IsActive())
-            {
-                // Apply position correction to ActorB
-                result.ActorB->AddActorLocationOffset(safeCorrection);
-
-                // Calculate velocity, normal and tangent vectors
-                Vector3 velocity = rbB->GetVelocity();
-                Vector3 normal = result.Normal.Normalized();
-                float velocityNormal = Vector3::Dot(velocity, normal);
-                Vector3 velocityNormalV = velocityNormal * normal;
-                Vector3 velocityTangent = velocity - velocityNormalV;
-
-                float mass = rbB->mMass;
-
-                float impulseNormal = (1.0f + restitution) * velocityNormal * mass;
-
-                float frictionImpulseMag = combinedFriction * fabs(impulseNormal);
-                Vector3 frictionImpulse = Vector3::Zero;
-                if (velocityTangent.Length() > 0.001f) {
-                    frictionImpulse = -std::min(frictionImpulseMag, velocityTangent.Length() * mass) * velocityTangent.Normalized();
-                }
-
-                Vector3 deltaV = (impulseNormal * normal + frictionImpulse) / mass;
-                velocity += deltaV;
-                rbB->SetVelocity(velocity);
-
-                // Apply torque if rotation is not locked
-                if (!rbB->mLockRotation)
-                {
-                    Vector3 centerB = result.ColliderB->GetWorldLocation();
-                    Vector3 r = result.Point - centerB;
-                    Vector3 impulse = (velocity - rbB->GetVelocity()) * rbB->mMass;
-                    Vector3 torqueImpulse = Vector3::Cross(r, impulse);
-                    rbB->mTorque += torqueImpulse;
-                }
-
-                // Check if rbB is grounded
-                if (result.Normal.y > 0.5f)
-                {
-                    rbB->SetVelocity(Vector2(rbB->GetVelocity().x, std::clamp(rbB->GetVelocity().y, 0.0f, 10000.0f)));
-                    rbB->mIsGrounded = true;
-                }
-            }
-
-            // Case 3: Both rbA and rbB are dynamic
-            else if (rbA && rbB && !rbA->mIsKinematic && !rbB->mIsKinematic)
-            {
-                // Calculate relative velocity and velocity along the normal
-                Vector3 relativeVelocity = rbB->GetVelocity() - rbA->GetVelocity();
-                float velAlongNormal = Vector3::Dot(relativeVelocity, result.Normal);
-
-                // If moving away from each other, no need to resolve
-                if (velAlongNormal > 0) return;
-
-                // Calculate inverse masses and total inverse mass
-                const float invMassA = 1.0f / rbA->mMass;
-                const float invMassB = 1.0f / rbB->mMass;
-                const float totalInverseMass = invMassA + invMassB;
-                if (totalInverseMass <= 0) return;
-
-                // Calculate impulse magnitude and apply impulse
-                const float impulseMagnitude = -(1 + restitution) * velAlongNormal / totalInverseMass;
-                const Vector3 impulse = impulseMagnitude * result.Normal;
-
-                rbA->AddVelocity(-impulse * invMassA);
-                rbB->AddVelocity(impulse * invMassB);
-
-                // Calculate tangent vector and apply friction impulse
-                Vector3 tangent = (relativeVelocity - result.Normal * velAlongNormal).Normalized();
-                float velAlongTangent = Vector3::Dot(relativeVelocity, tangent);
-                float tangentImpulseMagnitude = -velAlongTangent * combinedFriction / totalInverseMass;
-                Vector3 tangentImpulse = tangent * tangentImpulseMagnitude;
-
-                rbA->AddVelocity(-tangentImpulse * invMassA);
-                rbB->AddVelocity(tangentImpulse * invMassB);
-
-                // Calculate torque based on collision point and apply it
-                Vector3 contactPoint = result.Point;
-                Vector3 rA = contactPoint - result.ActorA->GetActorLocation();
-                Vector3 rB = contactPoint - result.ActorB->GetActorLocation();
-
-                Vector3 torqueA = Vector3::Cross(rA, -impulse);
-                Vector3 torqueB = Vector3::Cross(rB,  impulse);
-
-                if (!rbA->mLockRotation)  rbA->mTorque += torqueA;
-                if (!rbB->mLockRotation)  rbB->mTorque += torqueB;
-
-                // Apply position correction to resolve penetration
-                const float safetyMargin = 1.1f;
-                const Vector3 correction = result.Normal * (result.Penetration + safetyMargin) / totalInverseMass;
-                result.ActorA->AddActorLocationOffset(-correction * invMassA);
-                result.ActorB->AddActorLocationOffset( correction * invMassB);
-            }
+            if (rbA) rbA->GetOwner()->AddActorLocationOffset(-correction * (rbA->GetMass() / totalMass));
+            if (rbB) rbB->GetOwner()->AddActorLocationOffset(correction * (rbB->GetMass() / totalMass));
         }
+
+        Vector3 velA = rbA ? rbA->GetVelocity() : Vector3::Zero;
+        Vector3 velB = rbB ? rbB->GetVelocity() : Vector3::Zero;
+        Vector3 relativeVel = velB - velA;
+
+        float velAlongNormal = Vector3::Dot(relativeVel, normal);
+
+        if (velAlongNormal > 0.0f) return;
+
+        float restitution = Maths::Min(hit.ColliderA->mBounciness, hit.ColliderB->mBounciness);
+
+        float invMassA = rbA ? rbA->GetInvMass() : 0;
+        float invMassB = rbB ? rbB->GetInvMass() : 0;
+
+        float impulseScalar = -(1 + restitution) * velAlongNormal / (invMassA + invMassB);
+
+        Vector3 impulse = impulseScalar * normal;
+
+        if (rbA)
+        {
+            rbA->AddVelocity(-impulse * invMassA);
+            Vector3 rA = hit.Point - rbA->GetOwner()->GetActorLocation();
+            Vector3 angularImpulseA = Vector3::Cross(rA, impulse);
+            rbA->mAngularVelocity += angularImpulseA * rbA->mInvInertia;
+        }
+
+        if (rbB)
+        {
+            rbB->AddVelocity(impulse * invMassB);
+            Vector3 rB = hit.Point - rbB->GetOwner()->GetActorLocation();
+            Vector3 angularImpulseB = Vector3::Cross(rB, -impulse);
+            rbB->mAngularVelocity += angularImpulseB * rbB->mInvInertia;
+        }
+
     }
 }
 

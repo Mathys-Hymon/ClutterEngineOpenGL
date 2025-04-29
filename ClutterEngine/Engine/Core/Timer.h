@@ -15,6 +15,7 @@ namespace clt
 
 		static f32 deltaTime;
 		static f32 timeSinceLoad;
+		static f32 clampedDeltaTime;
 	};
 
 }
