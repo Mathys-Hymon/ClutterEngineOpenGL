@@ -17,6 +17,27 @@ void RigidBody::SetOwner(Actor* pOwner)
     CalculateInertia();
 }
 
+void RigidBody::ApplyForceAtPoint(const Vector3& force, const Vector3& point)
+{
+    mForce += force;
+
+    Vector3 r = point - mOwner->GetActorLocation();
+    Vector3 torque = Vector3::Cross(r, force);
+    mTorque += torque;
+}
+
+void RigidBody::ApplyImpulseAtPoint(const Vector3& impulse, const Vector3& point)
+{
+    AddVelocity(impulse * mInvMass);
+
+    if (mLockRotation) return;
+
+    Vector3 r = point - mOwner->GetActorLocation(); 
+    Vector3 angularImpulse = Vector3::Cross(r, impulse * 10);
+
+    AddAngularImpulse(angularImpulse);
+}
+
 void RigidBody::AddAngularImpulse(const Vector3& pImpulse)
 {
     if (mLockRotation || mInvMass == 0.0f) return;
@@ -57,7 +78,12 @@ void RigidBody::CalculateInertia()
 
 void RigidBody::ApplyForces(float dt)
 {
-    if (mMass <= 0.0f || !mOwner || !mSimulatePhysics) return;
+    if (mMass <= 0.0f || !mOwner || !mSimulatePhysics || mIsKinematic)
+    {
+        mForce = Vector3::Zero;
+        mVelocity = Vector3::Zero;
+        return;
+    }
 
     mAcceleration = mForce * mInvMass;
     mVelocity += mAcceleration * dt;

@@ -16,5 +16,5 @@ void BowlingBall::Update()
 {
 	Vector3 rot = GetComponentOfType<clt::RigidBody>()->GetVelocity();
 
-	GetComponentOfType<clt::MeshComponent>()->AddRelativeRotation(Vector3{rot.z,0,rot.x } * clt::Timer::deltaTime);
+	GetComponentOfType<clt::MeshComponent>()->AddRelativeRotation(Vector3{rot.z,0,rot.x });
 }

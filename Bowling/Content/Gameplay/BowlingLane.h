@@ -12,4 +12,6 @@ public:
 	~BowlingLane();
 
 	void RespawnPins(bool leftLane = true, bool isStatic = false);
+
+	void Update() override;
 };

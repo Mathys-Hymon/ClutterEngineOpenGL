@@ -75,6 +75,10 @@ namespace clt
 
 		void AddTorque(const Vector3& pTorque) { mTorque += pTorque; };
 
+		void ApplyForceAtPoint(const Vector3& force, const Vector3& point);
+
+		void ApplyImpulseAtPoint(const Vector3& impulse, const Vector3& point);
+
 		/**
    * @brief Sets the angular velocity of the rigid body.
    * @param pVel The new angular velocity.

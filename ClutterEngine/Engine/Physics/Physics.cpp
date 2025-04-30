@@ -191,16 +191,12 @@ void Physics::Update()
 
     for (auto& rb : mRigidbody)
     {
-        if (rb->mSimulatePhysics && !rb->mIsKinematic && rb->IsActive())
+        if (rb->IsActive())
         {
-            rb->ApplyForces(dt);
             rb->AddForce(mGravity * rb->GetGravityScale() * rb->GetMass());
+            rb->ApplyForces(dt);
 
             rb->mIsGrounded = false;
-        }
-        else
-        {
-            rb->mVelocity = 0;
         }
     }
 
@@ -263,31 +259,16 @@ void Physics::ResolveCollisions()
 
         if (velAlongNormal > 0.0f) return;
 
-        float restitution = Maths::Min(hit.ColliderA->mBounciness, hit.ColliderB->mBounciness);
+        float restitution = 0.5f * (hit.ColliderA->mBounciness + hit.ColliderB->mBounciness);
 
         float invMassA = rbA ? rbA->GetInvMass() : 0;
         float invMassB = rbB ? rbB->GetInvMass() : 0;
 
-        float impulseScalar = -(1 + restitution) * velAlongNormal / (invMassA + invMassB);
-
+        float  impulseScalar = -(1 + restitution) * velAlongNormal / (invMassA + invMassB);
         Vector3 impulse = impulseScalar * normal;
 
-        if (rbA)
-        {
-            rbA->AddVelocity(-impulse * invMassA);
-            Vector3 rA = hit.Point - rbA->GetOwner()->GetActorLocation();
-            Vector3 angularImpulseA = Vector3::Cross(rA, impulse);
-            rbA->mAngularVelocity += angularImpulseA * rbA->mInvInertia;
-        }
-
-        if (rbB)
-        {
-            rbB->AddVelocity(impulse * invMassB);
-            Vector3 rB = hit.Point - rbB->GetOwner()->GetActorLocation();
-            Vector3 angularImpulseB = Vector3::Cross(rB, -impulse);
-            rbB->mAngularVelocity += angularImpulseB * rbB->mInvInertia;
-        }
-
+        if (rbA) rbA->ApplyImpulseAtPoint(-impulse, hit.Point);
+        if (rbB) rbB->ApplyImpulseAtPoint(impulse, hit.Point);
     }
 }
 

@@ -95,11 +95,11 @@ void BowlingLane::RespawnPins(bool leftLane, bool isStatic)
 
             clt::Actor* tempActor = GetLevel()->AddActor<clt::Actor>("pin");
             tempActor->SetActorLocation({ x, y, z });
-            tempActor->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetMesh("pin"));
+            tempActor->AddComponent<clt::MeshComponent>(clt::Assets::Get().GetMesh("pin"))->SetRelativeLocation({ 0, -0.25f, 0 });
 
             if (!isStatic && leftLane)
             {
-                tempActor->AddComponent<clt::OBBCollider>(Vector3{ 15, 25, 15 })->SetRelativeLocation({ 0, 0.25f, 0 });
+                tempActor->AddComponent<clt::OBBCollider>(Vector3{ 15, 25, 15 });
                 tempActor->GetComponentOfType<clt::OBBCollider>()->mFriction = 0.5f;
                 tempActor->AddComponent<clt::RigidBody>()->SetMass(0.1f);
                 tempActor->GetComponentOfType<clt::RigidBody>()->LockRotation(false);
@@ -109,5 +109,13 @@ void BowlingLane::RespawnPins(bool leftLane, bool isStatic)
             if (leftLane) mPinsLeft.push_back(tempActor);
             else mPinsRight.push_back(tempActor);
         }
+    }
+}
+
+void BowlingLane::Update()
+{
+    for (auto& pin : mPinsLeft)
+    {
+       pin->AddActorRotationOffset(1);
     }
 }
