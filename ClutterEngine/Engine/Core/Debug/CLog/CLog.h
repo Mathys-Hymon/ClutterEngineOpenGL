@@ -17,7 +17,7 @@ public:
         LOG 
     };
 
-    static void Init(const std::string& logFilePath = "template") {
+    static void Init(const std::string& logName, const std::string& logFilePath = "") {
 #ifdef _DEBUG
 
         auto now = std::chrono::system_clock::now();
@@ -27,23 +27,24 @@ public:
         localtime_s(&timeInfo, &now_time);
         
         std::ostringstream oss;  
-               oss << logFilePath << "_" << std::put_time(&timeInfo, "%Y-%m-%d -- %H:%M:%S") << "_log.json";
-               std::string temp = oss.str();
+               oss << logFilePath << logName << "_" << std::put_time(&timeInfo, "%Y-%m-%d__%H-%M-%S") << "_log.json";
+
 
         std::string filePath = oss.str();
-        GetInstance().m_logFile.open(filePath, std::ios::out | std::ios::trunc);
-        if (GetInstance().m_logFile.is_open()) {
-            GetInstance().m_logFile << "[\n";
-            GetInstance().m_firstEntry = true;
+        GetInstance().mLogFile.open(filePath, std::ios::out | std::ios::trunc);
+        if (GetInstance().mLogFile.is_open()) {
+            std::cerr << "Fichier log ouvert avec succès : " << filePath << "\n";
+            GetInstance().mLogFile << "[\n";
+            GetInstance().mFirstEntry = true;
         }
 #endif
     }
 
     static void Shutdown() {
 #ifdef _DEBUG
-        if (GetInstance().m_logFile.is_open()) {
-            GetInstance().m_logFile << "\n]\n";
-            GetInstance().m_logFile.close();
+        if (GetInstance().mLogFile.is_open()) {
+            GetInstance().mLogFile << "\n]\n";
+            GetInstance().mLogFile.close();
         }
 #endif
     }
@@ -63,8 +64,8 @@ public:
     }
 
 private:
-    std::ofstream m_logFile;
-    bool m_firstEntry = true;
+    std::ofstream mLogFile;
+    bool mFirstEntry = true;
 
     static CLog& GetInstance() {
         static CLog instance;
@@ -98,7 +99,7 @@ private:
 
     template<typename... Args>
     static void WriteToJsonFile(LogLevel level, const std::string& format, Args... args) {
-        if (!GetInstance().m_logFile.is_open()) return;
+        if (!GetInstance().mLogFile.is_open()) return;
 
         auto now = std::chrono::system_clock::now();
         auto now_time = std::chrono::system_clock::to_time_t(now);
@@ -106,19 +107,19 @@ private:
         char messageBuffer[1024];
         snprintf(messageBuffer, sizeof(messageBuffer), format.c_str(), args...);
 
-        if (!GetInstance().m_firstEntry) {
-            GetInstance().m_logFile << ",\n";
+        if (!GetInstance().mFirstEntry) {
+            GetInstance().mLogFile << ",\n";
         }
         else {
-            GetInstance().m_firstEntry = false;
+            GetInstance().mFirstEntry = false;
         }
 
         struct tm timeInfo;
         localtime_s(&timeInfo, &now_time);
 
-        GetInstance().m_logFile 
+        GetInstance().mLogFile 
             << "  {\n"
-            << "    \"timestamp\": \"" << std::put_time(&timeInfo, "%Y-%m-%d %H:%M:%S") << "\",\n"
+            << "    \"time\": \"" << std::put_time(&timeInfo, "%Y-%m-%d %H:%M:%S") << "\",\n"
             << "    \"level\": \"" << LogLevelToString(level) << "\",\n"
             << "    \"message\": \"" << EscapeJsonString(messageBuffer) << "\"\n"
             << "  }";
