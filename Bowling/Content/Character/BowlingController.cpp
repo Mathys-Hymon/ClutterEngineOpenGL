@@ -113,13 +113,13 @@ void BowlingController::Update()
 	auto& cam = *mOwner->GetComponentOfType<clt::CameraComponent>();
 	if (mBall->GetActorLocation().z > 1 &&  mMode == mode::shoot)
 	{
-		mOwner->GetComponentOfType<clt::SpringArmComponent>()->SetRelativeLocation({0,0,5});
+		mOwner->GetComponentOfType<clt::SpringArmComponent>()->SetWorldLocation({ 0, -0.6f, 8 });
 
 	}
 
 	if (mMode == mode::shoot)
 	{
-		cam.SetWorldRotation(Quaternion::LookAt(GetWorldLocation(), mBall->GetActorLocation()));
+		cam.SetWorldRotation(Quaternion::LookAt(cam.GetWorldLocation(), mBall->GetActorLocation()));
 	}
 	else
 	{
@@ -128,7 +128,7 @@ void BowlingController::Update()
 
 	auto& rb = *mBall->GetComponentOfType<clt::RigidBody>();
 
-	if (rb.SimulatePhysics() && (rb.GetVelocity().LengthSq() < 10000 || !rb.IsGrounded()))
+	if (rb.SimulatePhysics() && (rb.GetVelocity().LengthSq() < 5 || !rb.IsGrounded()))
 	{
 		mResetTimer += clt::Timer::deltaTime;
 	}

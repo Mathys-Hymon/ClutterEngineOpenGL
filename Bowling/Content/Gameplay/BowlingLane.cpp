@@ -59,7 +59,7 @@ void BowlingLane::RespawnPins(bool leftLane, bool isStatic)
     if (leftLane)
     {
         startX = GetActorLocation().x - 1.5f;
-        y = GetActorLocation().y - 1.7f;
+        y = GetActorLocation().y - 1.4f;
         startZ = GetActorLocation().z + 9.5f;
 
         for (clt::Actor* pin : mPinsLeft)
@@ -72,7 +72,7 @@ void BowlingLane::RespawnPins(bool leftLane, bool isStatic)
     else
     {
         startX = GetActorLocation().x + 1.5f;
-        y = GetActorLocation().y - 1.7f;
+        y = GetActorLocation().y - 1.4f;
         startZ = GetActorLocation().z + 9.5f;
 
         for (clt::Actor* pin : mPinsRight)
@@ -101,7 +101,7 @@ void BowlingLane::RespawnPins(bool leftLane, bool isStatic)
             {
                 tempActor->AddComponent<clt::OBBCollider>(Vector3{ 15, 25, 15 });
                 tempActor->GetComponentOfType<clt::OBBCollider>()->mFriction = 0.5f;
-                tempActor->AddComponent<clt::RigidBody>()->SetMass(0.1f);
+                tempActor->AddComponent<clt::RigidBody>()->SetMass(0.3f);
                 tempActor->GetComponentOfType<clt::RigidBody>()->LockRotation(false);
             }
             tempActor->SetActorScale(0.1f);

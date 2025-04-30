@@ -81,15 +81,26 @@ namespace clt
             mRelativeTransform.SetLocation(loc);
         };
 
-        void SetWorldLocation(const Vector3& loc)
-        {
-            mRelativeTransform.TransformPosition(mOwner->GetActorLocation());
-        }
-
         void SetRelativeLocation(const Vector2& loc)
         {
             mRelativeTransform.SetLocation(loc); 
         };
+
+        void SetWorldLocation(const Vector3& loc)
+        {
+            if (!mOwner)
+                return;
+
+            Vector3 ownerLocation = mOwner->GetActorLocation();
+            Quaternion ownerRotation = mOwner->GetRotation();
+            Vector3 localPosition = Vector3::Transform(loc - ownerLocation, ownerRotation.Inverse());
+
+            Vector3 parentScale = mOwner->GetScale();
+            localPosition = localPosition / parentScale;
+
+            SetRelativeLocation(localPosition);
+        }
+
         void SetRelativeScale(const Vector3& scale)  
         { 
             mRelativeTransform.SetScale(scale);

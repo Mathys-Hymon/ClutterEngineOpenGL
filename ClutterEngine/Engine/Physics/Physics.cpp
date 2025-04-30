@@ -196,7 +196,7 @@ void Physics::Update()
             rb->AddForce(mGravity * rb->GetGravityScale() * rb->GetMass());
             rb->ApplyForces(dt);
 
-            rb->mIsGrounded = false;
+            rb->SetGrounded(false);
         }
     }
 
@@ -269,6 +269,20 @@ void Physics::ResolveCollisions()
 
         if (rbA) rbA->ApplyImpulseAtPoint(-impulse, hit.Point);
         if (rbB) rbB->ApplyImpulseAtPoint(impulse, hit.Point);
+
+        // ---- Ground check logic  ----
+
+        const float groundThreshold = -0.5f;
+
+        if (rbA && normal.y < groundThreshold && (!rbB || !rbB->IsActive() || rbB->IsGrounded()))
+        {
+            rbA->SetGrounded(true);
+        }
+
+        if (rbB && normal.y < -groundThreshold && (!rbA || !rbA->IsActive() ||rbA->IsGrounded()))
+        {
+            rbB->SetGrounded(true);
+        }
     }
 }
 

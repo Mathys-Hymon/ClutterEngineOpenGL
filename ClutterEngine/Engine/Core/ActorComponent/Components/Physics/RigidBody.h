@@ -99,6 +99,11 @@ namespace clt
    */
 		void SetGravityScale(float pGravityScale)  { mGravityScale = pGravityScale; };
 
+		void SetGrounded(bool grounded = true) 
+		{
+			mIsGrounded = grounded;
+		};
+
 		/**
    * @brief Gets the current velocity of the rigid body.
    * @return The current velocity.
