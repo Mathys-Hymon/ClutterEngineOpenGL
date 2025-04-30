@@ -130,10 +130,25 @@ namespace clt
         Vector3 GetRelativeRotationEuler()   const { return mRelativeTransform.EulerRotation(); };
         Transform GetRelativeTransform()   const { return mRelativeTransform;            };
 
-        Vector3 GetWorldLocation()         const { return mOwner->GetActorLocation() + mRelativeTransform.Location(); };
+        Vector3 GetWorldLocation()         const 
+        { 
+            return mOwner->GetActorLocation() +
+                mRelativeTransform.Location().x * mOwner->GetTransform().Right() +
+                mRelativeTransform.Location().y * mOwner->GetTransform().Up() +
+                mRelativeTransform.Location().z * mOwner->GetTransform().Forward();
+        };
+
         Vector3 GetWorldScale()            const { return mRelativeTransform.Scale() * mOwner->GetScale();            };
         Quaternion GetWorldRotation()      const { return Quaternion::Concatenate(mOwner->GetRotation(), mRelativeTransform.Rotation()); };
-        Transform GetWorldTransform()      const { return mOwner->GetTransform() + mRelativeTransform;                };
+        Transform GetWorldTransform()      const
+        {
+            return
+            {
+                GetWorldLocation(),
+                GetWorldScale(),
+                GetWorldRotation()
+            };
+        };
 
         Actor* GetOwner() const { return mOwner; };
 

@@ -116,6 +116,6 @@ void BowlingLane::Update()
 {
     for (auto& pin : mPinsLeft)
     {
-       pin->AddActorRotationOffset(1);
+       //pin->AddActorRotationOffset(1);
     }
 }
