@@ -38,6 +38,8 @@ namespace clt
 
 		void SetText(std::string text);
 
+		void SetText(int text);
+
 		void SetSize(float size);
 
 		void SetColor(Color color);

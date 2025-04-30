@@ -3,6 +3,10 @@
 class DoomHUD : public clt::HUDComponent
 {
 	float mCanShoot;
+	float mTauntDelay;
+
+	std::vector<clt::Texture> mHeads;
+
 public:
 	int mLifeState;
 
@@ -12,5 +16,7 @@ public:
 	virtual void Start() override;
 	virtual void Update() override;
 
-	void TriggerShoot();
+	bool TriggerShoot(int ammo);
+
+	void UpdateLifeState(int pLifeState);
 };

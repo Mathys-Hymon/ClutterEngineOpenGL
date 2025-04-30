@@ -113,7 +113,7 @@ void BowlingController::Update()
 	auto& cam = *mOwner->GetComponentOfType<clt::CameraComponent>();
 	if (mBall->GetActorLocation().z > 1 &&  mMode == mode::shoot)
 	{
-		mOwner->GetComponentOfType<clt::SpringArmComponent>()->SetWorldLocation({-1,-1,5});
+		mOwner->GetComponentOfType<clt::SpringArmComponent>()->SetRelativeLocation({0,0,5});
 
 	}
 

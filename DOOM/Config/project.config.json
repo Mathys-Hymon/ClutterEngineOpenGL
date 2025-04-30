@@ -25,6 +25,7 @@
     "resolution": [ 1280, 720 ],
     "fullscreen": false,
     "vsync": false,
-    "backgroundColor": [ 0, 0, 0, 1.0 ]
+    "backgroundColor": [ 0, 0, 0, 1.0 ],
+    "antiAliasing": "FXAA"
   }
 }

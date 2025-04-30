@@ -1,5 +1,6 @@
 #include "MainMenuMap.h"
 #include "Core/All.h"
+#include "UI/MainMenuHUD.h"
 
 clt::Actor* mainMenuCam;
 
@@ -17,6 +18,7 @@ void MainMenuMap::Load()
 	mainMenuCam = AddActor<clt::Actor>("mainMenuCam");
 	mainMenuCam->AddComponent<clt::CameraComponent>();
 
+	mainMenuCam->AddComponent<MainMenuHUD>();
 }
 
 void MainMenuMap::Update()

@@ -228,6 +228,7 @@
     <ClCompile Include="Content\Character\DoomHUD.cpp" />
     <ClCompile Include="Content\Maps\LevelMap.cpp" />
     <ClCompile Include="Content\Maps\MainMenuMap.cpp" />
+    <ClCompile Include="Content\UI\MainMenuHUD.cpp" />
     <ClCompile Include="DOOM.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -236,6 +237,7 @@
     <ClInclude Include="Content\Gameplay\Sprites\Dir8Sprite.h" />
     <ClInclude Include="Content\Maps\LevelMap.h" />
     <ClInclude Include="Content\Maps\MainMenuMap.h" />
+    <ClInclude Include="Content\UI\MainMenuHUD.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Config\project.config.json" />

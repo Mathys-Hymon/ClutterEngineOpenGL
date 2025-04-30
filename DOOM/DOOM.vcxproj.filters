@@ -30,6 +30,9 @@
     <ClCompile Include="Content\Maps\MainMenuMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Content\UI\MainMenuHUD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Content\Maps\MainMenuMap.h">
@@ -45,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Content\Gameplay\Sprites\Dir8Sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Content\UI\MainMenuHUD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

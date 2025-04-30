@@ -33,5 +33,7 @@ namespace clt
    * @brief Updates the current level.
    */
 		void Update();
+
+		void LoadLevel(const std::string& levelName);
 	};
 }

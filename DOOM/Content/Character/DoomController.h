@@ -1,33 +1,36 @@
-#pragma once
-#include <Core/All.h>
+#pragma once  
+#include <Core/All.h>  
+#include <map> // Ensure the map header is included  
 
-enum class Weapons
-{
-	Hand,
-	Pistol,
-	ShotGun,
-};
+enum class Weapons  
+{  
+Hand,  
+Pistol,  
+ShotGun,  
+};  
 
-class DoomController : public clt::PlayerController
-{
-	float mRotationVelocity;
-	Vector2 mMovementVelocity;
+class DoomController : public clt::PlayerController  
+{  
+float mRotationVelocity;  
+Vector2 mMovementVelocity;  
 
-	clt::AnimatorElement* mHand;
+std::map<Weapons, int> mWeaponAmmo;
 
-	Weapons mWeapon;
+clt::AnimatorElement* mHand;  
 
-public:
+Weapons mWeapon;  
 
-	DoomController();
-	~DoomController() = default;
+public:  
 
-	virtual void Start() override;
+DoomController();  
+~DoomController() = default;  
 
-	void RotateCamera(Vector2 movement);
-	void Move(Vector2 movement);
+virtual void Start() override;  
 
-	void Shoot();
+void RotateCamera(Vector2 movement);  
+void Move(Vector2 movement);  
 
-	virtual void Update() override;
+void Shoot();  
+
+virtual void Update() override;  
 };

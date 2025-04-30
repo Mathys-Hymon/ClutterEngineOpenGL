@@ -80,6 +80,12 @@ void TextElement::SetText(std::string text)
     CalculateWidth();
 }
 
+void TextElement::SetText(int text)
+{
+    mText = std::to_string(text);
+    CalculateWidth();
+}
+
 void TextElement::SetSize(float size)
 {
     mTransform.scale = size;

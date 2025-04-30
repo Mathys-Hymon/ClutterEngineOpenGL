@@ -1,7 +1,7 @@
 #include "DoomHUD.h"
 
 
-DoomHUD::DoomHUD() : HUDComponent(), mLifeState(100), mCanShoot(0.0f)
+DoomHUD::DoomHUD() : HUDComponent(), mLifeState(3), mCanShoot(0.0f)
 {
 	CreateWidget<clt::UIPanel>("PlayerScreen");
 
@@ -19,6 +19,7 @@ DoomHUD::DoomHUD() : HUDComponent(), mLifeState(100), mCanShoot(0.0f)
 	std::vector<clt::Texture*> weapon = clt::Assets::Get().BulkLoadTexture("Content/Resources/Sprites/", 5, "_playerShoot.png", "pistolShoot", TextureFilter::NEAREST, false);
 
 	GetCurrentWidget()->CreateElement<clt::AnimatorElement>("playerWeapon", "pistolShoot", weapon, false, 10, 4, Vector2{0, -300});
+
 }
 
 void DoomHUD::Start()
@@ -36,15 +37,28 @@ void DoomHUD::Update()
 	}
 }
 
-void DoomHUD::TriggerShoot()
+bool DoomHUD::TriggerShoot(int ammo)
 {
 
 	if (mCanShoot <= 0.0f)
 	{
 		mCanShoot = 0.5f;
 		GetCurrentWidget()->GetElement<clt::AnimatorElement>("playerWeapon")->PlayAnim("pistolShoot");
+		GetCurrentWidget()->GetElement<clt::TextElement>("ammoText")->SetText(ammo);
 
 		raycastHit hitResult;
-		LineTrace(GetWorldLocation(), GetWorldTransform().Forward(), 200, hitResult, true);
+
+		LineTrace(GetWorldLocation(), GetWorldTransform().Forward(), 150, hitResult);
+		return true;
 	}
+
+	else
+	{
+		return false;
+	}
+}
+
+void DoomHUD::UpdateLifeState(int pLifeState)
+{
+	mLifeState = pLifeState;
 }

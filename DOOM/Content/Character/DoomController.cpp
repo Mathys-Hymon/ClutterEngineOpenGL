@@ -4,7 +4,7 @@
 using namespace clt;
 
 DoomController::DoomController() : PlayerController(2), 
-mRotationVelocity(0.0f), mMovementVelocity(0), mWeapon(Weapons::Hand)
+mRotationVelocity(0.0f), mMovementVelocity(0), mWeapon(Weapons::Pistol)
 {
 	clt::Input::Get().MapKeysToVect(EKey::A, EKey::D, EKey::W, EKey::S, "PlayerMovement");
 	clt::Input::Get().MapKeyToAction(EMouseButton::Left, "PlayerShoot");
@@ -15,6 +15,13 @@ mRotationVelocity(0.0f), mMovementVelocity(0), mWeapon(Weapons::Hand)
 	
 	mMaxAcceleration = 0.65f;
 	mMaxWalkSpeed = 2;
+
+	mWeaponAmmo =
+	{
+		{Weapons::Hand, 0},
+		{Weapons::Pistol, 50},
+		{Weapons::ShotGun, 25 }
+	};
 }
 
 void DoomController::Start()
@@ -27,7 +34,7 @@ void DoomController::Start()
 
 void DoomController::RotateCamera(Vector2 movement)
 {
-	mRotationVelocity += movement.x * Timer::deltaTime;
+	mRotationVelocity += movement.x * 0.005f;
 
 	mOwner->AddActorRotationOffset({0, mRotationVelocity, 0});
 
@@ -45,21 +52,26 @@ void DoomController::Move(Vector2 movement)
 
 void DoomController::Shoot()
 {
-	mOwner->GetComponentOfType<DoomHUD>()->TriggerShoot();
+	if (mWeaponAmmo[mWeapon] != 0)
+	{
+		
+		if(mOwner->GetComponentOfType<DoomHUD>()->TriggerShoot(mWeaponAmmo[mWeapon] - 1)) mWeaponAmmo[mWeapon]--;
+	}
 }
 
 void DoomController::Update()
 {
-	float movementReduction = 1 - (Timer::deltaTime * 5);
+	float dt = Timer::deltaTime;
+	float movementReduction = 1 - (dt * 5);
 	if (mMovementVelocity.x != 0)
 	{
-		mOwner->AddActorLocationOffset(mMovementVelocity.x * mOwner->GetTransform().Right());
+		mOwner->AddActorLocationOffset(mMovementVelocity.x * mOwner->GetTransform().Right() * dt);
 		mMovementVelocity.x *= movementReduction;
 	}
 
 	if (mMovementVelocity.y != 0)
 	{
-		mOwner->AddActorLocationOffset(-mMovementVelocity.y * mOwner->GetTransform().Forward());
+		mOwner->AddActorLocationOffset(-mMovementVelocity.y * mOwner->GetTransform().Forward() * dt);
 		mMovementVelocity.y *= movementReduction;
 	}
 
@@ -69,5 +81,5 @@ void DoomController::Update()
 (Maths::Cos(Timer::timeSinceLoad * 8) * 70) };
 	else handPos = { 0,-300 };
 
-	mHand->SetPosition(Vector2::VInterp(mHand->GetPosition(), handPos, Timer::deltaTime, 4));
+	mHand->SetPosition(Vector2::VInterp(mHand->GetPosition(), handPos, dt, 4));
 }

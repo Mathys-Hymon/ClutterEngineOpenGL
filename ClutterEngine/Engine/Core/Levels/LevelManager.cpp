@@ -29,3 +29,20 @@ void LevelManager::Update()
 {
 	if(mActualLevel)	mActualLevel->InternalUpdate();
 }
+
+void LevelManager::LoadLevel(const std::string& levelName)
+{
+	auto* newLevel = mLevels[levelName];
+
+	if (!newLevel)
+	{
+		CLUTTER_ERROR("Cannot find level ", levelName);
+		return;
+	}
+	else
+	{
+		mActualLevel->Close();
+		mActualLevel = newLevel;
+		mActualLevel->Load();
+	}
+}
