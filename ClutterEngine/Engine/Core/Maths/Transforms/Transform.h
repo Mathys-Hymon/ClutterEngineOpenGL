@@ -24,7 +24,20 @@ public:
     Vector3 Up() const { return Vector3::Transform(Vector3::Up, rotation); }
     Vector3 Forward() const { return Vector3::Transform(Vector3::Forward, rotation); }
 
+    Vector3 TransformPosition(const Vector3& localPosition) const
+    {
+        Vector3 scaled = localPosition * scale;
+        Vector3 rotated = Vector3::Transform(scaled, rotation);
+        return rotated + location;
+    }
 
+    Vector3 InverseTransformPosition(const Vector3& worldPosition) const
+    {
+        Vector3 delta = worldPosition - location;
+        Quaternion invRot = rotation.Inverse();
+        Vector3 unrotated = Vector3::Transform(delta, invRot);
+        return unrotated / scale;
+    }
 
     void SetLocation(Vector3 newLocation)
     {

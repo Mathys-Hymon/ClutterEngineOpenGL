@@ -83,7 +83,7 @@ namespace clt
 
         void SetWorldLocation(const Vector3& loc)
         {
-            mRelativeTransform.SetLocation(loc - mOwner->GetActorLocation());
+            mRelativeTransform.TransformPosition(mOwner->GetActorLocation());
         }
 
         void SetRelativeLocation(const Vector2& loc)
@@ -108,6 +108,22 @@ namespace clt
             mRelativeTransform.SetRotation(rot);
         };
 
+
+        void SetWorldRotation(const Quaternion& rot)
+        {
+            if (mOwner)
+            {
+                Quaternion ownerRotation = mOwner->GetRotation();
+                Quaternion relativeRotation = Quaternion::Concatenate(ownerRotation, rot);
+                mRelativeTransform.SetRotation(relativeRotation);
+            }
+        }
+
+        void SetWorldRotation(const Vector3& rot)
+        {
+            Quaternion worldRotation = Quaternion::FromEuler(rot);
+            SetWorldRotation(worldRotation);
+        }
         void AddRelativeRotation(Vector3 rot)
         {
             mRelativeTransform.AddRotation(rot);

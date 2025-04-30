@@ -46,6 +46,14 @@ struct CLUTTER_API Quaternion
 		return { x / length, y / length, z / length, w / length };
 	}
 
+	Quaternion Inverse() const
+	{
+		float normSq = x * x + y * y + z * z + w * w;
+		if (normSq == 0.0f) return Quaternion(0, 0, 0, 1);
+
+		return Quaternion(-x / normSq, -y / normSq, -z / normSq, w / normSq);
+	}
+
 	// Normalize the provided quaternion
 	static Quaternion Normalize(const Quaternion& q)
 	{
@@ -191,53 +199,73 @@ struct CLUTTER_API Quaternion
 
 	static Quaternion LookAt(const Vector3& sourcePoint, const Vector3& targetPoint, const Vector3& up = Vector3::Up)
 	{
-		Vector3 forward = Vector3::Normalize(targetPoint - sourcePoint);
+		Vector3 forward = sourcePoint - targetPoint;
+
+		if (forward.LengthSq() < 0.0001f)
+		{
+			return Quaternion::Identity;
+		}
+
+		forward = Vector3::Normalize(forward);
+
+		float dot = Vector3::Dot(forward, up);
+		if (abs(abs(dot) - 1.0f) < 0.000001f)
+		{
+			Vector3 altUp = (abs(forward.z) < 0.9f) ? Vector3::Forward : Vector3::Right;
+			return LookAt(sourcePoint, targetPoint, altUp);
+		}
+
 		Vector3 right = Vector3::Normalize(Vector3::Cross(up, forward));
-		Vector3 newUp = Vector3::Cross(forward, right);
 
-		float m00 = right.x, m01 = right.y, m02 = right.z;
-		float m10 = newUp.x, m11 = newUp.y, m12 = newUp.z;
-		float m20 = forward.x, m21 = forward.y, m22 = forward.z;
+		Vector3 orthogonalUp = Vector3::Cross(forward, right);
 
-		float trace = m00 + m11 + m22;
-		float qw, qx, qy, qz;
+		float m[9] = {
+			right.x, right.y, right.z,
+			orthogonalUp.x, orthogonalUp.y, orthogonalUp.z,
+			forward.x, forward.y, forward.z
+		};
 
-		if (trace > 0.0f) {
-			float s = sqrtf(trace + 1.0f) * 2.0f;
-			qw = 0.25f * s;
-			qx = (m21 - m12) / s;
-			qy = (m02 - m20) / s;
-			qz = (m10 - m01) / s;
+		float trace = m[0] + m[4] + m[8];
+		Quaternion result;
+
+		if (trace > 0.0f)
+		{
+			float s = 0.5f / Maths::Sqrt(trace + 1.0f);
+			result.w = 0.25f / s;
+			result.x = (m[5] - m[7]) * s;
+			result.y = (m[6] - m[2]) * s;
+			result.z = (m[1] - m[3]) * s;
 		}
-		else if ((m00 > m11) && (m00 > m22)) {
-			float s = sqrtf(1.0f + m00 - m11 - m22) * 2.0f;
-			qw = (m21 - m12) / s;
-			qx = 0.25f * s;
-			qy = (m01 + m10) / s;
-			qz = (m02 + m20) / s;
+		else if (m[0] > m[4] && m[0] > m[8])
+		{
+			float s = 2.0f * Maths::Sqrt(1.0f + m[0] - m[4] - m[8]);
+			result.w = (m[5] - m[7]) / s;
+			result.x = 0.25f * s;
+			result.y = (m[1] + m[3]) / s;
+			result.z = (m[6] + m[2]) / s;
 		}
-		else if (m11 > m22) {
-			float s = sqrtf(1.0f + m11 - m00 - m22) * 2.0f;
-			qw = (m02 - m20) / s;
-			qx = (m01 + m10) / s;
-			qy = 0.25f * s;
-			qz = (m12 + m21) / s;
+		else if (m[4] > m[8])
+		{
+			float s = 2.0f * Maths::Sqrt(1.0f + m[4] - m[0] - m[8]);
+			result.w = (m[6] - m[2]) / s;
+			result.x = (m[1] + m[3]) / s;
+			result.y = 0.25f * s;
+			result.z = (m[5] + m[7]) / s;
 		}
-		else {
-			float s = sqrtf(1.0f + m22 - m00 - m11) * 2.0f;
-			qw = (m10 - m01) / s;
-			qx = (m02 + m20) / s;
-			qy = (m12 + m21) / s;
-			qz = 0.25f * s;
+		else
+		{
+			float s = 2.0f * Maths::Sqrt(1.0f + m[8] - m[0] - m[4]);
+			result.w = (m[1] - m[3]) / s;
+			result.x = (m[6] + m[2]) / s;
+			result.y = (m[5] + m[7]) / s;
+			result.z = 0.25f * s;
 		}
 
-		return Quaternion(qx, qy, qz, qw).Normalized();
+		return result.Normalized();
 	}
 
-	// Convert quaternion to Euler angles (pitch, yaw, roll)
 	Vector3 QuaternionToEuler() const
 	{
-		// Convert quaternion to Euler angles (pitch, yaw, roll)
 		float pitch = std::atan2(2.0f * (w * x + y * z),
 			1.0f - 2.0f * (x * x + y * y));
 		float yaw = std::asin(2.0f * (w * y - z * x));
