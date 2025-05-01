@@ -65,7 +65,7 @@ namespace clt
 			}
 		}
 
-		virtual Vector2 GetSize()     const 
+		virtual Vector2 GetSize()  const 
 		{ 
 			return {
 				 mTransform.scale.x,

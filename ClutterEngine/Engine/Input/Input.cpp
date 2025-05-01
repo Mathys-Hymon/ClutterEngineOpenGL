@@ -110,9 +110,19 @@ void Input::ScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 	Input::Get().mScrollDelta.y += static_cast<float>(yoffset);
 }
 
-void Input::Update(Window* pWindow)
+bool Input::IsButtonPressed(EKey pKey) const
 {
-	GLFWwindow* pGLFWindow = pWindow->GetGLFWWindow();
+	return glfwGetKey(Window::Get().GetGLFWWindow(), static_cast<int>(pKey)) == GLFW_PRESS;
+}
+
+bool Input::IsButtonPressed(EMouseButton pButton) const
+{
+	return glfwGetMouseButton(Window::Get().GetGLFWWindow(), static_cast<int>(pButton)) == GLFW_PRESS;
+}
+
+void Input::Update()
+{
+	GLFWwindow* pGLFWindow = Window::Get().GetGLFWWindow();
 	glfwSetScrollCallback(pGLFWindow, ScrollCallback);
 		// INPUT MAPPING
 

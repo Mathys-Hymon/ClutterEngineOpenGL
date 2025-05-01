@@ -17,7 +17,7 @@ namespace clt
 		Disabled,
 	};
 
-	class CLUTTER_API ButtonElement : public TextElement, public SpriteElement
+	class CLUTTER_API ButtonElement : public SpriteElement
 	{
 		using Callback = std::function<void()>;
 
@@ -26,9 +26,10 @@ namespace clt
 		std::unordered_map<ButtonState, Texture*> mTextures;
 
 		void SetState(ButtonState state);
+		bool IsMouseOver(Vector2 mousePos);
 
 	public:
-		ButtonElement(std::string text, std::unordered_map<ButtonState, const std::string&> texturesName);
+		ButtonElement(std::string text, std::unordered_map<ButtonState, const std::string&> texturesName = {});
 		ButtonElement(std::string text, std::unordered_map<ButtonState, Texture*> textures);
 		~ButtonElement() = default;
 

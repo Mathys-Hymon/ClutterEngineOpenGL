@@ -20,6 +20,7 @@ DoomHUD::DoomHUD() : HUDComponent(), mLifeState(3), mCanShoot(0.0f)
 
 	GetCurrentWidget()->CreateElement<clt::AnimatorElement>("playerWeapon", "pistolShoot", weapon, false, 10, 4, Vector2{0, -300});
 
+	//GetCurrentWidget()->CreateElement<clt::ButtonElement>("playButton", "menuBackground");
 }
 
 void DoomHUD::Start()

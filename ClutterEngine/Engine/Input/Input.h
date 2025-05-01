@@ -102,11 +102,22 @@ namespace clt
 		void SetShowMouseCursor(bool show) { mShowMouse = show; };
 
 		void LockMouseCursor(bool lock) { mLockMouse = lock; };
+
+		Vector2 GetMousePosition() const { return mLastMousePosition; };
+
+		/**
+ * @brief Checks if a key, mouse button, or controller button is pressed.
+ * @param pKey The key, mouse button, or controller button to check.
+ * @return True if the button is pressed, false otherwise.
+ */
+		bool IsButtonPressed(EKey pKey) const;
+		bool IsButtonPressed(EMouseButton pButton) const;
+
 		/**
    * @brief Updates the state of the input manager.
    * @param pWindow Pointer to the GLFW window.
    */
-		void Update(Window* pWindow);
+		void Update();
 
 		/**
    * @brief Maps a key to an action.

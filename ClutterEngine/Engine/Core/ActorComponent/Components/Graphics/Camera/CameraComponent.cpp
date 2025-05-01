@@ -33,7 +33,7 @@ void CameraComponent::SetOwner(Actor* pOwner)
 		ACTIVE_CAMERA = this;
 	}
 
-	mViewSize = mOwner->GetLevel()->GetRenderer().GetEngine()->GetWindow()->GetDimensions();
+	mViewSize = Window::Get().GetDimensions();
 	mDirty = true;
 }
 

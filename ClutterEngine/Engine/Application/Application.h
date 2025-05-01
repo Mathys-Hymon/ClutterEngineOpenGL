@@ -22,7 +22,6 @@ namespace clt
         Application(std::vector<Level*> pLevels, const std::string& configFile = "Config/project.config.json");
         ~Application();
 
-        Window* GetWindow() const { return mEngine->GetWindow(); }
         RendererGL* GetRenderer() const { return mEngine->GetRenderer(); }
     };
 }

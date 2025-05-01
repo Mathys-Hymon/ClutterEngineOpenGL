@@ -30,13 +30,15 @@ Application::Application(std::vector<Level*> pLevels, const std::string& configF
 
 void Application::Run()
 {
-	while (!GetWindow()->ShouldClose())
+	Window& window = Window::Get();
+
+	while (!window.ShouldClose())
 	{
 		Timer::ComputeDeltaTime();
 		Update();
 		Render();
 
-		GetWindow()->SwapBuffers();
+		window.SwapBuffers();
 
 		glfwPollEvents();
 	}

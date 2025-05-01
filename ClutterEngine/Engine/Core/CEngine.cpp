@@ -25,7 +25,7 @@ void CEngine::Init(const std::string& path, std::vector<Level*> pLevels)
 	mName = config["project"]["name"];
 	CLog::Init(mName);
 
-	mWindow = std::make_unique<Window>(res[0], res[1], mName, config["render"]["vsync"]);
+	Window::Get().InternalInit(res[0], res[1], mName, config["render"]["vsync"]);
 	mRenderer = std::make_unique<RendererGL>();
 	mRenderer->Initialize(this, backgroundColor);
 	mPhysics = std::make_unique<Physics>();
@@ -37,7 +37,7 @@ void CEngine::Init(const std::string& path, std::vector<Level*> pLevels)
 void CEngine::Update()
 {
 mPhysics->Update();
-Input::Get().Update(mWindow.get());
+Input::Get().Update();
 mLevelManager->Update();
 
 if (isEditorMode())
@@ -45,7 +45,7 @@ if (isEditorMode())
 	if (mRefreshFrameRate > 0.3f)
 	{
         std::string temp = mName + "     |    FPS: " + std::to_string(static_cast<int>(1.0f / Timer::deltaTime));
-		mWindow->RenameViewport(temp.c_str());
+		Window::Get().RenameViewport(temp.c_str());
 		mRefreshFrameRate = 0;
 	}
 	else
@@ -59,6 +59,5 @@ void CEngine::Close()
 {
 	mRenderer->Close();
 	mRenderer.release();
-	mWindow.release();
 	mPhysics.release();
 }

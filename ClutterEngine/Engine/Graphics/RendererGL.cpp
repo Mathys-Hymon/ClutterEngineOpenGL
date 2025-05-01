@@ -57,8 +57,9 @@ void RendererGL::Initialize(CEngine* pEngine, Color backgroundColor)
 
     mSpriteVAO = new VertexArray(spriteVertices, 4);
 
-    mUiViewProj = Matrix4Row::CreateOrtho(pEngine->GetWindow()->GetDimensions().x,
-        pEngine->GetWindow()->GetDimensions().y, 0.00001f, 100000);
+    Vector2 windowSize = Window::Get().GetDimensions();
+
+    mUiViewProj = Matrix4Row::CreateOrtho(windowSize.x, windowSize.y, 0.00001f, 100000);
     DebugDraw::Get().Start(mEngine);
 
     mTextShader.Use();

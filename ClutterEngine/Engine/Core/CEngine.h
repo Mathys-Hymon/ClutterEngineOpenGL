@@ -15,7 +15,6 @@ namespace clt
   */
 	class CLUTTER_API CEngine
 	{
-		std::unique_ptr<Window> mWindow; ///< The window instance.
 		std::unique_ptr<RendererGL> mRenderer; ///< The renderer instance.
 		std::unique_ptr<LevelManager> mLevelManager; ///< The level manager instance.
 		std::unique_ptr<Physics> mPhysics; 
@@ -49,12 +48,6 @@ namespace clt
 		void Update();
 
 		void Close();
-
-		/**
-   * @brief Gets the window instance.
-   * @return A pointer to the window instance.
-   */
-		Window* GetWindow() const { return mWindow.get(); }
 
 		/**
    * @brief Gets the renderer instance.

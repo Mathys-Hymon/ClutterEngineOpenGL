@@ -1,62 +1,71 @@
-#include "pch.h"  
-#include <Window/Window.h>  
-#include<glad/glad.h>  
-#include <GLFW/glfw3.h>  
+#include "pch.h"
+#include <Window/Window.h>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
-using namespace clt;  
+using namespace clt;
 
-Window::Window(u32 pWidth, u32 pHeight,std::string pName, bool vsync)
-    : mDimensions{static_cast<float>(pWidth), static_cast<float>(pHeight)}  
-{  
-   // Initialize GLFW  
+Window& Window::Get()
+{
+    static Window instance;
+    return instance;
+}
+
+void Window::InternalInit(u32 width, u32 height, const std::string& name, bool vsync)
+{
+    if (mIsInitialized)
+        return;
+
+    mDimensions = { static_cast<float>(width), static_cast<float>(height) };
+
     if (!glfwInit())
     {
         CLUTTER_ERROR("GLFW failed to init !");
+        return;
     }
 
-   // Set the GLFW Version of OpenGL  
-   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);  
-   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);  
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-   // Define if GLFW use the core profile  
-   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    mGlfwWindow = glfwCreateWindow(width, height, name.c_str(), nullptr, nullptr);
+    if (!mGlfwWindow)
+    {
+        CLUTTER_ERROR("Failed to create GLFW Window");
+        glfwTerminate();
+        return;
+    }
 
-   // Create a GLFW window  
-   mGlfwWindow = glfwCreateWindow(pWidth, pHeight, pName.c_str(), nullptr, nullptr);
+    glfwMakeContextCurrent(mGlfwWindow);
 
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        CLUTTER_ERROR("Failed to initialize GLAD");
+        glfwTerminate();
+        return;
+    }
 
-   // Check if the window creation failed  
-   if (mGlfwWindow == nullptr) {  
-       CLUTTER_ERROR("Failed to create GLFW Window");  
-       glfwTerminate();  
-   }  
-   CLUTTER_LOG("GLFW Window Created");  
+    glfwSwapInterval(vsync ? 1 : 0);
+    glViewport(0, 0, width, height);
 
-   // Make the context of the specified window current  
-   glfwMakeContextCurrent(mGlfwWindow);  
+    CLUTTER_LOG("GLFW Window Created");
 
-   // Load all OpenGL function pointers using GLAD  
-   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {  
-       CLUTTER_ERROR("Failed to initialise GLAD");  
-       glfwTerminate();  
-       return;  
-   }  
+    mIsInitialized = true;
+}
 
-   glfwSwapInterval(vsync ? 1 : 0);
+Window::~Window()
+{
+    if (mGlfwWindow)
+    {
+        glfwDestroyWindow(mGlfwWindow);
+        glfwTerminate();
+        mGlfwWindow = nullptr;
+    }
+}
 
-   // Set the viewport size  
-   glViewport(0, 0, pWidth, pHeight);  
-}  
-
-Window::~Window()  
-{  
-   // Destructor  
-}  
-
-void Window::ResizeViewport(unsigned int startWidth, unsigned int startHeight, unsigned int width, unsigned int height)  
-{  
-   // Resize the OpenGL viewport  
-   glViewport(startWidth, startHeight, width, height);  
+void Window::ResizeViewport(unsigned int startWidth, unsigned int startHeight, unsigned int width, unsigned int height)
+{
+    glViewport(startWidth, startHeight, width, height);
 }
 
 void Window::RenameViewport(const char* name)
@@ -64,21 +73,23 @@ void Window::RenameViewport(const char* name)
     glfwSetWindowTitle(mGlfwWindow, name);
 }
 
-bool Window::ShouldClose() const  
-{  
-   // Check if the window should close  
-   return glfwWindowShouldClose(mGlfwWindow);  
-}  
+bool Window::ShouldClose() const
+{
+    return glfwWindowShouldClose(mGlfwWindow);
+}
 
-void Window::SwapBuffers() const  
-{  
-   // Swap the front and back buffers  
-   glfwSwapBuffers(mGlfwWindow);  
-}  
+void Window::SwapBuffers() const
+{
+    glfwSwapBuffers(mGlfwWindow);
+}
 
-void Window::Close()  
-{  
-   // Destroy the window and terminate GLFW  
-   glfwDestroyWindow(mGlfwWindow);  
-   glfwTerminate();  
+void Window::Close()
+{
+    if (mGlfwWindow)
+    {
+        glfwDestroyWindow(mGlfwWindow);
+        glfwTerminate();
+        mGlfwWindow = nullptr;
+        mIsInitialized = false;
+    }
 }
