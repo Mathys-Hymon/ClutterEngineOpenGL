@@ -18,35 +18,21 @@ namespace clt
 		std::unique_ptr<Window> mWindow; ///< The window instance.
 		std::unique_ptr<RendererGL> mRenderer; ///< The renderer instance.
 		std::unique_ptr<LevelManager> mLevelManager; ///< The level manager instance.
-		std::unique_ptr<Physics> mPhysics;   ///< The physics instance.
+		std::unique_ptr<Physics> mPhysics; 
 
 		std::string mName;
 		float mRefreshFrameRate;
 
 	public:
-
-		/**
-* @brief Default constructor.
-*/
+	/**
+   * @brief Default constructor.
+   */
 		CEngine() = default;
 
 		/**
    * @brief Default destructor.
    */
-
-		CEngine(const CEngine&) = delete;
-		CEngine& operator=(const CEngine&) = delete;
-
 		~CEngine() = default;
-
-		/**
- * @brief Returns the singleton instance of the engine.
- */
-		static CEngine& Get()
-		{
-			static CEngine instance;
-			return instance;
-		}
 
 		/**
    * @brief Initializes the engine with the specified parameters.

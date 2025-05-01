@@ -65,8 +65,6 @@ namespace clt
 			}
 		}
 
-		UIPanel* GetOwner() const { return mOwner; };
-
 		virtual Vector2 GetSize()     const 
 		{ 
 			return {
@@ -75,16 +73,12 @@ namespace clt
 					};
 		
 		};
-		Vector2 GetPosition() const { return mTransform.location + mAnchorOffset; };
+		Vector2 GetPosition() const { return mTransform.location; };
 		float GetRotation()   const { return mTransform.rotation; };
 
 		virtual Transform2D GetTransform() const 
 		{
-			return {
-				GetPosition(),
-				GetSize(),
-				GetRotation()
-			};
+			return mTransform;
 		};
 
 		void SetSize(Vector2 size) 
