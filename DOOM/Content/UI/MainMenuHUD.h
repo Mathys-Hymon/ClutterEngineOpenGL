@@ -6,5 +6,5 @@ public:
 	MainMenuHUD();
 	~MainMenuHUD() = default;
 
-	void OpenGame();
+	void Update() override;
 };

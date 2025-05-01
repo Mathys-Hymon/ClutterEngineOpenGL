@@ -77,8 +77,8 @@ void DoomController::Update()
 
 	Vector2 handPos;
 
-	if (mIsMoving) handPos = { Maths::Sin(Timer::timeSinceLoad * 4) * 300, -300 - 
-(Maths::Cos(Timer::timeSinceLoad * 8) * 70) };
+	if (mIsMoving) handPos = { Maths::Sin(Timer::GetTimeSinceLoad() * 4) * 300, -300 - 
+(Maths::Cos(Timer::GetTimeSinceLoad() * 8) * 70) };
 	else handPos = { 0,-300 };
 
 	mHand->SetPosition(Vector2::VInterp(mHand->GetPosition(), handPos, dt, 4));

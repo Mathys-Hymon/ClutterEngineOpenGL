@@ -25,6 +25,9 @@ MainMenuHUD::MainMenuHUD() : HUDComponent()
 	//GetCurrentWidget()->CreateElement<clt::ButtonElement>("quitButton", "menuBackground", 1.2f, Vector2::Zero, -100);
 }
 
-void MainMenuHUD::OpenGame()
+void MainMenuHUD::Update()
 {
+	HUDComponent::Update();
+
+	GetCurrentWidget()->GetElement<clt::SpriteElement>("logo")->SetPosition({ 0.0f, 400 + Maths::Sin(clt::Timer::GetTimeSinceLoad()) * 20 });
 }
