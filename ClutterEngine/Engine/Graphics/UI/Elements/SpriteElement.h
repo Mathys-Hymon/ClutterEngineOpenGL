@@ -15,6 +15,10 @@ namespace clt
 			mTexture = Assets::Get().GetTexture(textureName);
 		}
 
+		SpriteElement(Vector2 size = { 1,1 }, Vector2 position = { 0, 0 }, int ZOrder = 0) : WidgetElement(size, position, ZOrder), mTexture(nullptr)
+		{
+		}
+
 		SpriteElement(Texture* texture, Vector2 size = { 1,1 }, Vector2 position = { 0, 0 }, int ZOrder = 0) 
 			: WidgetElement(size, position, ZOrder), mTexture(nullptr)
 		{
@@ -24,18 +28,24 @@ namespace clt
 
 		virtual Transform2D GetTransform() const override
 		{
-			return 
-			{ 
+			return
+			{
 				mTransform.location,
-				mTransform.scale * mTexture->GetSize(),
+				mTransform.scale* mTexture->GetSize(),
 				mTransform.rotation
 			};
 		};
+
+		virtual Vector2 GetSize() const override
+		{
+			return mTransform.scale * mTexture->GetSize();
+		}
 
 		virtual void Update() override {};
 
 		virtual void Draw(RendererGL* renderer) override
 		{
+			if (!mTexture) return;
 			mTexture->Bind();
 			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		}

@@ -13,6 +13,7 @@ namespace clt
 	class SpriteComponent;
 	class MeshComponent;
 	class TextElement;
+	class ButtonElement;
 
   /**
   * @class Renderer
@@ -34,6 +35,8 @@ namespace clt
 		CEngine* mEngine;
 
 		friend TextElement;
+		friend ButtonElement;
+
 	public:
 		/**
    * @brief Constructor for Renderer.

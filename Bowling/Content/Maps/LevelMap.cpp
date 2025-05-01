@@ -22,7 +22,6 @@ LevelMap::~LevelMap()
 
 void LevelMap::Load()  
 {
-
 AddActor<BowlingBall>("ball");
 
 camera = AddActor<clt::Actor>("camera");

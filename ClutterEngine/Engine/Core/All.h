@@ -52,3 +52,4 @@
 
 #include <Graphics/UI/Elements/AnimatorElement.h>
 #include <Graphics/UI/Elements/TextElement.h>
+#include <Graphics/UI/Elements/ButtonElement.h>

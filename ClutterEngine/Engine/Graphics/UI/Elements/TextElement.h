@@ -3,7 +3,7 @@
 #include <Graphics/RendererGL.h>
 
 
-enum class CLUTTER_API alignment
+enum class CLUTTER_API TextAlignment
 {
 	Left,
 	Center,
@@ -20,7 +20,7 @@ namespace clt
 
 		float mWidth;
 
-		alignment mAlignment;
+		TextAlignment mAlignment;
 
 		GLuint VAO, VBO;
 
@@ -44,7 +44,7 @@ namespace clt
 
 		void SetColor(Color color);
 
-		void SetAlignment(alignment alignment);
+		void SetAlignment(TextAlignment alignment);
 
 		float GetTextWidth() const { return mWidth; };
 

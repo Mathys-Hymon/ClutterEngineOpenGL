@@ -44,7 +44,7 @@ namespace clt
 		}
 		else
 		{
-			T* pWidget = new T(std::forward<Args>(args)...);
+			T* pWidget = new T(this, std::forward<Args>(args)...);
 			mWidgets[pName] = pWidget;
 
 			if (!mCurrentWidget) mCurrentWidget = pWidget;

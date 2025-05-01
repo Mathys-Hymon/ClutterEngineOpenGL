@@ -5,7 +5,7 @@
 #include <Core/Assets/Assets.h>
 #include <Graphics/UI/UIPanel.h>
 
-enum class CLUTTER_API anchor
+enum class CLUTTER_API Anchor
 {
 	Center,
 	Top,
@@ -25,23 +25,24 @@ namespace clt
 {
 	class CLUTTER_API WidgetElement
 	{
-	protected:
 		int mZOrder;
+
+		Vector2 mAnchorOffset;
 		UIPanel* mOwner;
+		Anchor mAnchor;
 
-		anchor mAnchor;
+	protected:
 		Transform2D mTransform;
-
 		void SetOwner(UIPanel* pOwner) { mOwner = pOwner; };
 
 		friend UIPanel;
+
 	public:
 
 		bool mVisibility;
 
-		WidgetElement(Vector2 size = { 1,1 }, Vector2 position = { 0, 0 }, int ZOrder = 0) : mZOrder(ZOrder), mVisibility(true), mOwner(nullptr)
+		WidgetElement(Vector2 size = { 1,1 }, Vector2 position = { 0, 0 }, int ZOrder = 0) : mZOrder(ZOrder), mVisibility(true), mOwner(nullptr), mAnchor(Anchor::Center), mAnchorOffset(Vector2::Zero)
 		{
-
 			mTransform.scale.x =  size.x;
 			mTransform.scale.y = -size.y;
 
@@ -64,7 +65,7 @@ namespace clt
 			}
 		}
 
-		Vector2 GetSize()     const 
+		virtual Vector2 GetSize()     const 
 		{ 
 			return {
 				 mTransform.scale.x,
@@ -91,6 +92,11 @@ namespace clt
 			mTransform.scale.x = size;
 			mTransform.scale.y = -size;
 		};
+
+		void SetAnchor(Anchor anchor)
+		{
+
+		}
 
 		void SetPosition(Vector2 position) { mTransform.location = position; };
 

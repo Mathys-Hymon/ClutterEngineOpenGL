@@ -5,17 +5,20 @@
 namespace clt
 {
 	class WidgetElement;
+	class HUDComponent;
 	class CLUTTER_API UIPanel
 	{
 		std::unordered_map<std::string, WidgetElement*> mElementsByName;
 		std::vector<WidgetElement*> mElementsByZOrder;
+
+		HUDComponent* mHUD;
 
 		void UpdateWidgetOrder(WidgetElement* mWidget);
 
 		friend WidgetElement;
 
 	public:
-		UIPanel() {};
+		UIPanel(HUDComponent* hud) : mHUD(hud){};
 		~UIPanel();
 
 		template<typename T, typename... Args>
@@ -27,6 +30,8 @@ namespace clt
 		void RemoveElement(const std::string& pName);
 
 		virtual void Update();
+
+		HUDComponent* GetHUD() const { return mHUD; };
 
 		std::vector<WidgetElement*> GetElements() { return mElementsByZOrder; }
 	};

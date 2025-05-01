@@ -10,10 +10,11 @@ namespace clt
 {
 	enum class CLUTTER_API ButtonState
 	{
+		None,
 		Hovered,
 		Pressed,
 		Released,
-		Clicked
+		Disabled,
 	};
 
 	class CLUTTER_API ButtonElement : public TextElement, public SpriteElement
@@ -22,15 +23,22 @@ namespace clt
 
 		ButtonState mState;
 		std::unordered_map<ButtonState, std::vector<Callback>> mCallbacks;
+		std::unordered_map<ButtonState, Texture*> mTextures;
 
-		void Dispatch(ButtonState state);
+		void SetState(ButtonState state);
 
 	public:
-		ButtonElement(std::string text, std::string texture);
-		~ButtonElement();
+		ButtonElement(std::string text, std::unordered_map<ButtonState, const std::string&> texturesName);
+		ButtonElement(std::string text, std::unordered_map<ButtonState, Texture*> textures);
+		~ButtonElement() = default;
 
 		virtual void Update() override;
 		virtual void Draw(RendererGL* renderer) override;
+
+		void SetTextures(std::unordered_map<ButtonState, const std::string&> textures);
+		void SetTextures(std::unordered_map<ButtonState, Texture*> textures);
+
+		void SetEnable(bool enable = true);
 
 		void Subscribe(ButtonState state, Callback callback);
 	};
