@@ -12,7 +12,7 @@ enum class CLUTTER_API TextAlignment
 
 namespace clt
 {
-	class CLUTTER_API TextElement : public WidgetElement
+	class CLUTTER_API TextElement : public virtual WidgetElement
 	{
 		std::string mText;
 		Color mColor;

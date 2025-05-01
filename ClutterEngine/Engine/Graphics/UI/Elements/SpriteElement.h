@@ -3,7 +3,7 @@
 
 namespace clt
 {
-	class CLUTTER_API SpriteElement : public WidgetElement
+	class CLUTTER_API SpriteElement : public virtual WidgetElement
 	{
 	protected:
 		Texture* mTexture;

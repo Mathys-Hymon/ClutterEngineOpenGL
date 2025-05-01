@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "Core/CEngine.h"
 #include <Input/Input.h>
 
 using namespace clt;
@@ -102,6 +103,16 @@ bool Input::RegisterVectCallback(const std::string& VectName, std::function<void
 void Input::MapKeysToVect(EKey XPositiveKey, EKey XNegativeKey, EKey YPositiveKey, EKey YNegativeKey, const std::string& VectName)
 {
 	mVectMap[VectName] = { XPositiveKey , XNegativeKey , YPositiveKey, YNegativeKey };
+}
+
+bool Input::IsButtonPressed(EKey pKey) const
+{
+	return glfwGetKey(CEngine::Get().GetWindow()->GetGLFWWindow(), static_cast<int>(pKey)) == GLFW_PRESS;
+}
+
+bool Input::IsButtonPressed(EMouseButton pButton) const
+{
+	return glfwGetMouseButton(CEngine::Get().GetWindow()->GetGLFWWindow(), static_cast<int>(pButton)) == GLFW_PRESS;
 }
 
 void Input::ScrollCallback(GLFWwindow* window, double xoffset, double yoffset)

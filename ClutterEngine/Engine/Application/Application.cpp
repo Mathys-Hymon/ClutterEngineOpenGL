@@ -10,14 +10,12 @@ using namespace clt;
 
 Application::Application(std::vector<Level*> pLevels, const std::string& configFile)
 {
-	mEngine = std::make_unique<CEngine>();
-
 	if (pLevels.empty()) pLevels.push_back(new TemplateLevel());
 
-	mEngine->Init(configFile, pLevels);
+	CEngine::Get().Init(configFile, pLevels);
 	CLUTTER_INFO("Application created");
 
-	if (mEngine->isEditorMode())
+	if (CEngine::Get().isEditorMode())
 	{
 		Input::Get().MapKeyToAction(EKey::F1, "enableFillMode");
 		Input::Get().MapKeyToAction(EKey::F2, "enableWireframeMode");
@@ -30,13 +28,13 @@ Application::Application(std::vector<Level*> pLevels, const std::string& configF
 
 void Application::Run()
 {
-	while (!GetWindow()->ShouldClose())
+	while (!CEngine::Get().GetWindow()->ShouldClose())
 	{
 		Timer::ComputeDeltaTime();
 		Update();
 		Render();
 
-		GetWindow()->SwapBuffers();
+		CEngine::Get().GetWindow()->SwapBuffers();
 
 		glfwPollEvents();
 	}
@@ -44,28 +42,28 @@ void Application::Run()
 
 void Application::Update()
 {
-	mEngine->Update();
+	CEngine::Get().Update();
 }
 
 void Application::Render()
 {
-	GetRenderer()->BeginDraw();
-	GetRenderer()->Draw();
-	GetRenderer()->EndDraw();
+	CEngine::Get().GetRenderer()->BeginDraw();
+	CEngine::Get().GetRenderer()->Draw();
+	CEngine::Get().GetRenderer()->EndDraw();
 }
 
 void Application::ShowWireframe()
 {
-	mEngine->GetRenderer()->WireframeMode(true);
+	CEngine::Get().GetRenderer()->WireframeMode(true);
 }
 
 void Application::ShowLitMode()
 {
-	mEngine->GetRenderer()->WireframeMode(false);
+	CEngine::Get().GetRenderer()->WireframeMode(false);
 }
 
 Application::~Application()	
 {
-	mEngine->Close();
+	CEngine::Get().Close();
 	CLog::Shutdown();
 }

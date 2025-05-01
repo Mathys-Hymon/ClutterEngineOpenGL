@@ -105,8 +105,10 @@ void TextElement::SetAlignment(TextAlignment alignment)
 void TextElement::Draw(RendererGL* renderer)
 {
     renderer->mTextShader.Use();
-    renderer->mTextShader.SetMat4Row("uWorldTransform", GetTransform().To3D().GetMat4Transform());
+    renderer->mTextShader.SetMat4Row("uWorldTransform",GetTransform().To3D().GetMat4Transform());
     renderer->mTextShader.SetVec4f("textColor", mColor);
+
+    CLUTTER_LOG(GetTransform().To3D().Scale().ToString().c_str());
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(VAO);
 

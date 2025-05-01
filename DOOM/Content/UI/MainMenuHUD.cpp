@@ -2,6 +2,9 @@
 
 MainMenuHUD::MainMenuHUD() : HUDComponent()
 {
+
+	clt::Input::Get().SetShowMouseCursor(true);
+
 	CreateWidget<clt::UIPanel>("mainMenu");
 	CreateWidget<clt::UIPanel>("options");
 
@@ -13,7 +16,7 @@ MainMenuHUD::MainMenuHUD() : HUDComponent()
 	GetCurrentWidget()->CreateElement<clt::SpriteElement>("background", "menuBackground", 1.2f, Vector2::Zero, -100);
 	
 
-	//GetCurrentWidget()->CreateElement<clt::ButtonElement>("playButton", "menuBackground", 1.2f, Vector2::Zero, -100);
+	GetCurrentWidget()->CreateElement<clt::ButtonElement>("playButton", "Play");
 
 	//GetCurrentWidget()->CreateElement<clt::ButtonElement>("options", "menuBackground", 1.2f, Vector2::Zero, -100);
 

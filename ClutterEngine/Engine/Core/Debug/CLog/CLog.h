@@ -79,13 +79,34 @@ public:
     static void Log(LogLevel level, const std::string& message, const char* file, int line, Args... args)
     {
 #ifdef EDITOR
-        std::cout << GetConsoleColor(level)
-            << FormatConsoleMessage(level, message, args...)
-            << "\033[0m" << std::endl;
+
+        if (level == LogLevel::CERROR) {
+
+            std::cout << GetConsoleColor(level)
+                << FormatConsoleMessage(level, message,file, line, args...)
+                << "\033[0m" << std::endl;
+
+            #ifdef _MSC_VER
+            __debugbreak();
+            #else
+            std::abort(); // fallback for non-MSVC compilers
+            #endif
+        }
+        else
+        {
+            std::cout << GetConsoleColor(level)
+                << FormatConsoleMessage(level, message, args...)
+                << "\033[0m" << std::endl;
+        }
+
 #endif
 
 #ifdef _DEBUG
         WriteToJsonFile(level, message, file, line, args...);
+
+        if (level == LogLevel::CERROR) {
+            std::exit(EXIT_FAILURE);
+        }
 #endif
     }
 

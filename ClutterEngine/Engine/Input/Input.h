@@ -4,6 +4,7 @@
 #include <Window/Window.h>
 #include <functional>
 
+
 namespace clt
 {
 	/**
@@ -136,5 +137,18 @@ namespace clt
 
 		bool RegisterVectCallback(const std::string& VectName, std::function<void(Vector2)> callback);
 		void MapKeysToVect(EKey XPositiveKey, EKey XNegativeKey, EKey YPositiveKey, EKey YNegativeKey, const std::string& VectName);
+
+		
+		Vector2 GetMousePosition() const { return mLastMousePosition; };
+
+		/**
+ * @brief Checks if a key, mouse button, or controller button is pressed.
+ * @param pKey The key, mouse button, or controller button to check.
+ * @return True if the button is pressed, false otherwise.
+ */
+		bool IsButtonPressed(EKey pKey) const;
+		bool IsButtonPressed(EMouseButton pButton) const;
+
 	};
+
 }
