@@ -22,6 +22,7 @@ namespace clt
         std::string mTitle; ///< The title of the scene.
         RendererGL* mRenderer; ///< The renderer used for drawing the scene.
         Physics* mPhysics;
+        LevelManager* mManager;
 
         std::unordered_map < size_t, std::vector<Actor*> > mActors; ///< Map of actors categorized by their type.
         std::vector<Actor*> mPendingActors; ///< List of actors pending to be added to the level.
@@ -59,11 +60,14 @@ namespace clt
          * @brief Sets the renderer for the level.
          * @param pRenderer Pointer to the renderer.
          */
-        void SetManager(RendererGL* pRenderer, Physics* pPhysics) 
+        void SetManager(RendererGL* pRenderer, Physics* pPhysics, LevelManager* pManager) 
         { 
             mRenderer = pRenderer; 
             mPhysics = pPhysics;
+            mManager = pManager;
         };
+
+        void OpenLevel(const std::string& pLevelName);
 
         bool LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant = false);
         /**

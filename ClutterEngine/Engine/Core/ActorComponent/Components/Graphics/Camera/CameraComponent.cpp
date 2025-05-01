@@ -11,6 +11,14 @@ CameraComponent* CameraComponent::ACTIVE_CAMERA = nullptr;
 
 CameraComponent::CameraComponent(float pFOV, ProjectionMode pMode, float pNearPlane, float pFarPlane) : Component(), mProjectionMode(pMode), mFov(pFOV), mNearPlane(pNearPlane), mFarPlane(pFarPlane) { mDirty = true; }
 
+CameraComponent::~CameraComponent()
+{
+	if (ACTIVE_CAMERA == this)
+	{
+		ACTIVE_CAMERA = nullptr;
+	}
+}
+
 void CameraComponent::UpdateMatrices()
 {
 	if (mProjectionMode == ProjectionMode::Perspective)

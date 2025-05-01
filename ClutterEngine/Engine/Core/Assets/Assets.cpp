@@ -110,6 +110,7 @@ void Assets::LoadEngineAssets()
 {
     Assets::Get().LoadFont("Content/Resources/Font/BebasNeue.ttf", "BebasNeue");
     Assets::Get().LoadTexture("Content/Resources/Sprites/default.png", "default");
+    Assets::Get().LoadTexture("Content/Resources/Sprites/buttonBg.png", "buttonBg");
 }
 
 Texture* Assets::LoadTexture(const std::string& path, const std::string& name, TextureFilter pTexFilter, bool generateMipMaps)

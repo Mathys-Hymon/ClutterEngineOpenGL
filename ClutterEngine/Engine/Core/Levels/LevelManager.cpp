@@ -8,7 +8,7 @@ LevelManager::LevelManager(std::vector<Level*>& pLevels, RendererGL* pRenderer, 
 {
 	for (Level* level : pLevels)
 	{
-		level->SetManager(pRenderer, pPhysics);
+		level->SetManager(pRenderer, pPhysics, this);
 		mLevels.emplace(level->mTitle, level);
 	}
 	mActualLevel->Load();
@@ -27,6 +27,15 @@ LevelManager::~LevelManager()
 
 void LevelManager::Update()
 {
+	if (mLevelToLoad)
+	{
+		mActualLevel->Unload();
+		mActualLevel = mLevelToLoad;
+		mActualLevel->Load();
+
+		mLevelToLoad = nullptr;
+	}
+
 	if(mActualLevel)	mActualLevel->InternalUpdate();
 }
 
@@ -36,13 +45,11 @@ void LevelManager::LoadLevel(const std::string& levelName)
 
 	if (!newLevel)
 	{
-		CLUTTER_ERROR("Cannot find level ", levelName);
+		CLUTTER_WARNING("Cannot find level : " + levelName);
 		return;
 	}
 	else
 	{
-		mActualLevel->Close();
-		mActualLevel = newLevel;
-		mActualLevel->Load();
+		mLevelToLoad = newLevel;
 	}
 }

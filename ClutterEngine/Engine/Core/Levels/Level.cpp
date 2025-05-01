@@ -1,10 +1,11 @@
 #include "pch.h"
 #include <Core/Levels/Level.h>
 #include "Physics/Physics.h"
+#include "Core/Levels/LevelManager.h"
 
 using namespace clt;
 
-Level::Level(std::string pTitle) : mTitle(pTitle), mRenderer(nullptr), mUpdatingActors(false)
+Level::Level(std::string pTitle) : mTitle(pTitle), mRenderer(nullptr), mUpdatingActors(false), mManager(nullptr)
 {
 }
 
@@ -38,6 +39,11 @@ void Level::Unload()
 bool Level::LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant)
 {
 	return mPhysics->LineTrace(start, direction, maxDistance, hit, debugPersistant);
+}
+
+void Level::OpenLevel(const std::string& pLevelName)
+{
+	mManager->LoadLevel(pLevelName);
 }
 
 void Level::UpdateActors()

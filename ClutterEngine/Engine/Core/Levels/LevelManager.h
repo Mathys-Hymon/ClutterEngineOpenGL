@@ -16,6 +16,7 @@ namespace clt
 		
 		/// Pointer to the currently active level.
 		Level* mActualLevel;
+		Level* mLevelToLoad;
 
 	public:
 		/**

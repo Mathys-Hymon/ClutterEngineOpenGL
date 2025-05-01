@@ -5,6 +5,11 @@
 
 using namespace clt;
 
+HUDComponent::~HUDComponent()
+{
+	mOwner->GetLevel()->GetRenderer().RemoveHUDComponent(this);
+}
+
 void HUDComponent::SetOwner(Actor* pOwner)
 {
 	Component::SetOwner(pOwner);

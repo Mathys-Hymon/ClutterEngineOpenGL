@@ -3,6 +3,9 @@
 
 DoomHUD::DoomHUD() : HUDComponent(), mLifeState(3), mCanShoot(0.0f)
 {
+
+	clt::Input::Get().SetShowMouseCursor(false);
+
 	CreateWidget<clt::UIPanel>("PlayerScreen");
 
 	clt::Assets::Get().LoadFont("Content/Resources/Font/upheavtt.ttf", "hudfont");
@@ -19,8 +22,6 @@ DoomHUD::DoomHUD() : HUDComponent(), mLifeState(3), mCanShoot(0.0f)
 	std::vector<clt::Texture*> weapon = clt::Assets::Get().BulkLoadTexture("Content/Resources/Sprites/", 5, "_playerShoot.png", "pistolShoot", TextureFilter::NEAREST, false);
 
 	GetCurrentWidget()->CreateElement<clt::AnimatorElement>("playerWeapon", "pistolShoot", weapon, false, 10, 4, Vector2{0, -300});
-
-	//GetCurrentWidget()->CreateElement<clt::ButtonElement>("playButton", "menuBackground");
 }
 
 void DoomHUD::Start()

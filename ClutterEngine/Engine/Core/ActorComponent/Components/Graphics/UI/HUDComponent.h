@@ -12,7 +12,7 @@ namespace clt
 
 	public:
 		HUDComponent() : mCurrentWidget(nullptr), Component() {};
-		~HUDComponent() = default;
+		~HUDComponent();
 
 		virtual void SetOwner(Actor* pOwner) override;
 
