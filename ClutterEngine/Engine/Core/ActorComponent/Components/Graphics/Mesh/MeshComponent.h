@@ -8,14 +8,16 @@ namespace clt
 	{
 	protected:
 		Mesh* mMesh;
-		size_t mTextureIndex;
+
+		Texture* mTexture;
+		Vector2 mTextureTiling;
 
 		bool mTesselate;
 
 	public:
 
-		MeshComponent(Mesh* pMesh, int pDrawOrder = 0, Vector2 pTextureTiling = {1,1});
-		MeshComponent(const std::string& pMesh, int pDrawOrder = 0, Vector2 pTextureTiling = { 1,1 });
+		MeshComponent(Mesh* pMesh, int pDrawOrder = 0, Vector2 pTextureTiling = {5,5});
+		MeshComponent(const std::string& pMesh, int pDrawOrder = 0, Vector2 pTextureTiling = { 5,5 });
 		virtual ~MeshComponent();
 
 		virtual void SetOwner(Actor* pOwner) override;
@@ -24,9 +26,8 @@ namespace clt
 		virtual void SetMesh(Mesh& pMesh) { mMesh = &pMesh; };
 		Mesh* GetMesh() const { return mMesh; };
 
-		void SetTexture(Texture* texture, size_t index = 0);
-		void SetTexture(std::string& texture, size_t index = 0);
-		void SetTextureIndex(size_t pTextureIndex);
+		void SetTexture(Texture* texture, Vector2 tiling = {5,5});
+		void SetTexture(std::string& texture, Vector2 tiling = { 5,5 });
 
 	};
 }

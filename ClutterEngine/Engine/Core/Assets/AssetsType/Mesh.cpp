@@ -71,6 +71,14 @@ void Mesh::Unload()
 	mVAO = nullptr;
 }
 
+Texture* Mesh::GetTexture(int pTextureIndex)
+{
+    if (mTextures.empty()) return Assets::Get().GetTexture("default");
+    else if (mTextures.size() <= pTextureIndex) return mTextures[0];
+
+    return mTextures[pTextureIndex];
+}
+
 float* Mesh::ToVerticeArray()
 {
     float* array = new float[mVertices.size() * 8];
@@ -96,11 +104,12 @@ void Mesh::AddTexture(Texture* pTexture)
     mTextures.push_back(pTexture);
 }
 
-void Mesh::SetTexture(Texture* texture, size_t index)
+void Mesh::SetTexture(Texture* texture, size_t& index)
 {    
-    if (mTextures.size() >= index)
+    if (index >= mTextures.size())
     {
         mTextures.emplace_back(texture);
+        index = mTextures.size() - 1;
     }
     else
     {
@@ -108,13 +117,14 @@ void Mesh::SetTexture(Texture* texture, size_t index)
     }
 }    
      
-void Mesh::SetTexture(std::string& texture, size_t index)
+void Mesh::SetTexture(std::string& texture, size_t& index)
 {
     Texture* tempTexture = Assets::Get().GetTexture(texture);
 
     if (mTextures.size() <= index)
     {
         mTextures.emplace_back(tempTexture);
+        index = mTextures.size() - 1;
     }
     else
     {

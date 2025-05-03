@@ -46,18 +46,7 @@ void ButtonElement::Draw(RendererGL* renderer)
 {
 	SetTexture(mTextures[mState]);
 
-	if (mState == ButtonState::Disabled)
-	{
-		renderer->mSpriteShader.SetVec3f("tintColor", Vector3{ 0.5f, 0.5f, 0.5f });
-	}
-	else if (mState == ButtonState::Hovered)
-	{
-		renderer->mSpriteShader.SetVec3f("tintColor", Vector3{ 0.7f, 0.7f, 0.7f });
-	}
-	else if (mState == ButtonState::Pressed)
-	{
-		renderer->mSpriteShader.SetVec3f("tintColor", Vector3{ 0.3f, 0.3f, 0.3f });
-	}
+	renderer->mSpriteShader.SetVec3f("tintColor", mTints[mState].rbg());
 
 	SpriteElement::Draw(renderer);
 
@@ -84,7 +73,7 @@ void ButtonElement::SetState(ButtonState state)
 
 bool ButtonElement::IsMouseOver(Vector2 mouse)
 {
-	Vector2 buttonPos = GetPosition();
+	Vector2 buttonPos = { GetPosition().x, -GetPosition().y * 0.5f};
 	Vector2 buttonSize = GetSize();
 
 	Vector2 windowSize = Window::Get().GetDimensions();
@@ -134,6 +123,18 @@ void ButtonElement::SetTextures(std::unordered_map<ButtonState, Texture*> textur
 			mTextures[state] = defaultTexture;
 		}
 	}
+}
+
+void ButtonElement::SetStateTexture(ButtonState state, const std::string& texture, Color tint)
+{
+	mTextures[state] = Assets::Get().GetTexture(texture);
+	mTints[state] = tint;
+}
+
+void ButtonElement::SetStateTexture(ButtonState state, Texture* texture, Color tint)
+{
+	mTextures[state] = texture;
+	mTints[state] = tint;
 }
 
 void ButtonElement::SetEnable(bool enable)

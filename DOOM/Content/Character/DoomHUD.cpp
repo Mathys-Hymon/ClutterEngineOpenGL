@@ -1,7 +1,8 @@
 #include "DoomHUD.h"
+#include <cstdlib> 
 
 
-DoomHUD::DoomHUD() : HUDComponent(), mLifeState(3), mCanShoot(0.0f)
+DoomHUD::DoomHUD() : HUDComponent(), mLifeState(3), mCanShoot(0.0f), mTauntDelay(1)
 {
 
 	clt::Input::Get().SetShowMouseCursor(false);
@@ -9,6 +10,10 @@ DoomHUD::DoomHUD() : HUDComponent(), mLifeState(3), mCanShoot(0.0f)
 	CreateWidget<clt::UIPanel>("PlayerScreen");
 
 	clt::Assets::Get().LoadFont("Content/Resources/Font/upheavtt.ttf", "hudfont");
+
+	mHeads.push_back(clt::Assets::Get().LoadTexture("Content/Resources/Sprites/head.png", "head", TextureFilter::NEAREST, false));
+	mHeads.push_back(clt::Assets::Get().LoadTexture("Content/Resources/Sprites/headLeft.png", "headLeft", TextureFilter::NEAREST, false));
+	mHeads.push_back(clt::Assets::Get().LoadTexture("Content/Resources/Sprites/headRight.png", "headRight", TextureFilter::NEAREST, false));
 
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/mainHUD.png", "hudFrame", TextureFilter::NEAREST, false);
 
@@ -22,11 +27,12 @@ DoomHUD::DoomHUD() : HUDComponent(), mLifeState(3), mCanShoot(0.0f)
 	std::vector<clt::Texture*> weapon = clt::Assets::Get().BulkLoadTexture("Content/Resources/Sprites/", 5, "_playerShoot.png", "pistolShoot", TextureFilter::NEAREST, false);
 
 	GetCurrentWidget()->CreateElement<clt::AnimatorElement>("playerWeapon", "pistolShoot", weapon, false, 10, 4, Vector2{0, -300});
+
+	GetCurrentWidget()->CreateElement<clt::SpriteElement>("playerHead", mHeads[0],7.5, Vector2{0, -600}, 200);
 }
 
 void DoomHUD::Start()
 {
-
 }
 
 void DoomHUD::Update()
@@ -36,6 +42,20 @@ void DoomHUD::Update()
 	if (mCanShoot > 0.0f)
 	{
 		mCanShoot -= clt::Timer::deltaTime;
+	}
+
+	float currentTime = clt::Timer::GetTimeSinceLoad();
+
+	if (currentTime > mTauntDelay)
+	{
+		float randomDelay = rand() % 2;
+
+		mTauntDelay = currentTime + randomDelay;
+
+		int random = rand() % 3;
+		
+		GetCurrentWidget()->GetElement<clt::SpriteElement>("playerHead")->SetTexture(mHeads[random]);
+		
 	}
 }
 

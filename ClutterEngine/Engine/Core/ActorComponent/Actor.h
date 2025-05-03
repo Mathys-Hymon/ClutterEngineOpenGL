@@ -177,6 +177,13 @@ namespace clt
         {
             mTransform.SetRotation(Quaternion::Concatenate(Quaternion::FromEuler(rot), Quaternion::Identity));
         }
+
+        void SetActorTransform(const Vector3& location, const Vector3& rotation, const Vector3& scale)
+        {
+            mTransform.SetLocation(location);
+            mTransform.SetRotation(rotation);
+            mTransform.SetScale(scale);
+        }
         /**
          * @brief Adds an offset to the actor's location.
          * @param locOffset The location offset.

@@ -13,8 +13,8 @@ mRotationVelocity(0.0f), mMovementVelocity(0), mWeapon(Weapons::Pistol)
 	clt::Input::Get().RegisterMouseCallback([this](Vector2 value) { this->RotateCamera(value); });
 	clt::Input::Get().RegisterVectCallback("PlayerMovement", [this](Vector2 value) { this->Move(value); });
 	
-	mMaxAcceleration = 0.65f;
-	mMaxWalkSpeed = 2;
+	mMaxAcceleration = 25;
+	mMaxWalkSpeed = 6;
 
 	mWeaponAmmo =
 	{
@@ -43,11 +43,17 @@ void DoomController::RotateCamera(Vector2 movement)
 
 void DoomController::Move(Vector2 movement)
 {
-	mMovementVelocity += movement * mMaxAcceleration;
-	mMovementVelocity.Clamp(-mMaxWalkSpeed, mMaxSprintSpeed);
+	mMovementVelocity += movement * mMaxAcceleration * clt::Timer::deltaTime;
+	mMovementVelocity.Clamp(-mMaxWalkSpeed, mMaxWalkSpeed);
 
 	if (movement.Length() != 0) mIsMoving = true;
 	else mIsMoving = false;
+
+	if (movement.x == 0) mMoveRight = false;
+	else mMoveRight = true;
+
+	if (movement.y == 0) mMoveForward = false;
+	else mMoveForward = true;
 }
 
 void DoomController::Shoot()
@@ -63,16 +69,17 @@ void DoomController::Update()
 {
 	float dt = Timer::deltaTime;
 	float movementReduction = 1 - (dt * 5);
+
 	if (mMovementVelocity.x != 0)
 	{
 		mOwner->AddActorLocationOffset(mMovementVelocity.x * mOwner->GetTransform().Right() * dt);
-		mMovementVelocity.x *= movementReduction;
+		if(!mMoveRight) mMovementVelocity.x *= movementReduction;
 	}
 
 	if (mMovementVelocity.y != 0)
 	{
 		mOwner->AddActorLocationOffset(-mMovementVelocity.y * mOwner->GetTransform().Forward() * dt);
-		mMovementVelocity.y *= movementReduction;
+		if (!mMoveForward) mMovementVelocity.y *= movementReduction;
 	}
 
 	Vector2 handPos;

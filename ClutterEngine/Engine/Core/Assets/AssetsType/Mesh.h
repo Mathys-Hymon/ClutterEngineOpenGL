@@ -36,12 +36,7 @@ namespace clt
 
 		void Unload();
 
-		Texture* GetTexture(int pTextureIndex) 
-		{ 
-			if (mTextures.empty() || mTextures.size() < pTextureIndex) return nullptr;
-			return mTextures[pTextureIndex]; 
-		
-		}
+		Texture* GetTexture(int pTextureIndex);
 
 		bool HasTexture(Texture* pTextureIndex)
 		{
@@ -57,8 +52,8 @@ namespace clt
 
 		void AddTexture(Texture* pTexture);
 
-		void SetTexture(Texture* texture,size_t index);
-		void SetTexture(std::string& texture, size_t index);
+		void SetTexture(Texture* texture,size_t& index);
+		void SetTexture(std::string& texture, size_t& index);
 
 		void SetTextureTiling(Vector2 tiling) { mTextureTiling = tiling; };
 		Vector2 GetTextureTiling() const { return mTextureTiling; };

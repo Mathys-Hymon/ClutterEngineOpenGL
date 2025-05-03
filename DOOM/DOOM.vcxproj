@@ -226,6 +226,7 @@
   <ItemGroup>
     <ClCompile Include="Content\Character\DoomController.cpp" />
     <ClCompile Include="Content\Character\DoomHUD.cpp" />
+    <ClCompile Include="Content\Gameplay\Enemy\Zombie.cpp" />
     <ClCompile Include="Content\Maps\LevelMap.cpp" />
     <ClCompile Include="Content\Maps\MainMenuMap.cpp" />
     <ClCompile Include="Content\UI\MainMenuHUD.cpp" />
@@ -234,6 +235,7 @@
   <ItemGroup>
     <ClInclude Include="Content\Character\DoomController.h" />
     <ClInclude Include="Content\Character\DoomHUD.h" />
+    <ClInclude Include="Content\Gameplay\Enemy\Zombie.h" />
     <ClInclude Include="Content\Gameplay\Sprites\Dir8Sprite.h" />
     <ClInclude Include="Content\Maps\LevelMap.h" />
     <ClInclude Include="Content\Maps\MainMenuMap.h" />

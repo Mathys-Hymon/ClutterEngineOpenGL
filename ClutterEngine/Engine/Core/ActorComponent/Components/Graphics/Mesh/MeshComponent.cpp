@@ -4,12 +4,12 @@
 
 using namespace clt;
 
-MeshComponent::MeshComponent(Mesh* pMesh, int pDrawOrder, Vector2 pTextureTiling) : Component(pDrawOrder), mMesh(pMesh), mTextureIndex(0)
+MeshComponent::MeshComponent(Mesh* pMesh, int pDrawOrder, Vector2 pTextureTiling) : Component(pDrawOrder), mMesh(pMesh), mTextureTiling(pTextureTiling)
 {
     if (mMesh) mMesh->SetTextureTiling(pTextureTiling);
 }
 
-MeshComponent::MeshComponent(const std::string& pMesh, int pDrawOrder, Vector2 pTextureTiling) : Component(pDrawOrder), mMesh(nullptr), mTextureIndex(0)
+MeshComponent::MeshComponent(const std::string& pMesh, int pDrawOrder, Vector2 pTextureTiling) : Component(pDrawOrder), mMesh(nullptr), mTextureTiling(pTextureTiling)
 {
     mMesh = Assets::Get().GetMesh(pMesh);
 }
@@ -35,25 +35,24 @@ void MeshComponent::Draw(Matrix4Row viewProj)
 
         Matrix4Row wt = GetWorldTransform().GetMat4Transform();
         mMesh->GetShader().SetMat4Row("uWorldTransform", wt);
-        mMesh->GetShader().SetVec2f("uTiling", mMesh->GetTextureTiling());
-        mMesh->GetTexture(mTextureIndex)->Bind();
+        mMesh->GetShader().SetVec2f("uTiling", mTextureTiling);
+
+        auto* tex = mTexture;
+        if (tex) mTexture->Bind();
+        else mMesh->GetTexture(0)->Bind();
 
         glDrawArrays(mMesh->GetTesselated() ? GL_PATCHES : GL_TRIANGLES, 0, mMesh->GetVAO().GetVerticeCount());
     }
 }
 
-void MeshComponent::SetTexture(Texture* texture, size_t index)
+void MeshComponent::SetTexture(Texture* texture, Vector2 tiling)
 {
-    mTextureIndex = index;
-    mMesh->SetTexture(texture, index);
+    mTexture = texture;
+    mTextureTiling = tiling;
 }    
      
-void MeshComponent::SetTexture(std::string& texture, size_t index)
+void MeshComponent::SetTexture(std::string& texture, Vector2 tiling)
 {
-    mMesh->SetTexture(texture, index);
-}
-
-void MeshComponent::SetTextureIndex(size_t pTextureIndex)
-{
-    mTextureIndex = pTextureIndex;
+    mTexture = Assets::Get().GetTexture(texture);
+    mTextureTiling = tiling;
 }

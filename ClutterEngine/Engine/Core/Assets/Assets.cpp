@@ -163,7 +163,9 @@ Texture* Assets::GetTexture(const std::string& name)
     if (it == mTextures.end())
     {
         CLUTTER_WARNING(("Unable to find Texture: " + name).c_str());
-        return nullptr;
+
+        auto dflt = mTextures.find("default");
+        return dflt->second;
     }
     return it->second;
 }

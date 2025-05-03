@@ -100,6 +100,11 @@ struct CLUTTER_API Color
 		if ((*this).a > maxValue) (*this).a = maxValue;
 	}
 
+	inline Vector3 rbg()
+	{
+		return Vector3(r, g, b);
+	}
+
 	inline std::string ToString() // Returns a string representation of the color.
 	{
 		return " R : " + std::to_string(r) + " , G : " + std::to_string(g) + " , B : " + std::to_string(b) + " , A : " + std::to_string(a) + ") ";
