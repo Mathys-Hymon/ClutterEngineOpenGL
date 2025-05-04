@@ -31,7 +31,7 @@ namespace clt
 			return
 			{
 				mTransform.location,
-				mTransform.scale* mTexture->GetSize(),
+				mTransform.scale * mTexture->GetSize(),
 				mTransform.rotation
 			};
 		};

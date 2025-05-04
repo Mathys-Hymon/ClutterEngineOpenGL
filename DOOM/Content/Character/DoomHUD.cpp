@@ -1,5 +1,6 @@
 #include "DoomHUD.h"
 #include <cstdlib> 
+#include "Gameplay/Enemy/Zombie.h"
 
 
 DoomHUD::DoomHUD() : HUDComponent(), mLifeState(3), mCanShoot(0.0f), mTauntDelay(1)
@@ -71,6 +72,12 @@ bool DoomHUD::TriggerShoot(int ammo)
 		raycastHit hitResult;
 
 		LineTrace(GetWorldLocation(), GetWorldTransform().Forward(), 150, hitResult);
+
+		Zombie* enemy = dynamic_cast<Zombie*>(hitResult.Actor);
+		if (enemy)
+		{
+			enemy->GetHit();
+		}
 		return true;
 	}
 

@@ -5,12 +5,18 @@ layout(location = 2) in vec2 texCoord;
 
 uniform mat4 uWorldTransform;
 uniform mat4 uViewProj;
+uniform bool uFlipX;
+uniform bool uFlipY;
 
-uniform vec2 uTiling;
-
-out vec2 fragTexCoord;
+out vec2 TexCoords;
 void main()
 {
-   gl_Position = vec4(pos, 1.0)* uWorldTransform * uViewProj;
-   fragTexCoord = texCoord * uTiling;
+   gl_Position = vec4(pos, 1.0) * uWorldTransform * uViewProj;
+   TexCoords = vec2(texCoord.x, 1.0 - texCoord.y);
+
+   if (uFlipX)
+    TexCoords.x = 1.0 - TexCoords.x;
+
+if (uFlipY)
+    TexCoords.y = 1.0 - TexCoords.y;
 }

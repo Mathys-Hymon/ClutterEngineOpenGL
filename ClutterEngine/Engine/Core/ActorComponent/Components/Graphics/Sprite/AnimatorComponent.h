@@ -9,6 +9,8 @@ namespace clt
 
 	public:
 		AnimatorComponent(std::string pAnimName, const std::vector<Texture*>& pTextures, bool pLooping = true, int pDrawOrder = 100);
+
+		AnimatorComponent(std::string pAnimName, Texture* pTexture, bool pLooping = true, int pDrawOrder = 100);
 		AnimatorComponent() = delete;
 		AnimatorComponent(const FlipbookComponent&) = delete;
 		AnimatorComponent& operator = (const FlipbookComponent&) = delete;
@@ -16,6 +18,8 @@ namespace clt
 		virtual ~AnimatorComponent();
 
 		void AddNewAnim(std::string pAnimName, const std::vector<Texture*>& pTextures, bool pLooping = true, int pDrawOrder = 100);
+		void AddNewAnim(std::string pAnimName, Texture* pTexture, bool pLooping = true, int pDrawOrder = 100);
+
 		void PlayAnim(std::string pAnimName);
 		void RemoveAnim(std::string pAnimName);
 

@@ -262,6 +262,15 @@ struct CLUTTER_API Vector3
 		return {x, y};
 	}
 
+	inline Vector2 xz()
+	{
+		return { x, z };
+	}
+
+	inline Vector2 yz()
+	{
+		return { y, z };
+	}
 
 
 	/**

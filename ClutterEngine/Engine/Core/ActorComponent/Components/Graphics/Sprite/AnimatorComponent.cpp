@@ -9,6 +9,12 @@ AnimatorComponent::AnimatorComponent(std::string pAnimName, const std::vector<Te
 	mAnims[pAnimName] = new FlipbookComponent(pTextures, pLooping, pDrawOrder);
 }
 
+AnimatorComponent::AnimatorComponent(std::string pAnimName, Texture* pTexture, bool pLooping, int pDrawOrder)
+	: FlipbookComponent({pTexture}, pLooping, pDrawOrder)
+{
+	mAnims[pAnimName] = new FlipbookComponent({pTexture}, pLooping, pDrawOrder);
+}
+
 AnimatorComponent::~AnimatorComponent()
 {
 	for (auto& anim : mAnims)
@@ -25,6 +31,12 @@ void AnimatorComponent::AddNewAnim(std::string pAnimName, const std::vector<Text
 {
 	if (mAnims[pAnimName]) CLUTTER_WARNING(("Animation " + pAnimName + " already exists ").c_str());
 	else mAnims[pAnimName] = new FlipbookComponent(pTextures, pLooping, pDrawOrder);
+}
+
+void AnimatorComponent::AddNewAnim(std::string pAnimName, Texture* pTexture, bool pLooping, int pDrawOrder)
+{
+	if (mAnims[pAnimName]) CLUTTER_WARNING(("Animation " + pAnimName + " already exists ").c_str());
+	else mAnims[pAnimName] = new FlipbookComponent({ pTexture }, pLooping, pDrawOrder);
 }
 
 void AnimatorComponent::PlayAnim(std::string pAnimName)

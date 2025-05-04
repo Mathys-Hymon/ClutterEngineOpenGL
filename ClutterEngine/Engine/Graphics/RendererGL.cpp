@@ -59,7 +59,7 @@ void RendererGL::Initialize(CEngine* pEngine, Color backgroundColor)
 
     Vector2 windowSize = Window::Get().GetDimensions();
 
-    mUiViewProj = Matrix4Row::CreateOrtho(windowSize.x, windowSize.y, 0.00001f, 100000);
+    mUiViewProj = Matrix4Row::CreateOrtho(windowSize.x, windowSize.y, -1, 100000);
     DebugDraw::Get().Start(mEngine);
 
     mTextShader.Use();
@@ -211,16 +211,22 @@ void RendererGL::Draw()
     mSpriteShader.SetMat4Row("uViewProj", viewProj);
     mSpriteVAO->Bind();
 
-    for (auto& comp : mSpriteComponents)
+    for (SpriteComponent* comp : mSpriteComponents)
     {
         if (!comp->IsActive()) continue;
 
         Matrix4Row tempTransform = comp->GetWorldTransform().GetMat4Transform();
+
+        mSpriteShader.SetBool("uFlipX", comp->GetFlipX());
+        mSpriteShader.SetBool("uFlipY", comp->GetFlipY());
         mSpriteShader.SetMat4Row("uWorldTransform", tempTransform);
 
         comp->GetTexture()->Bind();
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     }
+
+    mSpriteShader.SetBool("uFlipX", false);
+    mSpriteShader.SetBool("uFlipY", true);
 
     mSpriteShader.SetMat4Row("uViewProj", mUiViewProj);
 

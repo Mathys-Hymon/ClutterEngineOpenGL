@@ -60,7 +60,6 @@ void DoomController::Shoot()
 {
 	if (mWeaponAmmo[mWeapon] != 0)
 	{
-		
 		if(mOwner->GetComponentOfType<DoomHUD>()->TriggerShoot(mWeaponAmmo[mWeapon] - 1)) mWeaponAmmo[mWeapon]--;
 	}
 }

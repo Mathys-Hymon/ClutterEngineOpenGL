@@ -167,7 +167,7 @@ namespace clt
 
         Vector3 GetWorldScale()            const { return mRelativeTransform.Scale() * mOwner->GetScale();            };
         Quaternion GetWorldRotation()      const { return Quaternion::Concatenate(mOwner->GetRotation(), mRelativeTransform.Rotation()); };
-        Transform GetWorldTransform()      const
+        virtual Transform GetWorldTransform() const
         {
             return
             {

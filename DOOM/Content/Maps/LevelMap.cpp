@@ -1,6 +1,7 @@
 #include "LevelMap.h"  
 #include <Core/All.h>  
 #include <Character/DoomController.h>
+#include "Gameplay/Enemy/Zombie.h"
 
 clt::Actor* camera;
 
@@ -9,6 +10,10 @@ clt::Actor* wallMesh;
 clt::Actor* wall2;
 clt::Actor* wall3;
 clt::Actor* Ceiling;
+
+Zombie* zombie1;
+Zombie* zombie2;
+Zombie* zombie3;
 
 LevelMap::LevelMap(std::string pName) : clt::Level(pName)
 {
@@ -27,6 +32,11 @@ void LevelMap::Load()
 
 	camera = AddActor<clt::Actor>("camera");
 
+	camera->AddComponent<clt::CameraComponent>();
+	camera->AddComponent<DoomController>();
+	camera->SetActorLocation({ 0, 0, 5 });
+
+
 	floorMesh = AddActor<clt::CubeActor>("floor", clt::Assets::Get().GetTexture("floor"), false, Vector2{100,100});
 	floorMesh->SetActorTransform({ 0,-2 ,0 }, 0, {20,1,20});
 
@@ -36,7 +46,12 @@ void LevelMap::Load()
 	wallMesh->GetComponentOfType<clt::MeshComponent>()->SetTexture(clt::Assets::Get().GetTexture("wall"), {10, 75});
 	wallMesh->SetActorLocation({ 2,0, -15 });
 
+	zombie1 = AddActor<Zombie>("zombie");
+	zombie2 = AddActor<Zombie>("zombie2");
+	zombie3 = AddActor<Zombie>("zombie3");
 
+	zombie1->SetActorLocation({ -6,-0.3f, 3 });
+	zombie3->SetActorLocation({ 1,-0.3f, -5 });
 
 	wall2 = AddActor<clt::CubeActor>("wall2", false);
 	wall2->SetActorScale({ 0.1,2,20 });
@@ -55,10 +70,6 @@ void LevelMap::Load()
 	Ceiling->SetActorTransform({ 0,2 ,0 }, 0, { 20,1,20 });
 
 
-
-	camera->AddComponent<clt::CameraComponent>();
-	camera->AddComponent<DoomController>();
-	camera->SetActorLocation({ 0, 0, 5 });
 }
 
 void LevelMap::Update()

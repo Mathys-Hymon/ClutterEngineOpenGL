@@ -19,7 +19,7 @@ namespace clt
 		SpriteComponent(const SpriteComponent&) = delete;
 		SpriteComponent& operator = (const SpriteComponent&) = delete;
 
-		virtual ~SpriteComponent() { mOwner->GetLevel()->GetRenderer().RemoveSpriteComponent(this); };
+		virtual ~SpriteComponent() { if(mOwner) mOwner->GetLevel()->GetRenderer().RemoveSpriteComponent(this); };
 
 		virtual void SetOwner(Actor* pOwner) override;
 
@@ -28,6 +28,10 @@ namespace clt
 
 		void SetFlipX(bool pFlip)  { mFlipX = pFlip;  };
 		void SetFlipY(bool pFlipY) { mFlipY = pFlipY; };
+
+		bool GetFlipX() const { return mFlipX; };
+		bool GetFlipY() const { return mFlipY; };
+
 
 		int GetTexWidth() const { return mTexWidth; };
 		int GetTexHeight() const { return mTexHeight; };
