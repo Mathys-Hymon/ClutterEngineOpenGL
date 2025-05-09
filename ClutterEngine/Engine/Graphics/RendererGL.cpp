@@ -201,11 +201,6 @@ void RendererGL::Draw()
     }
     DebugDraw::Get().Draw(viewProj);
 
-    glDisable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
     mSpriteShader.Use();
 
     mSpriteShader.SetMat4Row("uViewProj", viewProj);
@@ -224,6 +219,11 @@ void RendererGL::Draw()
         comp->GetTexture()->Bind();
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     }
+
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     mSpriteShader.SetBool("uFlipX", false);
     mSpriteShader.SetBool("uFlipY", true);
