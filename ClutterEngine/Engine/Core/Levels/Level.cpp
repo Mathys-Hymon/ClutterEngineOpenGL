@@ -36,9 +36,9 @@ void Level::Unload()
 	mActors.clear();
 }
 
-bool Level::LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant)
+bool Level::LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant, Actor* self)
 {
-	return mPhysics->LineTrace(start, direction, maxDistance, hit, debugPersistant);
+	return mPhysics->LineTrace(start, direction, maxDistance, hit, debugPersistant, self);
 }
 
 void Level::OpenLevel(const std::string& pLevelName)

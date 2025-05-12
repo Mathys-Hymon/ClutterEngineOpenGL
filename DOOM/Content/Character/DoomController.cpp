@@ -4,7 +4,7 @@
 using namespace clt;
 
 DoomController::DoomController() : PlayerController(2), 
-mRotationVelocity(0.0f), mMovementVelocity(0), mWeapon(Weapons::Pistol)
+mRotationVelocity(0.0f), mMovementVelocity(0), mWeapon(Weapons::Pistol), mLife(100)
 {
 	clt::Input::Get().MapKeysToVect(EKey::A, EKey::D, EKey::W, EKey::S, "PlayerMovement");
 	clt::Input::Get().MapKeyToAction(EMouseButton::Left, "PlayerShoot");
@@ -62,6 +62,12 @@ void DoomController::Shoot()
 	{
 		if(mOwner->GetComponentOfType<DoomHUD>()->TriggerShoot(mWeaponAmmo[mWeapon] - 1)) mWeaponAmmo[mWeapon]--;
 	}
+}
+
+void DoomController::GetHit()
+{
+	mLife -= 10;
+	mOwner->GetComponentOfType<DoomHUD>()->UpdateLife(mLife);
 }
 
 void DoomController::Update()

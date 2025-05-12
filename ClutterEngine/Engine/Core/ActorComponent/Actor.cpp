@@ -32,9 +32,13 @@ Actor::~Actor()
    mComponentsToAdd.clear();
    mComponentsToRemove.clear();
 }
-bool Actor::LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant)
+bool Actor::LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant, bool ignoreSelf)
 {
-    return mLevel->LineTrace(start, direction, maxDistance, hit, debugPersistant);
+    Actor* temp = nullptr;
+
+    if (ignoreSelf) temp = this;
+
+    return mLevel->LineTrace(start, direction, maxDistance, hit, debugPersistant, temp);
 }
 
 // Internal method to add a component

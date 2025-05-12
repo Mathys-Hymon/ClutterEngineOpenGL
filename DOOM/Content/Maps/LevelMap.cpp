@@ -33,8 +33,10 @@ void LevelMap::Load()
 	camera = AddActor<clt::Actor>("camera");
 
 	camera->AddComponent<clt::CameraComponent>();
+	camera->AddComponent<clt::OBBCollider>(Vector3{ 2.5f,5.0f,2.5f });
 	camera->AddComponent<DoomController>();
-	camera->SetActorLocation({ 0, 0, 5 });
+	camera->SetActorLocation({ 10, 0, -12 });
+	camera->SetActorRotation({ 0,180,0 });
 
 
 	floorMesh = AddActor<clt::CubeActor>("floor", clt::Assets::Get().GetTexture("floor"), false, Vector2{100,100});
@@ -50,8 +52,12 @@ void LevelMap::Load()
 	zombie2 = AddActor<Zombie>("zombie2");
 	zombie3 = AddActor<Zombie>("zombie3");
 
-	zombie1->SetActorLocation({ -6,-0.3f, 3 });
+	zombie1->SetActorLocation({ 5.3f,-0.3f, 12.1f });
+	zombie2->SetActorLocation({ 6, -0.3f, -3 });
 	zombie3->SetActorLocation({ 1,-0.3f, -5 });
+
+	zombie2->SetActorRotation({ 0,180,0 });
+	zombie1->SetActorRotation({ 0,90,0 });
 
 	wall2 = AddActor<clt::CubeActor>("wall2", false);
 	wall2->SetActorScale({ 0.1,2,20 });
@@ -68,8 +74,6 @@ void LevelMap::Load()
 
 	Ceiling = AddActor<clt::CubeActor>("Ceiling", clt::Assets::Get().GetTexture("floor"), false, Vector2{ 100,100 });
 	Ceiling->SetActorTransform({ 0,2 ,0 }, 0, { 20,1,20 });
-
-
 }
 
 void LevelMap::Update()

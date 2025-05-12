@@ -8,7 +8,7 @@ class DoomHUD : public clt::HUDComponent
 	std::vector<clt::Texture*> mHeads;
 
 public:
-	int mLifeState;
+	int mLifeState, mLife;
 
 	DoomHUD();
 	~DoomHUD() = default;
@@ -19,4 +19,5 @@ public:
 	bool TriggerShoot(int ammo);
 
 	void UpdateLifeState(int pLifeState);
+	void UpdateLife(int pNewLife);
 };

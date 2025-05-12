@@ -103,7 +103,7 @@ namespace clt
             }
         };
 
-        bool LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant = false);
+        bool LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant = false, bool ignoreSelf = true);
 
         /**
          * @brief Gets the transform of the actor.

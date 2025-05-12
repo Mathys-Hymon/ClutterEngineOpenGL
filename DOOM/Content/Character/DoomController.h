@@ -13,6 +13,7 @@ class DoomController : public clt::PlayerController
 {  
 float mRotationVelocity;  
 Vector2 mMovementVelocity;  
+int mLife;
 
 std::map<Weapons, int> mWeaponAmmo;
 
@@ -33,6 +34,8 @@ void RotateCamera(Vector2 movement);
 void Move(Vector2 movement);  
 
 void Shoot();  
+
+void GetHit();
 
 virtual void Update() override;  
 };

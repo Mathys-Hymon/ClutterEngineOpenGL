@@ -4,8 +4,9 @@
 class Zombie : public clt::Actor
 {
 	int mLife;
-	bool mSpriteFlip, mHit;
+	bool mSpriteFlip, mHit, mAttackMode, mDead, mShooted;
 	int mAnimIndex, mOldAnimIndex;
+	float mShootDelay, mHitDelay;
 
     clt::AnimatorComponent* mAnimator;
 

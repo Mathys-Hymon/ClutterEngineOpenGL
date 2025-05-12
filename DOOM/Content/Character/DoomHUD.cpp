@@ -3,7 +3,7 @@
 #include "Gameplay/Enemy/Zombie.h"
 
 
-DoomHUD::DoomHUD() : HUDComponent(), mLifeState(3), mCanShoot(0.0f), mTauntDelay(1)
+DoomHUD::DoomHUD() : HUDComponent(), mLifeState(3), mCanShoot(0.0f), mTauntDelay(1), mLife(100)
 {
 
 	clt::Input::Get().SetShowMouseCursor(false);
@@ -19,7 +19,7 @@ DoomHUD::DoomHUD() : HUDComponent(), mLifeState(3), mCanShoot(0.0f), mTauntDelay
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/mainHUD.png", "hudFrame", TextureFilter::NEAREST, false);
 
 	GetCurrentWidget()->CreateElement<clt::SpriteElement>("mainFrame", "hudFrame", 8, Vector2{ 0, -600 }, 50);
-	GetCurrentWidget()->CreateElement<clt::TextElement>("healthText", std::to_string(mLifeState) + "%", "hudfont", Color::Red, 1.15f, Vector2{ -300, -280 }, 100);
+	GetCurrentWidget()->CreateElement<clt::TextElement>("healthText", std::to_string(mLife) + "%", "hudfont", Color::Red, 1.15f, Vector2{ -300, -280 }, 100);
 
 	GetCurrentWidget()->CreateElement<clt::TextElement>("armorText", "129%", "hudfont", Color::Red, 1.15f, Vector2{180, -280}, 100);
 
@@ -90,4 +90,10 @@ bool DoomHUD::TriggerShoot(int ammo)
 void DoomHUD::UpdateLifeState(int pLifeState)
 {
 	mLifeState = pLifeState;
+}
+
+void DoomHUD::UpdateLife(int pNewLife)
+{
+	mLife = pNewLife;
+	GetCurrentWidget()->GetElement<clt::TextElement>("healthText")->SetText(std::to_string(mLife) + "%");
 }

@@ -229,6 +229,7 @@
     <ClInclude Include="Content\Maps\DefaultMap.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Config\project.config.json" />
     <None Include="Content\Resources\Shaders\basic.frag" />
     <None Include="Content\Resources\Shaders\basic.tese" />
     <None Include="Content\Resources\Shaders\basic.vert" />

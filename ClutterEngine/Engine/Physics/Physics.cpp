@@ -11,7 +11,7 @@ Physics::Physics() : mGravity({ 0.0f, -9.81f, 0.0f })
 {
 }
 
-bool Physics::LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant)
+bool Physics::LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant, Actor* self)
 {
     hit.Distance = maxDistance;
 
@@ -23,6 +23,9 @@ bool Physics::LineTrace(Vector3 start, Vector3 direction, float maxDistance, ray
         if (!collider->IsActive()) continue;
 
         Actor* owner = collider->GetOwner();
+
+        if (self && self == owner) continue;
+
         Transform transform = owner->GetTransform();
         Vector3 position = transform.Location();
         Vector3 scale = transform.Scale();

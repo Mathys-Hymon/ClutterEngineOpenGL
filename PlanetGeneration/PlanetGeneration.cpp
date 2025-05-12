@@ -4,7 +4,7 @@
 
 int main()
 {
-    clt::Application app(1280.0f, 720.0f, "PlanetGeneration", { new DefaultMap() });
+    clt::Application app({ new DefaultMap() });
 
     return 0;
 }

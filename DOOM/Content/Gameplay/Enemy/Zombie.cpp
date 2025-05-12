@@ -1,7 +1,7 @@
 #include "Zombie.h"
+#include "Character/DoomController.h"
 
-
-Zombie::Zombie(clt::Level* pLevel, std::string pName) : clt::Actor(pLevel, pName), mLife(1), mOldAnimIndex(-1), mAnimIndex(0)
+Zombie::Zombie(clt::Level* pLevel, std::string pName) : clt::Actor(pLevel, pName), mLife(1), mOldAnimIndex(-1), mAnimIndex(0), mAttackMode(false), mDead(false)
 {
     
 	mAnimator = AddComponent<clt::AnimatorComponent>("idle_0", clt::Assets::Get().LoadTexture("Content/Resources/Sprites/Enemy/idle_front.png", "idle_Front", TextureFilter::NEAREST, false));
@@ -15,6 +15,10 @@ Zombie::Zombie(clt::Level* pLevel, std::string pName) : clt::Actor(pLevel, pName
     mAnimator->AddNewAnim("idle_3", clt::Assets::Get().LoadTexture("Content/Resources/Sprites/Enemy/idle_backleft.png", "idle_BackLeft", TextureFilter::NEAREST, false), false);
     
     mAnimator->AddNewAnim("idle_4", clt::Assets::Get().LoadTexture("Content/Resources/Sprites/Enemy/idle_back.png", "idle_Back", TextureFilter::NEAREST, false), false);
+
+    mAnimator->AddNewAnim("hitAnim", clt::Assets::Get().LoadTexture("Content/Resources/Sprites/Enemy/hitAnim.png", "hitAnim", TextureFilter::NEAREST, false), false);
+
+    mAnimator->AddNewAnim("shoot", clt::Assets::Get().LoadTexture("Content/Resources/Sprites/Enemy/shoot.png", "shootAnim", TextureFilter::NEAREST, false), false);
 
     AddComponent<clt::OBBCollider>(Vector3{2.5f,5.0f,2.5f});
 
@@ -35,16 +39,63 @@ void Zombie::Update()
 	clt::CameraComponent* cam = clt::CameraComponent::GetActiveCamera();
     mAnimator->SetWorldRotation(Quaternion::LookAt(cam->GetWorldLocation(), GetActorLocation()));
 
-
-    if(mLife > 0) GetDirection();
-
-    if (mAnimIndex != mOldAnimIndex)
+    if (!mDead && !mHit)
     {
-        std::string tempAnim = mHit ? "hit_" + std::to_string(mAnimIndex) : "idle_" + std::to_string(mAnimIndex);
-        mAnimator->SetFlipX(mSpriteFlip);
-        mAnimator->PlayAnim(tempAnim);
+        if (mAttackMode)
+        {
+            mShootDelay += clt::Timer::deltaTime;
 
-        mHit = false;
+            if (mShootDelay < 1)
+            {
+                mShooted = false;
+                mAnimator->PlayAnim("idle_0");
+            }
+            else
+            {
+                mAnimator->PlayAnim("shoot");
+
+                if (!mShooted)
+                {
+                    mShooted = true;
+                    raycastHit hitResult;
+
+                    LineTrace(GetActorLocation(), -mAnimator->GetWorldTransform().Forward(), 150, hitResult);
+
+                    DoomController* temp = hitResult.Actor->GetComponentOfType<DoomController>();
+                    if (temp) temp->GetHit();
+                }
+
+                if (mShootDelay > 1.2f)
+                {
+                    mShootDelay = 0;
+                }
+            }
+        }
+        else
+        {
+            if (mLife > 0) GetDirection();
+
+            if (mAnimIndex != mOldAnimIndex)
+            {
+                std::string tempAnim = "idle_" + std::to_string(mAnimIndex);
+                mAnimator->SetFlipX(mSpriteFlip);
+                mAnimator->PlayAnim(tempAnim);
+            }
+        }
+    }
+    else if (mHit)
+    {
+        mAnimator->PlayAnim("hitAnim");
+        mAnimator->SetFlipX(false);
+        
+        if (mHitDelay > 0.2f)
+        {
+            mHit = false;
+        }
+        else
+        {
+            mHitDelay += clt::Timer::deltaTime;
+        }
     }
 }
 
@@ -110,14 +161,18 @@ void Zombie::GetDirection()
 
 void Zombie::GetHit()
 {
-    if (mLife > 0)
+    if (!mDead)
     {
-       // mHit = true;
-        
-        mLife--;
-    }
-    else
-    {
-        mAnimator->PlayAnim("death");
+        if (mLife > 0)
+        {
+            mLife--;
+            mAttackMode = true;
+            mHit = true;
+        }
+        else
+        {
+            mAnimator->PlayAnim("death");
+            mDead = true;
+        }
     }
 }
