@@ -172,6 +172,7 @@ void Zombie::GetHit()
         else
         {
             mAnimator->PlayAnim("death");
+            RemoveComponent<clt::OBBCollider>();
             mDead = true;
         }
     }

@@ -49,16 +49,13 @@ void LevelMap::Load()
 	wallMesh->GetComponentOfType<clt::MeshComponent>()->SetTexture(clt::Assets::Get().GetTexture("wall"), {10, 75});
 	wallMesh->SetActorLocation({ 2,0, -15 });
 
-	zombie1 = AddActor<Zombie>("zombie");
 	zombie2 = AddActor<Zombie>("zombie2");
 	zombie3 = AddActor<Zombie>("zombie3");
 
-	zombie1->SetActorLocation({ 5.3f,-0.3f, 12.1f });
 	zombie2->SetActorLocation({ 6, -0.3f, -3 });
 	zombie3->SetActorLocation({ 1,-0.3f, -5 });
 
 	zombie2->SetActorRotation({ 0,180,0 });
-	zombie1->SetActorRotation({ 0,90,0 });
 
 	wall2 = AddActor<clt::CubeActor>("wall2", false);
 	wall2->SetActorScale({ 0.1,2,20 });

@@ -41,7 +41,7 @@ namespace clt
         std::unordered_map<size_t, Component*> mComponents; ///< Map of components by their ID.
         std::vector<Component*> mComponentsByUpdateOrder; ///< Components ordered by update order.
         std::vector<Component*> mComponentsToAdd; ///< Components to be added.
-        std::vector<Component*> mComponentsToRemove; ///< Components to be removed.
+        std::vector<size_t> mComponentsToRemove; ///< Components to be removed.
 
     public:
         /**
@@ -80,10 +80,9 @@ namespace clt
             static_assert(std::is_base_of<Component, T>::value, "T must be a Component");
 
             size_t hashCode = typeid(T).hash_code();
-            auto it = mComponents.find(hashCode);
-            if (it != mComponents.end())
+            if (mComponents.find(hashCode) != mComponents.end())
             {
-                mComponentsToRemove.push_back(it->second);
+                mComponentsToRemove.push_back(hashCode);
             }
         }
 

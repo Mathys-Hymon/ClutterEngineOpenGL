@@ -79,7 +79,6 @@ bool DoomHUD::TriggerShoot(int ammo)
 		}
 		return true;
 	}
-
 	else
 	{
 		return false;

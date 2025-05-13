@@ -22,11 +22,6 @@ Actor::~Actor()
        delete comp;
    }
 
-   for (auto& comp : mComponentsToRemove)
-   {
-       delete comp;
-   }
-
    mComponents.clear();                             // Clear all component containers
    mComponentsByUpdateOrder.clear();
    mComponentsToAdd.clear();
@@ -75,19 +70,23 @@ void Actor::InternalUpdate()
 
    mComponentsToAdd.clear();
 
-   for (Component* pComponent : mComponentsToRemove) // Delete components
+   for (size_t hashCode : mComponentsToRemove)
    {
-       std::vector<Component*>::iterator it = std::find(mComponentsByUpdateOrder.begin(), mComponentsByUpdateOrder.end(), pComponent);
-
-       size_t hashCode = typeid(*pComponent).hash_code();
-
-       if (it != mComponentsByUpdateOrder.end())
+       auto it = mComponents.find(hashCode);
+       if (it != mComponents.end())
        {
-           std::iter_swap(it, mComponentsByUpdateOrder.end() - 1);
-           mComponentsByUpdateOrder.pop_back();
+           Component* pComponent = it->second;
+
+           auto itOrder = std::find(mComponentsByUpdateOrder.begin(), mComponentsByUpdateOrder.end(), pComponent);
+           if (itOrder != mComponentsByUpdateOrder.end())
+           {
+               std::iter_swap(itOrder, mComponentsByUpdateOrder.end() - 1);
+               mComponentsByUpdateOrder.pop_back();
+           }
+
+           delete pComponent;
+           mComponents.erase(it);
        }
-       auto comp = mComponents.find(hashCode);
-       delete comp->second;
-       mComponents.erase(comp);
    }
+   mComponentsToRemove.clear();
 }
