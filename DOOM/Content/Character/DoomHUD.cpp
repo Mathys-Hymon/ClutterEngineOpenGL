@@ -27,6 +27,10 @@ DoomHUD::DoomHUD() : HUDComponent(), mLifeState(3), mCanShoot(0.0f), mTauntDelay
 
 	std::vector<clt::Texture*> weapon = clt::Assets::Get().BulkLoadTexture("Content/Resources/Sprites/", 5, "_playerShoot.png", "pistolShoot", TextureFilter::NEAREST, false);
 
+	std::vector<clt::Texture*> hitAnim = clt::Assets::Get().BulkLoadTexture("Content/Resources/Sprites/FadeOutHit/", 6, "_Fade.png", "fadeHit");
+
+	GetCurrentWidget()->CreateElement<clt::FlipbookElement>("hitAnim", hitAnim, false, 10, 4)->Pause();
+
 	GetCurrentWidget()->CreateElement<clt::AnimatorElement>("playerWeapon", "pistolShoot", weapon, false, 10, 4, Vector2{0, -300});
 
 	GetCurrentWidget()->CreateElement<clt::SpriteElement>("playerHead", mHeads[0],7.5, Vector2{0, -600}, 200);
@@ -92,6 +96,7 @@ void DoomHUD::UpdateLifeState(int pLifeState)
 
 void DoomHUD::UpdateLife(int pNewLife)
 {
-	mLife = pNewLife;
+	mLife = std::clamp(pNewLife, 0, 100);
 	GetCurrentWidget()->GetElement<clt::TextElement>("healthText")->SetText(std::to_string(mLife) + "%");
+	GetCurrentWidget()->GetElement<clt::FlipbookElement>("hitAnim")->PlayFromStart();
 }

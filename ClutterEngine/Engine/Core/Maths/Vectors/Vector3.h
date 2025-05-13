@@ -289,4 +289,27 @@ struct CLUTTER_API Vector3
 		if (z < minValue) z = minValue;
 		if (z > maxValue) z = maxValue;
 	}
+
+
+    /**
+     * @brief Clamps the vector components to the given range.
+     * @param vec The vector to clamp.
+     * @param minValue The minimum value.
+     * @param maxValue The maximum value.
+     * @return The clamped vector.
+     */
+    static Vector3 Clamp(const Vector3& vec, float minValue, float maxValue)
+    {
+        Vector3 result = vec;
+        if (result.x < minValue) result.x = minValue;
+        if (result.x > maxValue) result.x = maxValue;
+
+        if (result.y < minValue) result.y = minValue;
+        if (result.y > maxValue) result.y = maxValue;
+
+        if (result.z < minValue) result.z = minValue;
+        if (result.z > maxValue) result.z = maxValue;
+
+        return result;
+    }
 };

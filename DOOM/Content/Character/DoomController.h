@@ -19,7 +19,7 @@ std::map<Weapons, int> mWeaponAmmo;
 
 clt::AnimatorElement* mHand;  
 
-bool mMoveForward, mMoveRight;
+bool mDead;
 
 Weapons mWeapon;  
 

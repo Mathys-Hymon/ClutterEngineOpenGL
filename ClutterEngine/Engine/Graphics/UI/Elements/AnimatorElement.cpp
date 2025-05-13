@@ -31,6 +31,7 @@ void AnimatorElement::PlayAnim(std::string pAnimName)
 	if (!mAnims[pAnimName]) CLUTTER_WARNING(("Unable to play " + pAnimName + " animation, animation not loaded or does not exist").c_str());
 	else
 	{
+		mAnims[pAnimName]->Play();
 		SetFlipbookTextures(mAnims[pAnimName]->GetFlipbookTextures());
 		SetFlipbookFps(mAnims[pAnimName]->GetFlipbookFps());
 		SetLooping(mAnims[pAnimName]->GetLooping());

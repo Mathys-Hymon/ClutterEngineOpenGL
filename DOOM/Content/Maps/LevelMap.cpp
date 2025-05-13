@@ -25,7 +25,6 @@ LevelMap::~LevelMap()
 
 void LevelMap::Load()
 {
-
 	clt::Assets::Get().LoadFont("Content/Resources/Font/DooM.ttf", "doomFont");
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/floor.png", "floor", TextureFilter::NEAREST);
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/wall.png", "wall", TextureFilter::NEAREST);
@@ -33,7 +32,7 @@ void LevelMap::Load()
 	camera = AddActor<clt::Actor>("camera");
 
 	camera->AddComponent<clt::CameraComponent>();
-	camera->AddComponent<clt::OBBCollider>(Vector3{ 2.5f,15.0f,2.5f })->mFriction = 1;
+	camera->AddComponent<clt::OBBCollider>(Vector3{ 2.5f,15.0f,2.5f })->mFriction = 1.5f;
 	camera->AddComponent<clt::RigidBody>()->LockRotation();
 	camera->AddComponent<DoomController>();
 	camera->SetActorLocation({ 10, 0, -12 });

@@ -26,6 +26,12 @@ namespace clt
 		float GetFlipbookFps() const { return mAnimFps; };
 
 		void Play() { mIsPaused = false; };
+		void PlayFromStart() 
+		{
+			mCurrentFrame = 0;
+			mNextFrame = 1;
+			mIsPaused = false;
+		}
 		void Pause() { mIsPaused = true; };
 		void Toggle() { mIsPaused = !mIsPaused; };
 

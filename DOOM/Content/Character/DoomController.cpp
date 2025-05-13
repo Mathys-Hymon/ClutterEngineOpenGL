@@ -4,7 +4,7 @@
 using namespace clt;
 
 DoomController::DoomController() : PlayerController(2), 
-mRotationVelocity(0.0f), mMovementVelocity(0), mWeapon(Weapons::Pistol), mLife(100)
+mRotationVelocity(0.0f), mMovementVelocity(0), mWeapon(Weapons::Pistol), mLife(100), mDead(false)
 {
 	clt::Input::Get().MapKeysToVect(EKey::A, EKey::D, EKey::W, EKey::S, "PlayerMovement");
 	clt::Input::Get().MapKeyToAction(EMouseButton::Left, "PlayerShoot");
@@ -34,34 +34,44 @@ void DoomController::Start()
 
 void DoomController::RotateCamera(Vector2 movement)
 {
-	mRotationVelocity += movement.x * 0.005f;
+	if (!mDead)
+	{
+		mRotationVelocity += movement.x * 0.005f;
 
-	mOwner->AddActorRotationOffset({0, mRotationVelocity, 0});
+		mOwner->AddActorRotationOffset({ 0, mRotationVelocity, 0 });
 
-	if( mRotationVelocity != 0) mRotationVelocity *= 1 - (Timer::deltaTime * 12);
+		if (mRotationVelocity != 0) mRotationVelocity *= 1 - (Timer::deltaTime * 12);
+	}
+	else
+	{
+		mRotationVelocity = 0;
+	}
 }
 
 void DoomController::Move(Vector2 movement)
 {
-	Vector3 dir = (mOwner->GetTransform().Right() * movement.x * mMaxAcceleration * clt::Timer::deltaTime) + (-mOwner->GetTransform().Forward() * movement.y * mMaxAcceleration * clt::Timer::deltaTime);
-	mOwner->GetComponentOfType<clt::RigidBody>()->AddVelocity(dir);
+	if (!mDead)
+	{
+		Vector3 dir = (mOwner->GetTransform().Right() * movement.x * mMaxAcceleration * clt::Timer::deltaTime) + (-mOwner->GetTransform().Forward() * movement.y * mMaxAcceleration * clt::Timer::deltaTime);
 
-	mMovementVelocity += movement * mMaxAcceleration * clt::Timer::deltaTime;
-	mMovementVelocity.Clamp(-mMaxWalkSpeed, mMaxWalkSpeed);
+		clt::RigidBody* rb = mOwner->GetComponentOfType<clt::RigidBody>();
 
-	if (movement.Length() != 0) mIsMoving = true;
-	else mIsMoving = false;
+		rb->AddVelocity(dir);
+		Vector3 vel = rb->GetVelocity();
+		rb->SetVelocity(Vector3::Clamp(rb->GetVelocity(), -mMaxWalkSpeed, mMaxWalkSpeed));
 
-	if (movement.x == 0) mMoveRight = false;
-	else mMoveRight = true;
-
-	if (movement.y == 0) mMoveForward = false;
-	else mMoveForward = true;
+		if (movement.Length() != 0) mIsMoving = true;
+		else mIsMoving = false;
+	}
+	else
+	{
+		mIsMoving = false;
+	}
 }
 
 void DoomController::Shoot()
 {
-	if (mWeaponAmmo[mWeapon] != 0)
+	if (mWeaponAmmo[mWeapon] != 0 && !mDead)
 	{
 		if(mOwner->GetComponentOfType<DoomHUD>()->TriggerShoot(mWeaponAmmo[mWeapon] - 1)) mWeaponAmmo[mWeapon]--;
 	}
@@ -69,26 +79,23 @@ void DoomController::Shoot()
 
 void DoomController::GetHit()
 {
-	mLife -= 10;
-	mOwner->GetComponentOfType<DoomHUD>()->UpdateLife(mLife);
+	if (!mDead)
+	{
+		mLife -= 10;
+		mOwner->GetComponentOfType<DoomHUD>()->UpdateLife(mLife);
+
+		if (mLife <= 0)
+		{
+			mDead = true;
+			mOwner->GetComponentOfType<clt::OBBCollider>()->SetBoxExtend(0.05f);
+		}
+	}
 }
 
 void DoomController::Update()
 {
 	float dt = Timer::deltaTime;
 	float movementReduction = 1 - (dt * 5);
-
-	/*if (mMovementVelocity.x != 0)
-	{
-		mOwner->AddActorLocationOffset(mMovementVelocity.x * mOwner->GetTransform().Right() * dt);
-		if(!mMoveRight) mMovementVelocity.x *= movementReduction;
-	}
-
-	if (mMovementVelocity.y != 0)
-	{
-		mOwner->AddActorLocationOffset(-mMovementVelocity.y * mOwner->GetTransform().Forward() * dt);
-		if (!mMoveForward) mMovementVelocity.y *= movementReduction;
-	}*/
 
 	Vector2 handPos;
 
