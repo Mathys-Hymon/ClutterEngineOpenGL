@@ -62,7 +62,6 @@ void DoomHUD::Update()
 
 bool DoomHUD::TriggerShoot(int ammo)
 {
-
 	if (mCanShoot <= 0.0f)
 	{
 		mCanShoot = 0.5f;

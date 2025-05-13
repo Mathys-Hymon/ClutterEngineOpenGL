@@ -273,6 +273,32 @@ void Physics::ResolveCollisions()
         if (rbA) rbA->ApplyImpulseAtPoint(-impulse, hit.Point);
         if (rbB) rbB->ApplyImpulseAtPoint(impulse, hit.Point);
 
+        Vector3 tangent = relativeVel - normal * Vector3::Dot(relativeVel, normal);
+        if (tangent.LengthSq() > 0.0001f)
+        {
+            tangent.Normalize();
+
+            float frictionCoefficient = 0.5f * (hit.ColliderA->mFriction + hit.ColliderB->mFriction);
+
+            float jt = -Vector3::Dot(relativeVel, tangent);
+            jt /= invMassA + invMassB;
+
+            Vector3 frictionImpulse;
+            if (std::abs(jt) < impulseScalar * frictionCoefficient)
+            {
+                // Static friction
+                frictionImpulse = jt * tangent;
+            }
+            else
+            {
+                // Dynamic friction
+                frictionImpulse = -impulseScalar * frictionCoefficient * tangent;
+            }
+
+            if (rbA) rbA->ApplyImpulseAtPoint(-frictionImpulse, hit.Point);
+            if (rbB) rbB->ApplyImpulseAtPoint(frictionImpulse, hit.Point);
+        }
+
         // ---- Ground check logic  ----
 
         const float groundThreshold = -0.5f;

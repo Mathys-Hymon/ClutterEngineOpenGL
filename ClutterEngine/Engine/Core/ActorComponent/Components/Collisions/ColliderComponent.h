@@ -23,7 +23,7 @@ namespace clt
 		float mFriction;
 		float mBounciness;
 
-		ColliderComponent() : Component(), mFriction(2.5f), mBounciness(0.3f), mType(ColliderType::Null) {};
+		ColliderComponent() : Component(), mFriction(0.2f), mBounciness(0.3f), mType(ColliderType::Null) {};
 		~ColliderComponent();
 
 		void Subscribe(class ICollisionListener* listener) const;

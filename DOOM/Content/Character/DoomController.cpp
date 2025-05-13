@@ -43,6 +43,9 @@ void DoomController::RotateCamera(Vector2 movement)
 
 void DoomController::Move(Vector2 movement)
 {
+	Vector3 dir = (mOwner->GetTransform().Right() * movement.x * mMaxAcceleration * clt::Timer::deltaTime) + (-mOwner->GetTransform().Forward() * movement.y * mMaxAcceleration * clt::Timer::deltaTime);
+	mOwner->GetComponentOfType<clt::RigidBody>()->AddVelocity(dir);
+
 	mMovementVelocity += movement * mMaxAcceleration * clt::Timer::deltaTime;
 	mMovementVelocity.Clamp(-mMaxWalkSpeed, mMaxWalkSpeed);
 
@@ -75,7 +78,7 @@ void DoomController::Update()
 	float dt = Timer::deltaTime;
 	float movementReduction = 1 - (dt * 5);
 
-	if (mMovementVelocity.x != 0)
+	/*if (mMovementVelocity.x != 0)
 	{
 		mOwner->AddActorLocationOffset(mMovementVelocity.x * mOwner->GetTransform().Right() * dt);
 		if(!mMoveRight) mMovementVelocity.x *= movementReduction;
@@ -85,7 +88,7 @@ void DoomController::Update()
 	{
 		mOwner->AddActorLocationOffset(-mMovementVelocity.y * mOwner->GetTransform().Forward() * dt);
 		if (!mMoveForward) mMovementVelocity.y *= movementReduction;
-	}
+	}*/
 
 	Vector2 handPos;
 
