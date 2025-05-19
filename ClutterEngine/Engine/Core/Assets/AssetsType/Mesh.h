@@ -6,6 +6,7 @@
 
 namespace clt
 {
+	class Assets;
 	struct CLUTTER_API Vertex
 	{
 		Vector3 position;
@@ -22,7 +23,7 @@ namespace clt
 
 		std::vector<Vertex> mVertices;
 
-		ShaderProgram mShader;
+		ShaderProgram* mShader;
 		bool mTesselate;
 
 		float* ToVerticeArray();
@@ -31,6 +32,7 @@ namespace clt
 
 		Mesh() {};
 		Mesh(const float* pVertices, u32 pVerticeCount, bool tesselate);
+		Mesh(const float* pVertices, u32 pVerticeCount, ShaderProgram* pShader);
 		Mesh(std::vector<Vertex> pVertices, bool tesselate);
 		~Mesh() = default;
 
@@ -48,7 +50,7 @@ namespace clt
 		}
 
 		VertexArray& GetVAO() { return *mVAO; }
-		ShaderProgram& GetShader() { return mShader; }
+		ShaderProgram& GetShader() { return *mShader; }
 
 		void AddTexture(Texture* pTexture);
 

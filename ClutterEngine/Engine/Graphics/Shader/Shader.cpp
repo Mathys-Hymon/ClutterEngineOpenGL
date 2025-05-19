@@ -5,6 +5,12 @@
 
 using namespace clt;
 
+Shader::~Shader()
+{
+    if (mID) glDeleteProgram(mID);
+    mID = 0;
+}
+
 void Shader::Load(std::string pFileName, ShaderType pShaderType, bool pPath)
 {
     mType = pShaderType;

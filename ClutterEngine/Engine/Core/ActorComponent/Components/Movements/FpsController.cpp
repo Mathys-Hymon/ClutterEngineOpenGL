@@ -11,8 +11,8 @@ mRotationVelocity(0.0f), mMovementVelocity(0), mRotationInertia(pRotationInertia
 	clt::Input::Get().RegisterMouseCallback([this](Vector2 value) { this->RotateCamera(value); });
 	clt::Input::Get().RegisterVectCallback("PlayerMovement", [this](Vector2 value) { this->Move(value); });
 
-	mMaxAcceleration = 0.65f;
-	mMaxWalkSpeed = 2;
+	mMaxAcceleration = 1;
+	mMaxWalkSpeed = 5;
 	mMouseSpeed = pMouseSpeed;
 }
 
@@ -28,7 +28,7 @@ void FPSController::RotateCamera(Vector2 movement)
 	}
 	else
 	{
-		mOwner->AddActorRotationOffset({ 0, (movement.x * mMouseSpeed.x * Timer::deltaTime), 0 });
+		mOwner->AddActorRotationOffset({ 0, (movement.x * mMouseSpeed.x), 0 });
 	}
 }
 
@@ -42,13 +42,13 @@ void FPSController::Update()
 {
 	if (mMovementVelocity.x != 0)
 	{
-		mOwner->AddActorLocationOffset(mMovementVelocity.x * mOwner->GetTransform().Right());
-		mMovementVelocity.x *= 57 * Timer::deltaTime;
+		mOwner->AddActorLocationOffset(mMovementVelocity.x * mOwner->GetTransform().Right() * clt::Timer::deltaTime);
+		mMovementVelocity.x = 0;
 	}
 
 	if (mMovementVelocity.y != 0)
 	{
-		mOwner->AddActorLocationOffset(-mMovementVelocity.y * mOwner->GetTransform().Forward());
-		mMovementVelocity.y *= 57 * Timer::deltaTime;
+		mOwner->AddActorLocationOffset(-mMovementVelocity.y * mOwner->GetTransform().Forward() * clt::Timer::deltaTime);
+		mMovementVelocity.y = 0;
 	}
 }

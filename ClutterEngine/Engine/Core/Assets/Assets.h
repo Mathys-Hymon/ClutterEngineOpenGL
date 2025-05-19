@@ -53,7 +53,7 @@ namespace clt
 
 		Font* LoadFont(const std::string& pPath, const std::string& pName, GLuint pFontSize = 128);
 
-		Shader* LoadShader(const std::string& pPath, const std::string& pName, ShaderType pType);
+		Shader* LoadShader(const std::string& pPath, ShaderType pType);
 
 		Texture* GetTexture(const std::string& pName);
 		std::vector<Texture*> BulkGetTexture(const std::string& pName, int pLastIndex);

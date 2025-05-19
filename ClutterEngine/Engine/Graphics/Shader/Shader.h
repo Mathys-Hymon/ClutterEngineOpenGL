@@ -26,11 +26,7 @@ namespace clt
 	public:
 		Shader() : mID(0), mType(ShaderType::VERTEX) {}
 		Shader(int pID, std::string pCode, ShaderType pShaderType, bool pPath = true) : mID(pID),mCode(pCode), mType(pShaderType) { Load(pCode, pShaderType, pPath); }
-		~Shader()
-		{
-			if (mID) glDeleteProgram(mID);
-			mID = 0;
-		}
+		~Shader();
 
 		int GetID() { return mID; }
 

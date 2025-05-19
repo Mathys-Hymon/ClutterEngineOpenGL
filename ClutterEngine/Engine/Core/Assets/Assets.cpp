@@ -195,20 +195,20 @@ Font* Assets::GetFont(const std::string& name)
     return it->second;
 }
 
-Shader* Assets::GetShader(const std::string& pName, ShaderType pType)
+Shader* Assets::GetShader(const std::string& pPath, ShaderType pType)
 {
     auto it = mShaders.find(pType);
 
     if (it == mShaders.end())
     {
-        CLUTTER_WARNING(("Unable to find the shader type of: " + pName).c_str());
+        CLUTTER_WARNING(("Unable to find the shader type of: " + pPath).c_str());
         return nullptr;
     }
-    auto shader = it->second.find(pName);
+    auto shader = it->second.find(pPath);
 
     if (shader == it->second.end())
     {
-        CLUTTER_WARNING(("Unable to find Shader: " + pName).c_str());
+        CLUTTER_WARNING(("Unable to find Shader: " + pPath).c_str());
         return nullptr;
     }
     return shader->second;
@@ -333,13 +333,13 @@ Font* Assets::LoadFont(const std::string& pPath, const std::string& pName, GLuin
     return font;
 }
 
-Shader* Assets::LoadShader(const std::string& pPath, const std::string& pName, ShaderType pType)
+Shader* Assets::LoadShader(const std::string& pPath, ShaderType pType)
 {
-    if (mShaders[pType][pName]) return GetShader(pName, pType);
+    if (mShaders[pType][pPath]) return GetShader(pPath, pType);
     Shader* temp = new Shader();
     temp->Load(pPath, pType);
 
-    mShaders[pType][pName] = temp;
+    mShaders[pType][pPath] = temp;
     return temp;
 }
 
@@ -370,6 +370,14 @@ void Assets::ClearAssets()
     }
     mMeshes.clear();
 
+    for (auto& pair : mShaders)
+    {
+        for (auto& second : pair.second)
+        {
+            second.second->~Shader();
+        }
+    }
+    mShaders.clear();
     FT_Done_FreeType(mFTLibrary);
 
     delete sInstance;
