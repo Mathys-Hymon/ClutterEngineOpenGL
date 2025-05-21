@@ -40,5 +40,9 @@
     <None Include="Content\Resources\Shaders\text.frag" />
     <None Include="Content\Resources\Shaders\text.vert" />
     <None Include="Config\project.config.json" />
+    <None Include="Content\Resources\Shaders\Mesh\Skybox\skybox.vert" />
+    <None Include="Content\Resources\Shaders\Mesh\Skybox\skybox.tesc" />
+    <None Include="Content\Resources\Shaders\Mesh\Skybox\skybox.tese" />
+    <None Include="Content\Resources\Shaders\Mesh\Skybox\skybox.frag" />
   </ItemGroup>
 </Project>

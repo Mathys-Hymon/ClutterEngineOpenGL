@@ -106,6 +106,54 @@ Mesh* Assets::LoadMeshFromFile(const std::string& pFile, bool pTesselate)
     return new Mesh(vertices, pTesselate);
 }
 
+Mesh* Assets::LoadMeshFromFile(const std::string& pFile, ShaderProgram* pShader, bool pTesselate)
+{
+    tinyobj::attrib_t attributes;
+    std::vector<tinyobj::shape_t> shapes;
+    std::vector<tinyobj::material_t> materials;
+
+    std::string errors;
+
+    bool success = tinyobj::LoadObj(&attributes, &shapes, &materials, &errors, +pFile.c_str());
+
+    if (success) CLUTTER_LOG(("Mesh " + pFile + " loaded sucessfully ").c_str());
+    else
+    {
+        CLUTTER_ERROR("Failed to load Mesh. \n " + pFile + " does not exist or is not .obj");
+        return nullptr;
+    }
+
+    std::vector<Vertex> vertices;
+
+    for (int i = 0; i < shapes.size(); i++)
+    {
+        tinyobj::shape_t& shape = shapes[i];
+        tinyobj::mesh_t& mesh = shape.mesh;
+        for (int j = 0; j < mesh.indices.size(); j++)
+        {
+            tinyobj::index_t i = mesh.indices[j];
+            Vector3 position = Vector3{
+                attributes.vertices[i.vertex_index * 3],
+                attributes.vertices[i.vertex_index * 3 + 1],
+                attributes.vertices[i.vertex_index * 3 + 2]
+            };
+            Vector3 normal = Vector3{
+                attributes.normals[i.normal_index * 3],
+                attributes.normals[i.normal_index * 3 + 1],
+                attributes.normals[i.normal_index * 3 + 2]
+            };
+            Vector2 texCoord = {
+                attributes.texcoords[i.texcoord_index * 2],
+                attributes.texcoords[i.texcoord_index * 2 + 1],
+            };
+            Vertex vert = { position, normal, texCoord };
+            vertices.push_back(vert);
+        }
+
+    }
+    return new Mesh(vertices, pShader, pTesselate);
+}
+
 void Assets::LoadEngineAssets()
 {
     Assets::Get().LoadFont("Content/Resources/Font/BebasNeue.ttf", "BebasNeue");
@@ -173,7 +221,7 @@ Texture* Assets::GetTexture(const std::string& name)
 Mesh* Assets::GetMesh(const std::string& name, bool tesselate)
 {
     std::string tempName = name;
-    if (tesselate)  std::string name = name + "_tess";
+    if (tesselate) tempName = name + "_tess";
 
     auto it = mMeshes.find(tempName);
     if (it == mMeshes.end())
@@ -234,10 +282,53 @@ Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, std::
     return mesh;
 }
 
+Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, ShaderProgram* pShader, std::vector<Texture*> pTextures, bool pTesselate)
+{
+    std::string name = pName;
+    if (pTesselate) name = pName + "_tess";
+
+    if (mMeshes.find(name) != mMeshes.end())
+    {
+        CLUTTER_LOG(("An instance of " + pName + " already exists and is returned.").c_str());
+        return GetMesh(name);
+    }
+
+    Mesh* mesh = LoadMeshFromFile(pPath, pShader, pTesselate);
+
+    if (mesh) mMeshes[name] = mesh;
+    if (!mesh->GetTexture(0) && pTextures.empty()) mesh->AddTexture(GetTexture("default"));
+
+    for (Texture* tex : pTextures)
+    {
+        mesh->AddTexture(tex);
+    }
+
+    return mesh;
+}
+
+Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, ShaderProgram* pShader, bool pTesselate)
+{
+    std::string name = pName;
+    if (pTesselate) name = pName + "_tess";
+
+    if (mMeshes.find(name) != mMeshes.end())
+    {
+        CLUTTER_LOG(("An instance of " + pName + " already exists and is returned.").c_str());
+        return GetMesh(name);
+    }
+
+    Mesh* mesh = LoadMeshFromFile(pPath, pShader, pTesselate);
+
+    if (mesh) mMeshes[name] = mesh;
+
+    return mesh;
+}
+
 Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, const std::string& pTexture, bool pTesselate)
 {
     std::string name = pName;
     if (pTesselate) name = pName + "_tess";
+
 
     if (mMeshes.find(name) != mMeshes.end())
     {
@@ -265,7 +356,6 @@ Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, bool 
     Mesh* mesh = LoadMeshFromFile(pPath, pTesselate);
 
     if (mesh) mMeshes[name] = mesh;
-    if (!mesh->GetTexture(0)) mesh->AddTexture(GetTexture("default"));
 
     return mesh;
 }

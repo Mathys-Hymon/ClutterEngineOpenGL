@@ -17,6 +17,7 @@ namespace clt
 	public :
 		ShaderProgram();
 		~ShaderProgram() = default;
+
 		void Unload();
 		void Compose(std::vector<Shader*> shaders);
 

@@ -1,6 +1,6 @@
 {
   "project": {
-    "name": "DOOM",
+    "name": "Planet generation",
     "version": "1.0.0",
     "engineVersion": "0.0.1",
     "defaultScene": "Maps/TestLevel.h",

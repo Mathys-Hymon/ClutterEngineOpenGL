@@ -32,7 +32,8 @@ namespace clt
 
 		Mesh() {};
 		Mesh(const float* pVertices, u32 pVerticeCount, bool tesselate);
-		Mesh(const float* pVertices, u32 pVerticeCount, ShaderProgram* pShader);
+		Mesh(const float* pVertices, u32 pVerticeCount, ShaderProgram* pShader, bool isTesselated);
+		Mesh(std::vector<Vertex> pVertices, ShaderProgram* pShader, bool isTesselated);
 		Mesh(std::vector<Vertex> pVertices, bool tesselate);
 		~Mesh() = default;
 

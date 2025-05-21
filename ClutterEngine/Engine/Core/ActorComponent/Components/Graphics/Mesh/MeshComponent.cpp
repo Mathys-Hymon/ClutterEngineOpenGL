@@ -4,12 +4,12 @@
 
 using namespace clt;
 
-MeshComponent::MeshComponent(Mesh* pMesh, int pDrawOrder, Vector2 pTextureTiling) : Component(pDrawOrder), mMesh(pMesh), mTextureTiling(pTextureTiling)
+MeshComponent::MeshComponent(Mesh* pMesh, int pDrawOrder, Vector2 pTextureTiling) : Component(pDrawOrder), mMesh(pMesh), mTextureTiling(pTextureTiling), mTexture(nullptr)
 {
     if (mMesh) mMesh->SetTextureTiling(pTextureTiling);
 }
 
-MeshComponent::MeshComponent(const std::string& pMesh, int pDrawOrder, Vector2 pTextureTiling) : Component(pDrawOrder), mMesh(nullptr), mTextureTiling(pTextureTiling)
+MeshComponent::MeshComponent(const std::string& pMesh, int pDrawOrder, Vector2 pTextureTiling) : Component(pDrawOrder), mMesh(nullptr), mTextureTiling(pTextureTiling), mTexture(nullptr)
 {
     mMesh = Assets::Get().GetMesh(pMesh);
 }

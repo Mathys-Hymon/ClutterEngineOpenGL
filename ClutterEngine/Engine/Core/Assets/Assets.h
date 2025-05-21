@@ -32,6 +32,7 @@ namespace clt
 		void LoadTextureGL(TextureFilter pTexFilter, GLuint& textureID, int& width, int& height, int& channels, unsigned char* data, bool generateMipMaps = true);
 
 		Mesh* LoadMeshFromFile(const std::string& pFile, bool pTesselate);
+		Mesh* LoadMeshFromFile(const std::string& pFile, ShaderProgram* pShader, bool pTesselate);
 
 		void LoadEngineAssets();
 
@@ -50,6 +51,8 @@ namespace clt
 		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, std::vector<Texture*> pTextures = {}, bool pTesselate = false);
 		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, const std::string& pTexture, bool pTesselate = false);
 		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, bool pTesselate);
+		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, ShaderProgram* pShader, std::vector<Texture*> pTextures, bool pTesselate = false);
+		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, ShaderProgram* pShader, bool pTesselate = false);
 
 		Font* LoadFont(const std::string& pPath, const std::string& pName, GLuint pFontSize = 128);
 

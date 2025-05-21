@@ -35,11 +35,20 @@ Mesh::Mesh(const float* pVertices, u32 pVerticeCount, bool tesselate)
     mVAO = new VertexArray(pVertices, pVerticeCount);
 }
 
-Mesh::Mesh(const float* pVertices, u32 pVerticeCount, ShaderProgram* pShader) 
+Mesh::Mesh(const float* pVertices, u32 pVerticeCount, ShaderProgram* pShader, bool isTesselated)
   : mVertices()
 {
    mShader = pShader;
    mVAO = new VertexArray(ToVerticeArray(), mVertices.size());
+   mTesselate = isTesselated;
+}
+
+Mesh::Mesh(std::vector<Vertex> pVertices, ShaderProgram* pShader, bool isTesselated) : mVertices(std::move(pVertices))
+{
+    mShader = pShader;
+    mTesselate = isTesselated;
+
+    mVAO = new VertexArray(ToVerticeArray(), mVertices.size());
 }
 
 Mesh::Mesh(std::vector<Vertex> pVertices, bool tesselate) : mVertices(std::move(pVertices))
@@ -63,7 +72,6 @@ Mesh::Mesh(std::vector<Vertex> pVertices, bool tesselate) : mVertices(std::move(
         mShader->Compose({ frag, vert , tesc, tese });
     }
     else  mShader->Compose({ frag, vert });
-
 
 	mVAO = new VertexArray(ToVerticeArray(), mVertices.size());
 }
