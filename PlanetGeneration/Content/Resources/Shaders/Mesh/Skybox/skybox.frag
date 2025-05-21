@@ -1,13 +1,15 @@
 #version 450 core
 
-in vec2 fragTexCoord;
+in TESE_OUT{
+   vec2 texCoord;
+
+} frag_in;
+
 out vec4 outColor;
 
 uniform sampler2D uTexture;
 
 void main()
 {
-   outColor = texture(uTexture, fragTexCoord);
-
-   if(outColor.a < 0.1) discard;
+   outColor = texture(uTexture, frag_in.texCoord);
 }

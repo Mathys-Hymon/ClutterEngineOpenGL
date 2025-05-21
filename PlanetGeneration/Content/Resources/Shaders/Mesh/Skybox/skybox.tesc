@@ -1,15 +1,23 @@
-#version 400
+#version 450 core
 
-layout(vertices = 1) out;
+layout(vertices = 3) out;
 
-uniform float tessLevelInner = 5;
-uniform float tessLevelOuter = 5;
+in VS_OUT{
+   vec2 texCoord;
+} tesc_in[];
+out TESC_OUT{
+   vec2 texCoord;
+} tesc_out[];
 
-void main()
+void main(void)
 {
-    gl_TessLevelInner[0] = tessLevelInner;
-    gl_TessLevelOuter[0] = tessLevelOuter;
-    gl_TessLevelOuter[1] = tessLevelOuter;
-    gl_TessLevelOuter[2] = tessLevelOuter;
-    gl_TessLevelOuter[3] = tessLevelOuter;
+   if (gl_InvocationID == 0)
+   {
+       gl_TessLevelInner[0] = 5.0f;
+       gl_TessLevelOuter[0] = 5.0f;
+       gl_TessLevelOuter[1] = 5.0f;
+       gl_TessLevelOuter[2] = 5.0f;
+   }
+   gl_out[gl_InvocationID].gl_Position = gl_in[gl_InvocationID].gl_Position;
+   tesc_out[gl_InvocationID].texCoord = tesc_in[gl_InvocationID].texCoord;
 }
