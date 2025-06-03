@@ -247,6 +247,8 @@
     <ClInclude Include="Engine\Core\ActorComponent\Components\Movements\FpsController.h" />
     <ClInclude Include="Engine\Core\All.h" />
     <ClInclude Include="Engine\Core\Assets\AssetsType\Font.h" />
+    <ClInclude Include="Engine\Core\Assets\AssetsType\Material.h" />
+    <ClInclude Include="Engine\Core\Assets\AssetsType\MaterialInstance.h" />
     <ClInclude Include="Engine\Graphics\Shader\ShaderProgram.h" />
     <ClInclude Include="Engine\Graphics\UI\Elements\AnimatorElement.h" />
     <ClInclude Include="Engine\Graphics\UI\Elements\ButtonElement.h" />
