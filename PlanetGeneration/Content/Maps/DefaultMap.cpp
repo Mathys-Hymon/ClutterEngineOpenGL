@@ -30,9 +30,9 @@ void DefaultMap::Load()
 	//camera->SetActorLocation({ 0, 0, 5 });
 
 	water = AddActor<Water>("water");
-	//water->SetActorRotation({ 90,0,0 });
+	water->SetActorRotation({ 90,0,0 });
 	
-	test = AddActor<clt::CubeActor>("test");
+	//test = AddActor<clt::CubeActor>("test");
 }
 
 void DefaultMap::Update()

@@ -42,7 +42,11 @@ void EditorController::Rotation(Vector2 pRotation)
 	if (Input::Get().IsButtonPressed(EMouseButton::Right))
 	{
 		clt::Input::Get().SetShowMouseCursor(false);
-		mOwner->AddActorRotationOffset((Vector3{ -pRotation.y, pRotation.x, 0 }));
+
+		Vector3 up = pRotation.x * mOwner->GetTransform().Up();
+		Vector3 right = -pRotation.y * mOwner->GetTransform().Right();
+
+		mOwner->AddActorRotationOffset((up + right));
 
 	}
 	else clt::Input::Get().SetShowMouseCursor(true);

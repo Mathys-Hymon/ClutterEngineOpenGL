@@ -7,14 +7,17 @@ layout(location = 2) in vec2 texCoord;
 uniform mat4 uWorldTransform;
 uniform mat4 uViewProj;
 uniform vec2 uTiling;
+uniform float uTime; // Ajout pour l'animation
 
 out VS_OUT {
    vec2 texCoord;
-   vec3 position;
+   vec3 worldPos; // On passe la position au monde aux étapes suivantes
 } vs_out;
 
-void main() {
-   gl_Position = vec4(pos, 1.0) * uWorldTransform * uViewProj;
+void main()
+{
+   vec4 worldPos = vec4(pos, 1.0) * uWorldTransform;
    vs_out.texCoord = texCoord * uTiling;
-   vs_out.position = pos;
+   vs_out.worldPos = worldPos.xyz;
+   gl_Position = worldPos * uViewProj;
 }
