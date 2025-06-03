@@ -17,6 +17,10 @@ namespace clt
 		std::unordered_map<std::string, Vector4> mVec4Uniforms;
 		std::unordered_map<std::string, Color> mColorUniforms;
 		std::unordered_map<std::string, Texture*> mTextureUniforms;
+		std::unordered_map<std::string, glm::mat2> mMat2Uniforms;
+		std::unordered_map<std::string, glm::mat3> mMat3Uniforms;
+		std::unordered_map<std::string, Matrix4> mMat4Uniforms;
+		std::unordered_map<std::string, Matrix4Row> mMat4RowUniforms;
 
 	public :
 		Material(ShaderProgram* shader) : mShader(shader) {};
@@ -24,14 +28,18 @@ namespace clt
 
 		void SetFloat(const std::string& name, float value) { mFloatUniforms[name] = value; }
 		void SetInt(const std::string& name, int value) { mIntUniforms[name] = value; }
-		void SetVec2(const std::string& name, const Vector2& value) { mVec2Uniforms[name] = value; }
-		void SetVec3(const std::string& name, const Vector3& value) { mVec3Uniforms[name] = value; }
-		void SetVec4(const std::string& name, const Vector4& value) { mVec4Uniforms[name] = value; }
-		void SetColor(const std::string& name, const Color& value) { mColorUniforms[name] = value; }
-		void SetTexture(const std::string& name, Texture* texture) { mTextureUniforms[name] = texture; }
+		void SetVec2f(const std::string& name, const Vector2& value) { mVec2Uniforms[name] = value; };
+		void SetVec3(const std::string& name, const Vector3& value) { mVec3Uniforms[name] = value; };
+		void SetVec4(const std::string& name, const Vector4& value) { mVec4Uniforms[name] = value; };
+		void SetColor(const std::string& name, const Color& value) { mColorUniforms[name] = value; };
+		void SetTexture(const std::string& name, Texture* texture) { mTextureUniforms[name] = texture; };
+		void SetMat2(const std::string& name, const glm::mat2& value) {	mMat2Uniforms[name] = value; };
+		void SetMat3(const std::string& name, const glm::mat3& value) { mMat3Uniforms[name] = value; };
+		void SetMat4(const std::string& name, const Matrix4& value) { mMat4Uniforms[name] = value; };
+		void SetMat4Row(const std::string& name, const Matrix4Row& value) { mMat4RowUniforms[name] = value; };
 		void SetShader(ShaderProgram* shader) { mShader = shader; }
 
-		void Apply()
+		void Use()
 		{
 			if (!mShader) return;
 			mShader->Use();
@@ -64,6 +72,8 @@ namespace clt
 					textureUnit++;
 				}
 			}
+
+			glActiveTexture(GL_TEXTURE0);
 		}
 
 		ShaderProgram* GetShader() const { return mShader; }
@@ -115,6 +125,17 @@ namespace clt
 		Texture* GetTexture(const std::string& name) const {
 			auto it = mTextureUniforms.find(name);
 			return it != mTextureUniforms.end() ? it->second : nullptr;
+		}
+		bool HasTexture(Texture* texture) const
+		{
+			if (!texture) return false;
+
+			for (const auto& [name, texPtr] : mTextureUniforms)
+			{
+				if (texPtr == texture)
+					return true;
+			}
+			return false;
 		}
 	};
 }

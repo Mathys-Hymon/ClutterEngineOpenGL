@@ -14,38 +14,37 @@ const auto meshVertPath = "Content/Resources/Shaders/basic.vert";
 
 Mesh::Mesh(const float* pVertices, u32 pVerticeCount, bool tesselate)
 {
-    mShader = new ShaderProgram();
+    ShaderProgram* tempShader = new ShaderProgram();
     mTesselate = tesselate;
 
     if (tesselate)
     {
-        mShader->Compose({
+        tempShader->Compose({
             Assets::Get().LoadShader(tesselate ? meshVertPathTes : meshVertPath, ShaderType::VERTEX),
             Assets::Get().LoadShader(tesselate ? meshFragPathTes : meshFragPath, ShaderType::FRAGMENT),
             Assets::Get().LoadShader(meshTescPath, ShaderType::TESSELATION_CONTROL), 
             Assets::Get().LoadShader(meshTesePath, ShaderType::TESSELATION_EVALUATION) });
     }
-    else  mShader->Compose({ 
+    else  tempShader->Compose({
         Assets::Get().LoadShader(tesselate ? meshVertPathTes : meshVertPath, ShaderType::VERTEX),
         Assets::Get().LoadShader(tesselate ? meshFragPathTes : meshFragPath, ShaderType::FRAGMENT), 
         });
 
-
-
+    mMaterial->SetShader(tempShader);
     mVAO = new VertexArray(pVertices, pVerticeCount);
 }
 
-Mesh::Mesh(const float* pVertices, u32 pVerticeCount, ShaderProgram* pShader, bool isTesselated)
+Mesh::Mesh(const float* pVertices, u32 pVerticeCount, Material* pMaterial, bool isTesselated)
   : mVertices()
 {
-   mShader = pShader;
+   mMaterial = pMaterial;
    mVAO = new VertexArray(ToVerticeArray(), mVertices.size());
    mTesselate = isTesselated;
 }
 
-Mesh::Mesh(std::vector<Vertex> pVertices, ShaderProgram* pShader, bool isTesselated) : mVertices(std::move(pVertices))
+Mesh::Mesh(std::vector<Vertex> pVertices, Material* pMaterial, bool isTesselated) : mVertices(std::move(pVertices))
 {
-    mShader = pShader;
+    mMaterial = pMaterial;
     mTesselate = isTesselated;
 
     mVAO = new VertexArray(ToVerticeArray(), mVertices.size());
@@ -53,26 +52,23 @@ Mesh::Mesh(std::vector<Vertex> pVertices, ShaderProgram* pShader, bool isTessela
 
 Mesh::Mesh(std::vector<Vertex> pVertices, bool tesselate) : mVertices(std::move(pVertices))
 {
-    mShader = new ShaderProgram();
+    ShaderProgram* tempShader = new ShaderProgram();
     mTesselate = tesselate;
-
-    Shader* vert = new Shader();
-    vert->Load(tesselate ? meshVertPathTes : meshVertPath, ShaderType::VERTEX);
-
-    Shader* frag = new Shader();
-    frag->Load(tesselate ? meshFragPathTes : meshFragPath, ShaderType::FRAGMENT);
 
     if (tesselate)
     {
-        Shader* tesc = new Shader();
-        tesc->Load(meshTescPath, ShaderType::TESSELATION_CONTROL);
-        Shader* tese = new Shader();
-        tese->Load(meshTesePath, ShaderType::TESSELATION_EVALUATION);
-
-        mShader->Compose({ frag, vert , tesc, tese });
+        tempShader->Compose({
+            Assets::Get().LoadShader(tesselate ? meshVertPathTes : meshVertPath, ShaderType::VERTEX),
+            Assets::Get().LoadShader(tesselate ? meshFragPathTes : meshFragPath, ShaderType::FRAGMENT),
+            Assets::Get().LoadShader(meshTescPath, ShaderType::TESSELATION_CONTROL),
+            Assets::Get().LoadShader(meshTesePath, ShaderType::TESSELATION_EVALUATION) });
     }
-    else  mShader->Compose({ frag, vert });
+    else  tempShader->Compose({
+        Assets::Get().LoadShader(tesselate ? meshVertPathTes : meshVertPath, ShaderType::VERTEX),
+        Assets::Get().LoadShader(tesselate ? meshFragPathTes : meshFragPath, ShaderType::FRAGMENT),
+        });
 
+    mMaterial->SetShader(tempShader);
 	mVAO = new VertexArray(ToVerticeArray(), mVertices.size());
 }
 
@@ -112,7 +108,7 @@ float* Mesh::ToVerticeArray()
 
 void Mesh::AddTexture(Texture* pTexture)
 {
-    mTextures.push_back(pTexture);
+    mMaterial->SetTexture(pTexture);
 }
 
 void Mesh::SetTexture(Texture* texture, size_t& index)

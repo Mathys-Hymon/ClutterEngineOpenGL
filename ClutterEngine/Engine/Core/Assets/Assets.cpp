@@ -106,7 +106,7 @@ Mesh* Assets::LoadMeshFromFile(const std::string& pFile, bool pTesselate)
     return new Mesh(vertices, pTesselate);
 }
 
-Mesh* Assets::LoadMeshFromFile(const std::string& pFile, ShaderProgram* pShader, bool pTesselate)
+Mesh* Assets::LoadMeshFromFile(const std::string& pFile, Material* pMaterial, bool pTesselate)
 {
     tinyobj::attrib_t attributes;
     std::vector<tinyobj::shape_t> shapes;
@@ -151,7 +151,7 @@ Mesh* Assets::LoadMeshFromFile(const std::string& pFile, ShaderProgram* pShader,
         }
 
     }
-    return new Mesh(vertices, pShader, pTesselate);
+    return new Mesh(vertices, pMaterial, pTesselate);
 }
 
 void Assets::LoadEngineAssets()
@@ -282,7 +282,7 @@ Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, std::
     return mesh;
 }
 
-Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, ShaderProgram* pShader, std::vector<Texture*> pTextures, bool pTesselate)
+Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, Material* pMaterial, std::vector<Texture*> pTextures, bool pTesselate)
 {
     std::string name = pName;
     if (pTesselate) name = pName + "_tess";
@@ -293,7 +293,7 @@ Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, Shade
         return GetMesh(name);
     }
 
-    Mesh* mesh = LoadMeshFromFile(pPath, pShader, pTesselate);
+    Mesh* mesh = LoadMeshFromFile(pPath, pMaterial, pTesselate);
 
     if (mesh) mMeshes[name] = mesh;
     if (!mesh->GetTexture(0) && pTextures.empty()) mesh->AddTexture(GetTexture("default"));
@@ -306,7 +306,7 @@ Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, Shade
     return mesh;
 }
 
-Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, ShaderProgram* pShader, bool pTesselate)
+Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, Material* pMaterial, bool pTesselate)
 {
     std::string name = pName;
     if (pTesselate) name = pName + "_tess";
@@ -317,7 +317,7 @@ Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, Shade
         return GetMesh(name);
     }
 
-    Mesh* mesh = LoadMeshFromFile(pPath, pShader, pTesselate);
+    Mesh* mesh = LoadMeshFromFile(pPath, pMaterial, pTesselate);
 
     if (mesh) mMeshes[name] = mesh;
 

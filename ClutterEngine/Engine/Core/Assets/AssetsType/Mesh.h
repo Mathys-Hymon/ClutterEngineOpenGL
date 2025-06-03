@@ -1,8 +1,8 @@
 #pragma once
 #include <Core/CCommon.h>
-#include <Core/Assets/AssetsType/Texture.h>
 #include <Graphics/Shader/VertexArray.h>
 #include <Graphics/Shader/ShaderProgram.h>
+#include <Core/Assets/AssetsType/Material.h>
 
 namespace clt
 {
@@ -16,6 +16,8 @@ namespace clt
 
 	class CLUTTER_API Mesh
 	{
+		Material* mMaterial;
+
 		std::vector<Texture*> mTextures;
 		Vector2 mTextureTiling = { 1,1 };
 
@@ -23,7 +25,6 @@ namespace clt
 
 		std::vector<Vertex> mVertices;
 
-		ShaderProgram* mShader;
 		bool mTesselate;
 
 		float* ToVerticeArray();
@@ -32,8 +33,8 @@ namespace clt
 
 		Mesh() {};
 		Mesh(const float* pVertices, u32 pVerticeCount, bool tesselate);
-		Mesh(const float* pVertices, u32 pVerticeCount, ShaderProgram* pShader, bool isTesselated);
-		Mesh(std::vector<Vertex> pVertices, ShaderProgram* pShader, bool isTesselated);
+		Mesh(const float* pVertices, u32 pVerticeCount, Material* pMaterial, bool isTesselated);
+		Mesh(std::vector<Vertex> pVertices, Material* pMaterial, bool isTesselated);
 		Mesh(std::vector<Vertex> pVertices, bool tesselate);
 		~Mesh() = default;
 
@@ -43,15 +44,11 @@ namespace clt
 
 		bool HasTexture(Texture* pTextureIndex)
 		{
-			for (Texture* tex : mTextures)
-			{
-				if (tex->GetID() == pTextureIndex->GetID()) return true;
-			}
-			return false;
+			mMaterial->HasTexture(pTextureIndex);
 		}
 
 		VertexArray& GetVAO() { return *mVAO; }
-		ShaderProgram& GetShader() { return *mShader; }
+		Material& GetMaterial() { return *mMaterial; }
 
 		void AddTexture(Texture* pTexture);
 
