@@ -378,3 +378,244 @@ struct CLUTTER_API Matrix4
 
 	static const Matrix4 Identity;
 };
+#pragma once
+#include <Core/CCommon.h>
+#include <array>
+#include <Core/Maths/Maths.h>
+#include <Core/Maths/Quaternion.h>
+
+using std::array;
+
+/**
+ * @brief 4x4 column-major matrix for 3D transformations.
+ */
+struct CLUTTER_API Matrix4
+{
+    /**
+     * @brief Matrix elements in column-major order.
+     */
+    array<float, 16> mat;
+
+    /**
+     * @brief Default constructor. Initializes to identity matrix.
+     */
+    Matrix4();
+
+    /**
+     * @brief Constructs a matrix from an array of 16 floats.
+     * @param that Array of 16 floats (column-major order).
+     */
+    Matrix4(const array<float, 16>& that);
+
+    /**
+     * @brief Returns a pointer to the matrix data as a float array.
+     * @return Pointer to the first element.
+     */
+    const float* GetAsFloatPtr() const;
+
+    /**
+     * @brief Accesses the element at row i, column j.
+     * @param i Row index (0-3).
+     * @param j Column index (0-3).
+     * @return Reference to the element.
+     */
+    inline float& operator()(const int i, const int j);
+
+    /**
+     * @brief Assignment operator.
+     * @param that Matrix to assign from.
+     * @return Reference to this matrix.
+     */
+    inline Matrix4& operator=(const Matrix4& that);
+
+    /**
+     * @brief Matrix addition.
+     * @param that Matrix to add.
+     * @return Sum of matrices.
+     */
+    inline Matrix4 operator+(const Matrix4& that) const;
+
+    /**
+     * @brief Matrix addition assignment.
+     * @param that Matrix to add.
+     * @return Reference to this matrix.
+     */
+    inline Matrix4& operator+=(const Matrix4& that);
+
+    /**
+     * @brief Matrix subtraction.
+     * @param that Matrix to subtract.
+     * @return Difference of matrices.
+     */
+    inline Matrix4 operator-(const Matrix4& that) const;
+
+    /**
+     * @brief Matrix subtraction assignment.
+     * @param that Matrix to subtract.
+     * @return Reference to this matrix.
+     */
+    inline Matrix4& operator-=(const Matrix4& that);
+
+    /**
+     * @brief Matrix multiplication (a * b).
+     * @param a Left matrix.
+     * @param b Right matrix.
+     * @return Product matrix.
+     */
+    friend Matrix4 operator*(Matrix4& a, Matrix4& b);
+
+    /**
+     * @brief Matrix multiplication assignment.
+     * @param right Matrix to multiply by.
+     * @return Reference to this matrix.
+     */
+    Matrix4& operator*=(Matrix4& right);
+
+    /**
+     * @brief Inverts the matrix in place. (Slow)
+     */
+    void Invert();
+
+    /**
+     * @brief Gets the translation component (last column, except w).
+     * @return Translation as a Vector3.
+     */
+    Vector3 GetTranslation() const;
+
+    /**
+     * @brief Gets the normalized X axis (first column).
+     * @return X axis as a Vector3.
+     */
+    Vector3 GetXAxis() const;
+
+    /**
+     * @brief Gets the normalized Y axis (second column).
+     * @return Y axis as a Vector3.
+     */
+    Vector3 GetYAxis() const;
+
+    /**
+     * @brief Gets the normalized Z axis (third column).
+     * @return Z axis as a Vector3.
+     */
+    Vector3 GetZAxis() const;
+
+    /**
+     * @brief Gets the scale factors along each axis.
+     * @return Scale as a Vector3.
+     */
+    Vector3 GetScale() const;
+
+    /**
+     * @brief Creates a scale matrix.
+     * @param xScale Scale along X.
+     * @param yScale Scale along Y.
+     * @param zScale Scale along Z.
+     * @return Scale matrix.
+     */
+    static Matrix4 CreateScale(float xScale, float yScale, float zScale);
+
+    /**
+     * @brief Creates a scale matrix from a vector.
+     * @param scaleVector Scale vector.
+     * @return Scale matrix.
+     */
+    static Matrix4 CreateScale(const Vector3& scaleVector);
+
+    /**
+     * @brief Creates a uniform scale matrix.
+     * @param scale Uniform scale factor.
+     * @return Scale matrix.
+     */
+    static Matrix4 CreateScale(float scale);
+
+    /**
+     * @brief Creates a rotation matrix around the X axis.
+     * @param theta Angle in radians.
+     * @return Rotation matrix.
+     */
+    static Matrix4 CreateRotationX(float theta);
+
+    /**
+     * @brief Creates a rotation matrix around the Y axis.
+     * @param theta Angle in radians.
+     * @return Rotation matrix.
+     */
+    static Matrix4 CreateRotationY(float theta);
+
+    /**
+     * @brief Creates a rotation matrix around the Z axis.
+     * @param theta Angle in radians.
+     * @return Rotation matrix.
+     */
+    static Matrix4 CreateRotationZ(float theta);
+
+    /**
+     * @brief Creates a translation matrix.
+     * @param trans Translation vector.
+     * @return Translation matrix.
+     */
+    static Matrix4 CreateTranslation(const Vector3& trans);
+
+    /**
+     * @brief Creates a simple orthographic view-projection matrix.
+     * @param width Width of the view.
+     * @param height Height of the view.
+     * @return View-projection matrix.
+     */
+    static Matrix4 CreateSimpleViewProj(float width, float height);
+
+    /**
+     * @brief Creates a rotation matrix from a quaternion.
+     * @param q Quaternion.
+     * @return Rotation matrix.
+     */
+    static Matrix4 CreateFromQuaternion(const Quaternion& q);
+
+    /**
+     * @brief Creates a look-at view matrix.
+     * @param eye Camera position.
+     * @param target Target position.
+     * @param up Up direction.
+     * @return Look-at matrix.
+     */
+    static Matrix4 CreateLookAt(const Vector3& eye, const Vector3& target, const Vector3& up);
+
+    /**
+     * @brief Creates an orthographic projection matrix.
+     * @param width Width of the view volume.
+     * @param height Height of the view volume.
+     * @param pNear Near plane.
+     * @param pFar Far plane.
+     * @return Orthographic projection matrix.
+     */
+    static Matrix4 CreateOrtho(float width, float height, float pNear, float pFar);
+
+    /**
+     * @brief Creates a perspective projection matrix using field of view.
+     * @param fovY Vertical field of view in radians.
+     * @param width Width of the view.
+     * @param height Height of the view.
+     * @param pNear Near plane.
+     * @param pFar Far plane.
+     * @return Perspective projection matrix.
+     */
+    static Matrix4 CreatePerspectiveFOV(float fovY, float width, float height, float pNear, float pFar);
+
+    /**
+     * @brief Creates a perspective projection matrix.
+     * @param left Left plane.
+     * @param right Right plane.
+     * @param bottom Bottom plane.
+     * @param top Top plane.
+     * @param pNear Near plane.
+     * @param pFar Far plane.
+     * @return Perspective projection matrix.
+     */
+    static Matrix4 CreatePerspective(float left, float right, float bottom, float top, float pNear, float pFar);
+
+    /**
+     * @brief The identity matrix.
+     */
+    static const Matrix4 Identity;
+};

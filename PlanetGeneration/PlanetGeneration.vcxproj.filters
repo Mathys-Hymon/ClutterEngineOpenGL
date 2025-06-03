@@ -44,5 +44,11 @@
     <None Include="Content\Resources\Shaders\Mesh\Skybox\skybox.tesc" />
     <None Include="Content\Resources\Shaders\Mesh\Skybox\skybox.tese" />
     <None Include="Content\Resources\Shaders\Mesh\Skybox\skybox.frag" />
+    <None Include="Content\Resources\Shaders\Sand\sand.vert" />
+    <None Include="Content\Resources\Shaders\Sand\sand.tesc" />
+    <None Include="Content\Resources\Shaders\Sand\sand.tese" />
+    <None Include="Content\Resources\Shaders\Sand\sand.frag" />
+    <None Include="Content\Resources\Shaders\Wave\water.tese" />
+    <None Include="Content\Resources\Shaders\Wave\water.frag" />
   </ItemGroup>
 </Project>
