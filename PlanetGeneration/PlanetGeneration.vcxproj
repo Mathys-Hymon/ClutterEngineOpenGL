@@ -222,10 +222,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Content\Enviro\Water.cpp" />
     <ClCompile Include="Content\Maps\DefaultMap.cpp" />
     <ClCompile Include="PlanetGeneration.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Content\Enviro\Water.h" />
     <ClInclude Include="Content\Maps\DefaultMap.h" />
   </ItemGroup>
   <ItemGroup>
@@ -241,10 +243,16 @@
     <None Include="Content\Resources\Shaders\Mesh\Skybox\skybox.tesc" />
     <None Include="Content\Resources\Shaders\Mesh\Skybox\skybox.tese" />
     <None Include="Content\Resources\Shaders\Mesh\Skybox\skybox.vert" />
+    <None Include="Content\Resources\Shaders\Sand\sand.frag" />
+    <None Include="Content\Resources\Shaders\Sand\sand.tesc" />
+    <None Include="Content\Resources\Shaders\Sand\sand.tese" />
+    <None Include="Content\Resources\Shaders\Sand\sand.vert" />
     <None Include="Content\Resources\Shaders\sprite.frag" />
     <None Include="Content\Resources\Shaders\sprite.vert" />
     <None Include="Content\Resources\Shaders\text.frag" />
     <None Include="Content\Resources\Shaders\text.vert" />
+    <None Include="Content\Resources\Shaders\Wave\water.frag" />
+    <None Include="Content\Resources\Shaders\Wave\water.tese" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -4,19 +4,19 @@
 
 using namespace clt;
 
-LevelManager::LevelManager(std::vector<Level*>& pLevels, RendererGL* pRenderer, Physics* pPhysics) : mActualLevel(pLevels[0]), mLevels({})
+LevelManager::LevelManager(std::vector<Level*>& pLevels, RendererGL* pRenderer, Physics* pPhysics) : mCurrentLevel(pLevels[0]), mLevels({})
 {
 	for (Level* level : pLevels)
 	{
 		level->SetManager(pRenderer, pPhysics, this);
 		mLevels.emplace(level->mTitle, level);
 	}
-	mActualLevel->Load();
+	mCurrentLevel->Load();
 }
 
 LevelManager::~LevelManager()
 {
-	mActualLevel->Close();
+	mCurrentLevel->Close();
 
     for (auto& pair : mLevels)
     {
@@ -29,14 +29,14 @@ void LevelManager::Update()
 {
 	if (mLevelToLoad)
 	{
-		mActualLevel->Unload();
-		mActualLevel = mLevelToLoad;
-		mActualLevel->Load();
+		mCurrentLevel->Unload();
+		mCurrentLevel = mLevelToLoad;
+		mCurrentLevel->Load();
 
 		mLevelToLoad = nullptr;
 	}
 
-	if(mActualLevel)	mActualLevel->InternalUpdate();
+	if(mCurrentLevel)	mCurrentLevel->InternalUpdate();
 }
 
 void LevelManager::LoadLevel(const std::string& levelName)

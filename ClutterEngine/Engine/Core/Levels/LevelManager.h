@@ -15,7 +15,7 @@ namespace clt
 		std::unordered_map<std::string, Level*> mLevels;
 		
 		/// Pointer to the currently active level.
-		Level* mActualLevel;
+		Level* mCurrentLevel;
 		Level* mLevelToLoad;
 
 	public:
@@ -36,5 +36,8 @@ namespace clt
 		void Update();
 
 		void LoadLevel(const std::string& levelName);
+
+		Level* GetCurrentLevel() const { return mCurrentLevel; };
+		std::string GetCurrentLevelName() const { return mCurrentLevel->mTitle; };
 	};
 }

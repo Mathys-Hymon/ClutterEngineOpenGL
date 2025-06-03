@@ -5,8 +5,10 @@ namespace clt
 {
 	class CLUTTER_API EditorController : public PlayerController
 	{
+		Vector2 mWorldRotation;
+
 	public:
-		EditorController();
+		EditorController(float pMouseSpeed = 1);
 		~EditorController() = default;
 
 		/**

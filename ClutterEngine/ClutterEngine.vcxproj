@@ -240,6 +240,7 @@
     </ClInclude>
     <ClInclude Include="Engine\Application\Application.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Actor.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\ChildActors\EditorCamera.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Component.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\2D\AABBCollider.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Movements\EditorController.h" />
@@ -311,6 +312,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\ActorComponent\ChildActors\CubeActor.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\ChildActors\EditorCamera.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\SphereCollider.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\CameraController.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\EditorController.cpp" />

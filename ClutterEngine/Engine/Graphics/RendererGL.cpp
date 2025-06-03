@@ -5,6 +5,7 @@
 #include <Graphics/UI/WidgetElement.h>
 #include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
 #include <Core/Debug/DebugDraw.h>
+#include <Core/ActorComponent/ChildActors/EditorCamera.h>
 #include <Core/CEngine.h>
 #include <GLFW/glfw3.h>
 
@@ -187,7 +188,10 @@ void RendererGL::Draw()
     Matrix4Row viewProj;
 
     if (camera)  viewProj = camera->GetViewProjMatrices();
-    else  CLUTTER_WARNING("No main camera active !");
+    else
+    {
+        mEngine->GetLevelManager()->GetCurrentLevel()->AddActor<EditorCamera>();
+    }
 
     for (MeshComponent* comp : mMeshComponents)
     {
