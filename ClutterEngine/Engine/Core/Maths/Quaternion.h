@@ -3,223 +3,147 @@
 #include <Core/Maths/Maths.h>
 #include <Core/Maths/Vectors/Vector3.h>
 
-/**
- * @brief Represents a quaternion for 3D rotations.
- */
 struct CLUTTER_API Quaternion
 {
-    float x; ///< X component
-    float y; ///< Y component
-    float z; ///< Z component
-    float w; ///< W component (scalar part)
+	float x;
+	float y;
+	float z;
+	float w;
 
-    /**
-     * @brief Default constructor. Initializes to identity quaternion.
-     */
-    Quaternion()
-    {
-        *this = Quaternion::Identity;
-    }
+	Quaternion()
+	{
+		*this = Quaternion::Identity;
+	}
 
-    /**
-     * @brief Directly sets the quaternion components.
-     * @param inX X component
-     * @param inY Y component
-     * @param inZ Z component
-     * @param inW W component
-     * @note Do not use for axis/angle construction.
-     */
-    Quaternion(float inX, float inY, float inZ, float inW);
+	// This directly sets the quaternion components --
+	// don't use for axis/angle
+	Quaternion(float inX, float inY, float inZ, float inW);
 
-    /**
-     * @brief Constructs the quaternion from an axis and angle.
-     * @param axis Normalized axis of rotation
-     * @param angle Angle in radians
-     */
-    Quaternion(const Vector3& axis, float angle);
+	// Construct the quaternion from an axis and angle
+	// It is assumed that axis is already normalized,
+	// and the angle is in radians
+	Quaternion(const Vector3& axis, float angle);
 
-    /**
-     * @brief Sets all components to the same value.
-     * @param inAll Value for all components
-     */
-    Quaternion(float inAll);
+	Quaternion(float inAll);
 
-    /**
-     * @brief Sets the quaternion components.
-     * @param inX X component
-     * @param inY Y component
-     * @param inZ Z component
-     * @param inW W component
-     */
-    void Set(float inX, float inY, float inZ, float inW);
+	void Set(float inX, float inY, float inZ, float inW);
+	void Conjugate();
+	void Normalize();
 
-    /**
-     * @brief Conjugates the quaternion.
-     */
-    void Conjugate();
+	float LengthSqr() const
+	{
+		return (x * x + y * y + z * z + w * w);
+	}
 
-    /**
-     * @brief Normalizes the quaternion in place.
-     */
-    void Normalize();
+	float Length() const
+	{
+		return Maths::Sqrt(LengthSqr());
+	}
 
-    /**
-     * @brief Returns the squared length of the quaternion.
-     * @return Squared length
-     */
-    float LengthSqr() const
-    {
-        return (x * x + y * y + z * z + w * w);
-    }
+	Quaternion Normalized() const
+	{
+		float length = sqrt(x * x + y * y + z * z + w * w);
+		return { x / length, y / length, z / length, w / length };
+	}
 
-    /**
-     * @brief Returns the length (magnitude) of the quaternion.
-     * @return Length
-     */
-    float Length() const
-    {
-        return Maths::Sqrt(LengthSqr());
-    }
+	Quaternion Inverse() const
+	{
+		float normSq = x * x + y * y + z * z + w * w;
+		if (normSq == 0.0f) return Quaternion(0, 0, 0, 1);
 
-    /**
-     * @brief Returns a normalized copy of the quaternion.
-     * @return Normalized quaternion
-     */
-    Quaternion Normalized() const
-    {
-        float length = sqrt(x * x + y * y + z * z + w * w);
-        return { x / length, y / length, z / length, w / length };
-    }
+		return Quaternion(-x / normSq, -y / normSq, -z / normSq, w / normSq);
+	}
 
-    /**
-     * @brief Returns the inverse of the quaternion.
-     * @return Inverse quaternion
-     */
-    Quaternion Inverse() const
-    {
-        float normSq = x * x + y * y + z * z + w * w;
-        if (normSq == 0.0f) return Quaternion(0, 0, 0, 1);
+	// Normalize the provided quaternion
+	static Quaternion Normalize(const Quaternion& q)
+	{
+		Quaternion retVal = q;
+		retVal.Normalize();
+		return retVal;
+	}
 
-        return Quaternion(-x / normSq, -y / normSq, -z / normSq, w / normSq);
-    }
+	// Linear interpolation
+	static Quaternion Lerp(const Quaternion& a, const Quaternion& b, float f)
+	{
+		Quaternion retVal;
+		retVal.x = Maths::Lerp(a.x, b.x, f);
+		retVal.y = Maths::Lerp(a.y, b.y, f);
+		retVal.z = Maths::Lerp(a.z, b.z, f);
+		retVal.w = Maths::Lerp(a.w, b.w, f);
+		retVal.Normalize();
+		return retVal;
+	}
 
-    /**
-     * @brief Returns a normalized copy of the provided quaternion.
-     * @param q Quaternion to normalize
-     * @return Normalized quaternion
-     */
-    static Quaternion Normalize(const Quaternion& q)
-    {
-        Quaternion retVal = q;
-        retVal.Normalize();
-        return retVal;
-    }
+	static float Dot(const Quaternion& a, const Quaternion& b)
+	{
+		return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
+	}
 
-    /**
-     * @brief Linearly interpolates between two quaternions.
-     * @param a Start quaternion
-     * @param b End quaternion
-     * @param f Interpolation factor [0, 1]
-     * @return Interpolated quaternion
-     */
-    static Quaternion Lerp(const Quaternion& a, const Quaternion& b, float f)
-    {
-        Quaternion retVal;
-        retVal.x = Maths::Lerp(a.x, b.x, f);
-        retVal.y = Maths::Lerp(a.y, b.y, f);
-        retVal.z = Maths::Lerp(a.z, b.z, f);
-        retVal.w = Maths::Lerp(a.w, b.w, f);
-        retVal.Normalize();
-        return retVal;
-    }
 
-    /**
-     * @brief Computes the dot product of two quaternions.
-     * @param a First quaternion
-     * @param b Second quaternion
-     * @return Dot product
-     */
-    static float Dot(const Quaternion& a, const Quaternion& b)
-    {
-        return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
-    }
+	// Spherical Linear Interpolation
+	static Quaternion Slerp(const Quaternion& a, const Quaternion& b, float f)
+	{
+		float rawCosm = Quaternion::Dot(a, b);
 
-    /**
-     * @brief Spherical linear interpolation between two quaternions.
-     * @param a Start quaternion
-     * @param b End quaternion
-     * @param f Interpolation factor [0, 1]
-     * @return Interpolated quaternion
-     */
-    static Quaternion Slerp(const Quaternion& a, const Quaternion& b, float f)
-    {
-        float rawCosm = Quaternion::Dot(a, b);
+		float cosom = -rawCosm;
+		if (rawCosm >= 0.0f)
+		{
+			cosom = rawCosm;
+		}
 
-        float cosom = -rawCosm;
-        if (rawCosm >= 0.0f)
-        {
-            cosom = rawCosm;
-        }
+		float scale0, scale1;
 
-        float scale0, scale1;
+		if (cosom < 0.9999f)
+		{
+			const float omega = Maths::ACos(cosom);
+			const float invSin = 1.f / Maths::Sin(omega);
+			scale0 = Maths::Sin((1.f - f) * omega) * invSin;
+			scale1 = Maths::Sin(f * omega) * invSin;
+		}
+		else
+		{
+			// Use linear interpolation if the quaternions
+			// are collinear
+			scale0 = 1.0f - f;
+			scale1 = f;
+		}
 
-        if (cosom < 0.9999f)
-        {
-            const float omega = Maths::ACos(cosom);
-            const float invSin = 1.f / Maths::Sin(omega);
-            scale0 = Maths::Sin((1.f - f) * omega) * invSin;
-            scale1 = Maths::Sin(f * omega) * invSin;
-        }
-        else
-        {
-            // Use linear interpolation if the quaternions are collinear
-            scale0 = 1.0f - f;
-            scale1 = f;
-        }
+		if (rawCosm < 0.0f)
+		{
+			scale1 = -scale1;
+		}
 
-        if (rawCosm < 0.0f)
-        {
-            scale1 = -scale1;
-        }
+		Quaternion retVal;
+		retVal.x = scale0 * a.x + scale1 * b.x;
+		retVal.y = scale0 * a.y + scale1 * b.y;
+		retVal.z = scale0 * a.z + scale1 * b.z;
+		retVal.w = scale0 * a.w + scale1 * b.w;
+		retVal.Normalize();
+		return retVal;
+	}
 
-        Quaternion retVal;
-        retVal.x = scale0 * a.x + scale1 * b.x;
-        retVal.y = scale0 * a.y + scale1 * b.y;
-        retVal.z = scale0 * a.z + scale1 * b.z;
-        retVal.w = scale0 * a.w + scale1 * b.w;
-        retVal.Normalize();
-        return retVal;
-    }
+	// Concatenate
+	// Rotate by q FOLLOWED BY p
+	static Quaternion Concatenate(const Quaternion& q, const Quaternion& p)
+	{
+		Quaternion retVal;
 
-    /**
-     * @brief Concatenates two quaternions (applies q, then p).
-     * @param q First quaternion
-     * @param p Second quaternion
-     * @return Concatenated quaternion
-     */
-    static Quaternion Concatenate(const Quaternion& q, const Quaternion& p)
-    {
-        Quaternion retVal;
+		// Vector component is:
+		// ps * qv + qs * pv + pv x qv
+		Vector3 qv(q.x, q.y, q.z);
+		Vector3 pv(p.x, p.y, p.z);
+		Vector3 newVec = p.w * qv + q.w * pv + Vector3::Cross(pv, qv);
+		retVal.x = newVec.x;
+		retVal.y = newVec.y;
+		retVal.z = newVec.z;
 
-        // Vector component is: ps * qv + qs * pv + pv x qv
-        Vector3 qv(q.x, q.y, q.z);
-        Vector3 pv(p.x, p.y, p.z);
-        Vector3 newVec = p.w * qv + q.w * pv + Vector3::Cross(pv, qv);
-        retVal.x = newVec.x;
-        retVal.y = newVec.y;
-        retVal.z = newVec.z;
+		// Scalar component is:
+		// ps * qs - pv . qv
+		retVal.w = p.w * q.w - Vector3::Dot(pv, qv);
 
-        // Scalar component is: ps * qs - pv . qv
-        retVal.w = p.w * q.w - Vector3::Dot(pv, qv);
+		return retVal;
+	}
 
-        return retVal;
-    }
-
-    /**
-     * @brief Creates a quaternion from Euler angles (in degrees).
-     * @param axis Euler angles (degrees) for x, y, z
-     * @return Quaternion representing the rotation
-     */
     static Quaternion FromEuler(const Vector3& axis) {
 
         float angleRadiansX = 0.0f;
@@ -255,138 +179,114 @@ struct CLUTTER_API Quaternion
             sinHalfAngleZ = sinf(halfAngleZ);
         }
 
-        if (axis.Length() > 0)
-        {
-            Vector3 normalizedAxis = Vector3::Normalize(axis);
-            return Quaternion(
-                normalizedAxis.x * sinHalfAngleX,
-                normalizedAxis.y * sinHalfAngleY,
-                normalizedAxis.z * sinHalfAngleZ,
-                cosf(halfAngleX + halfAngleY + halfAngleZ)
-            );
-        }
-        else
-        {
-            return Quaternion::Identity;
-        }
+		if (axis.Length() > 0)
+		{
+			Vector3 normalizedAxis = Vector3::Normalize(axis);
+			return Quaternion(
+				normalizedAxis.x * sinHalfAngleX,
+				normalizedAxis.y * sinHalfAngleY,
+				normalizedAxis.z * sinHalfAngleZ,
+				cosf(halfAngleX + halfAngleY + halfAngleZ)
+			);
+		}
+		else
+		{
+			return Quaternion::Identity;
+		}
+
     }
 
-    /**
-     * @brief Creates a quaternion that rotates from sourcePoint to targetPoint.
-     * @param sourcePoint Source position
-     * @param targetPoint Target position
-     * @param up Up direction (default: Vector3::Up)
-     * @return Look-at quaternion
-     */
-    static Quaternion LookAt(const Vector3& sourcePoint, const Vector3& targetPoint, const Vector3& up = Vector3::Up)
-    {
-        Vector3 forward = sourcePoint - targetPoint;
 
-        if (forward.LengthSq() < 0.0001f)
-        {
-            return Quaternion::Identity;
-        }
+	static Quaternion LookAt(const Vector3& sourcePoint, const Vector3& targetPoint, const Vector3& up = Vector3::Up)
+	{
+		Vector3 forward = sourcePoint - targetPoint;
 
-        forward = Vector3::Normalize(forward);
+		if (forward.LengthSq() < 0.0001f)
+		{
+			return Quaternion::Identity;
+		}
 
-        float dot = Vector3::Dot(forward, up);
-        if (abs(abs(dot) - 1.0f) < 0.000001f)
-        {
-            Vector3 altUp = (abs(forward.z) < 0.9f) ? Vector3::Forward : Vector3::Right;
-            return LookAt(sourcePoint, targetPoint, altUp);
-        }
+		forward = Vector3::Normalize(forward);
 
-        Vector3 right = Vector3::Normalize(Vector3::Cross(up, forward));
+		float dot = Vector3::Dot(forward, up);
+		if (abs(abs(dot) - 1.0f) < 0.000001f)
+		{
+			Vector3 altUp = (abs(forward.z) < 0.9f) ? Vector3::Forward : Vector3::Right;
+			return LookAt(sourcePoint, targetPoint, altUp);
+		}
 
-        Vector3 orthogonalUp = Vector3::Cross(forward, right);
+		Vector3 right = Vector3::Normalize(Vector3::Cross(up, forward));
 
-        float m[9] = {
-            right.x, right.y, right.z,
-            orthogonalUp.x, orthogonalUp.y, orthogonalUp.z,
-            forward.x, forward.y, forward.z
-        };
+		Vector3 orthogonalUp = Vector3::Cross(forward, right);
 
-        float trace = m[0] + m[4] + m[8];
-        Quaternion result;
+		float m[9] = {
+			right.x, right.y, right.z,
+			orthogonalUp.x, orthogonalUp.y, orthogonalUp.z,
+			forward.x, forward.y, forward.z
+		};
 
-        if (trace > 0.0f)
-        {
-            float s = 0.5f / Maths::Sqrt(trace + 1.0f);
-            result.w = 0.25f / s;
-            result.x = (m[5] - m[7]) * s;
-            result.y = (m[6] - m[2]) * s;
-            result.z = (m[1] - m[3]) * s;
-        }
-        else if (m[0] > m[4] && m[0] > m[8])
-        {
-            float s = 2.0f * Maths::Sqrt(1.0f + m[0] - m[4] - m[8]);
-            result.w = (m[5] - m[7]) / s;
-            result.x = 0.25f * s;
-            result.y = (m[1] + m[3]) / s;
-            result.z = (m[6] + m[2]) / s;
-        }
-        else if (m[4] > m[8])
-        {
-            float s = 2.0f * Maths::Sqrt(1.0f + m[4] - m[0] - m[8]);
-            result.w = (m[6] - m[2]) / s;
-            result.x = (m[1] + m[3]) / s;
-            result.y = 0.25f * s;
-            result.z = (m[5] + m[7]) / s;
-        }
-        else
-        {
-            float s = 2.0f * Maths::Sqrt(1.0f + m[8] - m[0] - m[4]);
-            result.w = (m[1] - m[3]) / s;
-            result.x = (m[6] + m[2]) / s;
-            result.y = (m[5] + m[7]) / s;
-            result.z = 0.25f * s;
-        }
+		float trace = m[0] + m[4] + m[8];
+		Quaternion result;
 
-        return result.Normalized();
-    }
+		if (trace > 0.0f)
+		{
+			float s = 0.5f / Maths::Sqrt(trace + 1.0f);
+			result.w = 0.25f / s;
+			result.x = (m[5] - m[7]) * s;
+			result.y = (m[6] - m[2]) * s;
+			result.z = (m[1] - m[3]) * s;
+		}
+		else if (m[0] > m[4] && m[0] > m[8])
+		{
+			float s = 2.0f * Maths::Sqrt(1.0f + m[0] - m[4] - m[8]);
+			result.w = (m[5] - m[7]) / s;
+			result.x = 0.25f * s;
+			result.y = (m[1] + m[3]) / s;
+			result.z = (m[6] + m[2]) / s;
+		}
+		else if (m[4] > m[8])
+		{
+			float s = 2.0f * Maths::Sqrt(1.0f + m[4] - m[0] - m[8]);
+			result.w = (m[6] - m[2]) / s;
+			result.x = (m[1] + m[3]) / s;
+			result.y = 0.25f * s;
+			result.z = (m[5] + m[7]) / s;
+		}
+		else
+		{
+			float s = 2.0f * Maths::Sqrt(1.0f + m[8] - m[0] - m[4]);
+			result.w = (m[1] - m[3]) / s;
+			result.x = (m[6] + m[2]) / s;
+			result.y = (m[5] + m[7]) / s;
+			result.z = 0.25f * s;
+		}
 
-    /**
-     * @brief Converts the quaternion to Euler angles (pitch, yaw, roll).
-     * @return Euler angles as a Vector3 (pitch, yaw, roll)
-     */
-    Vector3 QuaternionToEuler() const
-    {
-        float pitch = std::atan2(2.0f * (w * x + y * z),
-            1.0f - 2.0f * (x * x + y * y));
-        float yaw = std::asin(2.0f * (w * y - z * x));
-        float roll = std::atan2(2.0f * (w * z + x * y),
-            1.0f - 2.0f * (y * y + z * z));
+		return result.Normalized();
+	}
 
-        return Vector3(pitch, yaw, roll);
-    }
+	Vector3 QuaternionToEuler() const
+	{
+		float pitch = std::atan2(2.0f * (w * x + y * z),
+			1.0f - 2.0f * (x * x + y * y));
+		float yaw = std::asin(2.0f * (w * y - z * x));
+		float roll = std::atan2(2.0f * (w * z + x * y),
+			1.0f - 2.0f * ( y * y + z * z));
 
-    /**
-     * @brief Returns a string representation of the quaternion.
-     * @return String in the format "Rotation: (x, y, z, w)"
-     */
-    inline std::string ToString()
-    {
-        return "Rotation: ("
-            + std::to_string(x) + ", "
-            + std::to_string(y) + ", "
-            + std::to_string(z) + ", "
-            + std::to_string(w) + ")";
-    }
+		return Vector3(pitch, yaw, roll);
+	}
 
-    /**
-     * @brief Converts the quaternion to a 4x4 rotation matrix.
-     * @return Matrix4 representing the rotation
-     */
-    class Matrix4 AsMatrix() const;
+	inline std::string ToString()
+	{
+		return "Rotation: ("
+			+ std::to_string(x) + ", "
+			+ std::to_string(y) + ", "
+			+ std::to_string(z) + ", "
+			+ std::to_string(w) + ")";
+	}
 
-    /**
-     * @brief Converts the quaternion to a 4x4 row-major rotation matrix.
-     * @return Matrix4Row representing the rotation
-     */
-    class Matrix4Row AsMatrixRow() const;
+	class Matrix4 AsMatrix() const;
 
-    /**
-     * @brief The identity quaternion (no rotation).
-     */
-    static const Quaternion Identity;
+	class Matrix4Row AsMatrixRow() const;
+
+	static const Quaternion Identity;
 };
