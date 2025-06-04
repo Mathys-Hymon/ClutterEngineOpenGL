@@ -272,17 +272,11 @@ Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, std::
     Mesh* mesh = LoadMeshFromFile(pPath, pTesselate);
 
     if(mesh) mMeshes[name] = mesh;
-    if(!mesh->GetTexture(0) && pTextures.empty()) mesh->AddTexture(GetTexture("default"));
-
-    for (Texture* tex : pTextures)
-    {
-        mesh->AddTexture(tex);
-    }
 
     return mesh;
 }
 
-Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, Material* pMaterial, std::vector<Texture*> pTextures, bool pTesselate)
+Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, Material* pMaterial, bool pTesselate)
 {
     std::string name = pName;
     if (pTesselate) name = pName + "_tess";
@@ -296,12 +290,6 @@ Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, Mater
     Mesh* mesh = LoadMeshFromFile(pPath, pMaterial, pTesselate);
 
     if (mesh) mMeshes[name] = mesh;
-    if (!mesh->GetTexture(0) && pTextures.empty()) mesh->AddTexture(GetTexture("default"));
-
-    for (Texture* tex : pTextures)
-    {
-        mesh->AddTexture(tex);
-    }
 
     return mesh;
 }

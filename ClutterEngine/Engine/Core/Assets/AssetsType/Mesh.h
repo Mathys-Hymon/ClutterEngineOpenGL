@@ -18,7 +18,6 @@ namespace clt
 	{
 		Material* mMaterial;
 
-		std::vector<Texture*> mTextures;
 		Vector2 mTextureTiling = { 1,1 };
 
 		VertexArray* mVAO;
@@ -40,20 +39,20 @@ namespace clt
 
 		void Unload();
 
-		Texture* GetTexture(int pTextureIndex);
+		Texture* GetTexture(std::string& const pTextureName);
 
-		bool HasTexture(Texture* pTextureIndex)
+		bool HasTexture(Texture* pTexture)
 		{
-			mMaterial->HasTexture(pTextureIndex);
+			mMaterial->HasTexture(pTexture);
 		}
 
 		VertexArray& GetVAO() { return *mVAO; }
 		Material& GetMaterial() { return *mMaterial; }
 
-		void AddTexture(Texture* pTexture);
+		void AddTexture(std::string name, Texture* pTexture);
 
-		void SetTexture(Texture* texture,size_t& index);
-		void SetTexture(std::string& texture, size_t& index);
+		void SetTexture(std::string& textureName, Texture* texture);
+		void SetTexture(std::string& textureName, std::string& texture);
 
 		void SetTextureTiling(Vector2 tiling) { mTextureTiling = tiling; };
 		Vector2 GetTextureTiling() const { return mTextureTiling; };

@@ -51,7 +51,7 @@ namespace clt
 		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, std::vector<Texture*> pTextures = {}, bool pTesselate = false);
 		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, const std::string& pTexture, bool pTesselate = false);
 		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, bool pTesselate);
-		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, Material* pMaterial, std::vector<Texture*> pTextures, bool pTesselate = false);
+		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, Material* pMaterial, bool pTesselate = false);
 		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, Material* pMaterial, bool pTesselate = false);
 
 		Font* LoadFont(const std::string& pPath, const std::string& pName, GLuint pFontSize = 128);
