@@ -3,10 +3,15 @@
 
 struct CLUTTER_API Vector4
 {
-	float x;
-	float y;
-	float z;
-	float w;
+	float x = 0;
+	float y = 0;
+	float z = 0;
+	float w = 0;
+
+	static const Vector4 Zero;
+	static const Vector4 One;
+	static const Vector4 Infinity;
+	static const Vector4 NegInfinity;
 
 	Vector4()
 		:x(0.0f)

@@ -320,6 +320,7 @@
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\EditorController.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\FpsController.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\PlayerController.cpp" />
+    <ClCompile Include="Engine\Core\Assets\AssetsType\Material.cpp" />
     <ClCompile Include="Engine\Core\Debug\DebugDraw.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\OBBCollider.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\ColliderComponent.cpp" />

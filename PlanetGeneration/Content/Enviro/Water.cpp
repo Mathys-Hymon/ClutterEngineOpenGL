@@ -17,5 +17,5 @@ Water::Water(clt::Level* pLevel, std::string pName) : clt::Actor(pLevel, pName)
 
 	
 
-	AddComponent<clt::MeshComponent>(clt::Assets::Get().LoadMesh("Content/Resources/Mesh/plane.obj", "waterPlane", waterShader, true));
+	AddComponent<clt::MeshComponent>(clt::Assets::Get().LoadMesh("Content/Resources/Mesh/plane.obj", "waterPlane"));
 }

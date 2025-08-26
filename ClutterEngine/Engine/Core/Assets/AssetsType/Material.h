@@ -23,7 +23,10 @@ namespace clt
 		std::unordered_map<std::string, Matrix4Row> mMat4RowUniforms;
 
 	public :
-		Material(ShaderProgram* shader) : mShader(shader) {};
+		Material() = default;
+		Material(ShaderProgram* shaderProgram) : mShader(shaderProgram) {};
+		Material(ShaderProgram* shaderProgram, std::vector<Shader*> shaders);
+
 		~Material() = default;
 
 		void SetFloat(const std::string& name, float value) { mFloatUniforms[name] = value; }
@@ -37,44 +40,10 @@ namespace clt
 		void SetMat3(const std::string& name, const glm::mat3& value) { mMat3Uniforms[name] = value; };
 		void SetMat4(const std::string& name, const Matrix4& value) { mMat4Uniforms[name] = value; };
 		void SetMat4Row(const std::string& name, const Matrix4Row& value) { mMat4RowUniforms[name] = value; };
-		void SetShader(ShaderProgram* shader) { mShader = shader; }
+		void SetShader(ShaderProgram* shaderProgram) { mShader = shaderProgram; }
+		void SetShader(ShaderProgram* shaderProgram, std::vector<Shader*> shaders);
 
-		void Use()
-		{
-			if (!mShader) return;
-			mShader->Use();
-
-			for (const auto& [name, value] : mFloatUniforms)
-				mShader->SetFloat(name.c_str(), value);
-
-			for (const auto& [name, value] : mIntUniforms)
-				mShader->SetInt(name.c_str(), value);
-
-			for (const auto& [name, value] : mVec2Uniforms)
-				mShader->SetVec2f(name.c_str(), value);
-
-			for (const auto& [name, value] : mVec3Uniforms)
-				mShader->SetVec3f(name.c_str(), value);
-
-			for (const auto& [name, value] : mVec4Uniforms)
-				mShader->SetVec4f(name.c_str(), value);
-
-			for (const auto& [name, color] : mColorUniforms)
-				mShader->SetVec3f(name.c_str(), color);
-
-			int textureUnit = 0;
-			for (const auto& [name, texture] : mTextureUniforms)
-			{
-				if (texture)
-				{
-					texture->Bind(textureUnit);
-					mShader->SetInt(name.c_str(), textureUnit);
-					textureUnit++;
-				}
-			}
-
-			glActiveTexture(GL_TEXTURE0);
-		}
+		void Use();
 
 		ShaderProgram* GetShader() const { return mShader; }
 
@@ -96,28 +65,28 @@ namespace clt
 		bool HasVec2(const std::string& name) const { return mVec2Uniforms.find(name) != mVec2Uniforms.end(); }
 		Vector2 GetVec2(const std::string& name) const {
 			auto it = mVec2Uniforms.find(name);
-			return it != mVec2Uniforms.end() ? it->second : Vector2{};
+			return it != mVec2Uniforms.end() ? it->second : Vector2::Zero;
 		}
 
 		const std::unordered_map<std::string, Vector3>& GetVec3Uniforms() const { return mVec3Uniforms; }
 		bool HasVec3(const std::string& name) const { return mVec3Uniforms.find(name) != mVec3Uniforms.end(); }
 		Vector3 GetVec3(const std::string& name) const {
 			auto it = mVec3Uniforms.find(name);
-			return it != mVec3Uniforms.end() ? it->second : Vector3{};
+			return it != mVec3Uniforms.end() ? it->second : Vector3::Zero;
 		}
 
 		const std::unordered_map<std::string, Vector4>& GetVec4Uniforms() const { return mVec4Uniforms; }
 		bool HasVec4(const std::string& name) const { return mVec4Uniforms.find(name) != mVec4Uniforms.end(); }
 		Vector4 GetVec4(const std::string& name) const {
 			auto it = mVec4Uniforms.find(name);
-			return it != mVec4Uniforms.end() ? it->second : Vector4{};
+			return it != mVec4Uniforms.end() ? it->second : Vector4::Zero;
 		}
 
 		const std::unordered_map<std::string, Color>& GetColorUniforms() const { return mColorUniforms; }
 		bool HasColor(const std::string& name) const { return mColorUniforms.find(name) != mColorUniforms.end(); }
 		Color GetColor(const std::string& name) const {
 			auto it = mColorUniforms.find(name);
-			return it != mColorUniforms.end() ? it->second : Color{};
+			return it != mColorUniforms.end() ? it->second : Color::Black;
 		}
 
 		const std::unordered_map<std::string, Texture*>& GetTextureUniforms() const { return mTextureUniforms; }

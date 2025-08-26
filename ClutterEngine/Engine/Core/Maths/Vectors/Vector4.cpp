@@ -3,6 +3,12 @@
 #include <Core/Maths/Matrix/Matrix4Row.h>
 #include <Core/Maths/Maths.h>
 
+const Vector4 Vector4::Zero(0.0f, 0.0f, 0.0f, 0.0f);
+const Vector4 Vector4::One(1.0f, 1.0f, 1.0f, 1.0f);
+             
+const Vector4 Vector4::Infinity(Maths::INFINITY_POS, Maths::INFINITY_POS, Maths::INFINITY_POS, Maths::INFINITY_POS);
+const Vector4 Vector4::NegInfinity(Maths::INFINITY_NEG, Maths::INFINITY_NEG, Maths::INFINITY_NEG, Maths::INFINITY_NEG);
+
 float Vector4::LengthSqr() const
 {
     return (x * x + y * y + z * z + w * w);

@@ -30,7 +30,7 @@ Mesh::Mesh(const float* pVertices, u32 pVerticeCount, bool tesselate)
         Assets::Get().LoadShader(tesselate ? meshFragPathTes : meshFragPath, ShaderType::FRAGMENT), 
         });
 
-    mMaterial->SetShader(tempShader);
+    mMaterial = new Material(tempShader);
     mVAO = new VertexArray(pVertices, pVerticeCount);
 }
 
@@ -68,7 +68,7 @@ Mesh::Mesh(std::vector<Vertex> pVertices, bool tesselate) : mVertices(std::move(
         Assets::Get().LoadShader(tesselate ? meshFragPathTes : meshFragPath, ShaderType::FRAGMENT),
         });
 
-    mMaterial->SetShader(tempShader);
+    mMaterial = new Material(tempShader);
 	mVAO = new VertexArray(ToVerticeArray(), mVertices.size());
 }
 

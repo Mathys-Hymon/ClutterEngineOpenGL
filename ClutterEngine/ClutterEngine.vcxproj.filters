@@ -413,6 +413,9 @@
     <ClCompile Include="Engine\Core\ActorComponent\ChildActors\EditorCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Core\Assets\AssetsType\Material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineContent\Resources\Shader\Mesh\basicTess.frag" />
