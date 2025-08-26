@@ -48,15 +48,12 @@ void Material::Use()
 	for (const auto& [name, mat4] : mMat4Uniforms)
 		mShader->SetMat4(name.c_str(), mat4);
 
-	int textureUnit = 0;
 
 	for (const auto& [name, texture] : mTextureUniforms)
 	{
 		if (texture)
 		{
-			texture->Bind(textureUnit);
-			//mShader->SetInt(name.c_str(), textureUnit);
-			textureUnit++;
+			texture->Bind(0);
 		}
 	}
 }
