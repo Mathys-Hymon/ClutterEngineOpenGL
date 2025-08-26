@@ -126,6 +126,7 @@ namespace clt
 			auto it = mTextureUniforms.find(name);
 			return it != mTextureUniforms.end() ? it->second : nullptr;
 		}
+
 		bool HasTexture(Texture* texture) const
 		{
 			if (!texture) return false;

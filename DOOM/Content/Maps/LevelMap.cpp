@@ -45,7 +45,7 @@ void LevelMap::Load()
 	wallMesh = AddActor<clt::CubeActor>("wall", false);
 	wallMesh->SetActorScale({ 10,2,1 });
 
-	wallMesh->GetComponentOfType<clt::MeshComponent>()->SetTexture(clt::Assets::Get().GetTexture("wall"), {10, 75});
+	wallMesh->GetComponentOfType<clt::MeshComponent>()->SetTexture("baseColor", clt::Assets::Get().GetTexture("wall"), { 10, 75 });
 	wallMesh->SetActorLocation({ 2,0, -15 });
 
 	zombie2 = AddActor<Zombie>("zombie2");
@@ -59,13 +59,13 @@ void LevelMap::Load()
 	wall2 = AddActor<clt::CubeActor>("wall2", false);
 	wall2->SetActorScale({ 0.1,2,20 });
 
-	wall2->GetComponentOfType<clt::MeshComponent>()->SetTexture(clt::Assets::Get().GetTexture("wall"), { 10, 75 });
+	wall2->GetComponentOfType<clt::MeshComponent>()->SetTexture("baseColor", clt::Assets::Get().GetTexture("wall"), { 10, 75 });
 	wall2->SetActorLocation({ -8,0, -10 });
 
 	wall3 = AddActor<clt::CubeActor>("wall3", false);
 	wall3->SetActorScale({ 0.1,2,20 });
 
-	wall3->GetComponentOfType<clt::MeshComponent>()->SetTexture(clt::Assets::Get().GetTexture("wall"), { 10, 75 });
+	wall3->GetComponentOfType<clt::MeshComponent>()->SetTexture("baseColor", clt::Assets::Get().GetTexture("wall"), { 10, 75 });
 	wall3->SetActorLocation({ 8,0, -10 });
 
 

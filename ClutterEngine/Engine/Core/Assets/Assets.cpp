@@ -294,24 +294,6 @@ Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, Mater
     return mesh;
 }
 
-Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, Material* pMaterial, bool pTesselate)
-{
-    std::string name = pName;
-    if (pTesselate) name = pName + "_tess";
-
-    if (mMeshes.find(name) != mMeshes.end())
-    {
-        CLUTTER_LOG(("An instance of " + pName + " already exists and is returned.").c_str());
-        return GetMesh(name);
-    }
-
-    Mesh* mesh = LoadMeshFromFile(pPath, pMaterial, pTesselate);
-
-    if (mesh) mMeshes[name] = mesh;
-
-    return mesh;
-}
-
 Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, const std::string& pTexture, bool pTesselate)
 {
     std::string name = pName;
@@ -327,9 +309,8 @@ Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, const
     Mesh* mesh = LoadMeshFromFile(pPath, pTesselate);
 
     if (mesh) mMeshes[name] = mesh;
-    if (!mesh->GetTexture(0) && pTexture.empty()) mesh->AddTexture(GetTexture("default"));
-
-        mesh->AddTexture(GetTexture(pTexture));
+    if (!mesh->GetMaterial().GetTexture("BaseColor") && pTexture.empty()) mesh->GetMaterial().SetTexture("BaseColor", GetTexture("default"));
+    else mesh->GetMaterial().SetTexture("BaseColor", GetTexture(pTexture));
 
     return mesh;
 }
@@ -337,7 +318,7 @@ Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, const
 Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, bool pTesselate)
 {
     std::string name = pName;
-    if(pTesselate) name = pName + "_tess";
+    if (pTesselate) name = pName + "_tess";
 
     if (mMeshes.find(name) != mMeshes.end()) return mMeshes[name];
 

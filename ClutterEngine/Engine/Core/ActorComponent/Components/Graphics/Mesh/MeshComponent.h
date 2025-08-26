@@ -9,9 +9,6 @@ namespace clt
 	protected:
 		Mesh* mMesh;
 
-		Texture* mTexture;
-		Vector2 mTextureTiling;
-
 		bool mTesselate;
 
 	public:
@@ -26,8 +23,8 @@ namespace clt
 		virtual void SetMesh(Mesh& pMesh) { mMesh = &pMesh; };
 		Mesh* GetMesh() const { return mMesh; };
 
-		void SetTexture(Texture* texture, Vector2 tiling = {5,5});
-		void SetTexture(std::string& texture, Vector2 tiling = { 5,5 });
+		void SetTexture(std::string textureName, Texture* texture, Vector2 tiling = { 5,5 });
+		void SetTexture(std::string textureName, std::string& texture, Vector2 tiling = { 5,5 });
 
 	};
 }

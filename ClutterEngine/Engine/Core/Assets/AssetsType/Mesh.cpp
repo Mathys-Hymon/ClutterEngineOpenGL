@@ -80,7 +80,7 @@ void Mesh::Unload()
 
 Texture* Mesh::GetTexture(std::string& const pTextureName)
 {
-    mMaterial->GetTexture(pTextureName);
+    return mMaterial->GetTexture(pTextureName);
 }
 
 float* Mesh::ToVerticeArray()

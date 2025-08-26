@@ -43,7 +43,7 @@ namespace clt
 
 		bool HasTexture(Texture* pTexture)
 		{
-			mMaterial->HasTexture(pTexture);
+			return mMaterial->HasTexture(pTexture);
 		}
 
 		VertexArray& GetVAO() { return *mVAO; }
