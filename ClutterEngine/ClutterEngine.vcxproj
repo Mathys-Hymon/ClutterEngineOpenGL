@@ -247,6 +247,7 @@
     <ClInclude Include="Engine\Core\ActorComponent\Components\Movements\FpsController.h" />
     <ClInclude Include="Engine\Core\All.h" />
     <ClInclude Include="Engine\Core\Assets\AssetsType\Font.h" />
+    <ClInclude Include="Engine\Core\Assets\AssetsType\IMaterial.h" />
     <ClInclude Include="Engine\Core\Assets\AssetsType\Material.h" />
     <ClInclude Include="Engine\Core\Assets\AssetsType\MaterialInstance.h" />
     <ClInclude Include="Engine\Graphics\Shader\ShaderProgram.h" />
@@ -321,6 +322,7 @@
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\FpsController.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\PlayerController.cpp" />
     <ClCompile Include="Engine\Core\Assets\AssetsType\Material.cpp" />
+    <ClCompile Include="Engine\Core\Assets\AssetsType\MaterialInstance.cpp" />
     <ClCompile Include="Engine\Core\Debug\DebugDraw.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\OBBCollider.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\ColliderComponent.cpp" />

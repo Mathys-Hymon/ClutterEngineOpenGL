@@ -16,7 +16,7 @@ namespace clt
 
 	class CLUTTER_API Mesh
 	{
-		Material* mMaterial;
+		IMaterial* mMaterial;
 
 		Vector2 mTextureTiling = { 1,1 };
 
@@ -30,10 +30,10 @@ namespace clt
 
 	public:
 
-		Mesh() {};
+		Mesh() = default;
 		Mesh(const float* pVertices, u32 pVerticeCount, bool tesselate);
-		Mesh(const float* pVertices, u32 pVerticeCount, Material* pMaterial, bool isTesselated);
-		Mesh(std::vector<Vertex> pVertices, Material* pMaterial, bool isTesselated);
+		Mesh(const float* pVertices, u32 pVerticeCount, IMaterial* pMaterial, bool isTesselated);
+		Mesh(std::vector<Vertex> pVertices, IMaterial* pMaterial, bool isTesselated);
 		Mesh(std::vector<Vertex> pVertices, bool tesselate);
 		~Mesh() = default;
 
@@ -47,7 +47,7 @@ namespace clt
 		}
 
 		VertexArray& GetVAO() { return *mVAO; }
-		Material& GetMaterial() { return *mMaterial; }
+		IMaterial& GetMaterial() { return *mMaterial; }
 
 		void AddTexture(std::string name, Texture* pTexture);
 

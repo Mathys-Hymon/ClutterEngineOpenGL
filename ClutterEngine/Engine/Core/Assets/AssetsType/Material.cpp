@@ -14,9 +14,11 @@ void Material::SetShader(ShaderProgram* shaderprogram, std::vector<Shader*> shad
 	mShader->Compose(shaders);
 }
 
-void Material::Use()
+void Material::Apply()
 {
 	if (!mShader) return;
+
+	mShader->Use();
 
 	for (const auto& [name, value] : mFloatUniforms)
 		mShader->SetFloat(name.c_str(), value);
@@ -47,7 +49,6 @@ void Material::Use()
 
 	for (const auto& [name, mat4] : mMat4Uniforms)
 		mShader->SetMat4(name.c_str(), mat4);
-
 
 	for (const auto& [name, texture] : mTextureUniforms)
 	{

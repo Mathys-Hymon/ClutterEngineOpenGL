@@ -2,11 +2,12 @@
 #include <Core/CCommon.h>
 #include <Graphics/Shader/ShaderProgram.h>
 #include <Core/Assets/AssetsType/Texture.h>
+#include <Core/Assets/AssetsType/IMaterial.h>
 #include <unordered_map>
 
 namespace clt
 {
-	class CLUTTER_API Material
+	class CLUTTER_API Material : public IMaterial
 	{
 		ShaderProgram* mShader = nullptr;
 
@@ -29,23 +30,24 @@ namespace clt
 
 		~Material() = default;
 
-		void SetFloat(const std::string& name, float value) { mFloatUniforms[name] = value; }
-		void SetInt(const std::string& name, int value) { mIntUniforms[name] = value; }
-		void SetVec2f(const std::string& name, const Vector2& value) { mVec2Uniforms[name] = value; };
-		void SetVec3(const std::string& name, const Vector3& value) { mVec3Uniforms[name] = value; };
-		void SetVec4(const std::string& name, const Vector4& value) { mVec4Uniforms[name] = value; };
-		void SetColor(const std::string& name, const Color& value) { mColorUniforms[name] = value; };
-		void SetTexture(const std::string& name, Texture* texture) { mTextureUniforms[name] = texture; };
-		void SetMat2(const std::string& name, const glm::mat2& value) {	mMat2Uniforms[name] = value; };
-		void SetMat3(const std::string& name, const glm::mat3& value) { mMat3Uniforms[name] = value; };
-		void SetMat4(const std::string& name, const Matrix4& value) { mMat4Uniforms[name] = value; };
-		void SetMat4Row(const std::string& name, const Matrix4Row& value) { mMat4RowUniforms[name] = value; };
+		void SetFloat(const std::string& name, float value)				  override { mFloatUniforms[name] = value; }
+		void SetInt(const std::string& name, int value)					  override { mIntUniforms[name] = value; }
+		void SetVec2(const std::string& name, const Vector2& value)		  override { mVec2Uniforms[name] = value; };
+		void SetVec3(const std::string& name, const Vector3& value)		  override { mVec3Uniforms[name] = value; };
+		void SetVec4(const std::string& name, const Vector4& value)		  override { mVec4Uniforms[name] = value; };
+		void SetColor(const std::string& name, const Color& value)		  override { mColorUniforms[name] = value; };
+		void SetTexture(const std::string& name, Texture* texture)	      override { mTextureUniforms[name] = texture; };
+		void SetMat2(const std::string& name, const glm::mat2& value)	  override {	mMat2Uniforms[name] = value; };
+		void SetMat3(const std::string& name, const glm::mat3& value)	  override { mMat3Uniforms[name] = value; };
+		void SetMat4(const std::string& name, const Matrix4& value)		  override { mMat4Uniforms[name] = value; };
+		void SetMat4Row(const std::string& name, const Matrix4Row& value) override { mMat4RowUniforms[name] = value; };
+
 		void SetShader(ShaderProgram* shaderProgram) { mShader = shaderProgram; }
 		void SetShader(ShaderProgram* shaderProgram, std::vector<Shader*> shaders);
 
-		void Use();
+		void Apply();
 
-		ShaderProgram* GetShader() const { return mShader; }
+		ShaderProgram* GetShader() const override { return mShader; }
 
 		const std::unordered_map<std::string, float>& GetFloatUniforms() const { return mFloatUniforms; }
 		bool HasFloat(const std::string& name) const { return mFloatUniforms.find(name) != mFloatUniforms.end(); }
@@ -90,13 +92,13 @@ namespace clt
 		}
 
 		const std::unordered_map<std::string, Texture*>& GetTextureUniforms() const { return mTextureUniforms; }
-		bool HasTexture(const std::string& name) const { return mTextureUniforms.find(name) != mTextureUniforms.end(); }
-		Texture* GetTexture(const std::string& name) const {
+		bool HasTexture(const std::string& name) const override { return mTextureUniforms.find(name) != mTextureUniforms.end(); }
+		Texture* GetTexture(const std::string& name) const override {
 			auto it = mTextureUniforms.find(name);
 			return it != mTextureUniforms.end() ? it->second : nullptr;
 		}
 
-		bool HasTexture(Texture* texture) const
+		bool HasTexture(Texture* texture) const override
 		{
 			if (!texture) return false;
 
