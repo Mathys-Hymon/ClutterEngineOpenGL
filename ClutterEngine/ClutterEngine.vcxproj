@@ -97,27 +97,27 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>Libraries\include;Libraries\include\PCH;$(IncludePath)</IncludePath>
+    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;$(IncludePath)</IncludePath>
     <LibraryPath>Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|Win32'">
-    <IncludePath>Libraries\include;Libraries\include\PCH;$(IncludePath)</IncludePath>
+    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;$(IncludePath)</IncludePath>
     <LibraryPath>Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>Libraries\include;Libraries\include\PCH;Libraries\include\FreeType;$(IncludePath)</IncludePath>
+    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;$(IncludePath)</IncludePath>
     <LibraryPath>Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|x64'">
-    <IncludePath>Libraries\include;Libraries\include\PCH;Libraries\include\FreeType;$(IncludePath)</IncludePath>
+    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;$(IncludePath)</IncludePath>
     <LibraryPath>Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>Libraries\include;Libraries\include\PCH;$(IncludePath)</IncludePath>
+    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;$(IncludePath)</IncludePath>
     <LibraryPath>Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>Libraries\include;Libraries\include\PCH;$(IncludePath)</IncludePath>
+    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;$(IncludePath)</IncludePath>
     <LibraryPath>Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -129,13 +129,13 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>Engine\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|Win32'">
@@ -147,13 +147,13 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>Engine\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -166,7 +166,8 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>Engine\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -174,7 +175,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -224,6 +225,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -231,7 +233,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -309,8 +311,8 @@
     <ClInclude Include="Engine\Physics\Collision\ICollisionListener.h" />
     <ClInclude Include="Engine\Physics\Physics.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\Sprite\AnimatorComponent.h" />
-    <ClInclude Include="Libraries\include\PCH\framework.h" />
-    <ClInclude Include="Libraries\include\PCH\pch.h" />
+    <ClInclude Include="Libraries\include\framework.h" />
+    <ClInclude Include="Engine\Header\pch.h" />
     <ClInclude Include="Engine\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
@@ -369,18 +371,15 @@
     <ClCompile Include="Engine\Core\ActorComponent\Actor.cpp" />
     <ClCompile Include="Engine\Graphics\RendererGL.cpp" />
     <ClCompile Include="Engine\Application\Application.cpp" />
-    <ClCompile Include="glad.c">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Libraries\include\PCH\dllmain.cpp" />
-    <ClCompile Include="Libraries\include\PCH\glad.c">
+    <ClCompile Include="Libraries\include\dll\dllmain.cpp" />
+    <ClCompile Include="Libraries\include\glad\glad.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Libraries\include\PCH\pch.cpp">
+    <ClCompile Include="Engine\Header\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
