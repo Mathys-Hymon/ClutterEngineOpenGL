@@ -7,9 +7,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Définition pour l'export DLL
 add_compile_definitions(CLUTTERENGINE_EXPORTS)
 
+# Sources du moteur
 file(GLOB_RECURSE CLUTTER_ENGINE_SRC
     "Application/*.cpp"
     "Core/*.cpp"
@@ -17,17 +17,25 @@ file(GLOB_RECURSE CLUTTER_ENGINE_SRC
     "Input/*.cpp"
     "Physics/*.cpp"
     "Window/*.cpp"
-    "../Libraries/include/glad/glad.c"
     "Header/pch.cpp"
 )
 
+set_source_files_properties(
+    ${CMAKE_CURRENT_SOURCE_DIR}/Header/pch.cpp
+    PROPERTIES LANGUAGE CXX
+)
 
-# Crée la DLL
+set(PCH_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/Header/pch.h")
+set(PCH_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/Header/pch.cpp")
+
+list(APPEND CLUTTER_ENGINE_SRC
+    "${CMAKE_CURRENT_SOURCE_DIR}/../Libraries/include/glad/glad.c"
+)
+
 add_library(ClutterEngine SHARED ${CLUTTER_ENGINE_SRC})
 
-# Includes
 target_include_directories(ClutterEngine PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}        # racine Engine
+    ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/Application
     ${CMAKE_CURRENT_SOURCE_DIR}/Core
     ${CMAKE_CURRENT_SOURCE_DIR}/Graphics
@@ -40,7 +48,7 @@ target_include_directories(ClutterEngine PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/../Libraries/include/FreeType
 )
 
-# Bibliothèques
+
 target_link_directories(ClutterEngine PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/../Libraries/lib
 )
@@ -51,13 +59,6 @@ target_link_libraries(ClutterEngine PRIVATE
     opengl32
 )
 
-set_source_files_properties(
-    ${CMAKE_CURRENT_SOURCE_DIR}/Header/pch.cpp
-    PROPERTIES LANGUAGE CXX
-)
-
-
-# Propriétés
 set_target_properties(ClutterEngine PROPERTIES
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
