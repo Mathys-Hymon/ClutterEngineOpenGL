@@ -127,7 +127,7 @@
       <PreprocessorDefinitions>EDITOR;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>..\ClutterEngine\Engine;Content;Content\Resources</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ClutterEngine\Engine;Content;Content\Resources;ThirdParty\ImGui</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,7 +145,7 @@
       <PreprocessorDefinitions>EDITOR;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>..\ClutterEngine\Engine;Content;Content\Resources</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ClutterEngine\Engine;Content;Content\Resources;ThirdParty\ImGui</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -161,7 +161,7 @@
       <AdditionalDependencies>ClutterEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\ClutterEngine\Engine;Content;Content\Resources</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ClutterEngine\Engine;Content;Content\Resources;ThirdParty\ImGui</AdditionalIncludeDirectories>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
@@ -169,9 +169,11 @@
   <ItemGroup>
     <ClCompile Include="ClutterEditor.cpp" />
     <ClCompile Include="Content\Application\EditorApplication.cpp" />
+    <ClCompile Include="Content\Application\ImGuiLayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Content\Application\EditorApplication.h" />
+    <ClInclude Include="Content\Application\ImGuiLayer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

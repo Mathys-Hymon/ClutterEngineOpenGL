@@ -21,9 +21,15 @@
     <ClCompile Include="Content\Application\EditorApplication.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Content\Application\ImGuiLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Content\Application\EditorApplication.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Content\Application\ImGuiLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
