@@ -6,14 +6,11 @@ class GLFWwindow;
 
 namespace clt
 {
-
     class CEngine;
     class CLUTTER_API Window 
     {
 
         Window() = default;
-
-        void InternalInit(u32 width, u32 height, const std::string& name, bool vsync);
 
         GLFWwindow* mGlfwWindow = nullptr;
         Vector2 mDimensions = { 0.f, 0.f };
@@ -24,6 +21,7 @@ namespace clt
     public:
 
         static Window& Get();
+        void InternalInit(u32 width, u32 height, const std::string& name, bool vsync, u32 xStart = 0, u32 xEnd = -1, u32 yStart = 0, u32 yEnd = -1);
 
         Window(const Window&) = delete;
         void operator=(const Window&) = delete;
@@ -33,7 +31,7 @@ namespace clt
         Vector2 GetDimensions() const { return mDimensions; }
         GLFWwindow* GetGLFWWindow() const { return mGlfwWindow; }
 
-        void ResizeViewport(unsigned int startWidth, unsigned int startHeight, unsigned int width, unsigned int height);
+        void ResizeViewport(u32 startWidth, u32 startHeight, u32 width, u32 height);
         void RenameViewport(const char* name);
         bool ShouldClose() const;
         void SwapBuffers() const;

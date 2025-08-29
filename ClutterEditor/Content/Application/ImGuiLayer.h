@@ -6,10 +6,9 @@
 
 class ImGuiLayer
 {
-	GLFWwindow* mWindow;
 
 public:
-	ImGuiLayer(GLFWwindow* window);
+	ImGuiLayer();
 	~ImGuiLayer();
 
 	void BeginFrame();

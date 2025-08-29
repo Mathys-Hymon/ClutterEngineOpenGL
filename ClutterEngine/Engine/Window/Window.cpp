@@ -11,7 +11,7 @@ Window& Window::Get()
     return instance;
 }
 
-void Window::InternalInit(u32 width, u32 height, const std::string& name, bool vsync)
+void Window::InternalInit(u32 width, u32 height, const std::string& name, bool vsync, u32 xStart, u32 xEnd, u32 yStart, u32 yEnd)
 {
     if (mIsInitialized)
         return;
@@ -27,8 +27,6 @@ void Window::InternalInit(u32 width, u32 height, const std::string& name, bool v
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    if(mGlfwWindow) glfwDestroyWindow(mGlfwWindow);
 
     mGlfwWindow = glfwCreateWindow(width, height, name.c_str(), nullptr, nullptr);
 
@@ -49,9 +47,7 @@ void Window::InternalInit(u32 width, u32 height, const std::string& name, bool v
     }
 
     glfwSwapInterval(vsync ? 1 : 0);
-    glViewport(0, 0, width, height);
-
-    CLUTTER_LOG("GLFW Window Created");
+    glViewport(xStart, yStart, xEnd == -1 ? width : xEnd, yEnd == -1 ? height : yEnd);
 
     mIsInitialized = true;
 }
@@ -66,8 +62,11 @@ Window::~Window()
     }
 }
 
-void Window::ResizeViewport(unsigned int startWidth, unsigned int startHeight, unsigned int width, unsigned int height)
+void Window::ResizeViewport(u32 startWidth, u32 startHeight, u32 width, u32 height)
 {
+    mDimensions = { static_cast<float>(width), static_cast<float>(height) };
+
+    glfwSetWindowSize(mGlfwWindow, width, height);
     glViewport(startWidth, startHeight, width, height);
 }
 

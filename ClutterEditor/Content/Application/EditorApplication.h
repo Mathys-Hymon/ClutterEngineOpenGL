@@ -1,22 +1,20 @@
 #pragma once
-#include <Core/CEngine.h>
 #include <Application/Application.h>
 #include "ImGuiLayer.h"
 
-namespace clt
-{
-	class CLUTTER_API EditorApplication : public Application 
+	class clt::Window;
+	class EditorApplication : public clt::Application 
 	{
 		ImGuiLayer* mUILayer;
+		bool mProjectOpened;
 
 		virtual void Update() override;
 		virtual void Render() override;
 
 	public:
 
-		EditorApplication();
+		EditorApplication(u32 width, u32 height);
 		~EditorApplication() = default;
 
 		void OpenProject(const std::string& path);
 	};
-}

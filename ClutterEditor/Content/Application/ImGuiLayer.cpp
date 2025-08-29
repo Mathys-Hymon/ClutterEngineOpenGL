@@ -1,20 +1,7 @@
 #include "ImGuiLayer.h"
+#include "Window/Window.h"
 
-ImGuiLayer::ImGuiLayer(GLFWwindow* window) : mWindow(window)
-{
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO();
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;   // Docking
-    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; // Multi-viewport
-
-    ImGui::StyleColorsDark(); // Dark theme
-
-    ImGui_ImplGlfw_InitForOpenGL(mWindow, true);
-    ImGui_ImplOpenGL3_Init("#version 150"); // adapte au GLSL utilisé
-}
-
-ImGuiLayer::~ImGuiLayer()
+ImGuiLayer::ImGuiLayer()
 {
 }
 
@@ -25,49 +12,52 @@ void ImGuiLayer::BeginFrame()
     ImGui::NewFrame();
 }
 
+void ImGuiLayer::DrawUI()
+{
+    ImGui::Begin("Clutter Editor - Project Launcher");
+
+    ImGui::Text("Open Project");
+    ImGui::Separator();
+
+    // --- Bouton Browse (placeholder pour vrai file dialog) ---
+    if (ImGui::Button("Browse..."))
+    {
+        std::string fakePath = "C:/Users/Mathys/Projects/NewProject";
+        editorApp->OpenProject(fakePath);
+    }
+
+    ImGui::Spacing();
+    ImGui::Text("Recent Projects:");
+    ImGui::Separator();
+
+    for (auto& project : sRecentProjects)
+    {
+        if (ImGui::Selectable(project.c_str()))
+        {
+            editorApp->OpenProject(project);
+        }
+    }
+
+    ImGui::End();
+}
+
 void ImGuiLayer::EndFrame()
 {
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    {
+        GLFWwindow* backup_current_context = glfwGetCurrentContext();
+        ImGui::UpdatePlatformWindows();
+        ImGui::RenderPlatformWindowsDefault();
+        glfwMakeContextCurrent(backup_current_context);
+    }
 }
 
-void ImGuiLayer::DrawUI()
+ImGuiLayer::~ImGuiLayer()
 {
-    ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
-    ImGuiViewport* viewport = ImGui::GetMainViewport();
-
-    ImGui::SetNextWindowPos(viewport->WorkPos);
-    ImGui::SetNextWindowSize(viewport->WorkSize);
-    ImGui::SetNextWindowViewport(viewport->ID);
-
-    window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse |
-        ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
-        ImGuiWindowFlags_NoBringToFrontOnFocus |
-        ImGuiWindowFlags_NoNavFocus;
-
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-    ImGui::Begin("DockSpace", nullptr, window_flags);
-    ImGui::PopStyleVar(2);
-
-    // DockSpace
-    ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-    ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None);
-
-    // Panels
-    ImGui::Begin("Content Browser");
-    ImGui::Text("Assets list goes here");
-    ImGui::End();
-
-    ImGui::Begin("Properties");
-    ImGui::Text("Actor properties go here");
-    ImGui::End();
-
-    ImGui::Begin("Viewport");
-    mViewportSize = ImGui::GetContentRegionAvail();
-    mViewportPos = ImGui::GetCursorScreenPos();
-    // Ici tu pourras dessiner ton framebuffer OpenGL
-    ImGui::End();
-
-    ImGui::End(); // DockSpace window
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 }

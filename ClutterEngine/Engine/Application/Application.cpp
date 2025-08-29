@@ -73,6 +73,6 @@ void Application::ShowLitMode()
 
 Application::~Application()	
 {
-	mEngine->Close();
+	if(mEngine.get()) mEngine->Close();
 	CLog::Shutdown();
 }

@@ -4,6 +4,7 @@
 
 int main()
 {
+
     clt::Application app({new MainMenuMap, new LevelMap});
 
     return 0;
