@@ -1,13 +1,5 @@
 #include "ImGuiLayer.h"
 
-#ifndef ImGuiConfigFlags_DockingEnable
-#define ImGuiConfigFlags_DockingEnable (1 << 6)
-#endif
-
-#ifndef ImGuiConfigFlags_ViewportsEnable
-#define ImGuiConfigFlags_ViewportsEnable (1 << 10)
-#endif
-
 ImGuiLayer::ImGuiLayer(GLFWwindow* window) : mWindow(window)
 {
     IMGUI_CHECKVERSION();
@@ -28,12 +20,54 @@ ImGuiLayer::~ImGuiLayer()
 
 void ImGuiLayer::BeginFrame()
 {
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
 }
 
 void ImGuiLayer::EndFrame()
 {
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 void ImGuiLayer::DrawUI()
 {
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+    ImGuiViewport* viewport = ImGui::GetMainViewport();
+
+    ImGui::SetNextWindowPos(viewport->WorkPos);
+    ImGui::SetNextWindowSize(viewport->WorkSize);
+    ImGui::SetNextWindowViewport(viewport->ID);
+
+    window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse |
+        ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
+        ImGuiWindowFlags_NoBringToFrontOnFocus |
+        ImGuiWindowFlags_NoNavFocus;
+
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+    ImGui::Begin("DockSpace", nullptr, window_flags);
+    ImGui::PopStyleVar(2);
+
+    // DockSpace
+    ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+    ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None);
+
+    // Panels
+    ImGui::Begin("Content Browser");
+    ImGui::Text("Assets list goes here");
+    ImGui::End();
+
+    ImGui::Begin("Properties");
+    ImGui::Text("Actor properties go here");
+    ImGui::End();
+
+    ImGui::Begin("Viewport");
+    mViewportSize = ImGui::GetContentRegionAvail();
+    mViewportPos = ImGui::GetCursorScreenPos();
+    // Ici tu pourras dessiner ton framebuffer OpenGL
+    ImGui::End();
+
+    ImGui::End(); // DockSpace window
 }

@@ -28,7 +28,10 @@ void Window::InternalInit(u32 width, u32 height, const std::string& name, bool v
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+    if(mGlfwWindow) glfwDestroyWindow(mGlfwWindow);
+
     mGlfwWindow = glfwCreateWindow(width, height, name.c_str(), nullptr, nullptr);
+
     if (!mGlfwWindow)
     {
         CLUTTER_ERROR("Failed to create GLFW Window");
