@@ -5,14 +5,19 @@ namespace clt
 {
     class Level;
     class CLUTTER_API Application {
-        
+
+    protected:
         std::unique_ptr<CEngine> mEngine;
+
+        Application() = default;
+
+        void Init(std::vector<Level*> pLevels, const std::string& configFile = "Config/project.config.json");
 
         void Run();
 
-        void Update();
+        virtual void Update();
 
-        void Render();
+        virtual void Render();
 
         void ShowWireframe();
         void ShowLitMode();

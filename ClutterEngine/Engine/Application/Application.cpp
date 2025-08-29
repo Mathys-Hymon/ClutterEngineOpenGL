@@ -10,6 +10,11 @@ using namespace clt;
 
 Application::Application(std::vector<Level*> pLevels, const std::string& configFile)
 {
+	Init(pLevels, configFile);
+}
+
+void Application::Init(std::vector<Level*> pLevels, const std::string& configFile)
+{
 	mEngine = std::make_unique<CEngine>();
 
 	if (pLevels.empty()) pLevels.push_back(new TemplateLevel());
