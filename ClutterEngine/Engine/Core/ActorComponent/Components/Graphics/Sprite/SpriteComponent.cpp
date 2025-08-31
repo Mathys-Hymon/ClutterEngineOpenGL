@@ -1,10 +1,22 @@
 #include "pch.h"
-#include<Core/ActorComponent/Components/Graphics/Sprite/SpriteComponent.h>
+#include <Core/ActorComponent/Components/Graphics/Sprite/SpriteComponent.h>
 
 using namespace clt;
 
-SpriteComponent::SpriteComponent(Texture* pTexture, int DrawOrder) : Component(DrawOrder), mTexture(pTexture), mTexHeight(pTexture->GetHeight()), mTexWidth(pTexture->GetWidth()), mFlipX(false), mFlipY(false)
-    {}
+SpriteComponent::SpriteComponent(std::weak_ptr<Texture> pTexture, int DrawOrder) 
+    : Component(DrawOrder), 
+      mTexture(pTexture), 
+      mTexHeight(0), 
+      mTexWidth(0), 
+      mFlipX(false), 
+      mFlipY(false)
+{
+    if (auto texture = mTexture.lock())
+    {
+        mTexHeight = texture->GetHeight();
+        mTexWidth = texture->GetWidth();
+    }
+}
 
 void SpriteComponent::SetOwner(Actor* pOwner)
 {
@@ -12,15 +24,14 @@ void SpriteComponent::SetOwner(Actor* pOwner)
     mOwner->GetLevel()->GetRenderer().AddSpriteComponent(this);
 }
 
-void SpriteComponent::SetTexture(Texture* pTexture)
+void SpriteComponent::SetTexture(std::weak_ptr<Texture> pTexture)
 {
-	mTexture = pTexture;
-	mTexture->UpdateInfo(mTexWidth, mTexHeight);
+    mTexture = pTexture;
+    if (auto texture = mTexture.lock())      texture->UpdateInfo(mTexWidth, mTexHeight);
 }
 
 void SpriteComponent::SetTexture(const std::string& pTexture)
 {
     mTexture = Assets::Get().GetTexture(pTexture);
-    mTexture->UpdateInfo(mTexWidth, mTexHeight);
+    if (auto texture = mTexture.lock())      texture->UpdateInfo(mTexWidth, mTexHeight);
 }
- 

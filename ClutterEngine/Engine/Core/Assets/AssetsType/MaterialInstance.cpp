@@ -42,7 +42,8 @@ void MaterialInstance::Apply()
 	int unit = 0;
 	for (const auto& [name, val] : mBaseMaterial->GetTextureUniforms())
 	{
-		Texture* tex = mTextureOverrides.count(name) ? mTextureOverrides[name] : val;
+		auto tex = mTextureOverrides.count(name) ? mTextureOverrides[name].lock() : val.lock();
+
 		if (tex)
 		{
 			tex->Bind(unit);
@@ -50,4 +51,24 @@ void MaterialInstance::Apply()
 			unit++;
 		}
 	}
+}
+
+bool clt::MaterialInstance::HasTexture(std::weak_ptr<Texture> texture) const
+{
+	return false;
+}
+
+bool clt::MaterialInstance::HasTexture(const std::string& texture) const
+{
+	return false;
+}
+
+std::weak_ptr<Texture> clt::MaterialInstance::GetTexture(const std::string& name) const
+{
+	return std::weak_ptr<Texture>();
+}
+
+ShaderProgram* clt::MaterialInstance::GetShader() const
+{
+	return nullptr;
 }

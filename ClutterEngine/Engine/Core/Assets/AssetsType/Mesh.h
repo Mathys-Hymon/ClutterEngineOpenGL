@@ -39,9 +39,9 @@ namespace clt
 
 		void Unload();
 
-		Texture* GetTexture(std::string& const pTextureName);
+		std::weak_ptr<Texture> GetTexture(std::string& const pTextureName);
 
-		bool HasTexture(Texture* pTexture)
+		bool HasTexture(std::weak_ptr<Texture> pTexture)
 		{
 			return mMaterial->HasTexture(pTexture);
 		}
@@ -49,9 +49,9 @@ namespace clt
 		VertexArray& GetVAO() { return *mVAO; }
 		IMaterial& GetMaterial() { return *mMaterial; }
 
-		void AddTexture(std::string name, Texture* pTexture);
+		void AddTexture(std::string name, std::weak_ptr<Texture> pTexture);
 
-		void SetTexture(std::string& textureName, Texture* texture);
+		void SetTexture(std::string& textureName, std::weak_ptr<Texture> texture);
 		void SetTexture(std::string& textureName, std::string& texture);
 
 		void SetTextureTiling(Vector2 tiling) { mTextureTiling = tiling; };

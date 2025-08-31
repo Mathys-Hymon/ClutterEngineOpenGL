@@ -10,22 +10,16 @@ ShaderProgram::ShaderProgram() : mID(0)
 void ShaderProgram::Unload()
 {
     glDeleteProgram(mID);
-
-    for (Shader* s : mShaders)
-    {
-        if (s != nullptr) delete s;
-        s = nullptr;
-    }
 }
 
-void ShaderProgram::Compose(std::vector<Shader*> shaders)
+void ShaderProgram::Compose(std::vector<std::weak_ptr<Shader>> shaders)
 {
     mShaders = shaders;
     mID = glCreateProgram();
 
-    for (Shader* s : mShaders)
+    for (std::weak_ptr<Shader> s : mShaders)
     {
-        glAttachShader(mID, s->GetID());
+        glAttachShader(mID, s.lock()->GetID());
     }
 
     glLinkProgram(mID);

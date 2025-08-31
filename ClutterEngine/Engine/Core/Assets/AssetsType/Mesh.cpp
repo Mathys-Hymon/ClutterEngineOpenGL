@@ -84,7 +84,7 @@ void Mesh::Unload()
 	mVAO = nullptr;
 }
 
-Texture* Mesh::GetTexture(std::string& const pTextureName)
+std::weak_ptr<Texture> Mesh::GetTexture(std::string& const pTextureName)
 {
     return mMaterial->GetTexture(pTextureName);
 }
@@ -109,19 +109,19 @@ float* Mesh::ToVerticeArray()
 
 }
 
-void Mesh::AddTexture(std::string pName, Texture* pTexture)
+void Mesh::AddTexture(std::string pName, std::weak_ptr<Texture> pTexture)
 {
     mMaterial->SetTexture(pName, pTexture);
 }
 
-void Mesh::SetTexture(std::string& textureName, Texture* texture)
+void Mesh::SetTexture(std::string& textureName, std::weak_ptr<Texture> texture)
 {    
     mMaterial->SetTexture(textureName, texture);
 }    
      
 void Mesh::SetTexture(std::string& textureName, std::string& texture)
 {
-    Texture* tempTexture = Assets::Get().GetTexture(texture);
+    std::weak_ptr<Texture> tempTexture = Assets::Get().GetTexture(texture);
 
     mMaterial->SetTexture(textureName, tempTexture);
 }

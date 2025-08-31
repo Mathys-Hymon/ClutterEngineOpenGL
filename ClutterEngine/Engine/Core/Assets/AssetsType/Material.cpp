@@ -3,12 +3,12 @@
 
 using namespace clt;
 
-Material::Material(ShaderProgram* shaderProgram, std::vector<Shader*> shaders) : mShader(shaderProgram)
+Material::Material(ShaderProgram* shaderProgram, std::vector<std::shared_ptr<Shader>> shaders) : mShader(shaderProgram)
 {
 	mShader->Compose(shaders);
 }
 
-void Material::SetShader(ShaderProgram* shaderprogram, std::vector<Shader*> shaders)
+void Material::SetShader(ShaderProgram* shaderprogram, std::vector< std::shared_ptr<Shader>> shaders)
 {
 	mShader = shaderprogram;
 	mShader->Compose(shaders);
@@ -52,9 +52,11 @@ void Material::Apply()
 
 	for (const auto& [name, texture] : mTextureUniforms)
 	{
-		if (texture)
+		auto tempTex = texture.lock();
+
+		if (tempTex)
 		{
-			texture->Bind(0);
+			tempTex->Bind(0);
 		}
 	}
 }

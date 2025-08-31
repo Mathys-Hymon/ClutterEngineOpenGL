@@ -7,13 +7,13 @@ namespace clt
 {
 	class CLUTTER_API FlipbookComponent : public SpriteComponent
 	{
-		std::vector<Texture*> mFlipbookTextures;
+		std::vector< std::weak_ptr<Texture>> mFlipbookTextures;
 		bool mLooping, mIsPaused;
 		float mCurrentFrame;
 		float mAnimFps;
 
 	public:
-		FlipbookComponent(const std::vector<Texture*>& pTexture, bool pLooping = true, int pDrawOrder = 100);
+		FlipbookComponent(const std::vector<std::weak_ptr<Texture>>& pTexture, bool pLooping = true, int pDrawOrder = 100);
 		FlipbookComponent() = delete;
 		FlipbookComponent(const FlipbookComponent&) = delete;
 		FlipbookComponent& operator = (const FlipbookComponent&) = delete;
@@ -28,11 +28,11 @@ namespace clt
 
 		float GetFlipbookFps() const { return mAnimFps; }
 
-		void SetFlipbookTextures(const std::vector<Texture*> pTextures);
+		void SetFlipbookTextures(const std::vector< std::weak_ptr<Texture>> pTextures);
 		void SetFlipbookFps(float pFps);
 		void SetLooping(bool pLooping) { mLooping = pLooping; };
 
-		std::vector<Texture*> GetFlipbookTextures() const { return mFlipbookTextures; };
+		std::vector<std::weak_ptr<Texture>> GetFlipbookTextures() const { return mFlipbookTextures; };
 		bool GetLooping() const { return mLooping; };
 
 		void Play()   { mIsPaused = false; };

@@ -17,7 +17,7 @@ namespace clt
 		std::unordered_map<std::string, Vector3> mVec3Uniforms;
 		std::unordered_map<std::string, Vector4> mVec4Uniforms;
 		std::unordered_map<std::string, Color> mColorUniforms;
-		std::unordered_map<std::string, Texture*> mTextureUniforms;
+		std::unordered_map<std::string, std::weak_ptr<Texture>> mTextureUniforms;
 		std::unordered_map<std::string, glm::mat2> mMat2Uniforms;
 		std::unordered_map<std::string, glm::mat3> mMat3Uniforms;
 		std::unordered_map<std::string, Matrix4> mMat4Uniforms;
@@ -26,7 +26,7 @@ namespace clt
 	public :
 		Material() = default;
 		Material(ShaderProgram* shaderProgram) : mShader(shaderProgram) {};
-		Material(ShaderProgram* shaderProgram, std::vector<Shader*> shaders);
+		Material(ShaderProgram* shaderProgram, std::vector <std::weak_ptr<Shader>> shaders);
 
 		~Material() = default;
 
@@ -36,14 +36,14 @@ namespace clt
 		void SetVec3(const std::string& name, const Vector3& value)		  override { mVec3Uniforms[name] = value; };
 		void SetVec4(const std::string& name, const Vector4& value)		  override { mVec4Uniforms[name] = value; };
 		void SetColor(const std::string& name, const Color& value)		  override { mColorUniforms[name] = value; };
-		void SetTexture(const std::string& name, Texture* texture)	      override { mTextureUniforms[name] = texture; };
+		void SetTexture(const std::string& name, std::weak_ptr<Texture> texture)	      override { mTextureUniforms[name] = texture; };
 		void SetMat2(const std::string& name, const glm::mat2& value)	  override {	mMat2Uniforms[name] = value; };
 		void SetMat3(const std::string& name, const glm::mat3& value)	  override { mMat3Uniforms[name] = value; };
 		void SetMat4(const std::string& name, const Matrix4& value)		  override { mMat4Uniforms[name] = value; };
 		void SetMat4Row(const std::string& name, const Matrix4Row& value) override { mMat4RowUniforms[name] = value; };
 
 		void SetShader(ShaderProgram* shaderProgram) { mShader = shaderProgram; }
-		void SetShader(ShaderProgram* shaderProgram, std::vector<Shader*> shaders);
+		void SetShader(ShaderProgram* shaderProgram, std::vector< std::weak_ptr<Shader>> shaders);
 
 		void Apply();
 
@@ -91,20 +91,20 @@ namespace clt
 			return it != mColorUniforms.end() ? it->second : Color::Black;
 		}
 
-		const std::unordered_map<std::string, Texture*>& GetTextureUniforms() const { return mTextureUniforms; }
+		const std::unordered_map<std::string, std::weak_ptr<Texture>>& GetTextureUniforms() const { return mTextureUniforms; }
 		bool HasTexture(const std::string& name) const override { return mTextureUniforms.find(name) != mTextureUniforms.end(); }
-		Texture* GetTexture(const std::string& name) const override {
-			auto it = mTextureUniforms.find(name);
-			return it != mTextureUniforms.end() ? it->second : nullptr;
-		}
+        std::weak_ptr<Texture> GetTexture(const std::string& name) const override {
+        auto it = mTextureUniforms.find(name);
+        return it != mTextureUniforms.end() ? it->second : std::weak_ptr<Texture>();
+        }
 
-		bool HasTexture(Texture* texture) const override
+		bool HasTexture(std::weak_ptr <Texture> texture) const override
 		{
-			if (!texture) return false;
+			if (!texture.lock()) return false;
 
 			for (const auto& [name, texPtr] : mTextureUniforms)
 			{
-				if (texPtr == texture)
+				if (texPtr.lock() == texture.lock())
 					return true;
 			}
 			return false;

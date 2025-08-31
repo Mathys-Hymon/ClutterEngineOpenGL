@@ -11,10 +11,10 @@ namespace clt
 	protected:
 		int mTexWidth, mTexHeight;
 		bool mFlipX, mFlipY;
-		Texture* mTexture;
+		std::weak_ptr<Texture> mTexture;
 
 	public:
-		SpriteComponent(Texture* pTexture, int DrawOrder = 0);
+		SpriteComponent(std::weak_ptr<Texture> pTexture, int DrawOrder = 0);
 		SpriteComponent() = delete;
 		SpriteComponent(const SpriteComponent&) = delete;
 		SpriteComponent& operator = (const SpriteComponent&) = delete;
@@ -23,7 +23,7 @@ namespace clt
 
 		virtual void SetOwner(Actor* pOwner) override;
 
-		virtual void SetTexture(Texture* pTexture);
+		virtual void SetTexture(std::weak_ptr<Texture> pTexture);
 		virtual void SetTexture(const std::string& pTexture);
 
 		void SetFlipX(bool pFlip)  { mFlipX = pFlip;  };
@@ -35,7 +35,7 @@ namespace clt
 
 		int GetTexWidth() const { return mTexWidth; };
 		int GetTexHeight() const { return mTexHeight; };
-		Texture* GetTexture() const { return mTexture; };
+		std::weak_ptr<Texture> GetTexture() const { return mTexture; };
 	};
 
 }

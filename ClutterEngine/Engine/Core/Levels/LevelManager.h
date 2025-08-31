@@ -26,8 +26,8 @@ namespace clt
 		LevelManager(std::vector<Level*>& pLevels, RendererGL* pRenderer, Physics* pPhysics);
 
 		/**
-   * @brief Destructor for CLevelManager.
-   */
+	* @brief Destructor for CLevelManager.
+	*/
 		~LevelManager();
 
 		/**

@@ -4,7 +4,7 @@
 
 using namespace clt;
 
-void FlipbookElement::SetFlipbookTextures(const std::vector<Texture*> pTextures)
+void FlipbookElement::SetFlipbookTextures(const std::vector<std::weak_ptr<Texture>>& pTextures)
 {
 	mFlipbookTextures = pTextures;
 	if (mFlipbookTextures.size() > 0)

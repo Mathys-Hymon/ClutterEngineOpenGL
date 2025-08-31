@@ -58,7 +58,7 @@ void Assets::LoadTextureGL(TextureFilter pTexFilter, GLuint& textureID, int& wid
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-Mesh* Assets::LoadMeshFromFile(const std::string& pFile, bool pTesselate)
+std::shared_ptr<Mesh> Assets::LoadMeshFromFile(const std::string& pFile, bool pTesselate)
 {   
     tinyobj::attrib_t attributes;
     std::vector<tinyobj::shape_t> shapes;
@@ -103,10 +103,10 @@ Mesh* Assets::LoadMeshFromFile(const std::string& pFile, bool pTesselate)
         }
 
     }
-    return new Mesh(vertices, pTesselate);
+    return std::make_shared<Mesh>(vertices, pTesselate);
 }
 
-Mesh* Assets::LoadMeshFromFile(const std::string& pFile, Material* pMaterial, bool pTesselate)
+std::shared_ptr<Mesh> Assets::LoadMeshFromFile(const std::string& pFile, Material* pMaterial, bool pTesselate)
 {
     tinyobj::attrib_t attributes;
     std::vector<tinyobj::shape_t> shapes;
@@ -151,7 +151,7 @@ Mesh* Assets::LoadMeshFromFile(const std::string& pFile, Material* pMaterial, bo
         }
 
     }
-    return new Mesh(vertices, pMaterial, pTesselate);
+    return std::make_shared<Mesh>(vertices, pMaterial, pTesselate);
 }
 
 void Assets::LoadEngineAssets()
@@ -161,7 +161,7 @@ void Assets::LoadEngineAssets()
     Assets::Get().LoadTexture("Content/Resources/Sprites/buttonBg.png", "buttonBg");
 }
 
-Texture* Assets::LoadTexture(const std::string& path, const std::string& name, TextureFilter pTexFilter, bool generateMipMaps)
+std::shared_ptr<Texture> Assets::LoadTexture(const std::string& path, const std::string& name, TextureFilter pTexFilter, bool generateMipMaps)
 {
     if (mTextures.find(name) != mTextures.end()) return GetTexture(name);
 
@@ -187,7 +187,8 @@ Texture* Assets::LoadTexture(const std::string& path, const std::string& name, T
     }
     stbi_image_free(data);
 
-    mTextures[name] = new Texture(textureID, width, height, channels);
+    Texture* tempTexture = new Texture(textureID, width, height, channels);
+    mTextures[name] = std::make_shared<Texture>(tempTexture);
 
     return mTextures[name];
 }
@@ -205,7 +206,7 @@ std::vector<Texture*> Assets::BulkLoadTexture(const std::string& pPath, int pLas
     return tempAnim;
 }
 
-Texture* Assets::GetTexture(const std::string& name)
+std::shared_ptr<Texture> Assets::GetTexture(const std::string& name)
 {
     auto it = mTextures.find(name);
     if (it == mTextures.end())
@@ -218,7 +219,7 @@ Texture* Assets::GetTexture(const std::string& name)
     return it->second;
 }
 
-Mesh* Assets::GetMesh(const std::string& name, bool tesselate)
+std::shared_ptr<Mesh> Assets::GetMesh(const std::string& name, bool tesselate)
 {
     std::string tempName = name;
     if (tesselate) tempName = name + "_tess";
@@ -232,7 +233,7 @@ Mesh* Assets::GetMesh(const std::string& name, bool tesselate)
     return it->second;
 }
 
-Font* Assets::GetFont(const std::string& name)
+std::shared_ptr<Font> Assets::GetFont(const std::string& name)
 {
     auto it = mFonts.find(name);
     if (it == mFonts.end())
@@ -243,7 +244,7 @@ Font* Assets::GetFont(const std::string& name)
     return it->second;
 }
 
-Shader* Assets::GetShader(const std::string& pPath, ShaderType pType)
+std::shared_ptr<Shader> Assets::GetShader(const std::string& pPath, ShaderType pType)
 {
     auto it = mShaders.find(pType);
 
@@ -262,39 +263,39 @@ Shader* Assets::GetShader(const std::string& pPath, ShaderType pType)
     return shader->second;
 }
 
-Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, std::vector<Texture*> pTextures, bool pTesselate)
+std::shared_ptr<Mesh> Assets::LoadMesh(const std::string& pPath, const std::string& pName, std::vector<Texture*> pTextures, bool pTesselate)
 {
     std::string name = pName;
     if (pTesselate)  std::string name = name + "_tess";
 
     if (mMeshes.find(name) != mMeshes.end()) return mMeshes[name];
 
-    Mesh* mesh = LoadMeshFromFile(pPath, pTesselate);
-
-    if(mesh) mMeshes[name] = mesh;
-
-    return mesh;
-}
-
-Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, Material* pMaterial, bool pTesselate)
-{
-    std::string name = pName;
-    if (pTesselate) name = pName + "_tess";
-
-    if (mMeshes.find(name) != mMeshes.end())
-    {
-        CLUTTER_LOG(("An instance of " + pName + " already exists and is returned.").c_str());
-        return GetMesh(name);
-    }
-
-    Mesh* mesh = LoadMeshFromFile(pPath, pMaterial, pTesselate);
+    std::shared_ptr<Mesh> mesh = LoadMeshFromFile(pPath, pTesselate);
 
     if (mesh) mMeshes[name] = mesh;
 
     return mesh;
 }
 
-Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, const std::string& pTexture, bool pTesselate)
+std::shared_ptr<Mesh> Assets::LoadMesh(const std::string& pPath, const std::string& pName, Material* pMaterial, bool pTesselate)
+{
+    std::string name = pName;
+    if (pTesselate) name = pName + "_tess";
+
+    if (mMeshes.find(name) != mMeshes.end())
+    {
+        CLUTTER_LOG(("An instance of " + pName + " already exists and is returned.").c_str());
+        return GetMesh(name);
+    }
+
+    std::shared_ptr<Mesh> mesh = LoadMeshFromFile(pPath, pMaterial, pTesselate);
+
+    if (mesh) mMeshes[name] = mesh;
+
+    return mesh;
+}
+
+std::shared_ptr<Mesh> Assets::LoadMesh(const std::string& pPath, const std::string& pName, const std::string& pTexture, bool pTesselate)
 {
     std::string name = pName;
     if (pTesselate) name = pName + "_tess";
@@ -306,7 +307,7 @@ Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, const
         return GetMesh(name);
     }
 
-    Mesh* mesh = LoadMeshFromFile(pPath, pTesselate);
+    std::shared_ptr<Mesh> mesh = LoadMeshFromFile(pPath, pTesselate);
 
     if (mesh) mMeshes[name] = mesh;
     if (!mesh->GetMaterial().GetTexture("BaseColor") && pTexture.empty()) mesh->GetMaterial().SetTexture("BaseColor", GetTexture("default"));
@@ -315,21 +316,21 @@ Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, const
     return mesh;
 }
 
-Mesh* Assets::LoadMesh(const std::string& pPath, const std::string& pName, bool pTesselate)
+std::shared_ptr<Mesh> Assets::LoadMesh(const std::string& pPath, const std::string& pName, bool pTesselate)
 {
     std::string name = pName;
     if (pTesselate) name = pName + "_tess";
 
     if (mMeshes.find(name) != mMeshes.end()) return mMeshes[name];
 
-    Mesh* mesh = LoadMeshFromFile(pPath, pTesselate);
+    std::shared_ptr<Mesh> mesh = LoadMeshFromFile(pPath, pTesselate);
 
     if (mesh) mMeshes[name] = mesh;
 
     return mesh;
 }
 
-Font* Assets::LoadFont(const std::string& pPath, const std::string& pName, GLuint pFontSize)
+std::shared_ptr<Font> Assets::LoadFont(const std::string& pPath, const std::string& pName, GLuint pFontSize)
 {
     if (mFonts.find(pName) != mFonts.end()) return mFonts[pName];
 
@@ -343,7 +344,7 @@ Font* Assets::LoadFont(const std::string& pPath, const std::string& pName, GLuin
 
     glPixelStoref(GL_UNPACK_ALIGNMENT, 1);
 
-    Font* font = new Font();
+    std::shared_ptr<Font> font = std::make_shared<Font>();
 
     for (unsigned char c = 0; c < 128; c++)
     {
@@ -392,19 +393,19 @@ Font* Assets::LoadFont(const std::string& pPath, const std::string& pName, GLuin
     return font;
 }
 
-Shader* Assets::LoadShader(const std::string& pPath, ShaderType pType)
+std::shared_ptr<Shader> Assets::LoadShader(const std::string& pPath, ShaderType pType)
 {
     if (mShaders[pType][pPath]) return GetShader(pPath, pType);
-    Shader* temp = new Shader();
+    std::shared_ptr<Shader> temp = std::make_shared<Shader>();
     temp->Load(pPath, pType);
 
     mShaders[pType][pPath] = temp;
     return temp;
 }
 
-std::vector<Texture*> Assets::BulkGetTexture(const std::string& pName, int pLastIndex)
+std::vector<std::shared_ptr<Texture>> Assets::BulkGetTexture(const std::string& pName, int pLastIndex)
 {
-    std::vector<Texture*> tempAnim;
+    std::vector<std::shared_ptr<Texture>> tempAnim;
 
     for (int i = 0; i <= pLastIndex; i++)
     {
@@ -417,25 +418,8 @@ std::vector<Texture*> Assets::BulkGetTexture(const std::string& pName, int pLast
 
 void Assets::ClearAssets()
 {
-    for (auto& pair : mTextures)
-    {
-        delete pair.second;
-    }
     mTextures.clear();
-
-    for (auto& pair : mMeshes)
-    {
-        delete pair.second;
-    }
     mMeshes.clear();
-
-    for (auto& pair : mShaders)
-    {
-        for (auto& second : pair.second)
-        {
-            second.second->~Shader();
-        }
-    }
     mShaders.clear();
     FT_Done_FreeType(mFTLibrary);
 

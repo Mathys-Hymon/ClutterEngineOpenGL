@@ -11,7 +11,7 @@ ButtonElement::ButtonElement(std::string text, std::unordered_map<ButtonState, c
 	SetTexture(mTextures[mState]);
 }
 
-ButtonElement::ButtonElement(std::string text, std::unordered_map<ButtonState, Texture*> textures) :
+ButtonElement::ButtonElement(std::string text, std::unordered_map<ButtonState, std::weak_ptr<Texture>> textures) :
 	 SpriteElement(), mState(ButtonState::None)
 {
 	SetTextures(textures);
@@ -89,36 +89,33 @@ bool ButtonElement::IsMouseOver(Vector2 mouse)
 
 void ButtonElement::SetTextures(std::unordered_map<ButtonState, const std::string&> textureNames)
 {
-	std::unordered_map<ButtonState, Texture*> textures;
+	std::unordered_map<ButtonState, std::weak_ptr <Texture>> textures;
 
-	Texture* defaultTexture = nullptr;
+	std::weak_ptr<Texture> defaultTexture;
 
 	for (const auto& [state, path] : textureNames)
 	{
-		Texture* tex = Assets::Get().GetTexture(path);
+		auto tex = Assets::Get().GetTexture(path);
 		textures[state] = tex;
-		if (!defaultTexture)
+		if (!defaultTexture.lock())
 			defaultTexture = tex;
 	}
 
 	SetTextures(textures);
 }
 
-void ButtonElement::SetTextures(std::unordered_map<ButtonState, Texture*> textures)
+void ButtonElement::SetTextures(std::unordered_map<ButtonState, std::weak_ptr<Texture>> textures)
 {
-	mTextures = std::move(textures);
+	mTextures = textures;
 
-	Texture* defaultTexture = nullptr;
-	if (!mTextures.empty())
-		defaultTexture = mTextures.begin()->second;
-
-	else
-		defaultTexture = Assets::Get().GetTexture("buttonBg");
+	std::weak_ptr<Texture> defaultTexture;
+	if (!mTextures.empty()) defaultTexture = mTextures.begin()->second;
+	else defaultTexture = Assets::Get().GetTexture("buttonBg");
 
 	for (int i = 0; i <= static_cast<int>(ButtonState::Disabled); ++i)
 	{
 		ButtonState state = static_cast<ButtonState>(i);
-		if (mTextures.find(state) == mTextures.end() && defaultTexture)
+		if (mTextures.find(state) == mTextures.end() && defaultTexture.lock())
 		{
 			mTextures[state] = defaultTexture;
 		}
@@ -131,7 +128,7 @@ void ButtonElement::SetStateTexture(ButtonState state, const std::string& textur
 	mTints[state] = tint;
 }
 
-void ButtonElement::SetStateTexture(ButtonState state, Texture* texture, Color tint)
+void ButtonElement::SetStateTexture(ButtonState state, std::weak_ptr<Texture> texture, Color tint)
 {
 	mTextures[state] = texture;
 	mTints[state] = tint;

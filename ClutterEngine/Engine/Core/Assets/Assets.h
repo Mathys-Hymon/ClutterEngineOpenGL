@@ -20,19 +20,20 @@ namespace clt
 
 		IRenderer* mRenderer = nullptr;
 
-		std::unordered_map<std::string, Texture*> mTextures;
-		std::unordered_map<std::string, Mesh*> mMeshes;
-		std::unordered_map<std::string, Font*> mFonts;
+		std::unordered_map < std::string, std::shared_ptr<Texture>> mTextures;
+		std::unordered_map<std::string, std::shared_ptr<Material>> mMaterials;
+		std::unordered_map<std::string, std::shared_ptr<Mesh>> mMeshes;
+		std::unordered_map<std::string, std::shared_ptr<Font>> mFonts;
 
-		std::unordered_map<ShaderType, std::unordered_map<std::string, Shader*>> mShaders;
+		std::unordered_map<ShaderType, std::unordered_map<std::string, std::shared_ptr<Shader>>> mShaders;
 
 		 Assets();
 		~Assets() = default;
 
 		void LoadTextureGL(TextureFilter pTexFilter, GLuint& textureID, int& width, int& height, int& channels, unsigned char* data, bool generateMipMaps = true);
 
-		Mesh* LoadMeshFromFile(const std::string& pFile, bool pTesselate);
-		Mesh* LoadMeshFromFile(const std::string& pFile, Material* pMaterial, bool pTesselate);
+		std::shared_ptr<Mesh> LoadMeshFromFile(const std::string& pFile, bool pTesselate);
+		std::shared_ptr<Mesh> LoadMeshFromFile(const std::string& pFile, Material* pMaterial, bool pTesselate);
 
 		void LoadEngineAssets();
 
@@ -45,23 +46,23 @@ namespace clt
 		}
 
 
-		Texture* LoadTexture(const std::string& pPath, const std::string& pName, TextureFilter pTexFilter = TextureFilter::LINEAR, bool generateMipMaps = true);
+		std::shared_ptr<Texture> LoadTexture(const std::string& pPath, const std::string& pName, TextureFilter pTexFilter = TextureFilter::LINEAR, bool generateMipMaps = true);
 		std::vector<Texture*> BulkLoadTexture(const std::string& pPath, int pLastIndex, const std::string& pFileName, const std::string& pName, TextureFilter pTexFilter = TextureFilter::LINEAR, bool pMipMap = true);
 
-		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, std::vector<Texture*> pTextures = {}, bool pTesselate = false);
-		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, const std::string& pTexture, bool pTesselate = false);
-		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, bool pTesselate);
-		Mesh* LoadMesh(const std::string& pPath, const std::string& pName, Material* pMaterial, bool pTesselate = false);
+		std::shared_ptr<Mesh> LoadMesh(const std::string& pPath, const std::string& pName, std::vector<Texture*> pTextures = {}, bool pTesselate = false);
+		std::shared_ptr<Mesh> LoadMesh(const std::string& pPath, const std::string& pName, const std::string& pTexture, bool pTesselate = false);
+		std::shared_ptr<Mesh> LoadMesh(const std::string& pPath, const std::string& pName, bool pTesselate);
+		std::shared_ptr<Mesh> LoadMesh(const std::string& pPath, const std::string& pName, Material* pMaterial, bool pTesselate = false);
 
-		Font* LoadFont(const std::string& pPath, const std::string& pName, GLuint pFontSize = 128);
+		std::shared_ptr<Font> LoadFont(const std::string& pPath, const std::string& pName, GLuint pFontSize = 128);
 
-		Shader* LoadShader(const std::string& pPath, ShaderType pType);
+		std::shared_ptr<Shader> LoadShader(const std::string& pPath, ShaderType pType);
 
-		Texture* GetTexture(const std::string& pName);
-		std::vector<Texture*> BulkGetTexture(const std::string& pName, int pLastIndex);
-		Mesh* GetMesh(const std::string& pName, bool pTesselate = false);
-		Font* GetFont(const std::string& pName);
-		Shader* GetShader(const std::string& pName, ShaderType pType);
+		std::shared_ptr<Texture> GetTexture(const std::string& pName);
+		std::vector< std::shared_ptr<Texture>> BulkGetTexture(const std::string& pName, int pLastIndex);
+		std::shared_ptr<Mesh> GetMesh(const std::string& pName, bool pTesselate = false);
+		std::shared_ptr<Font> GetFont(const std::string& pName);
+		std::shared_ptr<Shader> GetShader(const std::string& pName, ShaderType pType);
 
 		void ClearAssets();
 	};
