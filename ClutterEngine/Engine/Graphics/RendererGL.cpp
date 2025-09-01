@@ -216,7 +216,7 @@ void RendererGL::Draw()
         mSpriteShader.SetBool("uFlipY", comp->GetFlipY());
         mSpriteShader.SetMat4Row("uWorldTransform", tempTransform);
 
-        comp->GetTexture()->Bind();
+        comp->GetTexture().lock()->Bind();
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     }
 

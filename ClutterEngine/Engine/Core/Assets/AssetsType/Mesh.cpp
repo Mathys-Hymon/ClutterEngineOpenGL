@@ -31,11 +31,11 @@ Mesh::Mesh(const float* pVertices, u32 pVerticeCount, bool tesselate)
         Assets::Get().LoadShader(tesselate ? meshFragPathTes : meshFragPath, ShaderType::FRAGMENT), 
         });
 
-    mMaterial = new Material(tempShader);
+    mMaterial = clt::Assets::Get().CreateMaterial("Default", tempShader);
     mVAO = new VertexArray(pVertices, pVerticeCount);
 }
 
-Mesh::Mesh(const float* pVertices, u32 pVerticeCount, IMaterial* pMaterial, bool isTesselated)
+Mesh::Mesh(const float* pVertices, u32 pVerticeCount, std::weak_ptr<IMaterial> pMaterial, bool isTesselated)
   : mVertices()
 {
    mMaterial = pMaterial;
@@ -43,7 +43,7 @@ Mesh::Mesh(const float* pVertices, u32 pVerticeCount, IMaterial* pMaterial, bool
    mTesselate = isTesselated;
 }
 
-Mesh::Mesh(std::vector<Vertex> pVertices, IMaterial* pMaterial, bool isTesselated)
+Mesh::Mesh(std::vector<Vertex> pVertices, std::weak_ptr<IMaterial> pMaterial, bool isTesselated)
     : mVertices(std::move(pVertices))
 {
     mMaterial = pMaterial;
@@ -74,7 +74,7 @@ Mesh::Mesh(std::vector<Vertex> pVertices, bool tesselate)
             });
     }
 
-    mMaterial = new Material(tempShader);
+    mMaterial = clt::Assets::Get().CreateMaterial("Default", tempShader);
 	mVAO = new VertexArray(ToVerticeArray(), mVertices.size());
 }
 
@@ -86,7 +86,7 @@ void Mesh::Unload()
 
 std::weak_ptr<Texture> Mesh::GetTexture(std::string& const pTextureName)
 {
-    return mMaterial->GetTexture(pTextureName);
+    return mMaterial.lock()->GetTexture(pTextureName);
 }
 
 float* Mesh::ToVerticeArray()
@@ -111,19 +111,19 @@ float* Mesh::ToVerticeArray()
 
 void Mesh::AddTexture(std::string pName, std::weak_ptr<Texture> pTexture)
 {
-    mMaterial->SetTexture(pName, pTexture);
+    mMaterial.lock()->SetTexture(pName, pTexture);
 }
 
 void Mesh::SetTexture(std::string& textureName, std::weak_ptr<Texture> texture)
 {    
-    mMaterial->SetTexture(textureName, texture);
+    mMaterial.lock()->SetTexture(textureName, texture);
 }    
      
 void Mesh::SetTexture(std::string& textureName, std::string& texture)
 {
     std::weak_ptr<Texture> tempTexture = Assets::Get().GetTexture(texture);
 
-    mMaterial->SetTexture(textureName, tempTexture);
+    mMaterial.lock()->SetTexture(textureName, tempTexture);
 }
 
 void Mesh::SetMesh(VertexArray* pVAO)

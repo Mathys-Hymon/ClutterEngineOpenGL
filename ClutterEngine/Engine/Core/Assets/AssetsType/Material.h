@@ -26,7 +26,7 @@ namespace clt
 	public :
 		Material() = default;
 		Material(ShaderProgram* shaderProgram) : mShader(shaderProgram) {};
-		Material(ShaderProgram* shaderProgram, std::vector <std::weak_ptr<Shader>> shaders);
+		Material(std::vector <std::weak_ptr<Shader>> shaders);
 
 		~Material() = default;
 
@@ -43,71 +43,42 @@ namespace clt
 		void SetMat4Row(const std::string& name, const Matrix4Row& value) override { mMat4RowUniforms[name] = value; };
 
 		void SetShader(ShaderProgram* shaderProgram) { mShader = shaderProgram; }
-		void SetShader(ShaderProgram* shaderProgram, std::vector< std::weak_ptr<Shader>> shaders);
+		void SetShader(std::vector< std::weak_ptr<Shader>> shaders);
 
 		void Apply();
 
 		ShaderProgram* GetShader() const override { return mShader; }
 
-		const std::unordered_map<std::string, float>& GetFloatUniforms() const { return mFloatUniforms; }
-		bool HasFloat(const std::string& name) const { return mFloatUniforms.find(name) != mFloatUniforms.end(); }
-		float GetFloat(const std::string& name) const {
-			auto it = mFloatUniforms.find(name);
-			return it != mFloatUniforms.end() ? it->second : 0.0f;
-		}
+		const std::unordered_map<std::string, float>& GetFloatUniforms() const override { return mFloatUniforms; }
+		bool HasFloat(const std::string& name) const override;
+		float GetFloat(const std::string& name) const override;
 
-		const std::unordered_map<std::string, int>& GetIntUniforms() const { return mIntUniforms; }
-		bool HasInt(const std::string& name) const { return mIntUniforms.find(name) != mIntUniforms.end(); }
-		int GetInt(const std::string& name) const {
-			auto it = mIntUniforms.find(name);
-			return it != mIntUniforms.end() ? it->second : 0;
-		}
+		const std::unordered_map<std::string, int>& GetIntUniforms() const override { return mIntUniforms; }
+		bool HasInt(const std::string& name) const override;
+		int GetInt(const std::string& name) const override;
 
-		const std::unordered_map<std::string, Vector2>& GetVec2Uniforms() const { return mVec2Uniforms; }
-		bool HasVec2(const std::string& name) const { return mVec2Uniforms.find(name) != mVec2Uniforms.end(); }
-		Vector2 GetVec2(const std::string& name) const {
-			auto it = mVec2Uniforms.find(name);
-			return it != mVec2Uniforms.end() ? it->second : Vector2::Zero;
-		}
+		const std::unordered_map<std::string, Vector2>& GetVec2Uniforms() const override { return mVec2Uniforms; }
+		bool HasVec2(const std::string& name) const override;
+		Vector2 GetVec2(const std::string& name) const override;
 
-		const std::unordered_map<std::string, Vector3>& GetVec3Uniforms() const { return mVec3Uniforms; }
-		bool HasVec3(const std::string& name) const { return mVec3Uniforms.find(name) != mVec3Uniforms.end(); }
-		Vector3 GetVec3(const std::string& name) const {
-			auto it = mVec3Uniforms.find(name);
-			return it != mVec3Uniforms.end() ? it->second : Vector3::Zero;
-		}
+		const std::unordered_map<std::string, Vector3>& GetVec3Uniforms() const override { return mVec3Uniforms; }
+		bool HasVec3(const std::string& name) const override;
+		Vector3 GetVec3(const std::string& name) const override;
 
-		const std::unordered_map<std::string, Vector4>& GetVec4Uniforms() const { return mVec4Uniforms; }
-		bool HasVec4(const std::string& name) const { return mVec4Uniforms.find(name) != mVec4Uniforms.end(); }
-		Vector4 GetVec4(const std::string& name) const {
-			auto it = mVec4Uniforms.find(name);
-			return it != mVec4Uniforms.end() ? it->second : Vector4::Zero;
-		}
+		const std::unordered_map<std::string, Vector4>& GetVec4Uniforms() const override { return mVec4Uniforms; }
+		bool HasVec4(const std::string& name) const override;
+		Vector4 GetVec4(const std::string& name) const override;
 
-		const std::unordered_map<std::string, Color>& GetColorUniforms() const { return mColorUniforms; }
-		bool HasColor(const std::string& name) const { return mColorUniforms.find(name) != mColorUniforms.end(); }
-		Color GetColor(const std::string& name) const {
-			auto it = mColorUniforms.find(name);
-			return it != mColorUniforms.end() ? it->second : Color::Black;
-		}
+		const std::unordered_map<std::string, Color>& GetColorUniforms() const override { return mColorUniforms; }
+		bool HasColor(const std::string& name) const override;
+		Color GetColor(const std::string& name) const override;
 
-		const std::unordered_map<std::string, std::weak_ptr<Texture>>& GetTextureUniforms() const { return mTextureUniforms; }
-		bool HasTexture(const std::string& name) const override { return mTextureUniforms.find(name) != mTextureUniforms.end(); }
-        std::weak_ptr<Texture> GetTexture(const std::string& name) const override {
-        auto it = mTextureUniforms.find(name);
-        return it != mTextureUniforms.end() ? it->second : std::weak_ptr<Texture>();
-        }
+		const std::unordered_map<std::string, std::weak_ptr<Texture>>& GetTextureUniforms() const override { return mTextureUniforms; }
+		bool HasTexture(const std::string& name) const override;
+		std::weak_ptr<Texture> GetTexture(const std::string& name) const override;
 
-		bool HasTexture(std::weak_ptr <Texture> texture) const override
-		{
-			if (!texture.lock()) return false;
+		bool HasTexture(std::weak_ptr <Texture> texture) const override;
 
-			for (const auto& [name, texPtr] : mTextureUniforms)
-			{
-				if (texPtr.lock() == texture.lock())
-					return true;
-			}
-			return false;
-		}
+		Vector2 GetVec2(const std::string& name) const override;
 	};
 }

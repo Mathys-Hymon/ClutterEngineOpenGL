@@ -39,10 +39,35 @@ namespace clt
 		void SetMat4(const std::string& name, const Matrix4& value)		  override { mMat4Uniforms[name] = value;       };
 		void SetMat4Row(const std::string& name, const Matrix4Row& value) override { mMat4RowUniforms[name] = value;    };
 
+		const std::unordered_map<std::string, std::weak_ptr<Texture>>& GetTextureUniforms() const override;
 		bool HasTexture(std::weak_ptr<Texture> texture) const override;
 		bool HasTexture(const std::string& texture) const override;
-
 		std::weak_ptr<Texture> GetTexture(const std::string& name) const override;
+
+		const std::unordered_map<std::string, float>& GetFloatUniforms() const override;
+		bool HasFloat(const std::string& name) const override;
+		float GetFloat(const std::string& name) const override;
+
+		const std::unordered_map<std::string, int>& GetIntUniforms() const override;
+		bool HasInt(const std::string& name) const override;
+		int GetInt(const std::string& name) const override;
+
+		const std::unordered_map<std::string, Vector2>& GetVec2Uniforms() const override;
+		bool HasVec2(const std::string& name) const override;
+		Vector2 GetVec2(const std::string& name) const override;
+
+		const std::unordered_map<std::string, Vector3>& GetVec3Uniforms() const override;
+		bool HasVec3(const std::string& name) const override;
+		Vector3 GetVec3(const std::string& name) const override;
+
+		const std::unordered_map<std::string, Vector4>& GetVec4Uniforms() const override;
+		bool HasVec4(const std::string& name) const override;
+		Vector4 GetVec4(const std::string& name) const override;
+
+		const std::unordered_map<std::string, Color>& GetColorUniforms() const override;
+		bool HasColor(const std::string& name) const override;
+		Color GetColor(const std::string& name) const override;
+
 		ShaderProgram* GetShader() const override;
 	};
 }

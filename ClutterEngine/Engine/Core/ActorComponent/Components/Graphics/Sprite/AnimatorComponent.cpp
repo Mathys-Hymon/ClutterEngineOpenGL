@@ -27,13 +27,13 @@ AnimatorComponent::~AnimatorComponent()
 	mAnims.clear();
 }
 
-void AnimatorComponent::AddNewAnim(std::string pAnimName, const std::vector<Texture*>& pTextures, bool pLooping, int pDrawOrder)
+void AnimatorComponent::AddNewAnim(std::string pAnimName, const std::vector<std::weak_ptr<Texture>>& pTextures, bool pLooping, int pDrawOrder)
 {
 	if (mAnims[pAnimName]) CLUTTER_WARNING(("Animation " + pAnimName + " already exists ").c_str());
 	else mAnims[pAnimName] = new FlipbookComponent(pTextures, pLooping, pDrawOrder);
 }
 
-void AnimatorComponent::AddNewAnim(std::string pAnimName, Texture* pTexture, bool pLooping, int pDrawOrder)
+void AnimatorComponent::AddNewAnim(std::string pAnimName, std::weak_ptr<Texture> pTexture, bool pLooping, int pDrawOrder)
 {
 	if (mAnims[pAnimName]) CLUTTER_WARNING(("Animation " + pAnimName + " already exists ").c_str());
 	else mAnims[pAnimName] = new FlipbookComponent({ pTexture }, pLooping, pDrawOrder);

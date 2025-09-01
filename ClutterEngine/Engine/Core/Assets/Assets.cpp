@@ -106,7 +106,7 @@ std::shared_ptr<Mesh> Assets::LoadMeshFromFile(const std::string& pFile, bool pT
     return std::make_shared<Mesh>(vertices, pTesselate);
 }
 
-std::shared_ptr<Mesh> Assets::LoadMeshFromFile(const std::string& pFile, Material* pMaterial, bool pTesselate)
+std::shared_ptr<Mesh> Assets::LoadMeshFromFile(const std::string& pFile, std::weak_ptr<IMaterial> pMaterial, bool pTesselate)
 {
     tinyobj::attrib_t attributes;
     std::vector<tinyobj::shape_t> shapes;
@@ -219,6 +219,19 @@ std::shared_ptr<Texture> Assets::GetTexture(const std::string& name)
     return it->second;
 }
 
+std::shared_ptr<IMaterial> Assets::GetMaterial(const std::string& pName)
+{
+    auto it = mMaterials.find(pName);
+    if (it == mMaterials.end())
+    {
+        CLUTTER_WARNING(("Unable to find Texture: " + pName).c_str());
+
+        auto dflt = mMaterials.find("default");
+        return dflt->second;
+    }
+    return it->second;
+}
+
 std::shared_ptr<Mesh> Assets::GetMesh(const std::string& name, bool tesselate)
 {
     std::string tempName = name;
@@ -277,7 +290,7 @@ std::shared_ptr<Mesh> Assets::LoadMesh(const std::string& pPath, const std::stri
     return mesh;
 }
 
-std::shared_ptr<Mesh> Assets::LoadMesh(const std::string& pPath, const std::string& pName, Material* pMaterial, bool pTesselate)
+std::shared_ptr<Mesh> Assets::LoadMesh(const std::string& pPath, const std::string& pName, std::weak_ptr<IMaterial> pMaterial, bool pTesselate)
 {
     std::string name = pName;
     if (pTesselate) name = pName + "_tess";
@@ -310,7 +323,7 @@ std::shared_ptr<Mesh> Assets::LoadMesh(const std::string& pPath, const std::stri
     std::shared_ptr<Mesh> mesh = LoadMeshFromFile(pPath, pTesselate);
 
     if (mesh) mMeshes[name] = mesh;
-    if (!mesh->GetMaterial().GetTexture("BaseColor") && pTexture.empty()) mesh->GetMaterial().SetTexture("BaseColor", GetTexture("default"));
+    if (!mesh->GetMaterial().GetTexture("BaseColor").lock() && pTexture.empty()) mesh->GetMaterial().SetTexture("BaseColor", GetTexture("default"));
     else mesh->GetMaterial().SetTexture("BaseColor", GetTexture(pTexture));
 
     return mesh;
@@ -401,6 +414,31 @@ std::shared_ptr<Shader> Assets::LoadShader(const std::string& pPath, ShaderType 
 
     mShaders[pType][pPath] = temp;
     return temp;
+}
+
+std::weak_ptr<IMaterial> Assets::CreateMaterial(const std::string& pName, ShaderProgram* pShaderProgram)
+{
+    if (mMaterials[pName])
+    {
+        if (mMaterials[pName].get()->GetShader() == pShaderProgram)
+        {
+            CLUTTER_ERROR("Cannot instantiate material: " + pName + " | Another material with a different ShaderProgram already exists");
+            return std::weak_ptr<IMaterial>();
+        }
+
+        CLUTTER_INFO(pName + "  already exists. Returning existing material");
+        return GetMaterial(pName);
+    }
+
+    std::shared_ptr<Material> temp = std::make_shared<Material>();
+
+    mMaterials[pName] = temp;
+    return temp;
+}
+
+std::weak_ptr<IMaterial> Assets::CreateMaterial(const std::string& pName, std::vector<std::weak_ptr<Shader>> pShaders)
+{
+    return std::shared_ptr<IMaterial>();
 }
 
 std::vector<std::shared_ptr<Texture>> Assets::BulkGetTexture(const std::string& pName, int pLastIndex)
