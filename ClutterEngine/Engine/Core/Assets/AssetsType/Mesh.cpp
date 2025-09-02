@@ -14,24 +14,22 @@ const auto meshVertPath = "Content/Resources/Shaders/basic.vert";
 
 Mesh::Mesh(const float* pVertices, u32 pVerticeCount, bool tesselate)
 {
-    ShaderProgram* tempShader = new ShaderProgram();
     mTesselate = tesselate;
 
     if (tesselate)
     {
-        tempShader->Compose({
-            Assets::Get().LoadShader(tesselate ? meshVertPathTes : meshVertPath, ShaderType::VERTEX),
-            Assets::Get().LoadShader(tesselate ? meshFragPathTes : meshFragPath, ShaderType::FRAGMENT),
-            Assets::Get().LoadShader(meshTescPath, ShaderType::TESSELATION_CONTROL), 
-            Assets::Get().LoadShader(meshTesePath, ShaderType::TESSELATION_EVALUATION) 
+        mMaterial = clt::Assets::Get().CreateMaterial("Default", { 
+        Assets::Get().LoadShader(tesselate ? meshVertPathTes : meshVertPath, ShaderType::VERTEX),
+        Assets::Get().LoadShader(tesselate ? meshFragPathTes : meshFragPath, ShaderType::FRAGMENT),
+        Assets::Get().LoadShader(meshTescPath, ShaderType::TESSELATION_CONTROL),
+        Assets::Get().LoadShader(meshTesePath, ShaderType::TESSELATION_EVALUATION)
             });
     }
-    else  tempShader->Compose({
+    else  mMaterial = clt::Assets::Get().CreateMaterial("Default", { 
         Assets::Get().LoadShader(tesselate ? meshVertPathTes : meshVertPath, ShaderType::VERTEX),
-        Assets::Get().LoadShader(tesselate ? meshFragPathTes : meshFragPath, ShaderType::FRAGMENT), 
+        Assets::Get().LoadShader(tesselate ? meshFragPathTes : meshFragPath, ShaderType::FRAGMENT),
         });
 
-    mMaterial = clt::Assets::Get().CreateMaterial("Default", tempShader);
     mVAO = new VertexArray(pVertices, pVerticeCount);
 }
 
@@ -55,26 +53,22 @@ Mesh::Mesh(std::vector<Vertex> pVertices, std::weak_ptr<IMaterial> pMaterial, bo
 Mesh::Mesh(std::vector<Vertex> pVertices, bool tesselate) 
     : mVertices(std::move(pVertices))
 {
-    ShaderProgram* tempShader = new ShaderProgram();
     mTesselate = tesselate;
 
     if (tesselate)
     {
-        tempShader->Compose({
-            Assets::Get().LoadShader(tesselate ? meshVertPathTes : meshVertPath, ShaderType::VERTEX),
-            Assets::Get().LoadShader(tesselate ? meshFragPathTes : meshFragPath, ShaderType::FRAGMENT),
-            Assets::Get().LoadShader(meshTescPath, ShaderType::TESSELATION_CONTROL),
-            Assets::Get().LoadShader(meshTesePath, ShaderType::TESSELATION_EVALUATION) });
-    }
-    else
-    {
-        tempShader->Compose({
+        mMaterial = clt::Assets::Get().CreateMaterial("Default", {
         Assets::Get().LoadShader(tesselate ? meshVertPathTes : meshVertPath, ShaderType::VERTEX),
-        Assets::Get().LoadShader(tesselate ? meshFragPathTes : meshFragPath, ShaderType::FRAGMENT) 
+        Assets::Get().LoadShader(tesselate ? meshFragPathTes : meshFragPath, ShaderType::FRAGMENT),
+        Assets::Get().LoadShader(meshTescPath, ShaderType::TESSELATION_CONTROL),
+        Assets::Get().LoadShader(meshTesePath, ShaderType::TESSELATION_EVALUATION)
             });
     }
+    else  mMaterial = clt::Assets::Get().CreateMaterial("Default", {
+        Assets::Get().LoadShader(tesselate ? meshVertPathTes : meshVertPath, ShaderType::VERTEX),
+        Assets::Get().LoadShader(tesselate ? meshFragPathTes : meshFragPath, ShaderType::FRAGMENT),
+        });
 
-    mMaterial = clt::Assets::Get().CreateMaterial("Default", tempShader);
 	mVAO = new VertexArray(ToVerticeArray(), mVertices.size());
 }
 

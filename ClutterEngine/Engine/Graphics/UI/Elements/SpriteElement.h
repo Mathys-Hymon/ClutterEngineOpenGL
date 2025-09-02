@@ -19,7 +19,7 @@ public:
 	{  
 	}  
 
-	SpriteElement(std::shared_ptr<Texture> texture, Vector2 size = { 1,1 }, Vector2 position = { 0, 0 }, int ZOrder = 0)  
+	SpriteElement(std::weak_ptr<Texture> texture, Vector2 size = { 1,1 }, Vector2 position = { 0, 0 }, int ZOrder = 0)  
 		: WidgetElement(size, position, ZOrder)  
 	{  
 		mTexture = texture;  

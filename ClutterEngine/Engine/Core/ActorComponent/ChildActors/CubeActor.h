@@ -12,7 +12,7 @@ namespace clt
 		CubeActor(Level* pLevel, std::string pName, bool pTesselate, Vector2 pTiling = { 4,4 });
 
 		CubeActor(Level* pLevel, std::string pName, std::string pTexture, bool pTesselate = false, Vector2 pTiling = { 4,4 });
-		CubeActor(Level* pLevel, std::string pName, Texture* pTexture, bool pTesselate = false, Vector2 pTiling = { 4,4 });
+		CubeActor(Level* pLevel, std::string pName, std::weak_ptr<clt::Texture> pTexture, bool pTesselate = false, Vector2 pTiling = { 4,4 });
 
 		~CubeActor() = default;
 	};

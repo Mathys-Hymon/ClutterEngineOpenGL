@@ -3,7 +3,6 @@
 #include <Graphics/Shader/ShaderProgram.h>
 #include <Core/Assets/AssetsType/Texture.h>
 #include <Core/Assets/AssetsType/IMaterial.h>
-#include <unordered_map>
 
 namespace clt
 {
@@ -26,7 +25,7 @@ namespace clt
 	public :
 		Material() = default;
 		Material(ShaderProgram* shaderProgram) : mShader(shaderProgram) {};
-		Material(std::vector <std::weak_ptr<Shader>> shaders);
+		Material(std::vector <Shader*> shaders);
 
 		~Material() = default;
 
@@ -43,7 +42,7 @@ namespace clt
 		void SetMat4Row(const std::string& name, const Matrix4Row& value) override { mMat4RowUniforms[name] = value; };
 
 		void SetShader(ShaderProgram* shaderProgram) { mShader = shaderProgram; }
-		void SetShader(std::vector< std::weak_ptr<Shader>> shaders);
+		void SetShader(std::vector<Shader*> shaders);
 
 		void Apply();
 
@@ -78,7 +77,5 @@ namespace clt
 		std::weak_ptr<Texture> GetTexture(const std::string& name) const override;
 
 		bool HasTexture(std::weak_ptr <Texture> texture) const override;
-
-		Vector2 GetVec2(const std::string& name) const override;
 	};
 }

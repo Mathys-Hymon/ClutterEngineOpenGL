@@ -6,14 +6,14 @@ using namespace clt;
 
 MeshComponent::MeshComponent(std::weak_ptr<Mesh> pMesh, int pDrawOrder, Vector2 pTextureTiling) : Component(pDrawOrder), mMesh(pMesh)
 {
-    if (mMesh.lock()) mMesh.lock().get()->GetMaterial().SetInt("");
-    mMesh.lock()->GetMaterial().SetVec2("uTiling", pTextureTiling);
+    if (mMesh.lock())   mMesh.lock()->GetMaterial().SetVec2("uTiling", pTextureTiling);
+    
 }
 
-MeshComponent::MeshComponent(const std::string& pMesh, int pDrawOrder, Vector2 pTextureTiling) : Component(pDrawOrder), mMesh(nullptr)
+MeshComponent::MeshComponent(const std::string& pMesh, int pDrawOrder, Vector2 pTextureTiling) : Component(pDrawOrder)
 {
     mMesh = Assets::Get().GetMesh(pMesh);
-    mMesh.lock()->GetMaterial().SetVec2("uTiling", pTextureTiling);
+    if (mMesh.lock())   mMesh.lock()->GetMaterial().SetVec2("uTiling", pTextureTiling);
 }
 
 MeshComponent::~MeshComponent()

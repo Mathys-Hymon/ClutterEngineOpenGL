@@ -5,7 +5,7 @@ class DoomHUD : public clt::HUDComponent
 	float mCanShoot;
 	float mTauntDelay;
 
-	std::vector<clt::Texture*> mHeads;
+	std::vector<std::weak_ptr<clt::Texture>> mHeads;
 
 public:
 	int mLifeState, mLife;

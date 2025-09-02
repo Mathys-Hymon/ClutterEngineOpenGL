@@ -25,9 +25,9 @@ DoomHUD::DoomHUD() : HUDComponent(), mLifeState(3), mCanShoot(0.0f), mTauntDelay
 
 	GetCurrentWidget()->CreateElement<clt::TextElement>("ammoText", "55", "hudfont", Color::Red, 1.15f, Vector2{ -500, -280 }, 100);
 
-	std::vector<clt::Texture*> weapon = clt::Assets::Get().BulkLoadTexture("Content/Resources/Sprites/", 5, "_playerShoot.png", "pistolShoot", TextureFilter::NEAREST, false);
+	std::vector<std::weak_ptr<clt::Texture>> weapon = clt::Assets::Get().BulkLoadTexture("Content/Resources/Sprites/", 5, "_playerShoot.png", "pistolShoot", TextureFilter::NEAREST, false);
 
-	std::vector<clt::Texture*> hitAnim = clt::Assets::Get().BulkLoadTexture("Content/Resources/Sprites/FadeOutHit/", 6, "_Fade.png", "fadeHit");
+	std::vector<std::weak_ptr<clt::Texture>> hitAnim = clt::Assets::Get().BulkLoadTexture("Content/Resources/Sprites/FadeOutHit/", 6, "_Fade.png", "fadeHit");
 
 	GetCurrentWidget()->CreateElement<clt::FlipbookElement>("hitAnim", hitAnim, false, 10, 4)->Pause();
 
@@ -60,7 +60,6 @@ void DoomHUD::Update()
 		int random = rand() % 3;
 		
 		GetCurrentWidget()->GetElement<clt::SpriteElement>("playerHead")->SetTexture(mHeads[random]);
-		
 	}
 }
 

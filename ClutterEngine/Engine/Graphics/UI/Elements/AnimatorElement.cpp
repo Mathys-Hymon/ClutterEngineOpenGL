@@ -3,7 +3,7 @@
 
 using namespace clt;
 
-AnimatorElement::AnimatorElement(std::string pAnimName, const std::vector<Texture*>& pTextures, bool pLooping, float pAnimFps, Vector2 pSize, Vector2 pPosition, int zOrder) : FlipbookElement(pTextures, pLooping, pAnimFps, pSize, pPosition, zOrder)
+AnimatorElement::AnimatorElement(std::string pAnimName, const std::vector< std::weak_ptr<Texture>>& pTextures, bool pLooping, float pAnimFps, Vector2 pSize, Vector2 pPosition, int zOrder) : FlipbookElement(pTextures, pLooping, pAnimFps, pSize, pPosition, zOrder)
 {
 	mAnims[pAnimName] = new FlipbookElement(pTextures, pLooping, pAnimFps);
 }
@@ -20,7 +20,7 @@ AnimatorElement::~AnimatorElement()
 	mAnims.clear();
 }
 
-void AnimatorElement::AddNewAnim(std::string pAnimName, const std::vector<Texture*>& pTextures, bool pLooping, float pAnimFps, int pDrawOrder)
+void AnimatorElement::AddNewAnim(std::string pAnimName, const std::vector< std::weak_ptr<Texture>>& pTextures, bool pLooping, float pAnimFps, int pDrawOrder)
 {
 	if (mAnims[pAnimName]) CLUTTER_WARNING(("Animation " + pAnimName + " already exists ").c_str());
 	else mAnims[pAnimName] = new FlipbookElement(pTextures, pLooping, pAnimFps);

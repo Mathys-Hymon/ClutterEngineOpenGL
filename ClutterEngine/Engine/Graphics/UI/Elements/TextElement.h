@@ -16,7 +16,7 @@ namespace clt
 	{
 		std::string mText;
 		Color mColor;
-		Font* mFont;
+		std::weak_ptr<Font> mFont;
 
 		float mWidth;
 
@@ -32,7 +32,7 @@ namespace clt
 
 		TextElement(std::string text, Color color, float textSize = 1, Vector2 position = { 0, 0 }, int ZOrder = 0);
 
-		TextElement(std::string text, Font* font, Color color = Color::White, float textSize = 1, Vector2 position = { 0, 0 }, int ZOrder = 0);
+		TextElement(std::string text,std::weak_ptr<Font> font, Color color = Color::White, float textSize = 1, Vector2 position = { 0, 0 }, int ZOrder = 0);
 
 		~TextElement();
 

@@ -188,14 +188,14 @@ std::shared_ptr<Texture> Assets::LoadTexture(const std::string& path, const std:
     stbi_image_free(data);
 
     Texture* tempTexture = new Texture(textureID, width, height, channels);
-    mTextures[name] = std::make_shared<Texture>(tempTexture);
+    mTextures[name] = std::shared_ptr<Texture>(tempTexture);
 
     return mTextures[name];
 }
 
-std::vector<Texture*> Assets::BulkLoadTexture(const std::string& pPath, int pLastIndex, const std::string& pFileName, const std::string& pName, TextureFilter pTexFilter, bool pMipMap)
+std::vector<std::weak_ptr<Texture>> Assets::BulkLoadTexture(const std::string& pPath, int pLastIndex, const std::string& pFileName, const std::string& pName, TextureFilter pTexFilter, bool pMipMap)
 {
-    std::vector<Texture*> tempAnim;
+    std::vector<std::weak_ptr<Texture>> tempAnim;
 
     for (int i = 0; i <= pLastIndex; i++)
     {
@@ -257,7 +257,7 @@ std::shared_ptr<Font> Assets::GetFont(const std::string& name)
     return it->second;
 }
 
-std::shared_ptr<Shader> Assets::GetShader(const std::string& pPath, ShaderType pType)
+Shader* Assets::GetShader(const std::string& pPath, ShaderType pType)
 {
     auto it = mShaders.find(pType);
 
@@ -276,7 +276,7 @@ std::shared_ptr<Shader> Assets::GetShader(const std::string& pPath, ShaderType p
     return shader->second;
 }
 
-std::shared_ptr<Mesh> Assets::LoadMesh(const std::string& pPath, const std::string& pName, std::vector<Texture*> pTextures, bool pTesselate)
+std::shared_ptr<Mesh> Assets::LoadMesh(const std::string& pPath, const std::string& pName, std::vector<std::weak_ptr<Texture>> pTextures, bool pTesselate)
 {
     std::string name = pName;
     if (pTesselate)  std::string name = name + "_tess";
@@ -406,10 +406,10 @@ std::shared_ptr<Font> Assets::LoadFont(const std::string& pPath, const std::stri
     return font;
 }
 
-std::shared_ptr<Shader> Assets::LoadShader(const std::string& pPath, ShaderType pType)
+Shader* Assets::LoadShader(const std::string& pPath, ShaderType pType)
 {
     if (mShaders[pType][pPath]) return GetShader(pPath, pType);
-    std::shared_ptr<Shader> temp = std::make_shared<Shader>();
+    Shader* temp = new Shader();
     temp->Load(pPath, pType);
 
     mShaders[pType][pPath] = temp;
@@ -430,15 +430,29 @@ std::weak_ptr<IMaterial> Assets::CreateMaterial(const std::string& pName, Shader
         return GetMaterial(pName);
     }
 
-    std::shared_ptr<Material> temp = std::make_shared<Material>();
+    std::shared_ptr<Material> temp = std::make_shared<Material>(pShaderProgram);
 
     mMaterials[pName] = temp;
     return temp;
 }
 
-std::weak_ptr<IMaterial> Assets::CreateMaterial(const std::string& pName, std::vector<std::weak_ptr<Shader>> pShaders)
+std::weak_ptr<IMaterial> Assets::CreateMaterial(const std::string& pName, std::vector<Shader*> pShaders)
 {
-    return std::shared_ptr<IMaterial>();
+    if (mMaterials[pName])
+    {
+        CLUTTER_INFO(pName + "  already exists. Returning existing material");
+        return GetMaterial(pName);
+    }
+
+    std::vector<Shader*> weakShaders;
+    weakShaders.reserve(pShaders.size());
+    for (auto& s : pShaders)
+        weakShaders.push_back(s);
+
+    std::shared_ptr<Material> temp = std::make_shared<Material>(weakShaders);
+
+    mMaterials[pName] = temp;
+    return temp;
 }
 
 std::vector<std::shared_ptr<Texture>> Assets::BulkGetTexture(const std::string& pName, int pLastIndex)

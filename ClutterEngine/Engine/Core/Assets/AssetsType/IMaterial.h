@@ -1,6 +1,9 @@
 #pragma once
 #include <Core/CCommon.h>
 #include <Graphics/Shader/ShaderProgram.h>
+#include <unordered_map>
+#include <Core/Maths/Vectors/Vector2.h>
+#include <Core/Maths/Vectors/Vector3.h>
 
 namespace clt
 {

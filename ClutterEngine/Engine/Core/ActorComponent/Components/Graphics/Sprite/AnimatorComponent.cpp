@@ -3,16 +3,16 @@
 
 using namespace clt;
 
-AnimatorComponent::AnimatorComponent(std::string pAnimName, const std::vector<Texture*>& pTextures, bool pLooping, int pDrawOrder)
+AnimatorComponent::AnimatorComponent(std::string pAnimName, const std::vector<std::weak_ptr<Texture>>& pTextures, bool pLooping, int pDrawOrder)
 	: FlipbookComponent(pTextures, pLooping, pDrawOrder)
 {
 	mAnims[pAnimName] = new FlipbookComponent(pTextures, pLooping, pDrawOrder);
 }
 
-AnimatorComponent::AnimatorComponent(std::string pAnimName, Texture* pTexture, bool pLooping, int pDrawOrder)
-	: FlipbookComponent({pTexture}, pLooping, pDrawOrder)
+AnimatorComponent::AnimatorComponent(std::string pAnimName, std::weak_ptr<Texture> pTexture, bool pLooping, int pDrawOrder)
+	: FlipbookComponent({pTexture.lock()}, pLooping, pDrawOrder)
 {
-	mAnims[pAnimName] = new FlipbookComponent({pTexture}, pLooping, pDrawOrder);
+	mAnims[pAnimName] = new FlipbookComponent({pTexture.lock()}, pLooping, pDrawOrder);
 }
 
 AnimatorComponent::~AnimatorComponent()

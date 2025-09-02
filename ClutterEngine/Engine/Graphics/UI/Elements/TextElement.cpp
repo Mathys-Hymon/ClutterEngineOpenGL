@@ -7,10 +7,12 @@ using namespace clt;
 
 void TextElement::CalculateWidth()
 {
+    auto font = mFont.lock()->mCharacters;
+
     float width = 0.0f;
     for (const char& c : mText)
     {
-        Character ch = mFont->mCharacters.at(c);
+        Character ch = font.at(c);
         width += (ch.Advance >> 6);
     }
     
@@ -18,7 +20,7 @@ void TextElement::CalculateWidth()
 }
 
 TextElement::TextElement(std::string text, std::string font, Color color, float textSize, Vector2 position, int ZOrder)
-    : WidgetElement(textSize, position, ZOrder), mText(text), mFont(nullptr), mColor(color), mAlignment(TextAlignment::Center)
+    : WidgetElement(textSize, position, ZOrder), mText(text), mColor(color), mAlignment(TextAlignment::Center)
 {
 	mFont = Assets::Get().GetFont(font);
 
@@ -36,7 +38,7 @@ TextElement::TextElement(std::string text, std::string font, Color color, float 
 }
 
 TextElement::TextElement(std::string text, Color color, float textSize, Vector2 position, int ZOrder)
-    : WidgetElement(textSize, position, ZOrder), mText(text), mFont(nullptr), mColor(color), mAlignment(TextAlignment::Center)
+    : WidgetElement(textSize, position, ZOrder), mText(text), mColor(color), mAlignment(TextAlignment::Center)
 {
     mFont = Assets::Get().GetFont("BebasNeue");
 
@@ -53,7 +55,7 @@ TextElement::TextElement(std::string text, Color color, float textSize, Vector2 
     CalculateWidth();
 }
 
-TextElement::TextElement(std::string text, Font* font, Color color, float textSize, Vector2 position, int ZOrder) : WidgetElement(textSize, position, ZOrder), mText(text), mFont(font), mColor(color), mAlignment(TextAlignment::Center)
+TextElement::TextElement(std::string text,std::weak_ptr<Font> font, Color color, float textSize, Vector2 position, int ZOrder) : WidgetElement(textSize, position, ZOrder), mText(text), mFont(font), mColor(color), mAlignment(TextAlignment::Center)
 {
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -122,10 +124,11 @@ void TextElement::Draw(RendererGL* renderer)
     }
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
     std::string::const_iterator c;
     for (c = mText.begin(); c != mText.end(); c++)
     {
-        Character ch = mFont->mCharacters[*c];
+        Character ch = mFont.lock()->mCharacters[*c];
 
         float xpos = x + ch.Bearing.x * mTransform.scale.x;
         float ypos = -mTransform.location.y - (ch.Size.y - ch.Bearing.y) * mTransform.scale.y;

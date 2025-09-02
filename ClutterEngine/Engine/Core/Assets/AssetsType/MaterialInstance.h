@@ -7,7 +7,7 @@ namespace clt
 {
 	class CLUTTER_API MaterialInstance : public IMaterial
 	{
-		Material* mBaseMaterial;
+		IMaterial* mBaseMaterial;
 
 		std::unordered_map<std::string, float> mFloatOverrides;
 		std::unordered_map<std::string, int> mIntOverrides;
@@ -27,17 +27,17 @@ namespace clt
 
 		void Apply() override;
 
-		void SetFloat(const std::string& name, float value)				  override { mFloatOverrides[name] = value;     };
-		void SetInt(const std::string& name, int value)					  override { mIntOverrides[name] = value;       };
-		void SetVec2(const std::string& name, const Vector2& value)		  override { mVec2Overrides[name] = value;      };
-		void SetVec3(const std::string& name, const Vector3& value)		  override { mVec3Overrides[name] = value;      };
-		void SetVec4(const std::string& name, const Vector4& value)		  override { mVec4Overrides[name] = value;      };
-		void SetColor(const std::string& name, const Color& value)		  override { mColorOverrides[name] = value;     };
-		void SetTexture(const std::string& name, std::weak_ptr<Texture> texture)		  override { mTextureOverrides[name] = texture; };
-		void SetMat2(const std::string& name, const glm::mat2& value)	  override { mMat2Uniforms[name] = value;		};
-		void SetMat3(const std::string& name, const glm::mat3& value)	  override { mMat3Uniforms[name] = value;       };
-		void SetMat4(const std::string& name, const Matrix4& value)		  override { mMat4Uniforms[name] = value;       };
-		void SetMat4Row(const std::string& name, const Matrix4Row& value) override { mMat4RowUniforms[name] = value;    };
+		void SetFloat(const std::string& name, float value)						 override { mFloatOverrides[name] = value;     };
+		void SetInt(const std::string& name, int value)							 override { mIntOverrides[name] = value;       };
+		void SetVec2(const std::string& name, const Vector2& value)				 override { mVec2Overrides[name] = value;      };
+		void SetVec3(const std::string& name, const Vector3& value)			     override { mVec3Overrides[name] = value;      };
+		void SetVec4(const std::string& name, const Vector4& value)			     override { mVec4Overrides[name] = value;      };
+		void SetColor(const std::string& name, const Color& value)			     override { mColorOverrides[name] = value;     };
+		void SetTexture(const std::string& name, std::weak_ptr<Texture> texture) override { mTextureOverrides[name] = texture; };
+		void SetMat2(const std::string& name, const glm::mat2& value)			 override { mMat2Uniforms[name] = value;	   };
+		void SetMat3(const std::string& name, const glm::mat3& value)			 override { mMat3Uniforms[name] = value;       };
+		void SetMat4(const std::string& name, const Matrix4& value)				 override { mMat4Uniforms[name] = value;       };
+		void SetMat4Row(const std::string& name, const Matrix4Row& value)		 override { mMat4RowUniforms[name] = value;    };
 
 		const std::unordered_map<std::string, std::weak_ptr<Texture>>& GetTextureUniforms() const override;
 		bool HasTexture(std::weak_ptr<Texture> texture) const override;

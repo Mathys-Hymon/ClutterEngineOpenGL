@@ -8,9 +8,9 @@ namespace clt
 		std::unordered_map<std::string, FlipbookComponent*> mAnims;
 
 	public:
-		AnimatorComponent(std::string pAnimName, const std::vector<Texture*>& pTextures, bool pLooping = true, int pDrawOrder = 100);
+		AnimatorComponent(std::string pAnimName, const std::vector<std::weak_ptr<Texture>>& pTextures, bool pLooping = true, int pDrawOrder = 100);
 
-		AnimatorComponent(std::string pAnimName, Texture* pTexture, bool pLooping = true, int pDrawOrder = 100);
+		AnimatorComponent(std::string pAnimName,std::weak_ptr<Texture> pTexture, bool pLooping = true, int pDrawOrder = 100);
 		AnimatorComponent() = delete;
 		AnimatorComponent(const FlipbookComponent&) = delete;
 		AnimatorComponent& operator = (const FlipbookComponent&) = delete;

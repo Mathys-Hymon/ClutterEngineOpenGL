@@ -12,14 +12,14 @@ namespace clt
 	class CLUTTER_API ShaderProgram
 	{
 		GLuint mID;
-		std::vector<std::weak_ptr<Shader>> mShaders;
+		std::vector<Shader*> mShaders;
 
 	public :
 		ShaderProgram();
 		~ShaderProgram() = default;
 
 		void Unload();
-		void Compose(std::vector<std::weak_ptr<Shader>> shaders);
+		void Compose(std::vector<Shader*> shaders);
 
 		GLuint GetID() const { return mID; }
 

@@ -24,8 +24,8 @@ CubeActor::CubeActor(Level* pLevel, std::string pName, std::string pTexture, boo
    AddComponent<OBBCollider>();  
 }  
 
-CubeActor::CubeActor(Level* pLevel, std::string pName, Texture* pTexture, bool pTesselate, Vector2 pTiling) : Actor(pLevel, pName)  
+CubeActor::CubeActor(Level* pLevel, std::string pName, std::weak_ptr<clt::Texture> pTexture, bool pTesselate, Vector2 pTiling) : Actor(pLevel, pName)
 {  
-   AddComponent<MeshComponent>(Assets::Get().LoadMesh("Content/Resources/Mesh/cube.obj", "cube", std::vector<Texture*>{pTexture}, pTesselate), 0, pTiling);  
+   AddComponent<MeshComponent>(Assets::Get().LoadMesh("Content/Resources/Mesh/cube.obj", "cube", std::vector<std::weak_ptr<clt::Texture>>{pTexture}, pTesselate), 0, pTiling);  
    AddComponent<OBBCollider>();  
 }

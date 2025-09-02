@@ -3,13 +3,13 @@
 
 using namespace clt;
 
-Material::Material(std::vector<std::weak_ptr<Shader>> shaders) : mShader(nullptr)
+Material::Material(std::vector<Shader*> shaders) : mShader(nullptr)
 {
 	mShader = new ShaderProgram();
 	mShader->Compose(shaders);
 }
 
-void Material::SetShader(std::vector<std::weak_ptr<Shader>> shaders)
+void Material::SetShader(std::vector<Shader*> shaders)
 {
 	if(!mShader)	mShader = new ShaderProgram();
 	else mShader->Unload();
