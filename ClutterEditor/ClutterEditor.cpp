@@ -1,5 +1,4 @@
 #include <Application/EditorApplication.h>
-#include <Core/Levels/TemplateLevel/TemplateLevel.h>
 
 int main()
 {

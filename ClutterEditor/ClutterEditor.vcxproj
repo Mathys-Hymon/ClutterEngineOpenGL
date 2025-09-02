@@ -128,7 +128,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>EDITOR;EDITOR;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>EDITOR;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>..\ClutterEngine\Engine;Content;Content\Resources;ThirdParty\ImGui</AdditionalIncludeDirectories>
@@ -137,7 +137,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ClutterEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ClutterEngine.lib;glfw3.lib;opengl32.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -178,10 +178,20 @@
     <ClCompile Include="ClutterEditor.cpp" />
     <ClCompile Include="Content\Application\EditorApplication.cpp" />
     <ClCompile Include="Content\Application\ImGuiLayer.cpp" />
+    <ClCompile Include="ThirdParty\ImGui\backends\imgui_impl_glfw.cpp" />
+    <ClCompile Include="ThirdParty\ImGui\backends\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="ThirdParty\ImGui\imgui.cpp" />
+    <ClCompile Include="ThirdParty\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="ThirdParty\ImGui\imgui_tables.cpp" />
+    <ClCompile Include="ThirdParty\ImGui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Content\Application\EditorApplication.h" />
     <ClInclude Include="Content\Application\ImGuiLayer.h" />
+    <ClInclude Include="ThirdParty\ImGui\backends\imgui_impl_glfw.h" />
+    <ClInclude Include="ThirdParty\ImGui\backends\imgui_impl_opengl3.h" />
+    <ClInclude Include="ThirdParty\ImGui\imconfig.h" />
+    <ClInclude Include="ThirdParty\ImGui\imgui.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Config\project.config.json" />

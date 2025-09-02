@@ -3,6 +3,11 @@
 
 ImGuiLayer::ImGuiLayer()
 {
+    ImGui::CreateContext();
+    ImGui_ImplGlfw_InitForOpenGL(clt::Window::Get().GetGLFWWindow(), true);
+    ImGui_ImplOpenGL3_Init("#version 330");
+
+    ImGui::StyleColorsDark();
 }
 
 void ImGuiLayer::BeginFrame()
@@ -17,47 +22,15 @@ void ImGuiLayer::DrawUI()
     ImGui::Begin("Clutter Editor - Project Launcher");
 
     ImGui::Text("Open Project");
-    ImGui::Separator();
-
-    // --- Bouton Browse (placeholder pour vrai file dialog) ---
-    if (ImGui::Button("Browse..."))
-    {
-        std::string fakePath = "C:/Users/Mathys/Projects/NewProject";
-        editorApp->OpenProject(fakePath);
-    }
-
-    ImGui::Spacing();
-    ImGui::Text("Recent Projects:");
-    ImGui::Separator();
-
-    for (auto& project : sRecentProjects)
-    {
-        if (ImGui::Selectable(project.c_str()))
-        {
-            editorApp->OpenProject(project);
-        }
-    }
-
-    ImGui::End();
 }
 
 void ImGuiLayer::EndFrame()
 {
+    ImGui::End();
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-    if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-    {
-        GLFWwindow* backup_current_context = glfwGetCurrentContext();
-        ImGui::UpdatePlatformWindows();
-        ImGui::RenderPlatformWindowsDefault();
-        glfwMakeContextCurrent(backup_current_context);
-    }
 }
 
 ImGuiLayer::~ImGuiLayer()
 {
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
 }
