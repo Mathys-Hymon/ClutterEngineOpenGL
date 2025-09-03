@@ -27,8 +27,6 @@ void EditorApplication::Update()
 		clt::Application::Render();
 		Render();
 		window.SwapBuffers();
-
-		glfwPollEvents();
 	}
 }
 

@@ -455,6 +455,23 @@ std::weak_ptr<IMaterial> Assets::CreateMaterial(const std::string& pName, std::v
     return temp;
 }
 
+std::weak_ptr<IMaterial> Assets::CreateMaterialInstance(const std::string& pName, std::weak_ptr<IMaterial> pParent)
+{
+
+    if (mMaterials[pName])
+    {
+        CLUTTER_INFO(pName + "  already exists. Returning existing material");
+        return GetMaterial(pName);
+    }
+
+    MaterialInstance* tempMaterial = new MaterialInstance(pParent);
+
+    std::shared_ptr<MaterialInstance> temp = std::make_shared<MaterialInstance>(tempMaterial);
+
+    mMaterials[pName] = temp;
+    return temp;
+}
+
 std::vector<std::shared_ptr<Texture>> Assets::BulkGetTexture(const std::string& pName, int pLastIndex)
 {
     std::vector<std::shared_ptr<Texture>> tempAnim;

@@ -3,7 +3,7 @@
 #include <Core/Assets/AssetsType/Texture.h>
 #include <Core/Assets/AssetsType/Mesh.h>
 #include <Core/Assets/AssetsType/Font.h>
-
+#include <Core/Assets/AssetsType/MaterialInstance.h>
 
 enum class TextureFilter
 {
