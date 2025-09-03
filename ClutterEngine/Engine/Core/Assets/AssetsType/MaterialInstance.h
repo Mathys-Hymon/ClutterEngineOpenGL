@@ -7,7 +7,7 @@ namespace clt
 {
 	class CLUTTER_API MaterialInstance : public IMaterial
 	{
-		std::weak_ptr<IMaterial> mBaseMaterial;
+		IMaterial* mBaseMaterial;
 
 		std::unordered_map<std::string, float> mFloatOverrides;
 		std::unordered_map<std::string, int> mIntOverrides;
@@ -22,7 +22,7 @@ namespace clt
 		std::unordered_map<std::string, Matrix4Row> mMat4RowUniforms;
 
 	public :
-		MaterialInstance(std::weak_ptr<IMaterial> baseMaterial) : mBaseMaterial(baseMaterial) {};
+		MaterialInstance(Material* baseMaterial) : mBaseMaterial(baseMaterial) {};
 		~MaterialInstance() = default;
 
 		void Apply() override;

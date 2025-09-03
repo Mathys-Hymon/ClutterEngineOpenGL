@@ -5,43 +5,42 @@ using namespace clt;
 
 void MaterialInstance::Apply()
 {
-	IMaterial* mat = mBaseMaterial.lock().get();
-	if (!mat)
+	if (!mBaseMaterial)
 		return;
 
-	ShaderProgram* shader = mat->GetShader();
+	ShaderProgram* shader = mBaseMaterial->GetShader();
 	if (!shader)
 		return;
 
 	shader->Use();
 
 	// Apply float
-	for (const auto& [name, val] : mat->GetFloatUniforms())
+	for (const auto& [name, val] : mBaseMaterial->GetFloatUniforms())
 		shader->SetFloat(name.c_str(), mFloatOverrides.count(name) ? mFloatOverrides[name] : val);
 
 	// Apply Int
-	for (const auto& [name, val] : mat->GetIntUniforms())
+	for (const auto& [name, val] : mBaseMaterial->GetIntUniforms())
 		shader->SetInt(name.c_str(), mIntOverrides.count(name) ? mIntOverrides[name] : val);
 
 	// Apply vec2
-	for (const auto& [name, val] : mat->GetVec2Uniforms())
+	for (const auto& [name, val] : mBaseMaterial->GetVec2Uniforms())
 		shader->SetVec2f(name.c_str(), mVec2Overrides.count(name) ? mVec2Overrides[name] : val);
 
 	// Apply vec3
-	for (const auto& [name, val] : mat->GetVec3Uniforms())
+	for (const auto& [name, val] : mBaseMaterial->GetVec3Uniforms())
 		shader->SetVec3f(name.c_str(), mVec3Overrides.count(name) ? mVec3Overrides[name] : val);
 
 	// Apply vec4
-	for (const auto& [name, val] : mat->GetVec4Uniforms())
+	for (const auto& [name, val] : mBaseMaterial->GetVec4Uniforms())
 		shader->SetVec4f(name.c_str(), mVec4Overrides.count(name) ? mVec4Overrides[name] : val);
 
 	// Apply colors
-	for (const auto& [name, val] : mat->GetColorUniforms())
+	for (const auto& [name, val] : mBaseMaterial->GetColorUniforms())
 		shader->SetVec3f(name.c_str(), mColorOverrides.count(name) ? mColorOverrides[name] : val);
 
 	// Apply textures
 	int unit = 0;
-	for (const auto& [name, val] : mat->GetTextureUniforms())
+	for (const auto& [name, val] : mBaseMaterial->GetTextureUniforms())
 	{
 		auto tex = mTextureOverrides.count(name) ? mTextureOverrides[name].lock() : val.lock();
 
@@ -58,7 +57,7 @@ const std::unordered_map<std::string, std::weak_ptr<Texture>>& MaterialInstance:
 {
 	std::unordered_map<std::string, std::weak_ptr<Texture>> tempMap;
 
-	for (const auto& [name, val] : mBaseMaterial.lock()->GetTextureUniforms())
+	for (const auto& [name, val] : mBaseMaterial->GetTextureUniforms())
 		tempMap[name] = mTextureOverrides.count(name) ? mTextureOverrides.at(name) : val;
 
 	return tempMap;
@@ -73,12 +72,12 @@ bool clt::MaterialInstance::HasTexture(std::weak_ptr<Texture> texture) const
 		if (texPtr.lock() == texture.lock())
 			return true;
 	}
-	return mBaseMaterial.lock()->HasTexture(texture);
+	return mBaseMaterial->HasTexture(texture);
 }
 
 bool clt::MaterialInstance::HasTexture(const std::string& texture) const
 {
-	return (mTextureOverrides.find(texture) != mTextureOverrides.end() || mBaseMaterial.lock()->HasTexture(texture));
+	return (mTextureOverrides.find(texture) != mTextureOverrides.end() || mBaseMaterial->HasTexture(texture));
 }
 
 std::weak_ptr<Texture> clt::MaterialInstance::GetTexture(const std::string& name) const
@@ -90,7 +89,7 @@ const std::unordered_map<std::string, float>& clt::MaterialInstance::GetFloatUni
 {
 	std::unordered_map<std::string, float> tempMap;
 
-	for (const auto& [name, val] : mBaseMaterial.lock()->GetFloatUniforms())
+	for (const auto& [name, val] : mBaseMaterial->GetFloatUniforms())
 		tempMap[name] = mFloatOverrides.count(name) ? mFloatOverrides.at(name) : val;
 
 	return tempMap;
@@ -98,7 +97,7 @@ const std::unordered_map<std::string, float>& clt::MaterialInstance::GetFloatUni
 
 bool clt::MaterialInstance::HasFloat(const std::string& name) const
 {
-	return (mFloatOverrides.find(name) != mFloatOverrides.end() || mBaseMaterial.lock()->HasFloat(name));
+	return (mFloatOverrides.find(name) != mFloatOverrides.end() || mBaseMaterial->HasFloat(name));
 }
 
 float clt::MaterialInstance::GetFloat(const std::string& name) const
@@ -110,7 +109,7 @@ const std::unordered_map<std::string, int>& clt::MaterialInstance::GetIntUniform
 {
 	std::unordered_map<std::string, int> tempMap;
 
-	for (const auto& [name, val] : mBaseMaterial.lock()->GetIntUniforms())
+	for (const auto& [name, val] : mBaseMaterial->GetIntUniforms())
 		tempMap[name] = mIntOverrides.count(name) ? mIntOverrides.at(name) : val;
 
 	return tempMap;
@@ -118,7 +117,7 @@ const std::unordered_map<std::string, int>& clt::MaterialInstance::GetIntUniform
 
 bool clt::MaterialInstance::HasInt(const std::string& name) const
 {
-	return (mIntOverrides.find(name) != mIntOverrides.end() || mBaseMaterial.lock()->HasInt(name));
+	return (mIntOverrides.find(name) != mIntOverrides.end() || mBaseMaterial->HasInt(name));
 }
 
 int clt::MaterialInstance::GetInt(const std::string& name) const
@@ -130,7 +129,7 @@ const std::unordered_map<std::string, Vector2>& clt::MaterialInstance::GetVec2Un
 {
 	std::unordered_map<std::string, Vector2> tempMap;
 
-	for (const auto& [name, val] : mBaseMaterial.lock()->GetVec2Uniforms())
+	for (const auto& [name, val] : mBaseMaterial->GetVec2Uniforms())
 		tempMap[name] = mVec2Overrides.count(name) ? mVec2Overrides.at(name) : val;
 
 	return tempMap;
@@ -138,7 +137,7 @@ const std::unordered_map<std::string, Vector2>& clt::MaterialInstance::GetVec2Un
 
 bool clt::MaterialInstance::HasVec2(const std::string& name) const
 {
-	return (mVec2Overrides.find(name) != mVec2Overrides.end() || mBaseMaterial.lock()->HasVec2(name));
+	return (mVec2Overrides.find(name) != mVec2Overrides.end() || mBaseMaterial->HasVec2(name));
 }
 
 Vector2 clt::MaterialInstance::GetVec2(const std::string& name) const
@@ -150,7 +149,7 @@ const std::unordered_map<std::string, Vector3>& clt::MaterialInstance::GetVec3Un
 {
 	std::unordered_map<std::string, Vector3> tempMap;
 
-	for (const auto& [name, val] : mBaseMaterial.lock()->GetVec3Uniforms())
+	for (const auto& [name, val] : mBaseMaterial->GetVec3Uniforms())
 		tempMap[name] = mVec3Overrides.count(name) ? mVec3Overrides.at(name) : val;
 
 	return tempMap;
@@ -158,7 +157,7 @@ const std::unordered_map<std::string, Vector3>& clt::MaterialInstance::GetVec3Un
 
 bool clt::MaterialInstance::HasVec3(const std::string& name) const
 {
-	return (mVec3Overrides.find(name) != mVec3Overrides.end() || mBaseMaterial.lock()->HasVec3(name));
+	return (mVec3Overrides.find(name) != mVec3Overrides.end() || mBaseMaterial->HasVec3(name));
 }
 
 Vector3 clt::MaterialInstance::GetVec3(const std::string& name) const
@@ -170,7 +169,7 @@ const std::unordered_map<std::string, Vector4>& clt::MaterialInstance::GetVec4Un
 {
 	std::unordered_map<std::string, Vector4> tempMap;
 
-	for (const auto& [name, val] : mBaseMaterial.lock()->GetVec4Uniforms())
+	for (const auto& [name, val] : mBaseMaterial->GetVec4Uniforms())
 		tempMap[name] = mVec4Overrides.count(name) ? mVec4Overrides.at(name) : val;
 
 	return tempMap;
@@ -178,7 +177,7 @@ const std::unordered_map<std::string, Vector4>& clt::MaterialInstance::GetVec4Un
 
 bool clt::MaterialInstance::HasVec4(const std::string& name) const
 {
-	return (mVec4Overrides.find(name) != mVec4Overrides.end() || mBaseMaterial.lock()->HasVec4(name));
+	return (mVec4Overrides.find(name) != mVec4Overrides.end() || mBaseMaterial->HasVec4(name));
 }
 
 Vector4 clt::MaterialInstance::GetVec4(const std::string& name) const
@@ -190,7 +189,7 @@ const std::unordered_map<std::string, Color>& clt::MaterialInstance::GetColorUni
 {
 	std::unordered_map<std::string, Color> tempMap;
 
-	for (const auto& [name, val] : mBaseMaterial.lock()->GetColorUniforms())
+	for (const auto& [name, val] : mBaseMaterial->GetColorUniforms())
 		tempMap[name] = mColorOverrides.count(name) ? mColorOverrides.at(name) : val;
 
 	return tempMap;
@@ -198,7 +197,7 @@ const std::unordered_map<std::string, Color>& clt::MaterialInstance::GetColorUni
 
 bool clt::MaterialInstance::HasColor(const std::string& name) const
 {
-	return (mColorOverrides.find(name) != mColorOverrides.end() || mBaseMaterial.lock()->HasColor(name));
+	return (mColorOverrides.find(name) != mColorOverrides.end() || mBaseMaterial->HasColor(name));
 }
 
 Color clt::MaterialInstance::GetColor(const std::string& name) const
@@ -208,5 +207,5 @@ Color clt::MaterialInstance::GetColor(const std::string& name) const
 
 ShaderProgram* clt::MaterialInstance::GetShader() const
 {
-	return mBaseMaterial.lock()->GetShader();
+	return mBaseMaterial->GetShader();
 }

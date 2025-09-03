@@ -2,7 +2,7 @@
 #include <Core/CCommon.h>
 #include <Graphics/Shader/VertexArray.h>
 #include <Graphics/Shader/ShaderProgram.h>
-#include <Core/Assets/AssetsType/IMaterial.h>
+#include <Core/Assets/AssetsType/Material.h>
 
 namespace clt
 {
