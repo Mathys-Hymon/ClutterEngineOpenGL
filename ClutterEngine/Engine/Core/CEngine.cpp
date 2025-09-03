@@ -26,9 +26,11 @@ void CEngine::Init(const std::string& path, std::vector<Level*> pLevels)
 	CLog::Init(mName);
 
 	Window::Get().InternalInit(res[0], res[1], mName, config["render"]["vsync"]);
+
 	mRenderer = std::make_unique<RendererGL>();
 	mRenderer->Initialize(this, backgroundColor);
 	mPhysics = std::make_unique<Physics>();
+	mSounds = std::make_unique<Sounds>();
 
 	mLevelManager = std::make_unique<LevelManager>(pLevels, mRenderer.get(), mPhysics.get());
 	mRefreshFrameRate = 0;
@@ -60,4 +62,5 @@ void CEngine::Close()
 	mRenderer->Close();
 	mRenderer.release();
 	mPhysics.release();
+	mSounds.release();
 }

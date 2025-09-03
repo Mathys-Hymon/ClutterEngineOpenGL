@@ -4,6 +4,7 @@
 #include <Core/Levels/LevelManager.h>
 #include <Physics/Physics.h>
 #include <Graphics/RendererGL.h>
+#include <Sound/Sounds.h>
 
 #include <memory>
 
@@ -16,6 +17,8 @@ namespace clt
 	class CLUTTER_API CEngine
 	{
 		std::unique_ptr<RendererGL> mRenderer; ///< The renderer instance.
+		std::unique_ptr<Sounds> mSounds;
+
 		std::unique_ptr<LevelManager> mLevelManager; ///< The level manager instance.
 		std::unique_ptr<Physics> mPhysics; 
 

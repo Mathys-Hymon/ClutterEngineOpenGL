@@ -123,12 +123,6 @@
     <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\RigidBody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\Collider2DComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\Collisions\AABBCollider.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\HitResult.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -163,9 +157,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Graphics\Shader\VertexArray.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Include\Core\ActorComponent\Components\UI\HUDComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Graphics\UI\WidgetElement.h">
@@ -250,6 +241,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Core\Assets\AssetsType\IMaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Sound\SoundManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -417,6 +411,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Core\Assets\AssetsType\MaterialInstance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Sound\SoundManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
