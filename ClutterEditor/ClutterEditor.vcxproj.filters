@@ -42,6 +42,9 @@
     <ClCompile Include="ThirdParty\ImGui\backends\imgui_impl_opengl3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ThirdParty\glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Content\Application\EditorApplication.h">

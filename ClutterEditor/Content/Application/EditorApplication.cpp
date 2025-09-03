@@ -1,11 +1,11 @@
 #include "EditorApplication.h"
 #include "Window/Window.h"
 
-EditorApplication::EditorApplication(u32 width, u32 height) : clt::Application()
-{
-	clt::Window::Get().InternalInit(width, height, "Clutter Editor", false);
+int temp = 0;
 
-	//mUILayer = new ImGuiLayer();
+EditorApplication::EditorApplication(u32 width, u32 height) : clt::Application(), mProjectOpened(false)
+{
+	Update();
 }
 
 void EditorApplication::OpenProject(const std::string& path)
@@ -14,6 +14,22 @@ void EditorApplication::OpenProject(const std::string& path)
 
 void EditorApplication::Update()
 {
+
+	clt::Window& window = clt::Window::Get();
+	
+	mUILayer = new ImGuiLayer();
+	clt::Application::Init({});
+
+	while (!window.ShouldClose())
+	{
+		clt::Timer::ComputeDeltaTime();
+		clt::Application::Update();
+		clt::Application::Render();
+		Render();
+		window.SwapBuffers();
+
+		glfwPollEvents();
+	}
 }
 
 void EditorApplication::Render()

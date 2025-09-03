@@ -178,6 +178,7 @@
     <ClCompile Include="ClutterEditor.cpp" />
     <ClCompile Include="Content\Application\EditorApplication.cpp" />
     <ClCompile Include="Content\Application\ImGuiLayer.cpp" />
+    <ClCompile Include="ThirdParty\glad.c" />
     <ClCompile Include="ThirdParty\ImGui\backends\imgui_impl_glfw.cpp" />
     <ClCompile Include="ThirdParty\ImGui\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="ThirdParty\ImGui\imgui.cpp" />

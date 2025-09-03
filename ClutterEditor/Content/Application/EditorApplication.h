@@ -5,7 +5,7 @@
 	class clt::Window;
 	class EditorApplication : public clt::Application 
 	{
-		//ImGuiLayer* mUILayer;
+		ImGuiLayer* mUILayer;
 		bool mProjectOpened;
 
 		virtual void Update() override;
