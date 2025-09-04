@@ -30,7 +30,7 @@ void CEngine::Init(const std::string& path, std::vector<Level*> pLevels)
 	mRenderer = std::make_unique<RendererGL>();
 	mRenderer->Initialize(this, backgroundColor);
 	mPhysics = std::make_unique<Physics>();
-	mSounds = std::make_unique<Sounds>();
+	mSounds = std::make_unique<AudioManager>();
 
 	mLevelManager = std::make_unique<LevelManager>(pLevels, mRenderer.get(), mPhysics.get());
 	mRefreshFrameRate = 0;

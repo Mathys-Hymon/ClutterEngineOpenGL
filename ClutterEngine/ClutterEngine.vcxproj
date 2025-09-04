@@ -97,27 +97,27 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;$(IncludePath)</IncludePath>
+    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
     <LibraryPath>Libraries\lib;Libraries\lib\FMOD\Core\x86;Libraries\lib\FMOD\Studio\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|Win32'">
-    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;$(IncludePath)</IncludePath>
+    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
     <LibraryPath>Libraries\lib;Libraries\lib\FMOD\Core\x86;Libraries\lib\FMOD\Studio\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;$(IncludePath)</IncludePath>
+    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
     <LibraryPath>Libraries\lib;Libraries\lib\FMOD\Core\x64;Libraries\lib\FMOD\Studio\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|x64'">
-    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;$(IncludePath)</IncludePath>
+    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
     <LibraryPath>Libraries\lib;Libraries\lib\FMOD\Core\x64;Libraries\lib\FMOD\Studio\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;$(IncludePath)</IncludePath>
+    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
     <LibraryPath>Libraries\lib;Libraries\lib\FMOD\Core\x86;Libraries\lib\FMOD\Studio\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;$(IncludePath)</IncludePath>
+    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
     <LibraryPath>Libraries\lib;Libraries\lib\FMOD\Core\x64;Libraries\lib\FMOD\Studio\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -272,6 +272,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Engine\Core\ActorComponent\Components\Movements\EditorController.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Movements\FpsController.h" />
     <ClInclude Include="Engine\Core\All.h" />
+    <ClInclude Include="Engine\Core\Assets\AssetsType\Audio.h" />
     <ClInclude Include="Engine\Core\Assets\AssetsType\Font.h" />
     <ClInclude Include="Engine\Core\Assets\AssetsType\IMaterial.h" />
     <ClInclude Include="Engine\Core\Assets\AssetsType\Material.h" />
@@ -332,7 +333,8 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Engine\Physics\Collision\ICollisionListener.h" />
     <ClInclude Include="Engine\Physics\Physics.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\Sprite\AnimatorComponent.h" />
-    <ClInclude Include="Engine\Sound\SoundManager.h" />
+    <ClInclude Include="Engine\Sound\AudioManager.h" />
+    <ClInclude Include="Engine\Sound\SoundInstance.h" />
     <ClInclude Include="Libraries\include\framework.h" />
     <ClInclude Include="Engine\Header\pch.h" />
     <ClInclude Include="Engine\Window\Window.h" />
@@ -345,6 +347,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\EditorController.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\FpsController.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\PlayerController.cpp" />
+    <ClCompile Include="Engine\Core\Assets\AssetsType\Audio.cpp" />
     <ClCompile Include="Engine\Core\Assets\AssetsType\Material.cpp" />
     <ClCompile Include="Engine\Core\Assets\AssetsType\MaterialInstance.cpp" />
     <ClCompile Include="Engine\Core\Debug\DebugDraw.cpp" />
@@ -393,7 +396,8 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClCompile Include="Engine\Core\ActorComponent\Actor.cpp" />
     <ClCompile Include="Engine\Graphics\RendererGL.cpp" />
     <ClCompile Include="Engine\Application\Application.cpp" />
-    <ClCompile Include="Engine\Sound\SoundManager.cpp" />
+    <ClCompile Include="Engine\Sound\AudioManager.cpp" />
+    <ClCompile Include="Engine\Sound\SoundInstance.cpp" />
     <ClCompile Include="Libraries\include\dll\dllmain.cpp" />
     <ClCompile Include="Libraries\include\glad\glad.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>

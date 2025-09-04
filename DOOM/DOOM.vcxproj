@@ -98,29 +98,29 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ExecutablePath>$(VC_ExecutablePath_x64);$(CommonExecutablePath)</ExecutablePath>
-    <IncludePath>..\ClutterEngine\Libraries\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\ClutterEngine\Libraries\include;..\ClutterEngine\Libraries\include\FMOD\Core;..\ClutterEngine\Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
     <LibraryPath>..\ClutterEngine\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|Win32'">
     <ExecutablePath>$(VC_ExecutablePath_x64);$(CommonExecutablePath)</ExecutablePath>
-    <IncludePath>..\ClutterEngine\Libraries\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\ClutterEngine\Libraries\include;..\ClutterEngine\Libraries\include\FMOD\Core;..\ClutterEngine\Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
     <LibraryPath>..\ClutterEngine\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ExecutablePath>$(VC_ExecutablePath_x64);$(CommonExecutablePath)</ExecutablePath>
-    <IncludePath>..\ClutterEngine\Libraries\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\ClutterEngine\Libraries\include;..\ClutterEngine\Libraries\include\FMOD\Core;..\ClutterEngine\Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
     <LibraryPath>..\ClutterEngine\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>..\ClutterEngine\Libraries\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\ClutterEngine\Libraries\include;..\ClutterEngine\Libraries\include\FMOD\Core;..\ClutterEngine\Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
     <LibraryPath>..\ClutterEngine\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|x64'">
-    <IncludePath>..\ClutterEngine\Libraries\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\ClutterEngine\Libraries\include;..\ClutterEngine\Libraries\include\FMOD\Core;..\ClutterEngine\Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
     <LibraryPath>..\ClutterEngine\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>..\ClutterEngine\Libraries\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\ClutterEngine\Libraries\include;..\ClutterEngine\Libraries\include\FMOD\Core;..\ClutterEngine\Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
     <LibraryPath>..\ClutterEngine\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

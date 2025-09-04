@@ -243,7 +243,13 @@
     <ClInclude Include="Engine\Core\Assets\AssetsType\IMaterial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Sound\SoundManager.h">
+    <ClInclude Include="Engine\Sound\AudioManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Assets\AssetsType\Audio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Sound\SoundInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -413,7 +419,13 @@
     <ClCompile Include="Engine\Core\Assets\AssetsType\MaterialInstance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Sound\SoundManager.cpp">
+    <ClCompile Include="Engine\Sound\AudioManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\Assets\AssetsType\Audio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Sound\SoundInstance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -68,8 +68,7 @@ std::shared_ptr<Mesh> Assets::LoadMeshFromFile(const std::string& pFile, bool pT
 
     bool success = tinyobj::LoadObj(&attributes, &shapes, &materials, &errors, +pFile.c_str());
 
-    if (success) CLUTTER_LOG(("Mesh " + pFile + " loaded sucessfully ").c_str());
-    else
+    if(!success)
     {
         CLUTTER_ERROR("Failed to load Mesh. \n " + pFile + " does not exist or is not .obj");
         return nullptr;
@@ -116,8 +115,7 @@ std::shared_ptr<Mesh> Assets::LoadMeshFromFile(const std::string& pFile, std::we
 
     bool success = tinyobj::LoadObj(&attributes, &shapes, &materials, &errors, +pFile.c_str());
 
-    if (success) CLUTTER_LOG(("Mesh " + pFile + " loaded sucessfully ").c_str());
-    else
+    if (!success)
     {
         CLUTTER_ERROR("Failed to load Mesh. \n " + pFile + " does not exist or is not .obj");
         return nullptr;
@@ -175,10 +173,7 @@ std::shared_ptr<Texture> Assets::LoadTexture(const std::string& path, const std:
         CLUTTER_ERROR("Failed to load texture " + path);
         return nullptr;
     }
-    else
-    {
-        CLUTTER_LOG(("Texture " + path + " loaded sucessfully ").c_str());
-    }
+
     GLuint textureID = 0;
     
     if (mRenderer && mRenderer->GetType() == RendererType::OPENGL)
@@ -399,7 +394,6 @@ std::shared_ptr<Font> Assets::LoadFont(const std::string& pPath, const std::stri
 
     glBindTexture(GL_TEXTURE_2D, 0);
     FT_Done_Face(face);
-    CLUTTER_LOG(("Font " + pPath + " loaded sucessfully ").c_str());
 
     mFonts[pName] = font;
 
