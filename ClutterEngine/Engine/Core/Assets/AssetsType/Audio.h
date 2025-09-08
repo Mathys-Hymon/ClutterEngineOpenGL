@@ -13,17 +13,28 @@ enum class CLUTTER_API AudioCategory
 
 namespace clt
 {
+    class AudioSystem;
     class CLUTTER_API Audio
     {
-        std::unique_ptr<FMOD::Sound> mSound;
+        FMOD::Sound* mSound;
         AudioCategory mCategory;
         std::string mPath;
 
+        bool mSpatialized;
+        bool mStream;
+
     public:
-        Audio(const std::string& path, AudioCategory category, bool is3D = true, bool isCompressed = true);
+        Audio(const std::string& path, AudioCategory category, bool isSpatialized = true, bool isStream = false);
         ~Audio();
 
         FMOD::Sound& GetHandle() const { return *mSound; }
         AudioCategory GetCategory() const { return mCategory; }
+
+        bool IsSpatialized() const { return mSpatialized; }
+        bool IsStream() { return mStream; };
+
+        friend class AudioManager;
     };
+
+    
 }

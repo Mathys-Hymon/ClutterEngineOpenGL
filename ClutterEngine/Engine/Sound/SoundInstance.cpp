@@ -15,12 +15,22 @@ void SoundInstance::SetVolume(float volumeDB)
     }
 }
 
-void SoundInstance::SetLocation(const Vector3& pos)
+void SoundInstance::SetPitch(float pitch)
+{
+}
+
+void SoundInstance::Set3DAttributes(const Vector3& pos, const Vector3& vel)
 {
     if (mChannel)
     {
-        FMOD_VECTOR fpos {pos.x, pos.y, pos.z};
-        mChannel->set3DAttributes(&fpos, nullptr);
+        FMOD_VECTOR fpos{ pos.x, pos.y, pos.z };
+
+        if (vel.Length() != 0)
+        {
+            FMOD_VECTOR fvel{ vel.x, vel.y, vel.z };
+            mChannel->set3DAttributes(&fpos, &fvel);
+        }
+        else  mChannel->set3DAttributes(&fpos, nullptr);
     }
 }
 
@@ -28,8 +38,8 @@ void SoundInstance::Stop()
 {
     if (mChannel) mChannel->stop();
 }    
-     
-void SoundInstance::Pause(bool paused)
+
+void SoundInstance::SetPaused(bool paused)
 {    
     if (mChannel) mChannel->setPaused(paused);
 }    

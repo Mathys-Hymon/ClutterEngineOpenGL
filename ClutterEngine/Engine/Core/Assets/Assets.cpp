@@ -410,6 +410,11 @@ Shader* Assets::LoadShader(const std::string& pPath, ShaderType pType)
     return temp;
 }
 
+std::shared_ptr<Audio> Assets::LoadAudio(const std::string& pPath, const std::string& pName)
+{
+    return std::shared_ptr<Audio>();
+}
+
 std::weak_ptr<IMaterial> Assets::CreateMaterial(const std::string& pName, ShaderProgram* pShaderProgram)
 {
     if (mMaterials[pName])

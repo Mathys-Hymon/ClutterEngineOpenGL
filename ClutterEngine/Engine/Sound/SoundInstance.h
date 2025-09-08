@@ -14,9 +14,12 @@ namespace clt
 		SoundInstance(FMOD::Channel* channel, AudioCategory category);
 
 		void SetVolume(float volumeDB);
-		void SetLocation(const Vector3& pos);
+		void SetPitch(float pitch);
+		void Set3DAttributes(const Vector3& pos, const Vector3& vel = {0,0,0});
 		void Stop();
-		void Pause(bool paused);
+		void Pause();
+		void Play();
+		void SetPaused(bool paused);
 
 		bool IsPlaying() const;
 	};

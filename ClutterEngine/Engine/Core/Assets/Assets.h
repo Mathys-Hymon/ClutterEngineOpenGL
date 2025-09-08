@@ -3,6 +3,7 @@
 #include <Core/Assets/AssetsType/Texture.h>
 #include <Core/Assets/AssetsType/Mesh.h>
 #include <Core/Assets/AssetsType/Font.h>
+#include <Core/Assets/AssetsType/Audio.h>
 
 
 enum class TextureFilter
@@ -24,6 +25,7 @@ namespace clt
 		std::unordered_map<std::string, std::shared_ptr<IMaterial>> mMaterials;
 		std::unordered_map<std::string, std::shared_ptr<Mesh>> mMeshes;
 		std::unordered_map<std::string, std::shared_ptr<Font>> mFonts;
+		std::unordered_map<std::string, std::shared_ptr<Audio>> mAudio;
 
 		std::unordered_map<ShaderType, std::unordered_map<std::string,Shader*>> mShaders;
 
@@ -58,6 +60,8 @@ namespace clt
 
 		Shader* LoadShader(const std::string& pPath, ShaderType pType);
 
+		std::shared_ptr<Audio> LoadAudio(const std::string& pPath, const std::string& pName);
+
 		std::weak_ptr<IMaterial> CreateMaterial(const std::string& pName, ShaderProgram* pShaderProgram);
 		std::weak_ptr<IMaterial> CreateMaterial(const std::string& pName, std::vector<Shader*> pShaders);
 
@@ -68,6 +72,8 @@ namespace clt
 		std::vector< std::shared_ptr<Texture>> BulkGetTexture(const std::string& pName, int pLastIndex);
 		std::shared_ptr<Mesh> GetMesh(const std::string& pName, bool pTesselate = false);
 		std::shared_ptr<Font> GetFont(const std::string& pName);
+		std::shared_ptr<Audio> GetAudio(const std::string& pName);
+
 		Shader* GetShader(const std::string& pName, ShaderType pType);
 
 		void ClearAssets();
