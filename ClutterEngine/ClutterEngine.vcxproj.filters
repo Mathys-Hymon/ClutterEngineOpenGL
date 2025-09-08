@@ -108,7 +108,7 @@
     <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\Camera\CameraComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Input\Input.h">
+    <ClInclude Include="Engine\Input\Inputs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Core\ActorComponent\Components\Movements\PlayerController2D.h">
@@ -243,10 +243,10 @@
     <ClInclude Include="Engine\Core\Assets\AssetsType\IMaterial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Sound\AudioManager.h">
+    <ClInclude Include="Engine\Sound\Audio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Core\Assets\AssetsType\Audio.h">
+    <ClInclude Include="Engine\Core\Assets\AssetsType\Sound.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Sound\SoundInstance.h">
@@ -308,7 +308,7 @@
     <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\Camera\CameraComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Input\Input.cpp">
+    <ClCompile Include="Engine\Input\Inputs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\2D\AABBCollider.cpp">
@@ -419,10 +419,10 @@
     <ClCompile Include="Engine\Core\Assets\AssetsType\MaterialInstance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Sound\AudioManager.cpp">
+    <ClCompile Include="Engine\Sound\Audio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Core\Assets\AssetsType\Audio.cpp">
+    <ClCompile Include="Engine\Core\Assets\AssetsType\Sound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Sound\SoundInstance.cpp">

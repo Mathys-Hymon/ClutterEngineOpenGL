@@ -1,6 +1,7 @@
 #include "pch.h"
 #include <Core/CEngine.h>
-#include <Input/Input.h>
+#include <Input/Inputs.h>
+#include <Sound/Audio.h>
 #include "json/json.hpp"
 #include <fstream>
 #include <iostream>
@@ -30,19 +31,21 @@ void CEngine::Init(const std::string& path, std::vector<Level*> pLevels)
 	mRenderer = std::make_unique<RendererGL>();
 	mRenderer->Initialize(this, backgroundColor);
 	mPhysics = std::make_unique<Physics>();
-	mSounds = std::make_unique<AudioManager>();
 
 	mLevelManager = std::make_unique<LevelManager>(pLevels, mRenderer.get(), mPhysics.get());
 	mRefreshFrameRate = 0;
 }
 
+
 void CEngine::Update()
 {
 mPhysics->Update();
-Input::Get().Update();
+
+Inputs::Get().Update();
+Audio::Get().Update();
 mLevelManager->Update();
 
-if (isEditorMode())
+if (IsEditorMode())
 {
 	if (mRefreshFrameRate > 0.3f)
 	{
@@ -59,8 +62,10 @@ if (isEditorMode())
 
 void CEngine::Close()
 {
+
+	Audio::Get().Shutdown();
 	mRenderer->Close();
+
 	mRenderer.release();
 	mPhysics.release();
-	mSounds.release();
 }

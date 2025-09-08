@@ -6,12 +6,12 @@ using namespace clt;
 DoomController::DoomController() : PlayerController(2), 
 mRotationVelocity(0.0f), mMovementVelocity(0), mWeapon(Weapons::Pistol), mLife(100), mDead(false)
 {
-	clt::Input::Get().MapKeysToVect(EKey::A, EKey::D, EKey::W, EKey::S, "PlayerMovement");
-	clt::Input::Get().MapKeyToAction(EMouseButton::Left, "PlayerShoot");
+	clt::Inputs::Get().MapKeysToVect(EKey::A, EKey::D, EKey::W, EKey::S, "PlayerMovement");
+	clt::Inputs::Get().MapKeyToAction(EMouseButton::Left, "PlayerShoot");
 
-	clt::Input::Get().RegisterActionCallback("PlayerShoot", [this] {this->Shoot(); });
-	clt::Input::Get().RegisterMouseCallback([this](Vector2 value) { this->RotateCamera(value); });
-	clt::Input::Get().RegisterVectCallback("PlayerMovement", [this](Vector2 value) { this->Move(value); });
+	clt::Inputs::Get().RegisterActionCallback("PlayerShoot", [this] {this->Shoot(); });
+	clt::Inputs::Get().RegisterMouseCallback([this](Vector2 value) { this->RotateCamera(value); });
+	clt::Inputs::Get().RegisterVectCallback("PlayerMovement", [this](Vector2 value) { this->Move(value); });
 	
 	mMaxAcceleration = 25;
 	mMaxWalkSpeed = 6;

@@ -1,15 +1,15 @@
 #include "pch.h"
 #include "FpsController.h"
-#include <Input/Input.h>
+#include <Input/Inputs.h>
 
 using namespace clt;
 
 FPSController::FPSController(float pMouseSpeed, float pRotationInertia, float pMovementInertia) : PlayerController(2),
 mRotationVelocity(0.0f), mMovementVelocity(0), mRotationInertia(pRotationInertia), mMovementInertia(pMovementInertia)
 {
-	clt::Input::Get().MapKeysToVect(EKey::A, EKey::D, EKey::W, EKey::S, "PlayerMovement");
-	clt::Input::Get().RegisterMouseCallback([this](Vector2 value) { this->RotateCamera(value); });
-	clt::Input::Get().RegisterVectCallback("PlayerMovement", [this](Vector2 value) { this->Move(value); });
+	clt::Inputs::Get().MapKeysToVect(EKey::A, EKey::D, EKey::W, EKey::S, "PlayerMovement");
+	clt::Inputs::Get().RegisterMouseCallback([this](Vector2 value) { this->RotateCamera(value); });
+	clt::Inputs::Get().RegisterVectCallback("PlayerMovement", [this](Vector2 value) { this->Move(value); });
 
 	mMaxAcceleration = 1;
 	mMaxWalkSpeed = 5;

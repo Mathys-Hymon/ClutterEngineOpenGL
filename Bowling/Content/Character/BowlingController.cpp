@@ -5,19 +5,19 @@ BowlingController::BowlingController() : PlayerController(), mMode(mode::movemen
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/bowlingPreviewRot.png", "previewRotation");
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/bowlingPreview.png", "previewTrajectory");
 
-	clt::Input::Get().MapKeysToAxis(EKey::A, EKey::D,"PlayerMovement");
-	clt::Input::Get().MapKeyToAction(EKey::Space, "changeMod");
+	clt::Inputs::Get().MapKeysToAxis(EKey::A, EKey::D,"PlayerMovement");
+	clt::Inputs::Get().MapKeyToAction(EKey::Space, "changeMod");
 
 	
-	clt::Input::Get().MapKeyToAction(EMouseButton::Left, "PlayerShoot", EInputState::Released);
-	clt::Input::Get().RegisterActionCallback("PlayerShoot", [this] {this->Shoot(); });
+	clt::Inputs::Get().MapKeyToAction(EMouseButton::Left, "PlayerShoot", EInputState::Released);
+	clt::Inputs::Get().RegisterActionCallback("PlayerShoot", [this] {this->Shoot(); });
 
 
-	clt::Input::Get().MapKeyToAction(EMouseButton::Left, "PlayerCharge", EInputState::Held);
-	clt::Input::Get().RegisterActionCallback("PlayerCharge", [this] {this->ChargeShoot(); });
+	clt::Inputs::Get().MapKeyToAction(EMouseButton::Left, "PlayerCharge", EInputState::Held);
+	clt::Inputs::Get().RegisterActionCallback("PlayerCharge", [this] {this->ChargeShoot(); });
 
-	clt::Input::Get().RegisterAxisCallback("PlayerMovement", [this](float value) { this->Move(value); });
-	clt::Input::Get().RegisterActionCallback("changeMod", [this] {this->ChangeMod(); });
+	clt::Inputs::Get().RegisterAxisCallback("PlayerMovement", [this](float value) { this->Move(value); });
+	clt::Inputs::Get().RegisterActionCallback("changeMod", [this] {this->ChangeMod(); });
 }
 
 void BowlingController::Start()

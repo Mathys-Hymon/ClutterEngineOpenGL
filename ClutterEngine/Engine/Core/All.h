@@ -49,8 +49,10 @@
 
 #include <Core/Timer.h>
 
-#include <Input/Input.h>
+#include <Input/Inputs.h>
 
 #include <Graphics/UI/Elements/AnimatorElement.h>
 #include <Graphics/UI/Elements/TextElement.h>
 #include <Graphics/UI/Elements/ButtonElement.h>
+
+#include <Sound/Audio.h>

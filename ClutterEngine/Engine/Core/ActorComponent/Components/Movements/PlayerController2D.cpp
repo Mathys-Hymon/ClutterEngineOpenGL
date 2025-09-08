@@ -1,19 +1,19 @@
 #include "pch.h"
 #include <Core/ActorComponent/Components/Movements/PlayerController2D.h>
 #include <Core/ActorComponent/Components/Graphics/Sprite/AnimatorComponent.h>
-#include <Input/Input.h>
+#include <Input/Inputs.h>
 
 using namespace clt;
 
 PlayerController2D::PlayerController2D(std::string pMovementCallback, std::string pJumpCallback, float pSpeed) : PlayerController(pSpeed)
  {
-	if(!Input::Get().RegisterVectCallback(pMovementCallback, [this](Vector2 value) { this->Movement(value); }));
+	if(!Inputs::Get().RegisterVectCallback(pMovementCallback, [this](Vector2 value) { this->Movement(value); }));
 	{
-		Input::Get().RegisterAxisCallback(pMovementCallback, [this](float value) { this->Movement(value); });
+		Inputs::Get().RegisterAxisCallback(pMovementCallback, [this](float value) { this->Movement(value); });
 	}
 	if (!pJumpCallback.empty())
 	{
-		Input::Get().RegisterActionCallback(pJumpCallback, [this](void) { this->Jump(); });
+		Inputs::Get().RegisterActionCallback(pJumpCallback, [this](void) { this->Jump(); });
 	}
 }
 

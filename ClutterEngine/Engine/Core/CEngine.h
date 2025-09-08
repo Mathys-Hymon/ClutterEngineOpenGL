@@ -1,10 +1,9 @@
 #pragma once
 #include <Core/CCommon.h>
-#include <Window/Window.h>
 #include <Core/Levels/LevelManager.h>
 #include <Physics/Physics.h>
 #include <Graphics/RendererGL.h>
-#include <Sound/AudioManager.h>
+#include <Window/Window.h>
 
 #include <memory>
 
@@ -17,7 +16,6 @@ namespace clt
 	class CLUTTER_API CEngine
 	{
 		std::unique_ptr<RendererGL> mRenderer; ///< The renderer instance.
-		std::unique_ptr<AudioManager> mSounds;
 
 		std::unique_ptr<LevelManager> mLevelManager; ///< The level manager instance.
 		std::unique_ptr<Physics> mPhysics; 
@@ -38,9 +36,6 @@ namespace clt
 
 		/**
    * @brief Initializes the engine with the specified parameters.
-   * @param pWidth The width of the window.
-   * @param pHeight The height of the window.
-   * @param pName The name of the window.
    * @param pLevels The levels to be managed by the level manager.
    */
 		void Init(const std::string& path, std::vector<Level*> pLevels);
@@ -58,7 +53,7 @@ namespace clt
    */
 		RendererGL* GetRenderer() const { return mRenderer.get(); }
 
-		bool isEditorMode() const
+		bool IsEditorMode() const
 		{
 			#ifdef EDITOR
 				return true;

@@ -1,14 +1,14 @@
 #include "pch.h"
 #include <Core/ActorComponent/Components/Movements/CameraController.h>
-#include <Input/Input.h>
+#include <Input/Inputs.h>
 
 using namespace clt;
 
 CameraController::CameraController(std::string pMovementCallback, std::string pVerticalMovementCallback, float pSpeed) : PlayerController(pSpeed)
 {
-	Input::Get().RegisterVectCallback(pMovementCallback, [this](Vector2 value) { this->Movement(value); });
-	Input::Get().RegisterAxisCallback(pVerticalMovementCallback, [this](float value) { this->MoveVertically(value); });
-	Input::Get().RegisterMouseCallback([this](Vector2 value) { this->Rotation(value); });
+	Inputs::Get().RegisterVectCallback(pMovementCallback, [this](Vector2 value) { this->Movement(value); });
+	Inputs::Get().RegisterAxisCallback(pVerticalMovementCallback, [this](float value) { this->MoveVertically(value); });
+	Inputs::Get().RegisterMouseCallback([this](Vector2 value) { this->Rotation(value); });
 }
 
 void CameraController::Movement(Vector2 pDirection)

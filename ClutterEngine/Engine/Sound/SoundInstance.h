@@ -1,6 +1,6 @@
 #pragma once
 #include <Core/CCommon.h>
-#include <Core/Assets/AssetsType/Audio.h>
+#include <Core/Assets/AssetsType/Sound.h>
 #include <Core/Maths/Vectors/Vector3.h>
 
 namespace clt

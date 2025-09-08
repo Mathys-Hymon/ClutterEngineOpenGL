@@ -272,7 +272,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Engine\Core\ActorComponent\Components\Movements\EditorController.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Movements\FpsController.h" />
     <ClInclude Include="Engine\Core\All.h" />
-    <ClInclude Include="Engine\Core\Assets\AssetsType\Audio.h" />
+    <ClInclude Include="Engine\Core\Assets\AssetsType\Sound.h" />
     <ClInclude Include="Engine\Core\Assets\AssetsType\Font.h" />
     <ClInclude Include="Engine\Core\Assets\AssetsType\IMaterial.h" />
     <ClInclude Include="Engine\Core\Assets\AssetsType\Material.h" />
@@ -326,14 +326,14 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Engine\Core\Levels\LevelManager.h" />
     <ClInclude Include="Engine\Graphics\Shader\Shader.h" />
     <ClInclude Include="Engine\Graphics\Shader\VertexArray.h" />
-    <ClInclude Include="Engine\Input\Input.h" />
+    <ClInclude Include="Engine\Input\Inputs.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Movements\PlayerController2D.h" />
     <ClInclude Include="Engine\Input\InputData.h" />
     <ClInclude Include="Engine\Physics\Collision\CollisionEvent.h" />
     <ClInclude Include="Engine\Physics\Collision\ICollisionListener.h" />
     <ClInclude Include="Engine\Physics\Physics.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\Sprite\AnimatorComponent.h" />
-    <ClInclude Include="Engine\Sound\AudioManager.h" />
+    <ClInclude Include="Engine\Sound\Audio.h" />
     <ClInclude Include="Engine\Sound\SoundInstance.h" />
     <ClInclude Include="Libraries\include\framework.h" />
     <ClInclude Include="Engine\Header\pch.h" />
@@ -347,7 +347,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\EditorController.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\FpsController.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\PlayerController.cpp" />
-    <ClCompile Include="Engine\Core\Assets\AssetsType\Audio.cpp" />
+    <ClCompile Include="Engine\Core\Assets\AssetsType\Sound.cpp" />
     <ClCompile Include="Engine\Core\Assets\AssetsType\Material.cpp" />
     <ClCompile Include="Engine\Core\Assets\AssetsType\MaterialInstance.cpp" />
     <ClCompile Include="Engine\Core\Debug\DebugDraw.cpp" />
@@ -377,7 +377,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClCompile Include="Engine\Physics\Collision\CollisionEvent.cpp" />
     <ClCompile Include="Engine\Physics\Physics.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\2D\AABBCollider.cpp" />
-    <ClCompile Include="Engine\Input\Input.cpp">
+    <ClCompile Include="Engine\Input\Inputs.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
@@ -396,7 +396,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClCompile Include="Engine\Core\ActorComponent\Actor.cpp" />
     <ClCompile Include="Engine\Graphics\RendererGL.cpp" />
     <ClCompile Include="Engine\Application\Application.cpp" />
-    <ClCompile Include="Engine\Sound\AudioManager.cpp" />
+    <ClCompile Include="Engine\Sound\Audio.cpp" />
     <ClCompile Include="Engine\Sound\SoundInstance.cpp" />
     <ClCompile Include="Libraries\include\dll\dllmain.cpp" />
     <ClCompile Include="Libraries\include\glad\glad.c">

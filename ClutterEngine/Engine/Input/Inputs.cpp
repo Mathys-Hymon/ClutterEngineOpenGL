@@ -1,24 +1,24 @@
 #include "pch.h"
-#include <Input/Input.h>
+#include <Input/Inputs.h>
 
 using namespace clt;
 
-void Input::MapKeyToAction(EKey pKey, const std::string& pActionName, EInputState pState)
+void Inputs::MapKeyToAction(EKey pKey, const std::string& pActionName, EInputState pState)
 {
 	mKeyActionMap[pKey].push_back({pActionName, pState, {}});
 }
 
-void Input::MapKeyToAction(EMouseButton pKey, const std::string& pActionName, EInputState pState)
+void Inputs::MapKeyToAction(EMouseButton pKey, const std::string& pActionName, EInputState pState)
 {
 	mMouseActionMap[pKey].push_back({ pActionName, pState, {} });
 }
 
-void Input::MapKeyToAction(EControllerButton pKey, const std::string& pActionName, EInputState pState)
+void Inputs::MapKeyToAction(EControllerButton pKey, const std::string& pActionName, EInputState pState)
 {
 	mControllerActionMap[pKey].push_back({ pActionName, pState, {} });
 }
 
-void Input::RegisterActionCallback(const std::string& pActionName, std::function<void()> callback)
+void Inputs::RegisterActionCallback(const std::string& pActionName, std::function<void()> callback)
 {
 	for (auto& [key, actions] : mKeyActionMap)
 	{
@@ -57,39 +57,39 @@ void Input::RegisterActionCallback(const std::string& pActionName, std::function
 	}
 }
 
-void Input::RegisterAxisCallback(const std::string& axisName, std::function<void(float)> callback)
+void Inputs::RegisterAxisCallback(const std::string& axisName, std::function<void(float)> callback)
 {
 	mAxisCallbacks[axisName].push_back(callback);
 }
 
-void Input::RegisterMouseCallback(std::function<void(Vector2)> callback)
+void Inputs::RegisterMouseCallback(std::function<void(Vector2)> callback)
 {
 	mMouseDeltaCallback.push_back(callback);
 }
 
-void Input::RegisterScrollCallback(std::function<void(float)> callback)
+void Inputs::RegisterScrollCallback(std::function<void(float)> callback)
 {
 	mMouseScrollCallback.push_back(callback);
 }
 
-void Input::MapKeysToAxis(EKey positiveKey, EKey negativeKey, const std::string& axisName)
+void Inputs::MapKeysToAxis(EKey positiveKey, EKey negativeKey, const std::string& axisName)
 {
 	mAxisMap[axisName] = { positiveKey, negativeKey };
 }
 
-void Input::MapKeysToAxis(EMouseButton positiveKey, EMouseButton negativeKey, const std::string& axisName)
+void Inputs::MapKeysToAxis(EMouseButton positiveKey, EMouseButton negativeKey, const std::string& axisName)
 {
 	mMouseAxisMap[axisName] = { positiveKey, negativeKey };
 }
 
-void Input::MapKeysToAxis(EControllerAxis axis, const std::string& axisName, float pDeadzone)
+void Inputs::MapKeysToAxis(EControllerAxis axis, const std::string& axisName, float pDeadzone)
 {
 	mControllerAxisMap[axisName] = { axis };
 
 	if(pDeadzone >= 0) mControllerDeadzone = pDeadzone;
 }
 
-bool Input::RegisterVectCallback(const std::string& VectName, std::function<void(Vector2)> callback)
+bool Inputs::RegisterVectCallback(const std::string& VectName, std::function<void(Vector2)> callback)
 {
 	if (mVectMap.count(VectName))
 	{
@@ -99,28 +99,28 @@ bool Input::RegisterVectCallback(const std::string& VectName, std::function<void
 	return false;
 }
 
-void Input::MapKeysToVect(EKey XPositiveKey, EKey XNegativeKey, EKey YPositiveKey, EKey YNegativeKey, const std::string& VectName)
+void Inputs::MapKeysToVect(EKey XPositiveKey, EKey XNegativeKey, EKey YPositiveKey, EKey YNegativeKey, const std::string& VectName)
 {
 	mVectMap[VectName] = { XPositiveKey , XNegativeKey , YPositiveKey, YNegativeKey };
 }
 
-void Input::ScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
+void Inputs::ScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 {
-	Input::Get().mScrollDelta.x += static_cast<float>(xoffset);
-	Input::Get().mScrollDelta.y += static_cast<float>(yoffset);
+	Inputs::Get().mScrollDelta.x += static_cast<float>(xoffset);
+	Inputs::Get().mScrollDelta.y += static_cast<float>(yoffset);
 }
 
-bool Input::IsButtonPressed(EKey pKey) const
+bool Inputs::IsButtonPressed(EKey pKey) const
 {
 	return glfwGetKey(Window::Get().GetGLFWWindow(), static_cast<int>(pKey)) == GLFW_PRESS;
 }
 
-bool Input::IsButtonPressed(EMouseButton pButton) const
+bool Inputs::IsButtonPressed(EMouseButton pButton) const
 {
 	return glfwGetMouseButton(Window::Get().GetGLFWWindow(), static_cast<int>(pButton)) == GLFW_PRESS;
 }
 
-void Input::Update()
+void Inputs::Update()
 {
 	GLFWwindow* pGLFWindow = Window::Get().GetGLFWWindow();
 	glfwSetScrollCallback(pGLFWindow, ScrollCallback);

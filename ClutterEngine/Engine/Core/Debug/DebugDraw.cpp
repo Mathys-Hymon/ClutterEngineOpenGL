@@ -39,7 +39,7 @@ void DebugDraw::Start(CEngine* pEngine)
 {
     mEngine = pEngine;
 
-    if (mEngine->isEditorMode())
+    if (mEngine->IsEditorMode())
     {
 
         // Create and load the shader program from the provided source code
@@ -117,7 +117,7 @@ void DebugDraw::Start(CEngine* pEngine)
 // Draw the debug objects (lines, boxes, spheres)
 void DebugDraw::Draw(Matrix4Row viewProj)
 {
-    if (mEngine->isEditorMode())
+    if (mEngine->IsEditorMode())
     {
         // Use the shader program for drawing
         mShader->Use();
@@ -261,7 +261,7 @@ void DebugDraw::Draw(Matrix4Row viewProj)
 // Clean up resources when closing the DebugDraw
 void DebugDraw::Close()
 {
-    if (mEngine->isEditorMode())
+    if (mEngine->IsEditorMode())
     {
         delete mShader;
         mShader = nullptr;
@@ -277,7 +277,7 @@ void DebugDraw::Close()
 // Add a line to the drawing queue
 void DebugDraw::DrawLine(const Vector3& start, const Vector3& end, const Color& color, float lineThickness, bool persistant)
 {
-    if (mEngine->isEditorMode())
+    if (mEngine->IsEditorMode())
     {
         if (persistant) mPersistantLines.push_back({ start, end, color, lineThickness });
         else mLines.push_back({ start, end, color, lineThickness });
@@ -287,7 +287,7 @@ void DebugDraw::DrawLine(const Vector3& start, const Vector3& end, const Color& 
 // Add a box (cube) to the drawing queue
 void DebugDraw::DrawBox(const Vector3& center, const Vector3& extents, const Color& color, float lineThickness, const Quaternion& rotation, bool persistant)
 {
-    if (mEngine->isEditorMode())
+    if (mEngine->IsEditorMode())
     {
         if (persistant) mPersistantBoxes.push_back({ center, extents, color, rotation, lineThickness });
         else mBoxes.push_back({ center, extents, color, rotation, lineThickness });
@@ -297,7 +297,7 @@ void DebugDraw::DrawBox(const Vector3& center, const Vector3& extents, const Col
 // Function to draw spheres will go here if implemented in the future
 void DebugDraw::DrawSphere(const Vector3& center, float radius, const Color& color, float lineThickness, bool persistant)
 {
-    if (mEngine->isEditorMode())
+    if (mEngine->IsEditorMode())
     {
         if (persistant) mPersistantSpheres.push_back({ center, radius, color, lineThickness });
         else mSpheres.push_back({ center, radius, color, lineThickness });

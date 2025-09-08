@@ -5,7 +5,7 @@ MainMenuHUD::MainMenuHUD() : HUDComponent()
 	CreateWidget<clt::UIPanel>("mainMenu");
 	CreateWidget<clt::UIPanel>("options");
 
-	clt::Input::Get().SetShowMouseCursor(true);
+	clt::Inputs::Get().SetShowMouseCursor(true);
 
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/doomLogo.png", "doomLogo");
 

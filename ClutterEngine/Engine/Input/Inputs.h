@@ -9,7 +9,7 @@ namespace clt
 	/**
   * @brief Class managing input actions and their states.
   */
-	class CLUTTER_API Input
+	class CLUTTER_API Inputs
 	{
 	public:
 		struct AxisMapping 
@@ -77,25 +77,25 @@ namespace clt
 		/**
    * @brief Default constructor.
    */
-		Input() = default;
+		Inputs() = default;
 
 	public:
 		/**
    * @brief Deleted copy constructor.
    */
-		Input(const Input&) = delete;
+		Inputs(const Inputs&) = delete;
 
 		/**
    * @brief Deleted copy assignment operator.
    */
-		Input& operator=(const Input&) = delete;
+		Inputs& operator=(const Inputs&) = delete;
 
 		/**
    * @brief Gets the singleton instance of the InputManager.
    * @return Reference to the singleton instance.
    */
-		static Input& Get() {
-			static Input instance;
+		static Inputs& Get() {
+			static Inputs instance;
 			return instance;
 		}
 

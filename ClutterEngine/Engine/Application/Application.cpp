@@ -3,7 +3,7 @@
 #include <Application/Application.h>	
 #include <Core/Timer.h>
 #include <Core/Levels/TemplateLevel/TemplateLevel.h>
-#include <Input/Input.h>
+#include <Input/Inputs.h>
 #include <GLFW/glfw3.h>
 
 using namespace clt;
@@ -22,12 +22,12 @@ void Application::Init(std::vector<Level*> pLevels, const std::string& configFil
 	mEngine->Init(configFile, pLevels);
 	CLUTTER_INFO("Application created");
 
-	if (mEngine->isEditorMode())
+	if (mEngine->IsEditorMode())
 	{
-		Input::Get().MapKeyToAction(EKey::F1, "enableFillMode");
-		Input::Get().MapKeyToAction(EKey::F2, "enableWireframeMode");
-		Input::Get().RegisterActionCallback("enableWireframeMode", [this] { this->ShowWireframe(); });
-		Input::Get().RegisterActionCallback("enableFillMode", [this] { this->ShowLitMode(); });
+		Inputs::Get().MapKeyToAction(EKey::F1, "enableFillMode");
+		Inputs::Get().MapKeyToAction(EKey::F2, "enableWireframeMode");
+		Inputs::Get().RegisterActionCallback("enableWireframeMode", [this] { this->ShowWireframe(); });
+		Inputs::Get().RegisterActionCallback("enableFillMode", [this] { this->ShowLitMode(); });
 	}
 
 	Run();

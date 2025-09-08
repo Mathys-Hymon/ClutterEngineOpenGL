@@ -6,7 +6,7 @@
 DoomHUD::DoomHUD() : HUDComponent(), mLifeState(3), mCanShoot(0.0f), mTauntDelay(1), mLife(100)
 {
 
-	clt::Input::Get().SetShowMouseCursor(false);
+	clt::Inputs::Get().SetShowMouseCursor(false);
 
 	CreateWidget<clt::UIPanel>("PlayerScreen");
 

@@ -2,6 +2,7 @@
 #include <Core/CCommon.h>
 #include <Core/Assets/Assets.h>
 #include <Graphics/IRenderer.h>
+#include <Sound/Audio.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
 #define TINYOBJLOADER_IMPLEMENTATION
@@ -252,6 +253,17 @@ std::shared_ptr<Font> Assets::GetFont(const std::string& name)
     return it->second;
 }
 
+std::shared_ptr<Sound> Assets::GetAudio(const std::string& pName)
+{
+    auto it = mSounds.find(pName);
+    if (it == mSounds.end())
+    {
+        CLUTTER_WARNING(("Unable to find Audio: " + pName).c_str());
+        return nullptr;
+    }
+    return it->second;
+}
+
 Shader* Assets::GetShader(const std::string& pPath, ShaderType pType)
 {
     auto it = mShaders.find(pType);
@@ -410,9 +422,24 @@ Shader* Assets::LoadShader(const std::string& pPath, ShaderType pType)
     return temp;
 }
 
-std::shared_ptr<Audio> Assets::LoadAudio(const std::string& pPath, const std::string& pName)
+std::shared_ptr<Sound> Assets::LoadAudio(const std::string& pPath, const std::string& pName, AudioCategory category, bool isSpatialized, bool isStream)
 {
-    return std::shared_ptr<Audio>();
+    if (mSounds[pName]) return GetAudio(pName);
+
+    FMOD::Sound* tempSound = nullptr;
+
+    FMOD_MODE mode = FMOD_DEFAULT;
+    mode += isSpatialized ? FMOD_3D : FMOD_2D;
+    mode += isStream ? FMOD_CREATESTREAM : FMOD_CREATECOMPRESSEDSAMPLE;
+
+    FMOD::System& coreSystem = Audio::Get().GetCoreSystem();
+
+    coreSystem.createSound(pPath.c_str(), mode, nullptr, &tempSound);
+
+    std::shared_ptr<Sound> tempAudio = std::make_shared<Sound>(category, tempSound, isSpatialized, isStream);
+
+    mSounds[pName] = tempAudio;
+    return tempAudio;
 }
 
 std::weak_ptr<IMaterial> Assets::CreateMaterial(const std::string& pName, ShaderProgram* pShaderProgram)
@@ -472,7 +499,10 @@ void Assets::ClearAssets()
     mTextures.clear();
     mMeshes.clear();
     mShaders.clear();
+    mSounds.clear();
+
     FT_Done_FreeType(mFTLibrary);
+    mFonts.clear();
 
     delete sInstance;
 }

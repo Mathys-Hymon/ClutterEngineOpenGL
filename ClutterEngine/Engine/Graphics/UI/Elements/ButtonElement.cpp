@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "ButtonElement.h"
-#include "Input/Input.h"
+#include "Input/Inputs.h"
 
 using namespace clt;
 
@@ -23,9 +23,9 @@ void ButtonElement::Update()
 	if (mState == ButtonState::Disabled)
 		return;
 
-	if (IsMouseOver(Input::Get().GetMousePosition()))
+	if (IsMouseOver(Inputs::Get().GetMousePosition()))
 	{
-		bool isPressed = Input::Get().IsButtonPressed(EMouseButton::Left);
+		bool isPressed = Inputs::Get().IsButtonPressed(EMouseButton::Left);
 
 		if (isPressed)
 		{
