@@ -37,6 +37,9 @@ namespace clt
 		void PlaySound(std::weak_ptr<Sound> audio);
 		void PlaySoundAtLocation(std::weak_ptr<Sound> audio, Vector3 pos);
 
+		void PlaySound(const std::string& soundName);
+		void PlaySoundAtLocation(const std::string& soundName, Vector3 pos);
+
 		void SetAttenuationSettings(float distanceFactor, float rolloffDistance, float dopplerScale = 1.0f);
 
 		std::weak_ptr<SoundInstance> SpawnSound(std::weak_ptr<Sound> audio);

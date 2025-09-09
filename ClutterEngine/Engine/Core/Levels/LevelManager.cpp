@@ -1,5 +1,6 @@
 #include "pch.h"
 #include <Core/Levels/LevelManager.h>
+#include <Sound/Audio.h>
 #include <Physics/Physics.h>
 
 using namespace clt;
@@ -30,6 +31,7 @@ void LevelManager::Update()
 	if (mLevelToLoad)
 	{
 		mCurrentLevel->Unload();
+		Audio::Get().ClearSpawnedSounds();
 		mCurrentLevel = mLevelToLoad;
 		mCurrentLevel->Load();
 

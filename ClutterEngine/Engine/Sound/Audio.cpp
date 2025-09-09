@@ -2,6 +2,8 @@
 #include  <Sound/Audio.h>
 #include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
 #include <Core/ActorComponent/Components/Physics/RigidBody.h>
+#include <Sound/SoundInstance.h>
+#include <Core/Assets/Assets.h>
 
 using namespace clt;
 
@@ -108,9 +110,69 @@ void Audio::PlaySoundAtLocation(std::weak_ptr<Sound> audio, Vector3 pos)
 	if (channel) channel->set3DAttributes(&fmodPos, &vel);
 }
 
+void Audio::PlaySound(const std::string& soundName)
+{
+	std::weak_ptr<Sound> temp = Assets::Get().GetAudio(soundName);
+
+	if (!temp.lock())
+	{
+		CLUTTER_WARNING("Sound : " + soundName + " cannot be played, first load it in Assets.");
+		return;
+	}
+	else PlaySound(temp);
+}
+
+void Audio::PlaySoundAtLocation(const std::string& soundName, Vector3 pos)
+{
+	std::weak_ptr<Sound> temp = Assets::Get().GetAudio(soundName);
+
+	if (!temp.lock())
+	{
+		CLUTTER_WARNING("Sound : " + soundName + " cannot be played, first load it in Assets.");
+		return;
+	}
+	else PlaySoundAtLocation(temp, pos);
+}
+
 void Audio::SetAttenuationSettings(float distanceFactor, float rolloffDistance, float dopplerScale)
 {
 	mCoreSystem->set3DSettings(dopplerScale, distanceFactor, rolloffDistance);
+}
+
+std::weak_ptr<SoundInstance> Audio::SpawnSound(std::weak_ptr<Sound> audio)
+{
+	return std::weak_ptr<SoundInstance>();
+}
+
+std::weak_ptr<SoundInstance> Audio::SpawnSoundAtLocation(std::weak_ptr<Sound> audio, Vector3 pos)
+{
+	return std::weak_ptr<SoundInstance>();
+}
+
+void Audio::ClearSpawnedSounds()
+{
+	for (std::weak_ptr<SoundInstance> sound : mActiveSounds)
+	{
+		if (auto lockedSound = sound.lock())	lockedSound->Stop();
+	}
+
+	mActiveSounds.clear();
+}
+
+void Audio::ClearAllSounds()
+{
+	FMOD::ChannelGroup* master = nullptr;
+	mCoreSystem->getMasterChannelGroup(&master);
+
+	if (master) master->stop();
+	mActiveSounds.clear();
+}
+
+void Audio::ClearByCategory(AudioCategory category)
+{
+	auto temp = mCategoryGroups[category];
+
+	if (temp) temp->stop();
 }
 
 FMOD::System& Audio::GetCoreSystem() const
