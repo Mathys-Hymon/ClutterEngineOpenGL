@@ -1,5 +1,5 @@
 #pragma once
-#include <Core/ActorComponent/Components/Collisions/ColliderComponent.h>
+#include <Core/ActorComponent/Components/Physics/Collisions/ColliderComponent.h>
 #include <array>
 
 namespace clt

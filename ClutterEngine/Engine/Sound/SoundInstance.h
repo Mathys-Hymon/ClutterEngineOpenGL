@@ -10,6 +10,7 @@ namespace clt
 		FMOD::Channel* mChannel;
 		AudioCategory mCategory;
 
+		SoundInstance() = default;
 	public:
 		SoundInstance(FMOD::Channel* channel, AudioCategory category);
 
@@ -17,11 +18,13 @@ namespace clt
 		void SetPitch(float pitch);
 		void Set3DAttributes(const Vector3& pos, const Vector3& vel = {0,0,0});
 		void Stop();
-		void Pause();
+		void Pause() const;
 		void Play() const;
 		void SetPaused(bool paused) const;
 		void SetLooping(bool loop) const;
 
 		bool IsPlaying() const;
+
+		friend class Audio;
 	};
 }

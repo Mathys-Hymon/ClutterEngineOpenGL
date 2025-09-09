@@ -3,12 +3,13 @@
 #include <limits>
 #include <cmath>
 #include "Core/Timer.h"
+#include <random>
 
 namespace Maths
 {
     const float PI = 3.1415926535f;
     const float TWO_PI = PI * 2.0f;
-    const float PI_HALVED = PI / 2.0f;
+    const float PI_HALVED = PI * 0.5f;
     const float INFINITY_POS = std::numeric_limits<float>::infinity();
     const float INFINITY_NEG = -INFINITY_POS;
 
@@ -35,4 +36,27 @@ namespace Maths
     inline float Sqrt(float val) { return sqrtf(val); }
     inline float Fmod(float numer, float denom) { return std::fmod(numer, denom); }
     inline int Round(float val) { return static_cast<int>(val); }
+
+    // ---------------------------
+   // RANDOM UTILS
+   // ---------------------------
+    inline std::mt19937& GetRNG()
+    {
+        static thread_local std::mt19937 rng{ std::random_device{}() };
+        return rng;
+    }
+
+    // int
+    inline int Rand(int min, int max)
+    {
+        std::uniform_int_distribution<int> dist(min, max);
+        return dist(GetRNG());
+    }
+
+    // float
+    inline float Rand(float min, float max)
+    {
+        std::uniform_real_distribution<float> dist(min, max);
+        return dist(GetRNG());
+    }
 }

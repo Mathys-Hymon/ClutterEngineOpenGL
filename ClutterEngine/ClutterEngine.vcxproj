@@ -268,9 +268,10 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Engine\Core\ActorComponent\Actor.h" />
     <ClInclude Include="Engine\Core\ActorComponent\ChildActors\EditorCamera.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Component.h" />
-    <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\2D\AABBCollider.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\Collisions\2D\AABBCollider.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Movements\EditorController.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Movements\FpsController.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Sounds\SoundComponent.h" />
     <ClInclude Include="Engine\Core\All.h" />
     <ClInclude Include="Engine\Core\Assets\AssetsType\Sound.h" />
     <ClInclude Include="Engine\Core\Assets\AssetsType\Font.h" />
@@ -283,11 +284,11 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Engine\Graphics\UI\Elements\FlipbookElement.h" />
     <ClInclude Include="Engine\Graphics\UI\Elements\SpriteElement.h" />
     <ClInclude Include="Engine\Graphics\UI\Elements\TextElement.h" />
-    <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\2D\CircleCollider.h" />
-    <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\HitResult.h" />
-    <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\ColliderComponent.h" />
-    <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\OBBCollider.h" />
-    <ClInclude Include="Engine\Core\ActorComponent\Components\Collisions\SphereCollider.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\Collisions\2D\CircleCollider.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\Collisions\HitResult.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\Collisions\ColliderComponent.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\Collisions\OBBCollider.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\Collisions\SphereCollider.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\Camera\CameraComponent.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\Camera\SpringArmComponent.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\Mesh\MeshComponent.h" />
@@ -342,17 +343,18 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
   <ItemGroup>
     <ClCompile Include="Engine\Core\ActorComponent\ChildActors\CubeActor.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\ChildActors\EditorCamera.cpp" />
-    <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\SphereCollider.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Physics\Collisions\SphereCollider.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\CameraController.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\EditorController.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\FpsController.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\PlayerController.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Sounds\SoundComponent.cpp" />
     <ClCompile Include="Engine\Core\Assets\AssetsType\Sound.cpp" />
     <ClCompile Include="Engine\Core\Assets\AssetsType\Material.cpp" />
     <ClCompile Include="Engine\Core\Assets\AssetsType\MaterialInstance.cpp" />
     <ClCompile Include="Engine\Core\Debug\DebugDraw.cpp" />
-    <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\OBBCollider.cpp" />
-    <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\ColliderComponent.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Physics\Collisions\OBBCollider.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Physics\Collisions\ColliderComponent.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\Mesh\MeshComponent.cpp" />
     <ClCompile Include="Engine\Core\Assets\AssetsType\Mesh.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\UI\HUDComponent.cpp" />
@@ -366,7 +368,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\Camera\SpringArmComponent.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\Sprite\AnimatorComponent.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Physics\RigidBody.cpp" />
-    <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\2D\CircleCollider.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Physics\Collisions\2D\CircleCollider.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\PlayerController2D.cpp" />
     <ClCompile Include="Engine\Core\Maths\Vectors\Vector3.cpp" />
     <ClCompile Include="Engine\Graphics\UI\Elements\AnimatorElement.cpp" />
@@ -376,7 +378,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClCompile Include="Engine\Graphics\UI\UIPanel.cpp" />
     <ClCompile Include="Engine\Physics\Collision\CollisionEvent.cpp" />
     <ClCompile Include="Engine\Physics\Physics.cpp" />
-    <ClCompile Include="Engine\Core\ActorComponent\Components\Collisions\2D\AABBCollider.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Physics\Collisions\2D\AABBCollider.cpp" />
     <ClCompile Include="Engine\Input\Inputs.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|x64'">false</ExcludedFromBuild>

@@ -1,6 +1,6 @@
 #include "pch.h"  
 #include "CubeActor.h"  
-#include <Core/ActorComponent/Components/Collisions/OBBCollider.h>  
+#include <Core/ActorComponent/Components/Physics/Collisions/OBBCollider.h>  
 #include <Core/ActorComponent/Components/Graphics/Mesh/MeshComponent.h>  
 #include <Core/Assets/Assets.h>  
 

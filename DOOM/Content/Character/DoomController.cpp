@@ -13,6 +13,8 @@ mRotationVelocity(0.0f), mMovementVelocity(0), mWeapon(Weapons::Pistol), mLife(1
 	clt::Inputs::Get().RegisterMouseCallback([this](Vector2 value) { this->RotateCamera(value); });
 	clt::Inputs::Get().RegisterVectCallback("PlayerMovement", [this](Vector2 value) { this->Move(value); });
 	
+	clt::Assets::Get().LoadAudio("Content/Resources/Audio/shoot.wav", "shoot", AudioCategory::SFX);
+	
 	mMaxAcceleration = 25;
 	mMaxWalkSpeed = 6;
 

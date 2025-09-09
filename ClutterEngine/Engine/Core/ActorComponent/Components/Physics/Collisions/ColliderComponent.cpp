@@ -1,5 +1,5 @@
 #include "pch.h"
-#include <Core/ActorComponent/Components/Collisions/ColliderComponent.h>
+#include <Core/ActorComponent/Components/Physics/Collisions/ColliderComponent.h>
 #include <Physics/Collision/ICollisionListener.h>
 #include <Physics/Physics.h>
 #include <Core/Levels/Level.h>

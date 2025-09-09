@@ -5,12 +5,14 @@
 #include <Core/ActorComponent/Actor.h>
 #include <Core/ActorComponent/Component.h>
 
-#include <Core/ActorComponent/Components/Collisions/2D/AABBCollider.h>
-#include <Core/ActorComponent/Components/Collisions/2D/CircleCollider.h>
-#include <Core/ActorComponent/Components/Collisions/ColliderComponent.h>
-#include <Core/ActorComponent/Components/Collisions/HitResult.h>
-#include <Core/ActorComponent/Components/Collisions/OBBCollider.h>
-#include <Core/ActorComponent/Components/Collisions/SphereCollider.h>
+#include <Core/ActorComponent/Components/Physics/RigidBody.h>
+
+#include <Core/ActorComponent/Components/Physics/Collisions/2D/AABBCollider.h>
+#include <Core/ActorComponent/Components/Physics/Collisions/2D/CircleCollider.h>
+#include <Core/ActorComponent/Components/Physics/Collisions/ColliderComponent.h>
+#include <Core/ActorComponent/Components/Physics/Collisions/HitResult.h>
+#include <Core/ActorComponent/Components/Physics/Collisions/OBBCollider.h>
+#include <Core/ActorComponent/Components/Physics/Collisions/SphereCollider.h>
 
 #include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
 #include <Core/ActorComponent/Components/Graphics/Camera/SpringArmComponent.h>
@@ -23,7 +25,6 @@
 #include <Core/ActorComponent/Components/Movements/EditorController.h>
 #include <Core/ActorComponent/Components/Movements/PlayerController2D.h>
 
-#include <Core/ActorComponent/Components/Physics/RigidBody.h>
 
 #include <Core/ActorComponent/ChildActors/CubeActor.h>
 

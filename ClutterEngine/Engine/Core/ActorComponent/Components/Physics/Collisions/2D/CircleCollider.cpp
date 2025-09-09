@@ -1,6 +1,6 @@
 #include "pch.h"
-#include <Core/ActorComponent/Components/Collisions/2D/CircleCollider.h>
-#include <Core/ActorComponent/Components/Collisions/2D/AABBCollider.h>
+#include <Core/ActorComponent/Components/Physics/Collisions/2D/CircleCollider.h>
+#include <Core/ActorComponent/Components/Physics/Collisions/2D/AABBCollider.h>
 
 using namespace clt;
 

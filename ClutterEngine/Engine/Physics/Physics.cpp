@@ -1,7 +1,7 @@
 #include "pch.h"  
 #include <Physics/Physics.h>  
-#include "Core/ActorComponent/Components/Collisions/OBBCollider.h"
-#include "Core/ActorComponent/Components/Collisions/SphereCollider.h"
+#include "Core/ActorComponent/Components/Physics/Collisions/OBBCollider.h"
+#include "Core/ActorComponent/Components/Physics/Collisions/SphereCollider.h"
 #include <Core/Timer.h>  
 
 using namespace clt;

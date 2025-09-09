@@ -156,14 +156,37 @@ SoundInstance& Audio::SpawnSoundAtLocation(std::weak_ptr<Sound> audio, Vector3 p
 	return *instance;
 }
 
+SoundInstance& Audio::SpawnSound(const std::string& soundName)
+{
+	std::weak_ptr<Sound> temp = Assets::Get().GetAudio(soundName);
+
+	if (!temp.lock())
+	{
+		CLUTTER_WARNING("Sound : " + soundName + " cannot be spawned, first load it in Assets.");
+		return *new SoundInstance();
+	}
+	else return SpawnSound(temp);
+}
+
+SoundInstance& Audio::SpawnSoundAtLocation(const std::string& soundName, Vector3 pos)
+{
+	std::weak_ptr<Sound> temp = Assets::Get().GetAudio(soundName);
+
+	if (!temp.lock())
+	{
+		CLUTTER_ERROR("Sound : " + soundName + " cannot be spawned, first load it in Assets.");
+		return *new SoundInstance();
+	}
+	else return SpawnSoundAtLocation(temp, pos);
+}
+
 void Audio::PlaySound(const std::string& soundName)
 {
 	std::weak_ptr<Sound> temp = Assets::Get().GetAudio(soundName);
 
 	if (!temp.lock())
 	{
-		CLUTTER_WARNING("Sound : " + soundName + " cannot be played, first load it in Assets.");
-		return;
+		CLUTTER_ERROR("Sound : " + soundName + " cannot be played, first load it in Assets.");
 	}
 	else PlaySound(temp);
 }

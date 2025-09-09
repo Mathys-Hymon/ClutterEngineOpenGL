@@ -42,8 +42,11 @@ namespace clt
 
 		void SetAttenuationSettings(float distanceFactor, float rolloffDistance, float dopplerScale = 1.0f);
 
-		SoundInstance& SpawnSound(std::weak_ptr<Sound> audio);
-		SoundInstance& SpawnSoundAtLocation(std::weak_ptr<Sound> audio, Vector3 pos);
+		SoundInstance& SpawnSound(std::weak_ptr<Sound> sound);
+		SoundInstance& SpawnSoundAtLocation(std::weak_ptr<Sound> sound, Vector3 pos);
+
+		SoundInstance& SpawnSound(const std::string& soundName);
+		SoundInstance& SpawnSoundAtLocation(const std::string& soundName, Vector3 pos);
 
 		void ClearSpawnedSounds();
 		void ClearAllSounds();
