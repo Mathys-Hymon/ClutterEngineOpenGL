@@ -18,8 +18,9 @@ namespace clt
 		void Set3DAttributes(const Vector3& pos, const Vector3& vel = {0,0,0});
 		void Stop();
 		void Pause();
-		void Play();
-		void SetPaused(bool paused);
+		void Play() const;
+		void SetPaused(bool paused) const;
+		void SetLooping(bool loop) const;
 
 		bool IsPlaying() const;
 	};

@@ -56,3 +56,4 @@
 #include <Graphics/UI/Elements/ButtonElement.h>
 
 #include <Sound/Audio.h>
+#include <Sound/SoundInstance.h>

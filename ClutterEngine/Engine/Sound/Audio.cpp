@@ -85,8 +85,8 @@ void Audio::PlaySound(std::weak_ptr<Sound> audio)
 	Sound& tempAudio = *audio.lock().get();
 
 	FMOD::Channel* channel = nullptr;
-
 	mCoreSystem->playSound(tempAudio.GetHandle(), nullptr, false, &channel);
+	channel->setMode(FMOD_2D);
 
 	auto categoryGroup = mCategoryGroups[tempAudio.GetCategory()];
 	if (categoryGroup) channel->setChannelGroup(categoryGroup);
@@ -101,6 +101,7 @@ void Audio::PlaySoundAtLocation(std::weak_ptr<Sound> audio, Vector3 pos)
 	FMOD::Channel* channel = nullptr;
 
 	mCoreSystem->playSound(tempAudio.GetHandle(), nullptr, false, &channel);
+	channel->setMode(FMOD_3D);
 
 	auto categoryGroup = mCategoryGroups[tempAudio.GetCategory()];
 	if (categoryGroup) channel->setChannelGroup(categoryGroup);
@@ -108,6 +109,51 @@ void Audio::PlaySoundAtLocation(std::weak_ptr<Sound> audio, Vector3 pos)
 	FMOD_VECTOR fmodPos = { pos.x, pos.y, pos.z };
 	FMOD_VECTOR vel = { 0,0,0 };
 	if (channel) channel->set3DAttributes(&fmodPos, &vel);
+}
+
+void Audio::SetAttenuationSettings(float distanceFactor, float rolloffDistance, float dopplerScale)
+{
+	mCoreSystem->set3DSettings(dopplerScale, distanceFactor, rolloffDistance);
+}
+
+SoundInstance& Audio::SpawnSound(std::weak_ptr<Sound> audio)
+{
+	Sound& tempAudio = *audio.lock().get();
+
+	FMOD::Channel* channel = nullptr;
+
+	mCoreSystem->playSound(tempAudio.GetHandle(), nullptr, false, &channel);
+	channel->setMode(FMOD_2D);
+
+	auto categoryGroup = mCategoryGroups[tempAudio.GetCategory()];
+	if (categoryGroup) channel->setChannelGroup(categoryGroup);
+
+	auto instance = std::make_shared<SoundInstance>(channel, tempAudio.GetCategory());
+	mActiveSounds.push_back(instance);
+
+	return *instance;
+}
+
+SoundInstance& Audio::SpawnSoundAtLocation(std::weak_ptr<Sound> audio, Vector3 pos)
+{
+	Sound& tempAudio = *audio.lock().get();
+
+	FMOD::Channel* channel = nullptr;
+
+	mCoreSystem->playSound(tempAudio.GetHandle(), nullptr, false, &channel);
+	channel->setMode(FMOD_3D);
+
+	auto categoryGroup = mCategoryGroups[tempAudio.GetCategory()];
+	if (categoryGroup) channel->setChannelGroup(categoryGroup);
+
+	FMOD_VECTOR fmodPos = { pos.x, pos.y, pos.z };
+	FMOD_VECTOR vel = { 0,0,0 };
+	if (channel) channel->set3DAttributes(&fmodPos, &vel);
+
+	auto instance = std::make_shared<SoundInstance>(channel, tempAudio.GetCategory());
+	mActiveSounds.push_back(instance);
+
+	return *instance;
 }
 
 void Audio::PlaySound(const std::string& soundName)
@@ -132,21 +178,6 @@ void Audio::PlaySoundAtLocation(const std::string& soundName, Vector3 pos)
 		return;
 	}
 	else PlaySoundAtLocation(temp, pos);
-}
-
-void Audio::SetAttenuationSettings(float distanceFactor, float rolloffDistance, float dopplerScale)
-{
-	mCoreSystem->set3DSettings(dopplerScale, distanceFactor, rolloffDistance);
-}
-
-std::weak_ptr<SoundInstance> Audio::SpawnSound(std::weak_ptr<Sound> audio)
-{
-	return std::weak_ptr<SoundInstance>();
-}
-
-std::weak_ptr<SoundInstance> Audio::SpawnSoundAtLocation(std::weak_ptr<Sound> audio, Vector3 pos)
-{
-	return std::weak_ptr<SoundInstance>();
 }
 
 void Audio::ClearSpawnedSounds()

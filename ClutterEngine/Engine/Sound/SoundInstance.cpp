@@ -17,6 +17,7 @@ void SoundInstance::SetVolume(float volumeDB)
 
 void SoundInstance::SetPitch(float pitch)
 {
+    mChannel->setPitch(pitch);
 }
 
 void SoundInstance::Set3DAttributes(const Vector3& pos, const Vector3& vel)
@@ -39,11 +40,21 @@ void SoundInstance::Stop()
     if (mChannel) mChannel->stop();
 }    
 
-void SoundInstance::SetPaused(bool paused)
+void SoundInstance::SetPaused(bool paused) const
 {    
     if (mChannel) mChannel->setPaused(paused);
 }    
      
+void SoundInstance::SetLooping(bool loop) const
+{
+    if (!mChannel) return;
+
+    if (loop)
+        mChannel->setMode(FMOD_LOOP_NORMAL);
+    else
+        mChannel->setMode(FMOD_LOOP_OFF);
+}
+
 bool SoundInstance::IsPlaying() const
 {
     if (!mChannel) return false;
