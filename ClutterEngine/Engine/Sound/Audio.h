@@ -17,7 +17,7 @@ namespace clt
 
 		std::map<AudioCategory, FMOD::ChannelGroup*> mCategoryGroups;
 
-		std::vector<std::shared_ptr<SoundInstance>> mSpawnedSounds;
+		std::vector<std::shared_ptr<SoundInstance>> mActiveSounds;
 
 		void Init();
 		void Shutdown();
@@ -37,11 +37,14 @@ namespace clt
 		void PlaySound(std::weak_ptr<Sound> audio);
 		void PlaySoundAtLocation(std::weak_ptr<Sound> audio, Vector3 pos);
 
+		void SetAttenuationSettings(float distanceFactor, float rolloffDistance, float dopplerScale = 1.0f);
+
 		std::weak_ptr<SoundInstance> SpawnSound(std::weak_ptr<Sound> audio);
 		std::weak_ptr<SoundInstance> SpawnSoundAtLocation(std::weak_ptr<Sound> audio, Vector3 pos);
 
 		void ClearSpawnedSounds();
 		void ClearAllSounds();
+		void ClearByCategory(AudioCategory category);
 
 		FMOD::System& GetCoreSystem() const;
 

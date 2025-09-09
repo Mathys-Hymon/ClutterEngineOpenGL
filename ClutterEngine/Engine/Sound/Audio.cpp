@@ -39,25 +39,25 @@ void Audio::Update()
 {
 	if (!mCoreSystem) return;
 
-	Actor* camera = CameraComponent::GetActiveCamera()->GetOwner();
+	CameraComponent* camera = CameraComponent::GetActiveCamera();
 
-	Vector3 pos = camera->GetActorLocation();
+	Vector3 pos = camera->GetWorldLocation();
 	FMOD_VECTOR listenerPos = { pos.x, pos.y, pos.z };
 
 	FMOD_VECTOR listenerVel = { 0,0,0 };
 
-	auto* rb = camera->GetComponentOfType<RigidBody>();
+	auto* rb = camera->GetOwner()->GetComponentOfType<RigidBody>();
 
 	if (rb)
 	{
-		Vector3 vel = rb->GetVelocity();
+		Vector3 vel = rb->GetVelocity() * 0.01f;
 		listenerVel = { vel.x, vel.y, vel.z };
 	}
 
-	Vector3 fwd = camera->GetTransform().Forward();
+	Vector3 fwd = -camera->GetWorldTransform().Forward();
 	FMOD_VECTOR listenerFwd = { fwd.x, fwd.y, fwd.z };
 
-	Vector3 up = camera->GetTransform().Up();
+	Vector3 up = camera->GetWorldTransform().Up();
 	FMOD_VECTOR listenerUp = { up.x, up.y, up.z };
 
 	mCoreSystem->set3DListenerAttributes(0, &listenerPos, &listenerVel, &listenerFwd, &listenerUp);
@@ -92,6 +92,25 @@ void Audio::PlaySound(std::weak_ptr<Sound> audio)
 
 void Audio::PlaySoundAtLocation(std::weak_ptr<Sound> audio, Vector3 pos)
 {
+	if (!audio.lock()) return;
+
+	Sound& tempAudio = *audio.lock().get();
+
+	FMOD::Channel* channel = nullptr;
+
+	mCoreSystem->playSound(tempAudio.GetHandle(), nullptr, false, &channel);
+
+	auto categoryGroup = mCategoryGroups[tempAudio.GetCategory()];
+	if (categoryGroup) channel->setChannelGroup(categoryGroup);
+
+	FMOD_VECTOR fmodPos = { pos.x, pos.y, pos.z };
+	FMOD_VECTOR vel = { 0,0,0 };
+	if (channel) channel->set3DAttributes(&fmodPos, &vel);
+}
+
+void Audio::SetAttenuationSettings(float distanceFactor, float rolloffDistance, float dopplerScale)
+{
+	mCoreSystem->set3DSettings(dopplerScale, distanceFactor, rolloffDistance);
 }
 
 FMOD::System& Audio::GetCoreSystem() const

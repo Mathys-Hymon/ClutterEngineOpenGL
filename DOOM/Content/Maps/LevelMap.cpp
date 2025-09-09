@@ -38,7 +38,6 @@ void LevelMap::Load()
 	camera->SetActorLocation({ 10, 0, -12 });
 	camera->SetActorRotation({ 0,180,0 });
 
-
 	floorMesh = AddActor<clt::CubeActor>("floor", clt::Assets::Get().GetTexture("floor"), false, Vector2{100,100});
 	floorMesh->SetActorTransform({ 0,-2 ,0 }, 0, {20,1,20});
 
@@ -55,6 +54,10 @@ void LevelMap::Load()
 	zombie3->SetActorLocation({ 1,-0.3f, -5 });
 
 	zombie2->SetActorRotation({ 0,180,0 });
+
+	std::weak_ptr<clt::Sound> music = clt::Assets::Get().LoadAudio("Content/Resources/Audio/laink.mp3", "laink", AudioCategory::Music);
+
+	clt::Audio::Get().PlaySoundAtLocation(music, zombie2->GetActorLocation());
 
 	wall2 = AddActor<clt::CubeActor>("wall2", false);
 	wall2->SetActorScale({ 0.1,2,20 });
