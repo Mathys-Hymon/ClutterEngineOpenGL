@@ -69,6 +69,8 @@ void Audio::Update()
 
 void Audio::Shutdown()
 {
+	ClearAllSounds();
+
 	if (mStudioSystem)
 	{
 		mStudioSystem->unloadAll();
@@ -76,6 +78,39 @@ void Audio::Shutdown()
 		mStudioSystem = nullptr;
 		mCoreSystem = nullptr;
 	}
+}
+
+SoundInstance& Audio::SpawnSoundComponent(std::weak_ptr<Sound> sound, Vector3 pos)
+{
+	Sound& tempAudio = *sound.lock().get();
+
+	FMOD::Channel* channel = nullptr;
+
+	mCoreSystem->playSound(tempAudio.GetHandle(), nullptr, false, &channel);
+	channel->setMode(FMOD_3D);
+
+	auto categoryGroup = mCategoryGroups[tempAudio.GetCategory()];
+	if (categoryGroup) channel->setChannelGroup(categoryGroup);
+
+	FMOD_VECTOR fmodPos = { pos.x, pos.y, pos.z };
+	FMOD_VECTOR vel = { 0,0,0 };
+	if (channel) channel->set3DAttributes(&fmodPos, &vel);
+
+	auto instance = std::make_shared<SoundInstance>(channel, tempAudio.GetCategory());
+
+	return *instance;
+}
+
+SoundInstance& Audio::SpawnSoundComponent(const std::string& soundName, Vector3 pos)
+{
+	std::weak_ptr<Sound> temp = Assets::Get().GetAudio(soundName);
+
+	if (!temp.lock())
+	{
+		CLUTTER_ERROR("Sound : " + soundName + " cannot be spawned, first load it in Assets.");
+		return *new SoundInstance();
+	}
+	else return SpawnSoundComponent(temp, pos);
 }
 
 void Audio::PlaySound(std::weak_ptr<Sound> audio)
@@ -216,7 +251,7 @@ void Audio::ClearSpawnedSounds()
 void Audio::ClearAllSounds()
 {
 	FMOD::ChannelGroup* master = nullptr;
-	mCoreSystem->getMasterChannelGroup(&master);
+	if(mCoreSystem) mCoreSystem->getMasterChannelGroup(&master);
 
 	if (master) master->stop();
 	mActiveSounds.clear();

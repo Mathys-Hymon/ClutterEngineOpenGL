@@ -12,43 +12,6 @@ GLFWwindow* window;
 
 ImGuiLayer::ImGuiLayer()
 {
-	// Initialize GLFW
-	glfwInit();
-
-
-	// Set the GLFW Version of OpenGL
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-
-	// Define if GLFW use the core profile
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-
-
-	// Create the window
-	window = glfwCreateWindow(300, 500, "first OpenGL", NULL, NULL);
-
-	if (window == NULL)												// Return error if window dont create correctly
-	{
-		std::cout << "\n\nFailed to create GLFW Window\n\n" << std::endl;
-
-		glfwTerminate();
-	}
-
-	// Set the window to the current context
-	glfwMakeContextCurrent(window);
-
-	// Load Glad for OpenGL
-	gladLoadGL();
-
-	// Set the viewport Size
-	glViewport(0, 0, 300, 500);
-
-	glEnable(GL_DEPTH_TEST);
-
-
-	clt::Window::Get().SetGLFWWindow(window);
-
 	// Set up ImGUI
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -102,11 +65,6 @@ void ImGuiLayer::DrawUI()
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-	// Swap the back buffer with the front
-	glfwSwapBuffers(window);
-	// Manage all GLFW events
-	glfwPollEvents();
 }
 
 void ImGuiLayer::EndFrame()

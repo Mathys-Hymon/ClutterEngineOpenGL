@@ -29,8 +29,9 @@ void LevelMap::Load()
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/floor.png", "floor", TextureFilter::NEAREST);
 	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/wall.png", "wall", TextureFilter::NEAREST);
 
-	clt::SoundInstance& ost = clt::Audio::Get().SpawnSound(clt::Assets::Get().LoadAudio("Content/Resources/Audio/inGame.mp3", "inGame", AudioCategory::Music));
-	ost.SetLooping(true);
+	clt::Assets::Get().LoadAudio("Content/Resources/Audio/inGame.mp3", "inGame", AudioCategory::Music);
+
+	clt::Audio::Get().SpawnSound("inGame");
 
 	camera = AddActor<clt::Actor>("camera");
 

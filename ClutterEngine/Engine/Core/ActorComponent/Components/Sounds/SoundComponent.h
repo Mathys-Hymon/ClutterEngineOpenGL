@@ -13,13 +13,13 @@ namespace clt
 		RigidBody* mRigidbody;
 
 	public:
-		SoundComponent(std::weak_ptr<Sound> audio, bool playOnSpawn, bool isLooping, int updateOrder = 0);
-		SoundComponent(const std::string& soundName, bool playOnSpawn, bool isLooping, int updateOrder = 0);
+		SoundComponent(std::weak_ptr<Sound> audio, bool playOnSpawn = true, bool isLooping = false, int updateOrder = 0);
+		SoundComponent(const std::string& soundName, bool playOnSpawn = true, bool isLooping = false, int updateOrder = 0);
 
-		void SetSound(std::weak_ptr<Sound> audio);
-		void SetSound(const std::string& soundName);
+		void SetSound(std::weak_ptr<Sound> audio, bool playOnSpawn = true, bool isLooping = false);
+		void SetSound(const std::string& soundName, bool playOnSpawn = true, bool isLooping = false);
 
-		Sound& GetSound() const;
+		SoundInstance& GetSound() const { return *mSound; };
 
 		~SoundComponent() = default;
 

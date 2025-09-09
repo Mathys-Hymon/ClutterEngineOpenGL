@@ -25,6 +25,9 @@ namespace clt
 		Audio() { Init(); };
 		~Audio() = default;
 
+		SoundInstance& SpawnSoundComponent(std::weak_ptr<Sound> sound, Vector3 pos);
+		SoundInstance& SpawnSoundComponent(const std::string& soundName, Vector3 pos);
+
 	public:
 
 		Audio(const Audio&) = delete;
@@ -55,6 +58,7 @@ namespace clt
 		FMOD::System& GetCoreSystem() const;
 
 		friend class CEngine;
+		friend class SoundComponent;
 	};
 }
 
