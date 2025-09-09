@@ -25,8 +25,8 @@ namespace clt
 		Audio() { Init(); };
 		~Audio() = default;
 
-		SoundInstance& SpawnSoundComponent(std::weak_ptr<Sound> sound, Vector3 pos);
-		SoundInstance& SpawnSoundComponent(const std::string& soundName, Vector3 pos);
+		std::shared_ptr<SoundInstance> SpawnSoundComponent(std::weak_ptr<Sound> sound, Vector3 pos = Vector3::Zero);
+		std::shared_ptr<SoundInstance> SpawnSoundComponent(const std::string& soundName, Vector3 pos = Vector3::Zero);
 
 	public:
 

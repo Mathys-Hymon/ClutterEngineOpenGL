@@ -9,7 +9,7 @@ namespace clt
 	class CLUTTER_API SoundComponent : public Component
 	{
 
-		SoundInstance* mSound;
+		std::shared_ptr<SoundInstance> mSound;
 		RigidBody* mRigidbody;
 
 	public:

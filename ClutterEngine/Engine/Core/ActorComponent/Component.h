@@ -159,6 +159,8 @@ namespace clt
 
         Vector3 GetWorldLocation()         const 
         { 
+            if (!mOwner) return Vector3::Zero;
+
             return mOwner->GetActorLocation() +
                 mRelativeTransform.Location().x * mOwner->GetTransform().Right() +
                 mRelativeTransform.Location().y * mOwner->GetTransform().Up() +
@@ -169,6 +171,8 @@ namespace clt
         Quaternion GetWorldRotation()      const { return Quaternion::Concatenate(mOwner->GetRotation(), mRelativeTransform.Rotation()); };
         virtual Transform GetWorldTransform() const
         {
+            if (!mOwner) return Transform{};
+
             return
             {
                 GetWorldLocation(),

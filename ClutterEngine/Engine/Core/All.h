@@ -26,6 +26,9 @@
 #include <Core/ActorComponent/Components/Movements/PlayerController2D.h>
 
 
+#include <Core/ActorComponent/Components/Sounds/SoundComponent.h>
+
+
 #include <Core/ActorComponent/ChildActors/CubeActor.h>
 
 #include <Core/Assets/Assets.h>

@@ -80,7 +80,7 @@ void Audio::Shutdown()
 	}
 }
 
-SoundInstance& Audio::SpawnSoundComponent(std::weak_ptr<Sound> sound, Vector3 pos)
+std::shared_ptr<SoundInstance> Audio::SpawnSoundComponent(std::weak_ptr<Sound> sound, Vector3 pos)
 {
 	Sound& tempAudio = *sound.lock().get();
 
@@ -98,17 +98,17 @@ SoundInstance& Audio::SpawnSoundComponent(std::weak_ptr<Sound> sound, Vector3 po
 
 	auto instance = std::make_shared<SoundInstance>(channel, tempAudio.GetCategory());
 
-	return *instance;
+	return instance;
 }
 
-SoundInstance& Audio::SpawnSoundComponent(const std::string& soundName, Vector3 pos)
+std::shared_ptr<SoundInstance> Audio::SpawnSoundComponent(const std::string& soundName, Vector3 pos)
 {
 	std::weak_ptr<Sound> temp = Assets::Get().GetAudio(soundName);
 
 	if (!temp.lock())
 	{
 		CLUTTER_ERROR("Sound : " + soundName + " cannot be spawned, first load it in Assets.");
-		return *new SoundInstance();
+		return std::shared_ptr<SoundInstance>();
 	}
 	else return SpawnSoundComponent(temp, pos);
 }
