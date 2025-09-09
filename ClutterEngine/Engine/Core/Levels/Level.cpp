@@ -2,6 +2,8 @@
 #include <Core/Levels/Level.h>
 #include "Physics/Physics.h"
 #include "Core/Levels/LevelManager.h"
+#include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
+#include <Core/ActorComponent/ChildActors/EditorCamera.h>
 
 using namespace clt;
 
@@ -16,6 +18,10 @@ Level::~Level()
 
 void Level::InternalUpdate()
 {
+	// Get the active camera
+	CameraComponent* camera = CameraComponent::GetActiveCamera();
+	if (!camera) AddActor<EditorCamera>();
+
 	UpdateActors();
 	Update();
 }

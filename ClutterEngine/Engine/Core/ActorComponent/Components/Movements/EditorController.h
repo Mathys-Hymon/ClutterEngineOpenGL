@@ -6,6 +6,10 @@ namespace clt
 	class CLUTTER_API EditorController : public PlayerController
 	{
 		Vector2 mWorldRotation;
+		float mMinSpeed;
+		float mMaxSpeed;
+
+		float mActualSpeed;
 
 	public:
 		EditorController(float pMouseSpeed = 1);
@@ -20,6 +24,7 @@ namespace clt
 		void MoveVertically(float pDirection);
 
 		void Rotation(Vector2 pRotation);
+		void ChangeSpeed(float pOffset);
 
 		virtual void OnCollisionEnter(ColliderComponent* collider, const hitResult& result) override {};
 		virtual void OnCollisionStay(ColliderComponent* collider, const hitResult& result)  override {};

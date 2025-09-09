@@ -299,6 +299,7 @@ namespace clt
             if (rotOffset.Length() == 0) return;
 
             Quaternion increment(rotOffset.x * Timer::deltaTime, rotOffset.y * Timer::deltaTime, rotOffset.z * Timer::deltaTime, 1);
+
             mTransform.SetRotation(Quaternion::Concatenate(mTransform.Rotation(), increment));
         }
 

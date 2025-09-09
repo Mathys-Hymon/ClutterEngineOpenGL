@@ -77,7 +77,7 @@ namespace clt
 		/**
    * @brief Default constructor.
    */
-		Inputs() = default;
+		Inputs();
 
 	public:
 		/**

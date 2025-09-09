@@ -45,7 +45,8 @@ namespace clt
 		}
 
 		VertexArray& GetVAO() { return *mVAO; }
-		IMaterial& GetMaterial() { return *mMaterial.lock(); }
+		IMaterial& GetMaterialRef() { return *mMaterial.lock(); }
+		std::weak_ptr<IMaterial> GetMaterial() { return mMaterial; }
 
 		void AddTexture(std::string name, std::weak_ptr<Texture> pTexture);
 

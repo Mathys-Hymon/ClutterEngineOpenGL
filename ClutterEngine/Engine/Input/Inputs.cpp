@@ -3,6 +3,12 @@
 
 using namespace clt;
 
+Inputs::Inputs()
+{
+	GLFWwindow* pGLFWindow = Window::Get().GetGLFWWindow();
+	glfwSetScrollCallback(pGLFWindow, ScrollCallback);
+}
+
 void Inputs::MapKeyToAction(EKey pKey, const std::string& pActionName, EInputState pState)
 {
 	mKeyActionMap[pKey].push_back({pActionName, pState, {}});
@@ -106,8 +112,13 @@ void Inputs::MapKeysToVect(EKey XPositiveKey, EKey XNegativeKey, EKey YPositiveK
 
 void Inputs::ScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 {
-	Inputs::Get().mScrollDelta.x += static_cast<float>(xoffset);
-	Inputs::Get().mScrollDelta.y += static_cast<float>(yoffset);
+	auto& instance = Inputs::Get();
+
+	instance.mScrollDelta.x += static_cast<float>(xoffset);
+	instance.mScrollDelta.y += static_cast<float>(yoffset);
+
+	for (auto& callback : instance.mMouseScrollCallback)
+		callback(static_cast<float>(yoffset));
 }
 
 bool Inputs::IsButtonPressed(EKey pKey) const
@@ -123,7 +134,7 @@ bool Inputs::IsButtonPressed(EMouseButton pButton) const
 void Inputs::Update()
 {
 	GLFWwindow* pGLFWindow = Window::Get().GetGLFWWindow();
-	glfwSetScrollCallback(pGLFWindow, ScrollCallback);
+
 		// INPUT MAPPING
 
 	for (auto& [key, actions] : mKeyActionMap)

@@ -330,8 +330,8 @@ std::shared_ptr<Mesh> Assets::LoadMesh(const std::string& pPath, const std::stri
     std::shared_ptr<Mesh> mesh = LoadMeshFromFile(pPath, pTesselate);
 
     if (mesh) mMeshes[name] = mesh;
-    if (!mesh->GetMaterial().GetTexture("BaseColor").lock() && pTexture.empty()) mesh->GetMaterial().SetTexture("BaseColor", GetTexture("default"));
-    else mesh->GetMaterial().SetTexture("BaseColor", GetTexture(pTexture));
+    if (!mesh->GetMaterialRef().GetTexture("BaseColor").lock() && pTexture.empty()) mesh->GetMaterialRef().SetTexture("BaseColor", GetTexture("default"));
+    else mesh->GetMaterialRef().SetTexture("BaseColor", GetTexture(pTexture));
 
     return mesh;
 }
@@ -479,6 +479,11 @@ std::weak_ptr<IMaterial> Assets::CreateMaterial(const std::string& pName, std::v
 
     mMaterials[pName] = temp;
     return temp;
+}
+
+std::weak_ptr<IMaterial> Assets::CreateMaterialInstance(const std::string& pName, std::weak_ptr<IMaterial> pParent)
+{
+    return std::weak_ptr<IMaterial>();
 }
 
 std::vector<std::shared_ptr<Texture>> Assets::BulkGetTexture(const std::string& pName, int pLastIndex)

@@ -48,7 +48,7 @@ void LevelMap::Load()
 	wallMesh = AddActor<clt::CubeActor>("wall", false);
 	wallMesh->SetActorScale({ 10,2,1 });
 
-	wallMesh->GetComponentOfType<clt::MeshComponent>()->SetTexture("baseColor", clt::Assets::Get().GetTexture("wall"), { 10, 75 });
+	auto MIWall = clt::Assets::Get().CreateMaterialInstance("MI_Wall", wallMesh->GetComponentOfType<clt::MeshComponent>()->GetMesh().GetMaterial());
 	wallMesh->SetActorLocation({ 2,0, -15 });
 
 	zombie2 = AddActor<Zombie>("zombie2");
