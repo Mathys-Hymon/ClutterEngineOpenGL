@@ -97,28 +97,28 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
-    <LibraryPath>Libraries\lib;Libraries\lib\FMOD\Core\x86;Libraries\lib\FMOD\Studio\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio</IncludePath>
+    <LibraryPath>Libraries\lib;Libraries\lib\Bullet\Debug;Libraries\lib\FMOD\Core\x86;Libraries\lib\FMOD\Studio\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|Win32'">
-    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
+    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio</IncludePath>
     <LibraryPath>Libraries\lib;Libraries\lib\FMOD\Core\x86;Libraries\lib\FMOD\Studio\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
-    <LibraryPath>Libraries\lib;Libraries\lib\FMOD\Core\x64;Libraries\lib\FMOD\Studio\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio</IncludePath>
+    <LibraryPath>Libraries\lib;Libraries\lib\Bullet\Debug;Libraries\lib\FMOD\Core\x64;Libraries\lib\FMOD\Studio\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|x64'">
-    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
+    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio</IncludePath>
     <LibraryPath>Libraries\lib;Libraries\lib\FMOD\Core\x64;Libraries\lib\FMOD\Studio\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
-    <LibraryPath>Libraries\lib;Libraries\lib\FMOD\Core\x86;Libraries\lib\FMOD\Studio\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio</IncludePath>
+    <LibraryPath>Libraries\lib;Libraries\lib\Bullet\Release;Libraries\lib\FMOD\Core\x86;Libraries\lib\FMOD\Studio\x86;$(LibraryPath);Libraries\lib\Bullet\Release;Libraries\lib\Bullet\Release</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
-    <LibraryPath>Libraries\lib;Libraries\lib\FMOD\Core\x64;Libraries\lib\FMOD\Studio\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio</IncludePath>
+    <LibraryPath>Libraries\lib;Libraries\lib\Bullet\Release;Libraries\lib\FMOD\Core\x64;Libraries\lib\FMOD\Studio\x64;$(LibraryPath);Libraries\lib\Bullet\Release;Libraries\lib\Bullet\Release</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -135,7 +135,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype.lib;fmodstudioL_vc.lib;fmodL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype.lib;fmodstudioL_vc.lib;fmodL_vc.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;LinearMath_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y/d  "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Core\x64\*.dll" "$(OutDir)"
@@ -183,7 +183,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype.lib;fmod_vc.lib;fmodstudio_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype.lib;fmod_vc.lib;fmodstudio_vc.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y/d  "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Core\x64\*.dll" "$(OutDir)"
@@ -205,7 +205,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype.lib;fmodstudioL_vc.lib;fmodL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype.lib;fmodstudioL_vc.lib;fmodL_vc.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;LinearMath_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y/d  "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Core\x64\*.dll" "$(OutDir)"
@@ -253,7 +253,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype.lib;fmod_vc.lib;fmodstudio_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype.lib;fmod_vc.lib;fmodstudio_vc.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y/d  "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Core\x64\*.dll" "$(OutDir)"
