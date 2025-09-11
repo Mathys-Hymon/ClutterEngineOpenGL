@@ -10,7 +10,6 @@
 #include <Core/ActorComponent/Components/Physics/Collisions/2D/AABBCollider.h>
 #include <Core/ActorComponent/Components/Physics/Collisions/2D/CircleCollider.h>
 #include <Core/ActorComponent/Components/Physics/Collisions/ColliderComponent.h>
-#include <Core/ActorComponent/Components/Physics/Collisions/HitResult.h>
 #include <Core/ActorComponent/Components/Physics/Collisions/OBBCollider.h>
 #include <Core/ActorComponent/Components/Physics/Collisions/SphereCollider.h>
 
@@ -61,3 +60,5 @@
 
 #include <Sound/Audio.h>
 #include <Sound/SoundInstance.h>
+
+#include <Physics/HitResult.h>

@@ -29,7 +29,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{8c6d7960-1f7c-41a2-9730-6b87826c4ded}</ProjectGuid>
+    <ProjectGuid>{9A08B9C5-7E34-4813-B5FF-DD68B9508DE1}</ProjectGuid>
     <RootNamespace>DOOM</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -225,21 +225,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Content\Character\DoomController.cpp" />
-    <ClCompile Include="Content\Character\DoomHUD.cpp" />
-    <ClCompile Include="Content\Gameplay\Enemy\Zombie.cpp" />
     <ClCompile Include="Content\Maps\LevelMap.cpp" />
-    <ClCompile Include="Content\Maps\MainMenuMap.cpp" />
     <ClCompile Include="Content\UI\MainMenuHUD.cpp" />
-    <ClCompile Include="DOOM.cpp" />
+    <ClCompile Include="MAS-AI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Content\Character\DoomController.h" />
-    <ClInclude Include="Content\Character\DoomHUD.h" />
-    <ClInclude Include="Content\Gameplay\Enemy\Zombie.h" />
-    <ClInclude Include="Content\Gameplay\Sprites\Dir8Sprite.h" />
     <ClInclude Include="Content\Maps\LevelMap.h" />
-    <ClInclude Include="Content\Maps\MainMenuMap.h" />
     <ClInclude Include="Content\UI\MainMenuHUD.h" />
   </ItemGroup>
   <ItemGroup>

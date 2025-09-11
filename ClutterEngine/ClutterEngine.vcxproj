@@ -271,6 +271,8 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\Collisions\2D\AABBCollider.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Movements\EditorController.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Movements\FpsController.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\ICollider.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\IRigidbody.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Sounds\SoundComponent.h" />
     <ClInclude Include="Engine\Core\All.h" />
     <ClInclude Include="Engine\Core\Assets\AssetsType\Sound.h" />
@@ -285,7 +287,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Engine\Graphics\UI\Elements\SpriteElement.h" />
     <ClInclude Include="Engine\Graphics\UI\Elements\TextElement.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\Collisions\2D\CircleCollider.h" />
-    <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\Collisions\HitResult.h" />
+    <ClInclude Include="Engine\Physics\HitResult.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\Collisions\ColliderComponent.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\Collisions\OBBCollider.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\Collisions\SphereCollider.h" />
@@ -332,6 +334,8 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Engine\Input\InputData.h" />
     <ClInclude Include="Engine\Physics\Collision\CollisionEvent.h" />
     <ClInclude Include="Engine\Physics\Collision\ICollisionListener.h" />
+    <ClInclude Include="Engine\Physics\IPhysicQueries.h" />
+    <ClInclude Include="Engine\Physics\IPhysics.h" />
     <ClInclude Include="Engine\Physics\Physics.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\Sprite\AnimatorComponent.h" />
     <ClInclude Include="Engine\Sound\Audio.h" />

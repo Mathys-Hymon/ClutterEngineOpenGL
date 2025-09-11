@@ -123,7 +123,7 @@
     <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\RigidBody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\Collisions\HitResult.h">
+    <ClInclude Include="Engine\Physics\HitResult.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Physics\Collision\ICollisionListener.h">
@@ -253,6 +253,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Core\ActorComponent\Components\Sounds\SoundComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\IPhysics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\IRigidbody.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\ICollider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\IPhysicQueries.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

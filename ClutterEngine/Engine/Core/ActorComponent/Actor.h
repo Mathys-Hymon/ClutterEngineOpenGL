@@ -1,7 +1,7 @@
 #pragma once
 #include <Core/CCommon.h>
 #include <Core/Maths/Transforms/Transform.h>
-#include "Core/ActorComponent/Components/Physics/Collisions/HitResult.h"
+#include <Physics/HitResult.h>
 #include <Core/Timer.h>
 #include <unordered_map>
 #include <vector>

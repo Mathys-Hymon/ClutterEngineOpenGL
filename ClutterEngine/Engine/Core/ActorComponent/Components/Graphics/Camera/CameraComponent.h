@@ -2,10 +2,10 @@
 #include <Core/ActorComponent/Component.h>
 #include <Core/Maths/Matrix/Matrix4Row.h>
 
+enum class ProjectionMode { Orthographic, Perspective };
+
 namespace clt
 {
-	enum class ProjectionMode { Orthographic, Perspective };
-
 	class Level;
 	class RendererGL;
 

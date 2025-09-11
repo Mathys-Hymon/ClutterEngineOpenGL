@@ -1,6 +1,6 @@
 #pragma once
 #include <Core/ActorComponent/Component.h>
-#include <Core/ActorComponent/Components/Physics/Collisions/HitResult.h>
+#include <Physics/HitResult.h>
 
 namespace clt
 {
