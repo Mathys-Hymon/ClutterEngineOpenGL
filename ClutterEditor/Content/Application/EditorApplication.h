@@ -1,20 +1,27 @@
 #pragma once
-#include <Application/Application.h>
-#include "ImGuiLayer.h"
+#include <Core/CEngine.h>
 
-	class clt::Window;
-	class EditorApplication : public clt::Application 
-	{
-		ImGuiLayer* mUILayer;
-		bool mProjectOpened;
+    class Level;
+    class EditorApplication {
 
-		virtual void Update() override;
-		virtual void Render() override;
+    protected:
+        std::unique_ptr<clt::CEngine> mEngine;
 
-	public:
+        void Init(std::vector<clt::Level*> pLevels, const std::string& configFile = "Config/project.config.json");
 
-		EditorApplication(u32 width, u32 height);
-		~EditorApplication() = default;
+        void Run();
 
-		void OpenProject(const std::string& path);
-	};
+        virtual void Update();
+
+        virtual void Render();
+
+        void ShowWireframe();
+        void ShowLitMode();
+
+    public:
+
+        EditorApplication(std::vector<clt::Level*> pLevels, const std::string& configFile = "Config/project.config.json");
+        ~EditorApplication();
+
+        clt::RendererGL* GetRenderer() const { return mEngine->GetRenderer(); }
+    };

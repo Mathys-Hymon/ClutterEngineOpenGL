@@ -55,7 +55,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
+    <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
@@ -65,6 +65,7 @@
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|x64'">
     <PlatformToolset>v143</PlatformToolset>
+    <UseDebugLibraries>true</UseDebugLibraries>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -85,15 +86,15 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>..\ClutterEngine\Libraries\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\ClutterEngine\Libraries\include;..\ClutterEngine\Libraries\include\FMOD\Core;..\ClutterEngine\Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
     <LibraryPath>..\ClutterEngine\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>..\ClutterEngine\Libraries\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\ClutterEngine\Libraries\include;..\ClutterEngine\Libraries\include\FMOD\Core;..\ClutterEngine\Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
     <LibraryPath>..\ClutterEngine\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|x64'">
-    <IncludePath>..\ClutterEngine\Libraries\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\ClutterEngine\Libraries\include;..\ClutterEngine\Libraries\include\FMOD\Core;..\ClutterEngine\Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
     <LibraryPath>..\ClutterEngine\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -157,12 +158,12 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ClutterEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ClutterEngine.lib;glfw3.lib;opengl32.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|x64'">
     <Link>
-      <AdditionalDependencies>ClutterEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ClutterEngine.lib;glfw3.lib;opengl32.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\x64\DEBUG_EDITOR;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <ClCompile>
@@ -178,6 +179,12 @@
     <ClCompile Include="ClutterEditor.cpp" />
     <ClCompile Include="Content\Application\EditorApplication.cpp" />
     <ClCompile Include="Content\Application\ImGuiLayer.cpp" />
+    <ClCompile Include="Content\Character\DoomController.cpp" />
+    <ClCompile Include="Content\Character\DoomHUD.cpp" />
+    <ClCompile Include="Content\Gameplay\Enemy\Zombie.cpp" />
+    <ClCompile Include="Content\Maps\LevelMap.cpp" />
+    <ClCompile Include="Content\Maps\MainMenuMap.cpp" />
+    <ClCompile Include="Content\UI\MainMenuHUD.cpp" />
     <ClCompile Include="ThirdParty\glad.c" />
     <ClCompile Include="ThirdParty\ImGui\backends\imgui_impl_glfw.cpp" />
     <ClCompile Include="ThirdParty\ImGui\backends\imgui_impl_opengl3.cpp" />
@@ -189,6 +196,13 @@
   <ItemGroup>
     <ClInclude Include="Content\Application\EditorApplication.h" />
     <ClInclude Include="Content\Application\ImGuiLayer.h" />
+    <ClInclude Include="Content\Character\DoomController.h" />
+    <ClInclude Include="Content\Character\DoomHUD.h" />
+    <ClInclude Include="Content\Gameplay\Enemy\Zombie.h" />
+    <ClInclude Include="Content\Gameplay\Sprites\Dir8Sprite.h" />
+    <ClInclude Include="Content\Maps\LevelMap.h" />
+    <ClInclude Include="Content\Maps\MainMenuMap.h" />
+    <ClInclude Include="Content\UI\MainMenuHUD.h" />
     <ClInclude Include="ThirdParty\ImGui\backends\imgui_impl_glfw.h" />
     <ClInclude Include="ThirdParty\ImGui\backends\imgui_impl_opengl3.h" />
     <ClInclude Include="ThirdParty\ImGui\imconfig.h" />
@@ -196,6 +210,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Config\project.config.json" />
+    <None Include="Content\Resources\Shaders\basic.frag" />
+    <None Include="Content\Resources\Shaders\basic.tese" />
+    <None Include="Content\Resources\Shaders\basic.vert" />
+    <None Include="Content\Resources\Shaders\Mesh\basicTess.frag" />
+    <None Include="Content\Resources\Shaders\Mesh\basicTess.tesc" />
+    <None Include="Content\Resources\Shaders\Mesh\basicTess.tese" />
+    <None Include="Content\Resources\Shaders\Mesh\basicTess.vert" />
+    <None Include="Content\Resources\Shaders\sprite.frag" />
+    <None Include="Content\Resources\Shaders\sprite.vert" />
+    <None Include="Content\Resources\Shaders\text.frag" />
+    <None Include="Content\Resources\Shaders\text.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

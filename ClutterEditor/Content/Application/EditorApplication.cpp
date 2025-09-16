@@ -1,35 +1,77 @@
+#include<glad/glad.h>
 #include "EditorApplication.h"
-#include "Window/Window.h"
+#include <Core/Timer.h>
+#include <Core/Levels/TemplateLevel/TemplateLevel.h>
+#include <Input/Inputs.h>
+#include <GLFW/glfw3.h>
 
-int temp = 0;
-
-EditorApplication::EditorApplication(u32 width, u32 height) : clt::Application(), mProjectOpened(false)
+EditorApplication::EditorApplication(std::vector<clt::Level*> pLevels, const std::string& configFile)
 {
-	Update();
+	Init(pLevels, configFile);
 }
 
-void EditorApplication::OpenProject(const std::string& path)
+void EditorApplication::Init(std::vector<clt::Level*> pLevels, const std::string& configFile)
 {
+	mEngine = std::make_unique<clt::CEngine>();
+
+	if (pLevels.empty()) pLevels.push_back(new clt::TemplateLevel());
+
+	mEngine->Init(configFile, pLevels);
+	CLUTTER_INFO("Application created");
+
+	if (mEngine->IsEditorMode())
+	{
+		clt::Inputs::Get().MapKeyToAction(EKey::F1, "enableFillMode");
+		clt::Inputs::Get().MapKeyToAction(EKey::F2, "enableWireframeMode");
+		clt::Inputs::Get().RegisterActionCallback("enableWireframeMode", [this] { this->ShowWireframe(); });
+		clt::Inputs::Get().RegisterActionCallback("enableFillMode", [this] { this->ShowLitMode(); });
+	}
+
+	Run();
 }
 
-void EditorApplication::Update()
+void EditorApplication::Run()
 {
-
 	clt::Window& window = clt::Window::Get();
-	
-	mUILayer = new ImGuiLayer();
-	clt::Application::Init({});
+
+	float timer = 0;
 
 	while (!window.ShouldClose())
 	{
 		clt::Timer::ComputeDeltaTime();
-		clt::Application::Update();
-		clt::Application::Render();
+		Update();
 		Render();
+
 		window.SwapBuffers();
+
+		glfwPollEvents();
 	}
+}
+
+void EditorApplication::Update()
+{
+	mEngine->Update();
 }
 
 void EditorApplication::Render()
 {
+	GetRenderer()->BeginDraw();
+	GetRenderer()->Draw();
+	GetRenderer()->EndDraw();
+}
+
+void EditorApplication::ShowWireframe()
+{
+	mEngine->GetRenderer()->WireframeMode(true);
+}
+
+void EditorApplication::ShowLitMode()
+{
+	mEngine->GetRenderer()->WireframeMode(false);
+}
+
+EditorApplication::~EditorApplication()
+{
+	if (mEngine.get()) mEngine->Close();
+	CLog::Shutdown();
 }
