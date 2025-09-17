@@ -1,5 +1,8 @@
 #pragma once
 #include <Core/CCommon.h>
+#include <Core/ActorComponent/Components/Physics/Collisions/ColliderComponent.h>
+#include <Core/ActorComponent/Components/Physics/IRigidBody.h>
+#include <Physics/Collision/CollisionEvent.h>
 
 namespace clt
 {
@@ -8,12 +11,14 @@ namespace clt
 	public:
 		virtual ~IPhysics() = default;
 
-		virtual void StepSimulation(float deltaTime) = 0;
+		virtual void UpdatePhysics() = 0;
 
 		virtual class IRigidbody* CreateRigidbody() = 0;
 		virtual void DestroyRigidBody(IRigidbody* body) = 0;
 
 		virtual class ICollider* CreateCollider() = 0;
 		virtual void DestroyCollider(ICollider* collider) = 0;
+
+		virtual bool LineTrace(const Vector3& start, const Vector3& direction, float maxDistance, raycastHit& hit, bool debugPersistant = false, Actor* self = nullptr) = 0;
 	};
 }

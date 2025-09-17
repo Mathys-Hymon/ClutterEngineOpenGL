@@ -9,10 +9,10 @@ namespace clt
 		virtual ~IRigidbody() = default;
 
 		virtual void SetMass(float mass) = 0;
-		virtual float GetMass() = 0;
+		virtual float GetMass() const = 0;
 
 		virtual void SetVelocity(const Vector3& vel) = 0;
-		virtual Vector3 GetVelocity() = 0;
+		virtual Vector3 GetVelocity() const = 0;
 
 		virtual void ApplyForce(const Vector3& force) = 0;
 		virtual void ApplyImpulse(const Vector3& impulse) = 0;
