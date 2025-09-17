@@ -1,8 +1,14 @@
+#define IMGUI_IMPL_OPENGL_LOADER_GLAD
+#include"imgui.h"
+#include"backends/imgui_impl_glfw.h"
+#include"backends/imgui_impl_opengl3.h"
+
 #include<glad/glad.h>
 #include "EditorApplication.h"
 #include <Core/Timer.h>
 #include <Core/Levels/TemplateLevel/TemplateLevel.h>
 #include <Input/Inputs.h>
+#include "Window/Window.h"
 #include <GLFW/glfw3.h>
 
 EditorApplication::EditorApplication(std::vector<clt::Level*> pLevels, const std::string& configFile)
@@ -27,6 +33,18 @@ void EditorApplication::Init(std::vector<clt::Level*> pLevels, const std::string
 		clt::Inputs::Get().RegisterActionCallback("enableFillMode", [this] { this->ShowLitMode(); });
 	}
 
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	ImGui::StyleColorsDark();
+
+	GLFWwindow* window = clt::Window::Get().GetGLFWWindow();
+		IM_ASSERT(window != nullptr);
+
+		ImGui_ImplGlfw_InitForOpenGL(window, true);
+		ImGui_ImplOpenGL3_Init("#version 460");
+
 	Run();
 }
 
@@ -42,10 +60,26 @@ void EditorApplication::Run()
 		Update();
 		Render();
 
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+
+
+		ImGui::Begin("Camera Manager");
+		ImGui::Text("FOV :");
+		ImGui::End();
+
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 		window.SwapBuffers();
 
 		glfwPollEvents();
 	}
+
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
 }
 
 void EditorApplication::Update()
