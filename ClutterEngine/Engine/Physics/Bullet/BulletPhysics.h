@@ -12,6 +12,8 @@ namespace clt
 		btSequentialImpulseConstraintSolver* mSolver;
 		btDiscreteDynamicsWorld* mDynamicsWorld;
 
+		std::vector<BulletRigidBody*> mRigidbodies;
+
 	public:
 
 		BulletPhysics();

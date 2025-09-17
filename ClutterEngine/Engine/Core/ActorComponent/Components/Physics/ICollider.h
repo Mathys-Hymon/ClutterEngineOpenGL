@@ -23,7 +23,7 @@ namespace clt
 		virtual ColliderShapeType GetShapeType() const = 0;
 
 		virtual void SetIsTrigger(bool trigger) = 0;
-		virtual bool IsTrigger() = 0;
+		virtual bool IsTrigger() const = 0;
 
 		virtual void SetFriction(float friction) = 0;
 		virtual float GetFriction() const = 0;

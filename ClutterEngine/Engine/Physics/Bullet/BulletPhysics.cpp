@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "BulletPhysics.h"
-#include <Core/ActorComponent/Components/Physics/IRigidbody.h>
-#include <Core/ActorComponent/Components/Physics/ICollider.h>
+#include <Core/ActorComponent/Components/Physics/Bullet/BulletRigidBody.h>
+#include <Core/ActorComponent/Components/Physics/Bullet/BulletCollider.h>
 
 using namespace clt;
 
@@ -28,15 +28,26 @@ BulletPhysics::~BulletPhysics()
 void BulletPhysics::UpdatePhysics()
 {
     mDynamicsWorld->stepSimulation(Timer::deltaTime);
+
+    for (auto rb : mRigidbodies)
+    {
+        rb->SyncFromBullet();
+    }
 }
 
 IRigidbody* BulletPhysics::CreateRigidbody()
 {
-    return new BulletRigidbody(this);
+    auto rigidbody = new BulletRigidBody(this);
+    mRigidbodies.push_back(rigidbody);
+
+    return rigidbody;
 }
 
 void BulletPhysics::DestroyRigidBody(IRigidbody* body)
 {
+    auto it = std::find(mRigidbodies.begin(), mRigidbodies.end(), body);
+    if (it != mRigidbodies.end())  mRigidbodies.erase(it);
+
     delete body;
 }
 
