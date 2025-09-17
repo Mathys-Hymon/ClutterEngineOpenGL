@@ -13,11 +13,8 @@ namespace clt
 
 		virtual void UpdatePhysics() = 0;
 
-		virtual class IRigidbody* CreateRigidbody() = 0;
-		virtual void DestroyRigidBody(IRigidbody* body) = 0;
-
-		virtual class ICollider* CreateCollider() = 0;
-		virtual void DestroyCollider(ICollider* collider) = 0;
+		virtual void AddRigidbody(IRigidbody* body) = 0;
+		virtual void RemoveRigidBody(IRigidbody* body) = 0;
 
 		virtual bool LineTrace(const Vector3& start, const Vector3& direction, float maxDistance, raycastHit& hit, bool debugPersistant = false, Actor* self = nullptr) = 0;
 	};

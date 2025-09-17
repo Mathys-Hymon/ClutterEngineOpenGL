@@ -1,28 +1,50 @@
 #include "pch.h"
 #include <Core/ActorComponent/Components/Physics/Bullet/BulletRigidBody.h>
 #include <Core/ActorComponent/Components/Physics/Bullet/BulletCollider.h>
+#include <Physics/Bullet/BulletPhysics.h>
+#include <Core/Levels/Level.h>
+#include <Physics/IPhysics.h>
 
 using namespace clt;
 
-BulletRigidBody::BulletRigidBody(BulletPhysics* world) :
-    mWorld(world), mBody(nullptr), mMotionState(nullptr), mShape(nullptr), mMass(0.0f)
-{}
+BulletRigidBody::BulletRigidBody() :
+    mWorld(nullptr), mBody(nullptr), mMotionState(nullptr), mShapes(nullptr), mMass(0.0f)
+{
+    mShapes = new btCompoundShape();
+
+    btTransform startTransform;
+    startTransform.setIdentity();
+    startTransform.setOrigin(btVector3(0, 0, 0));
+
+    btVector3 inertia(0, 0, 0);
+    if (mMass != 0.0f)  mShapes->calculateLocalInertia(mMass, inertia);
+
+    mMotionState = new btDefaultMotionState(startTransform);
+    btRigidBody::btRigidBodyConstructionInfo rbInfo(mMass, mMotionState, mShapes, inertia);
+    mBody = new btRigidBody(rbInfo);
+}
 
 BulletRigidBody::~BulletRigidBody()
 {
     if (mBody)
     {
-        mWorld->GetWorld()->removeRigidBody(mBody);
+        if(mWorld) mWorld->GetWorld()->removeRigidBody(mBody);
         delete mBody;
     }
     delete mMotionState;
-    delete mShape;
+    delete mShapes;
+}
+
+void BulletRigidBody::SetWorld(BulletPhysics* world)
+{
+    mWorld = world;
 }
 
 void BulletRigidBody::Start()
 {
     auto collider = mOwner->GetComponentOfType<BulletCollider>();
     if (collider) AttachCollider(collider);
+    //mOwner->GetLevel()->GetPhysics().AddRigidbody(this);
 
     Vector3 worldPos = GetWorldLocation();
     Quaternion worldRot = GetWorldRotation();
@@ -94,18 +116,33 @@ void BulletRigidBody::AddImpulseAtLocation(const Vector3& impulse, const Vector3
 void BulletRigidBody::AttachCollider(ICollider* collider)
 {
     auto bulletCol = dynamic_cast<BulletCollider*>(collider);
-    mShape = bulletCol->GetShape();
 
-    btTransform startTransform;
-    startTransform.setIdentity();
-    startTransform.setOrigin(btVector3(0, 0, 0));
+    Vector3 localPos = bulletCol->GetRelativeLocation();
+    btTransform localTransform;
+    localTransform.setIdentity();
+    localTransform.setOrigin(btVector3(localPos.x, localPos.y, localPos.z));
 
-    btVector3 inertia(0, 0, 0);
-    if (mMass != 0.0f) mShape->calculateLocalInertia(mMass, inertia);
+    mShapes->addChildShape(localTransform, bulletCol->GetShape());
 
-    mMotionState = new btDefaultMotionState(startTransform);
-    btRigidBody::btRigidBodyConstructionInfo info(mMass, mMotionState, mShape, inertia);
-    mBody = new btRigidBody(info);
+    // Recalculer l'inertie si le body est dynamique
+    if (mMass != 0.0f) 
+    {
+        btVector3 inertia(0, 0, 0);
+        mShapes->calculateLocalInertia(mMass, inertia);
+        mBody->setMassProps(mMass, inertia);
+    }
+}
 
-    mWorld->GetWorld()->addRigidBody(mBody);
+void BulletRigidBody::RemoveCollider(ICollider* collider)
+{
+    auto bulletCol = dynamic_cast<BulletCollider*>(collider);
+
+    mShapes->removeChildShape(bulletCol->GetShape());
+
+    if (mMass != 0.0f)
+    {
+        btVector3 inertia(0, 0, 0);
+        mShapes->calculateLocalInertia(mMass, inertia);
+        mBody->setMassProps(mMass, inertia);
+    }
 }

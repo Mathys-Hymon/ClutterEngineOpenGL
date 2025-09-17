@@ -227,7 +227,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype.lib;fmodstudioL_vc.lib;fmodL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype.lib;fmodstudioL_vc.lib;fmodL_vc.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;LinearMath_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y/d  "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Core\x64\*.dll" "$(OutDir)"
@@ -268,6 +268,8 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Engine\Core\ActorComponent\Actor.h" />
     <ClInclude Include="Engine\Core\ActorComponent\ChildActors\EditorCamera.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Component.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\Bullet\BulletCollider.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\Bullet\BulletRigidBody.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\Collisions\2D\AABBCollider.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Movements\EditorController.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Movements\FpsController.h" />
@@ -287,6 +289,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Engine\Graphics\UI\Elements\SpriteElement.h" />
     <ClInclude Include="Engine\Graphics\UI\Elements\TextElement.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\Collisions\2D\CircleCollider.h" />
+    <ClInclude Include="Engine\Physics\Bullet\BulletPhysics.h" />
     <ClInclude Include="Engine\Physics\HitResult.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\Collisions\ColliderComponent.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\Collisions\OBBCollider.h" />
@@ -334,7 +337,6 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Engine\Input\InputData.h" />
     <ClInclude Include="Engine\Physics\Collision\CollisionEvent.h" />
     <ClInclude Include="Engine\Physics\Collision\ICollisionListener.h" />
-    <ClInclude Include="Engine\Physics\IPhysicQueries.h" />
     <ClInclude Include="Engine\Physics\IPhysics.h" />
     <ClInclude Include="Engine\Physics\Physics.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\Sprite\AnimatorComponent.h" />
@@ -347,6 +349,8 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
   <ItemGroup>
     <ClCompile Include="Engine\Core\ActorComponent\ChildActors\CubeActor.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\ChildActors\EditorCamera.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Physics\Bullet\BulletCollider.cpp" />
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Physics\Bullet\BulletRigidBody.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Physics\Collisions\SphereCollider.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\CameraController.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\EditorController.cpp" />
@@ -380,6 +384,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClCompile Include="Engine\Graphics\UI\Elements\FlipbookElement.cpp" />
     <ClCompile Include="Engine\Graphics\UI\Elements\TextElement.cpp" />
     <ClCompile Include="Engine\Graphics\UI\UIPanel.cpp" />
+    <ClCompile Include="Engine\Physics\Bullet\BulletPhysics.cpp" />
     <ClCompile Include="Engine\Physics\Collision\CollisionEvent.cpp" />
     <ClCompile Include="Engine\Physics\Physics.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Physics\Collisions\2D\AABBCollider.cpp" />

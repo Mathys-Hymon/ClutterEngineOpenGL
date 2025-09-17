@@ -21,6 +21,7 @@ namespace clt
 		virtual void AddImpulseAtLocation(const Vector3& impulse, const Vector3& relativeLoc) = 0;
 
 		virtual void AttachCollider(class ICollider* collider) = 0;
+		virtual void RemoveCollider(class ICollider* collider) = 0;
 
 		virtual void SetCustomGravity(const Vector3& gravity) = 0;
 	};

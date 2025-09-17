@@ -1,22 +1,22 @@
 #pragma once
 #include <Core/ActorComponent/Components/Physics/IRigidbody.h>
 #include <Bullet/bullet/btBulletDynamicsCommon.h>
-#include <Physics/Bullet/BulletPhysics.h>
 
 namespace clt
 {
 	class CLUTTER_API BulletRigidBody : public IRigidbody
 	{
-		BulletPhysics* mWorld;
+		class BulletPhysics* mWorld;
 		btRigidBody* mBody;
 		btMotionState* mMotionState;
-		btCollisionShape* mShape;
+		btCompoundShape* mShapes;
 		float mMass;
 
 	public:
-		BulletRigidBody(BulletPhysics* world);
+		BulletRigidBody();
 		~BulletRigidBody();
 
+		void SetWorld(class BulletPhysics* world);
 		void Start() override;
 
 		void SyncFromBullet();
@@ -36,6 +36,7 @@ namespace clt
 		void AddImpulseAtLocation(const Vector3& impulse, const Vector3& relativeLoc) override;
 
 		void AttachCollider(ICollider* collider) override;
+		void RemoveCollider(ICollider* collider) override;
 
 		btRigidBody* GetInternalBody() { return mBody; }
 	};

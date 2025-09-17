@@ -40,12 +40,12 @@ namespace clt
 
 	public:
 		/**
-   * @brief Constructs a new Physics object.
+   * @brief Constructs a new Physic world.
    */
 		Physics();
 
 		/**
-   * @brief Destroys the Physics object.
+   * @brief Destroys the Physic world.
    */
 		~Physics() = default;
 

@@ -1,5 +1,6 @@
 #pragma once
 #include <Core/ActorComponent/Components/Physics/ICollider.h>
+#include <Bullet/bullet/btBulletDynamicsCommon.h>
 
 namespace clt
 {

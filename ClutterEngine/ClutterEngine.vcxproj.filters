@@ -264,7 +264,13 @@
     <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\ICollider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Physics\IPhysicQueries.h">
+    <ClInclude Include="Engine\Physics\Bullet\BulletPhysics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\Bullet\BulletCollider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\Bullet\BulletRigidBody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -444,6 +450,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Core\ActorComponent\Components\Sounds\SoundComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Physics\Bullet\BulletPhysics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Physics\Bullet\BulletRigidBody.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\ActorComponent\Components\Physics\Bullet\BulletCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -35,30 +35,23 @@ void BulletPhysics::UpdatePhysics()
     }
 }
 
-IRigidbody* BulletPhysics::CreateRigidbody()
+void BulletPhysics::AddRigidbody(IRigidbody* body)
 {
-    auto rigidbody = new BulletRigidBody(this);
-    mRigidbodies.push_back(rigidbody);
+    auto bulletRb = static_cast<BulletRigidBody*>(body);
 
-    return rigidbody;
+    if (bulletRb && bulletRb->GetInternalBody())
+    {
+        bulletRb->SetWorld(this);
+        mRigidbodies.push_back(bulletRb);
+    };
 }
 
-void BulletPhysics::DestroyRigidBody(IRigidbody* body)
+void BulletPhysics::RemoveRigidBody(IRigidbody* body)
 {
     auto it = std::find(mRigidbodies.begin(), mRigidbodies.end(), body);
     if (it != mRigidbodies.end())  mRigidbodies.erase(it);
 
     delete body;
-}
-
-ICollider* BulletPhysics::CreateCollider()
-{
-    return new BulletCollider();
-}
-
-void BulletPhysics::DestroyCollider(ICollider* collider)
-{
-    delete collider;
 }
 
 bool BulletPhysics::LineTrace(const Vector3& start, const Vector3& direction, float maxDistance, raycastHit& hit, bool debugPersistant, Actor* self)
