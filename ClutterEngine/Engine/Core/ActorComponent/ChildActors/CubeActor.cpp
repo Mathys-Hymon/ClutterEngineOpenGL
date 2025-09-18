@@ -8,24 +8,26 @@ using namespace clt;
 
 CubeActor::CubeActor(Level* pLevel, std::string pName, Vector2 pTiling, bool pTesselate) : Actor(pLevel, pName)  
 {  
-   AddComponent<MeshComponent>(Assets::Get().LoadMesh("Content/Resources/Mesh/cube.obj", "cube", pTesselate), 0, pTiling);  
+   AddComponent<MeshComponent>(Assets::Get().LoadMesh("Content/Resources/Mesh/cube.obj", "cube", pTesselate), pTiling);  
    AddComponent<OBBCollider>();  
 }  
 
 CubeActor::CubeActor(Level* pLevel, std::string pName, bool pTesselate, Vector2 pTiling) : Actor(pLevel, pName)  
 {  
-   AddComponent<MeshComponent>(Assets::Get().LoadMesh("Content/Resources/Mesh/cube.obj", "cube", pTesselate), 0, pTiling);  
+   AddComponent<MeshComponent>(Assets::Get().LoadMesh("Content/Resources/Mesh/cube.obj", "cube", pTesselate), pTiling);
    AddComponent<OBBCollider>();  
 }  
 
 CubeActor::CubeActor(Level* pLevel, std::string pName, std::string pTexture, bool pTesselate, Vector2 pTiling) : Actor(pLevel, pName)  
 {  
-   AddComponent<MeshComponent>(Assets::Get().LoadMesh("Content/Resources/Mesh/cube.obj", "cube", pTexture, pTesselate), 0, pTiling);  
+   auto temp = AddComponent<MeshComponent>(Assets::Get().LoadMesh("Content/Resources/Mesh/cube.obj", "cube", pTesselate), pTiling);
+   temp->SetTexture("BaseColor", pTexture);
    AddComponent<OBBCollider>();  
 }  
 
 CubeActor::CubeActor(Level* pLevel, std::string pName, std::weak_ptr<clt::Texture> pTexture, bool pTesselate, Vector2 pTiling) : Actor(pLevel, pName)
 {  
-   AddComponent<MeshComponent>(Assets::Get().LoadMesh("Content/Resources/Mesh/cube.obj", "cube", std::vector<std::weak_ptr<clt::Texture>>{pTexture}, pTesselate), 0, pTiling);  
+	auto temp = AddComponent<MeshComponent>(Assets::Get().LoadMesh("Content/Resources/Mesh/cube.obj", "cube", pTesselate), pTiling);
+   temp->SetTexture("BaseColor", pTexture);
    AddComponent<OBBCollider>();  
 }

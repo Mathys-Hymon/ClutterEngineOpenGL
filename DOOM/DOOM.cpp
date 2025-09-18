@@ -5,7 +5,7 @@
 int main()
 {
 
-    clt::Application app({new MainMenuMap, new LevelMap});
+    clt::Application app({ new LevelMap});
 
     return 0;
 }

@@ -8,18 +8,25 @@ namespace clt
 	{
 	protected:
 		std::weak_ptr<Mesh> mMesh;
-		std::weak_ptr<IMaterial> mMaterial;
+		std::shared_ptr<IMaterial> mMaterial;
 
 		bool mTesselate;
 
 	public:
 
-		MeshComponent(std::weak_ptr<Mesh> pMesh, int pDrawOrder = 0, Vector2 pTextureTiling = {5,5});
-		MeshComponent(const std::string& pMesh, int pDrawOrder = 0, Vector2 pTextureTiling = { 5,5 });
+		MeshComponent(std::weak_ptr<Mesh> pMesh, Vector2 pTextureTiling = { 5,5 }, int pDrawOrder = 0);
+		MeshComponent(const std::string& pMesh, Vector2 pTextureTiling = { 5,5 }, int pDrawOrder = 0);
 
 
-		MeshComponent(std::weak_ptr<Mesh> pMesh,std::weak_ptr<IMaterial>, Vector2 pTextureTiling = { 5,5 }, int pDrawOrder = 0);
-		MeshComponent(const std::string& pMesh, std::weak_ptr<IMaterial>, Vector2 pTextureTiling = { 5,5 }, int pDrawOrder = 0);
+		MeshComponent(std::weak_ptr<Mesh> pMesh,std::shared_ptr<IMaterial> material, Vector2 pTextureTiling = { 5,5 }, int pDrawOrder = 0);
+		MeshComponent(const std::string& pMesh, std::shared_ptr<IMaterial> material, Vector2 pTextureTiling = { 5,5 }, int pDrawOrder = 0);
+
+		MeshComponent(std::weak_ptr<Mesh> pMesh, std::weak_ptr<Texture> texture, Vector2 pTextureTiling = { 5,5 }, int pDrawOrder = 0);
+		MeshComponent(const std::string& pMesh, std::weak_ptr<Texture> texture, Vector2 pTextureTiling = { 5,5 }, int pDrawOrder = 0);
+
+		MeshComponent(std::weak_ptr<Mesh> pMesh, std::string& texture, Vector2 pTextureTiling = { 5,5 }, int pDrawOrder = 0);
+		MeshComponent(const std::string& pMesh, std::string& texture, Vector2 pTextureTiling = { 5,5 }, int pDrawOrder = 0);
+
 
 		virtual ~MeshComponent();
 

@@ -8,47 +8,51 @@ void MaterialInstance::Apply()
 	if (!mBaseMaterial)
 		return;
 
+	mBaseMaterial.get()->Apply();
+
 	ShaderProgram* shader = mBaseMaterial->GetShader();
 	if (!shader)
 		return;
 
 	shader->Use();
 
-	// Apply float
-	for (const auto& [name, val] : mBaseMaterial->GetFloatUniforms())
-		shader->SetFloat(name.c_str(), mFloatOverrides.count(name) ? mFloatOverrides[name] : val);
+	for (const auto& [name, value] : mFloatOverrides)
+		shader->SetFloat(name.c_str(), value);
 
-	// Apply Int
-	for (const auto& [name, val] : mBaseMaterial->GetIntUniforms())
-		shader->SetInt(name.c_str(), mIntOverrides.count(name) ? mIntOverrides[name] : val);
+	for (const auto& [name, value] : mIntOverrides)
+		shader->SetInt(name.c_str(), value);
 
-	// Apply vec2
-	for (const auto& [name, val] : mBaseMaterial->GetVec2Uniforms())
-		shader->SetVec2f(name.c_str(), mVec2Overrides.count(name) ? mVec2Overrides[name] : val);
+	for (const auto& [name, value] : mVec2Overrides)
+		shader->SetVec2f(name.c_str(), value);
 
-	// Apply vec3
-	for (const auto& [name, val] : mBaseMaterial->GetVec3Uniforms())
-		shader->SetVec3f(name.c_str(), mVec3Overrides.count(name) ? mVec3Overrides[name] : val);
+	for (const auto& [name, value] : mVec3Overrides)
+		shader->SetVec3f(name.c_str(), value);
 
-	// Apply vec4
-	for (const auto& [name, val] : mBaseMaterial->GetVec4Uniforms())
-		shader->SetVec4f(name.c_str(), mVec4Overrides.count(name) ? mVec4Overrides[name] : val);
+	for (const auto& [name, value] : mVec4Overrides)
+		shader->SetVec4f(name.c_str(), value);
 
-	// Apply colors
-	for (const auto& [name, val] : mBaseMaterial->GetColorUniforms())
-		shader->SetVec3f(name.c_str(), mColorOverrides.count(name) ? mColorOverrides[name] : val);
+	for (const auto& [name, color] : mColorOverrides)
+		shader->SetVec3f(name.c_str(), color);
 
-	// Apply textures
-	int unit = 0;
-	for (const auto& [name, val] : mBaseMaterial->GetTextureUniforms())
+	for (const auto& [name, mat2] : mMat2Overrides)
+		shader->SetMat2(name.c_str(), mat2);
+
+	for (const auto& [name, mat3] : mMat3Overrides)
+		shader->SetMat3(name.c_str(), mat3);
+
+	for (const auto& [name, mat4Row] : mMat4RowOverrides)
+		shader->SetMat4Row(name.c_str(), mat4Row);
+
+	for (const auto& [name, mat4] : mMat4Overrides)
+		shader->SetMat4(name.c_str(), mat4);
+
+	for (const auto& [name, texture] : mTextureOverrides)
 	{
-		auto tex = mTextureOverrides.count(name) ? mTextureOverrides[name].lock() : val.lock();
+		auto tempTex = texture.lock();
 
-		if (tex)
+		if (tempTex)
 		{
-			tex->Bind(unit);
-			shader->SetInt(name.c_str(), unit);
-			unit++;
+			tempTex->Bind(0);
 		}
 	}
 }

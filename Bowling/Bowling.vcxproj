@@ -114,17 +114,17 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ExecutablePath>$(VC_ExecutablePath_x64);$(CommonExecutablePath)</ExecutablePath>
     <LibraryPath>..\ClutterEngine\Libraries\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>..\ClutterEngine\Libraries\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\ClutterEngine\Libraries\include;..\ClutterEngine\Libraries\include\FMOD\Core;..\ClutterEngine\Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|x64'">
     <ExecutablePath>$(VC_ExecutablePath_x64);$(CommonExecutablePath)</ExecutablePath>
     <LibraryPath>..\ClutterEngine\Libraries\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>..\ClutterEngine\Libraries\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\ClutterEngine\Libraries\include;..\ClutterEngine\Libraries\include\FMOD\Core;..\ClutterEngine\Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ExecutablePath>$(VC_ExecutablePath_x64);$(CommonExecutablePath)</ExecutablePath>
     <LibraryPath>..\ClutterEngine\Libraries\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>..\ClutterEngine\Libraries\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\ClutterEngine\Libraries\include;..\ClutterEngine\Libraries\include\FMOD\Core;..\ClutterEngine\Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

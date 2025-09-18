@@ -1,6 +1,7 @@
 #include "pch.h"
 #include <Core/CCommon.h>
 #include <Core/Assets/Assets.h>
+#include <Core/Assets/AssetsType/MaterialInstance.h>
 #include <Graphics/IRenderer.h>
 #include <Sound/Audio.h>
 #define STB_IMAGE_IMPLEMENTATION
@@ -106,7 +107,7 @@ std::shared_ptr<Mesh> Assets::LoadMeshFromFile(const std::string& pFile, bool pT
     return std::make_shared<Mesh>(vertices, pTesselate);
 }
 
-std::shared_ptr<Mesh> Assets::LoadMeshFromFile(const std::string& pFile, std::weak_ptr<IMaterial> pMaterial, bool pTesselate)
+std::shared_ptr<Mesh> Assets::LoadMeshFromFile(const std::string& pFile, std::shared_ptr<IMaterial> pMaterial, bool pTesselate)
 {
     tinyobj::attrib_t attributes;
     std::vector<tinyobj::shape_t> shapes;
@@ -222,8 +223,7 @@ std::shared_ptr<IMaterial> Assets::GetMaterial(const std::string& pName)
     {
         CLUTTER_WARNING(("Unable to find Texture: " + pName).c_str());
 
-        auto dflt = mMaterials.find("default");
-        return dflt->second;
+        return nullptr;
     }
     return it->second;
 }
@@ -297,7 +297,7 @@ std::shared_ptr<Mesh> Assets::LoadMesh(const std::string& pPath, const std::stri
     return mesh;
 }
 
-std::shared_ptr<Mesh> Assets::LoadMesh(const std::string& pPath, const std::string& pName, std::weak_ptr<IMaterial> pMaterial, bool pTesselate)
+std::shared_ptr<Mesh> Assets::LoadMesh(const std::string& pPath, const std::string& pName, std::shared_ptr<IMaterial> pMaterial, bool pTesselate)
 {
     std::string name = pName;
     if (pTesselate) name = pName + "_tess";
@@ -442,14 +442,14 @@ std::shared_ptr<Sound> Assets::LoadAudio(const std::string& pPath, const std::st
     return tempAudio;
 }
 
-std::weak_ptr<IMaterial> Assets::CreateMaterial(const std::string& pName, ShaderProgram* pShaderProgram)
+std::shared_ptr<IMaterial> Assets::CreateMaterial(const std::string& pName, ShaderProgram* pShaderProgram)
 {
     if (mMaterials[pName])
     {
         if (mMaterials[pName].get()->GetShader() == pShaderProgram)
         {
             CLUTTER_ERROR("Cannot instantiate material: " + pName + " | Another material with a different ShaderProgram already exists");
-            return std::weak_ptr<IMaterial>();
+            return nullptr;
         }
 
         CLUTTER_INFO(pName + "  already exists. Returning existing material");
@@ -462,7 +462,7 @@ std::weak_ptr<IMaterial> Assets::CreateMaterial(const std::string& pName, Shader
     return temp;
 }
 
-std::weak_ptr<IMaterial> Assets::CreateMaterial(const std::string& pName, std::vector<Shader*> pShaders)
+std::shared_ptr<IMaterial> Assets::CreateMaterial(const std::string& pName, std::vector<Shader*> pShaders)
 {
     if (mMaterials[pName])
     {
@@ -481,9 +481,24 @@ std::weak_ptr<IMaterial> Assets::CreateMaterial(const std::string& pName, std::v
     return temp;
 }
 
-std::weak_ptr<IMaterial> Assets::CreateMaterialInstance(const std::string& pName, std::weak_ptr<IMaterial> pParent)
+std::shared_ptr<IMaterial> Assets::CreateMaterialInstance(const std::string& pName, std::shared_ptr<IMaterial> pParent)
 {
-    return std::weak_ptr<IMaterial>();
+    if (mMaterials[pName])
+    {
+        CLUTTER_INFO(pName + "  already exists. Returning existing material");
+        return GetMaterial(pName);
+    }
+
+    if (!pParent)
+    {
+        CLUTTER_WARNING(pName + " Material Instance has no base material set at the creation.");
+        return nullptr;
+    }
+
+    std::shared_ptr<MaterialInstance> temp = std::make_shared<MaterialInstance>(pParent);
+    mMaterials[pName] = temp;
+
+    return temp;
 }
 
 std::vector<std::shared_ptr<Texture>> Assets::BulkGetTexture(const std::string& pName, int pLastIndex)

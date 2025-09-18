@@ -4,26 +4,51 @@
 
 using namespace clt;
 
-MeshComponent::MeshComponent(std::weak_ptr<Mesh> pMesh, int pDrawOrder, Vector2 pTextureTiling) : Component(pDrawOrder), mMesh(pMesh)
+MeshComponent::MeshComponent(std::weak_ptr<Mesh> pMesh, Vector2 pTextureTiling, int pDrawOrder) : Component(pDrawOrder), mMesh(pMesh)
 {
     if (mMesh.lock())   mMesh.lock()->GetMaterialRef().SetVec2("uTiling", pTextureTiling);
 }
 
-MeshComponent::MeshComponent(const std::string& pMesh, int pDrawOrder, Vector2 pTextureTiling) : Component(pDrawOrder)
+MeshComponent::MeshComponent(const std::string& pMesh, Vector2 pTextureTiling, int pDrawOrder) : Component(pDrawOrder)
 {
     mMesh = Assets::Get().GetMesh(pMesh);
     if (mMesh.lock())   mMesh.lock()->GetMaterialRef().SetVec2("uTiling", pTextureTiling);
 }
 
-MeshComponent::MeshComponent(std::weak_ptr<Mesh> pMesh, std::weak_ptr<IMaterial>, Vector2 pTextureTiling, int pDrawOrder) : Component(pDrawOrder), mMesh(pMesh)
+MeshComponent::MeshComponent(std::weak_ptr<Mesh> pMesh, std::shared_ptr<IMaterial> material, Vector2 pTextureTiling, int pDrawOrder) : 
+    Component(pDrawOrder), mMesh(pMesh), mMaterial(material)
 {
-    if (mMesh.lock())   mMesh.lock()->GetMaterialRef().SetVec2("uTiling", pTextureTiling);
+    mMaterial->SetVec2("uTiling", pTextureTiling);
 }
 
-MeshComponent::MeshComponent(const std::string& pMesh, std::weak_ptr<IMaterial>, Vector2 pTextureTiling, int pDrawOrder) : Component(pDrawOrder)
+MeshComponent::MeshComponent(const std::string& pMesh, std::shared_ptr<IMaterial> material, Vector2 pTextureTiling, int pDrawOrder) : Component(pDrawOrder), mMaterial(material)
 {
     mMesh = Assets::Get().GetMesh(pMesh);
-    if (mMesh.lock())   mMesh.lock()->GetMaterialRef().SetVec2("uTiling", pTextureTiling);
+    mMaterial->SetVec2("uTiling", pTextureTiling);
+}
+
+MeshComponent::MeshComponent(std::weak_ptr<Mesh> pMesh, std::weak_ptr<Texture> texture, Vector2 pTextureTiling, int pDrawOrder) : Component(pDrawOrder), mMesh(pMesh)
+{
+    SetTexture("BaseColor", texture);
+}
+
+MeshComponent::MeshComponent(const std::string& pMesh, std::weak_ptr<Texture> texture, Vector2 pTextureTiling, int pDrawOrder) : Component(pDrawOrder)
+{
+    mMesh = Assets::Get().GetMesh(pMesh);
+    SetTexture( "BaseColor", texture);
+    mMaterial->SetVec2("uTiling", pTextureTiling);
+}
+
+MeshComponent::MeshComponent(std::weak_ptr<Mesh> pMesh, std::string& texture, Vector2 pTextureTiling, int pDrawOrder) : Component(pDrawOrder), mMesh(pMesh)
+{
+    SetTexture("BaseColor", texture);
+}
+
+MeshComponent::MeshComponent(const std::string& pMesh, std::string& texture, Vector2 pTextureTiling, int pDrawOrder) : Component(pDrawOrder)
+{
+    mMesh = Assets::Get().GetMesh(pMesh);
+    SetTexture("BaseColor", texture);
+    mMaterial->SetVec2("uTiling", pTextureTiling);
 }
 
 MeshComponent::~MeshComponent()
@@ -43,7 +68,7 @@ void MeshComponent::Draw(Matrix4Row viewProj)
 
     if (temp)
     {
-        auto mat = mMaterial.lock() ? mMaterial.lock().get() : temp->GetMaterial().lock().get();
+        auto mat = mMaterial ? mMaterial.get() : temp->GetMaterial().get();
 
         mat->GetShader()->Use();
         mat->SetMat4Row("uViewProj", viewProj);
@@ -60,13 +85,37 @@ void MeshComponent::Draw(Matrix4Row viewProj)
 
 void MeshComponent::SetTexture(std::string textureName, std::weak_ptr<Texture> texture, Vector2 tiling)
 {
-    mMesh.lock()->GetMaterialRef().SetTexture(textureName, texture);
-    mMesh.lock()->GetMaterialRef().SetVec2("uTiling", tiling);
+    if (!mMaterial.get())
+    {
+        std::string tempName = "MI_Mesh_" + Maths::Rand(0, 999);
+
+        while (Assets::Get().GetMaterial(tempName).get())
+        {
+            tempName = "MI_Mesh_" + Maths::Rand(0, 999);
+        }
+
+        mMaterial = Assets::Get().CreateMaterialInstance(tempName, mMesh.lock()->GetMaterial());
+    }
+    mMaterial->SetTexture(textureName, texture);
+    mMaterial->SetVec2("uTiling", tiling);
 }    
      
 void MeshComponent::SetTexture(std::string textureName, std::string& texture, Vector2 tiling)
 {
     std::weak_ptr<Texture> tempTexture = Assets::Get().GetTexture(texture);
-    mMesh.lock()->GetMaterialRef().SetTexture(textureName, tempTexture);
-    mMesh.lock()->GetMaterialRef().SetVec2("uTiling", tiling);
+
+    if (!mMaterial)
+    {
+        std::string tempName = "MI_Mesh_" + Maths::Rand(0, 999);
+
+        while (Assets::Get().GetMaterial(tempName).get())
+        {
+            tempName = "MI_Mesh_" + Maths::Rand(0, 999);
+        }
+
+        mMaterial = Assets::Get().CreateMaterialInstance(tempName, mMesh.lock().get()->GetMaterial());
+    }
+
+    mMaterial->SetTexture(textureName, tempTexture);
+    mMaterial->SetVec2("uTiling", tiling);
 }

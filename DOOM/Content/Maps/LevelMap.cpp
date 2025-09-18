@@ -62,13 +62,13 @@ void LevelMap::Load()
 	wall2 = AddActor<clt::CubeActor>("wall2", false);
 	wall2->SetActorScale({ 0.1,2,20 });
 
-	wall2->GetComponentOfType<clt::MeshComponent>()->SetTexture("baseColor", clt::Assets::Get().GetTexture("wall"), { 10, 75 });
+	wall2->GetComponentOfType<clt::MeshComponent>()->SetTexture("BaseColor", clt::Assets::Get().GetTexture("wall"), { 10, 75 });
 	wall2->SetActorLocation({ -8,0, -10 });
 
 	wall3 = AddActor<clt::CubeActor>("wall3", false);
 	wall3->SetActorScale({ 0.1,2,20 });
 
-	wall3->GetComponentOfType<clt::MeshComponent>()->SetTexture("baseColor", clt::Assets::Get().GetTexture("wall"), { 10, 75 });
+	wall3->GetComponentOfType<clt::MeshComponent>()->SetTexture("BaseColor", clt::Assets::Get().GetTexture("wall"), { 10, 75 });
 	wall3->SetActorLocation({ 8,0, -10 });
 
 

@@ -20,7 +20,7 @@ BowlingLane::BowlingLane(clt::Level* pLevel, std::string pName, bool isStatic,  
 
     laneFloor1 = pLevel->AddActor<clt::CubeActor>("floor", clt::Assets::Get().GetTexture("floor"), false, Vector2{ 15,30 });
 
-    laneFloor2 = pLevel->AddActor<clt::CubeActor>("floor2", false, Vector2{ 15,30 });
+    laneFloor2 = pLevel->AddActor<clt::CubeActor>("floor2", clt::Assets::Get().GetTexture("floor"), false, Vector2{ 15,30 });
 
     if (!isStatic)
     {
@@ -36,11 +36,11 @@ BowlingLane::BowlingLane(clt::Level* pLevel, std::string pName, bool isStatic,  
 
     bannerActor = pLevel->AddActor<clt::CubeActor>("banner", false);
 
-    bannerActor->GetComponentOfType<clt::MeshComponent>()->SetTexture(clt::Assets::Get().GetTexture("banner"), 1);
+    bannerActor->GetComponentOfType<clt::MeshComponent>()->SetTexture("BaseColor", clt::Assets::Get().GetTexture("banner"), 1);
     bannerActor->SetActorScale({ 1.5f,3.0f,0.1f });
     bannerActor->SetActorRotation({ 0,0, 90 });
     bannerActor->SetActorLocation(GetActorLocation()+ Vector3{ 0, 1, 10 });
-    bannerActor->GetComponentOfType<clt::MeshComponent>()->SetTexture(clt::Assets::Get().GetTexture("banner"), 1);
+    bannerActor->GetComponentOfType<clt::MeshComponent>()->SetTexture("BaseColor", clt::Assets::Get().GetTexture("banner"), 1);
 }
 
 BowlingLane::~BowlingLane()

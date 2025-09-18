@@ -2,12 +2,12 @@
 
 BowlingBall::BowlingBall(clt::Level* pLevel, std::string pName) : clt::Actor(pLevel, pName)
 {
-	clt::Assets::Get().LoadTexture("Content/Resources/Sprites/ballTexture.png", "ballTexture");
-	clt::Assets::Get().LoadMesh("Content/Resources/Mesh/sphere.obj", "ball", "ballTexture", false);
+	clt::Assets::Get().LoadMesh("Content/Resources/Mesh/sphere.obj", "ball", false);
 
 	SetActorScale(0.2f);
-	AddComponent<clt::MeshComponent>("ball");
-	
+	auto ball = AddComponent<clt::MeshComponent>("ball");
+	ball->SetTexture("BaseColor", clt::Assets::Get().LoadTexture("Content/Resources/Sprites/ballTexture.png", "ballTexture"));
+
 	AddComponent<clt::OBBCollider>()->mFriction = 0.5f;
 	AddComponent<clt::RigidBody>()->LockRotation();
 }
