@@ -29,6 +29,9 @@ namespace clt
 
 		virtual void SetCustomGravity(const Vector3& gravity) override;
 
+		void LockRotation(bool x, bool y, bool z) override;
+		void LockPosition(bool x, bool y, bool z) override;
+
 		void AddForce(const Vector3& force) override;
 		void AddImpulse(const Vector3& impulse) override;
 

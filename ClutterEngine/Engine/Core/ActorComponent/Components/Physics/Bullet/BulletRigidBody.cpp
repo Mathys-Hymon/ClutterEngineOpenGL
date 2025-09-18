@@ -124,7 +124,6 @@ void BulletRigidBody::AttachCollider(ICollider* collider)
 
     mShapes->addChildShape(localTransform, bulletCol->GetShape());
 
-    // Recalculer l'inertie si le body est dynamique
     if (mMass != 0.0f) 
     {
         btVector3 inertia(0, 0, 0);
@@ -145,4 +144,17 @@ void BulletRigidBody::RemoveCollider(ICollider* collider)
         mShapes->calculateLocalInertia(mMass, inertia);
         mBody->setMassProps(mMass, inertia);
     }
+}
+
+void BulletRigidBody::LockRotation(bool x, bool y, bool z)
+{
+    btVector3 lock(x ? 0 : 1, y ? 0 : 1, z ? 0 : 1);
+
+    mBody->setAngularFactor(lock);
+}
+
+void BulletRigidBody::LockPosition(bool x, bool y, bool z)
+{
+    btVector3 lock(x ? 0 : 1, y ? 0 : 1, z ? 0 : 1);
+    mBody->setLinearFactor(lock);
 }

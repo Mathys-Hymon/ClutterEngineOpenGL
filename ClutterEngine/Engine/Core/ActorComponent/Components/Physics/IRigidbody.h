@@ -24,5 +24,8 @@ namespace clt
 		virtual void RemoveCollider(class ICollider* collider) = 0;
 
 		virtual void SetCustomGravity(const Vector3& gravity) = 0;
+
+		virtual void LockRotation(bool x, bool y, bool z) = 0;
+		virtual void LockPosition(bool x, bool y, bool z) = 0;
 	};
 }
