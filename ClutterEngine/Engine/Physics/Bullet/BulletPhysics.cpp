@@ -40,7 +40,6 @@ void BulletPhysics::AddRigidbody(IRigidbody* body)
 
     if (bulletRb && bulletRb->GetInternalBody())
     {
-        mDynamicsWorld->addRigidBody(bulletRb->GetInternalBody());
         bulletRb->SetWorld(this);
         mRigidbodies.push_back(bulletRb);
     };

@@ -6,6 +6,7 @@
 #include <Core/ActorComponent/Component.h>
 
 #include <Core/ActorComponent/Components/Physics/RigidBody.h>
+#include <Core/ActorComponent/Components/Physics/IRigidbody.h>
 #include <Core/ActorComponent/Components/Physics/Bullet/BulletRigidBody.h>
 
 #include <Core/ActorComponent/Components/Physics/Collisions/2D/AABBCollider.h>
@@ -13,6 +14,7 @@
 #include <Core/ActorComponent/Components/Physics/Collisions/ColliderComponent.h>
 #include <Core/ActorComponent/Components/Physics/Collisions/OBBCollider.h>
 #include <Core/ActorComponent/Components/Physics/Collisions/SphereCollider.h>
+#include <Core/ActorComponent/Components/Physics/ICollider.h>
 #include <Core/ActorComponent/Components/Physics/Bullet/BulletCollider.h>
 
 #include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>

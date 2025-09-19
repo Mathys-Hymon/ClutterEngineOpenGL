@@ -16,7 +16,7 @@ LevelMap::~LevelMap()
 void LevelMap::Load()
 {
 	floorActor = AddActor<clt::CubeActor>("floor", clt::Assets::Get().GetTexture("floor"), false, Vector2{ 100,100 });
-	floorActor->AddComponent < clt::BulletRigidBody>(0);
+	floorActor->AddComponent < clt::BulletRigidBody>(clt::rbState::Static);
 	//floorActor->SetActorTransform({ 0,-2 ,0 }, 0, { 20,1,20 });
 	floorActor->SetActorLocation({ 0, -50,0 });
 

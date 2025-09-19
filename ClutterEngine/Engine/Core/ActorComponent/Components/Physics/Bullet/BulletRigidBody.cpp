@@ -7,8 +7,8 @@
 
 using namespace clt;
 
-BulletRigidBody::BulletRigidBody(float mass) :IRigidbody(0),
-    mWorld(nullptr), mBody(nullptr), mMotionState(nullptr), mShapes(nullptr), mMass(mass)
+BulletRigidBody::BulletRigidBody(rbState state, float mass) :IRigidbody(0),
+    mWorld(nullptr), mBody(nullptr), mMotionState(nullptr), mShapes(nullptr), mMass(mass), mState(state)
 {
     mShapes = new btCompoundShape();
 
@@ -35,11 +35,6 @@ BulletRigidBody::~BulletRigidBody()
     delete mShapes;
 }
 
-void BulletRigidBody::SetWorld(BulletPhysics* world)
-{
-    mWorld = world;
-}
-
 void BulletRigidBody::Start()
 {
     auto collider = mOwner->GetComponentOfType<BulletCollider>();
@@ -56,6 +51,51 @@ void BulletRigidBody::Start()
     mBody->getMotionState()->setWorldTransform(transform);
 
     mOwner->GetLevel()->GetPhysics().AddRigidbody(this);
+    SetState(mState);
+}
+
+void BulletRigidBody::SetState(rbState state)
+{
+    mState = state;
+    if (!mBody || !mWorld) return;
+
+    mWorld->GetWorld()->removeRigidBody(mBody);
+
+    int flags = mBody->getCollisionFlags();
+    flags &= ~(btCollisionObject::CF_STATIC_OBJECT | btCollisionObject::CF_KINEMATIC_OBJECT);
+    btScalar mass = 0.0f;
+    btVector3 localInertia(0, 0, 0);
+
+    switch (state)
+    {
+    case rbState::Static:
+        flags |= btCollisionObject::CF_STATIC_OBJECT;
+        mass = 0.0f;
+        mBody->setActivationState(DISABLE_DEACTIVATION);
+        break;
+
+    case rbState::Dynamic:
+        mass = mMass;
+        mShapes->calculateLocalInertia(mass, localInertia);
+        mBody->setActivationState(ACTIVE_TAG);
+        break;
+
+    case rbState::Kinematic:
+        flags |= btCollisionObject::CF_KINEMATIC_OBJECT;
+        mass = 0.0f;
+        mBody->setActivationState(DISABLE_DEACTIVATION);
+        break;
+    }
+
+    mBody->setCollisionFlags(flags);
+    mBody->setMassProps(mass, localInertia);
+
+    mWorld->GetWorld()->addRigidBody(mBody);
+}
+
+void BulletRigidBody::SetWorld(BulletPhysics* world)
+{
+    mWorld = world;
 }
 
 void BulletRigidBody::SyncFromBullet()

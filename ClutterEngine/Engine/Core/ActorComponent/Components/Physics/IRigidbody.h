@@ -3,11 +3,21 @@
 
 namespace clt
 {
+	enum class CLUTTER_API rbState
+	{
+		Static,
+		Dynamic,
+		Kinematic
+	};
+
 	class CLUTTER_API IRigidbody : public Component
 	{
 	public:
 		IRigidbody(int drawOrder = 0) : Component(drawOrder) {};
 		virtual ~IRigidbody() = default;
+
+		virtual void SetState(rbState state) = 0;
+		virtual rbState GetState() = 0;
 
 		virtual void SetMass(float mass) = 0;
 		virtual float GetMass() const = 0;

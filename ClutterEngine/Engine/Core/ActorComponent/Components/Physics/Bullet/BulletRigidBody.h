@@ -11,6 +11,7 @@ namespace clt
 		btMotionState* mMotionState;
 		btCompoundShape* mShapes;
 		float mMass;
+		rbState mState;
 
 	protected:
 
@@ -18,8 +19,11 @@ namespace clt
 		void SyncToBullet();
 
 	public:
-		BulletRigidBody(float mass = 1);
+		BulletRigidBody(rbState state = rbState::Dynamic, float mass = 1);
 		~BulletRigidBody();
+
+		virtual void SetState(rbState state) override;
+		virtual rbState GetState() override { return mState; };
 
 		void SetWorld(class BulletPhysics* world);
 		void Start() override;

@@ -1,6 +1,7 @@
 #include "pch.h"  
 #include "CubeActor.h"  
 #include <Core/ActorComponent/Components/Physics/Bullet/BulletCollider.h>  
+#include <Core/ActorComponent/Components/Physics/Bullet/BulletRigidBody.h>  
 #include <Core/ActorComponent/Components/Graphics/Mesh/MeshComponent.h>  
 #include <Core/Assets/Assets.h>  
 

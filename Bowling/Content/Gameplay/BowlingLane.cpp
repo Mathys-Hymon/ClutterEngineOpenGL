@@ -26,6 +26,8 @@ BowlingLane::BowlingLane(clt::Level* pLevel, std::string pName, bool isStatic,  
     {
         laneFloor1->GetComponentOfType<clt::BulletCollider>()->SetFriction(0.01f);
         laneFloor2->GetComponentOfType<clt::BulletCollider>()->SetFriction(0.01f);
+        laneFloor1->AddComponent<clt::BulletRigidBody>(clt::rbState::Kinematic, 0);
+        laneFloor2->AddComponent<clt::BulletRigidBody>(clt::rbState::Kinematic, 0);
     }
 
     laneFloor1->SetActorScale({ 1.1f, 0.3f, 15 });
