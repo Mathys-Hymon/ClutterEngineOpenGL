@@ -12,14 +12,17 @@ namespace clt
 		btCompoundShape* mShapes;
 		float mMass;
 
+	protected:
+
+		void SyncFromBullet();
+		void SyncToBullet();
+
 	public:
 		BulletRigidBody(float mass = 1);
 		~BulletRigidBody();
 
 		void SetWorld(class BulletPhysics* world);
 		void Start() override;
-
-		void SyncFromBullet();
 
 		void SetMass(float mass) override;
 		float GetMass() const override;
@@ -42,5 +45,7 @@ namespace clt
 		void RemoveCollider(ICollider* collider) override;
 
 		btRigidBody* GetInternalBody() { return mBody; }
+
+		friend BulletPhysics;
 	};
 }

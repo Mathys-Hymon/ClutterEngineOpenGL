@@ -253,6 +253,20 @@ struct CLUTTER_API Vector3
 	// Transform a Vector3 by a quaternion
 	static Vector3 Transform(const Vector3& v, const class Quaternion& q);
 
+	static bool NearlyEqual(const Vector3& a, const Vector3& b, float epsilon = 1.0f)
+	{
+		return (std::abs(a.x - b.x) <= epsilon) &&
+			   (std::abs(a.y - b.y) <= epsilon) &&
+			   (std::abs(a.z - b.z) <= epsilon);
+	}
+
+	inline bool NearlyEqual(const Vector3& b, float epsilon = 1.0f)
+	{
+		return (std::abs(x - b.x) <= epsilon) &&
+			   (std::abs(y - b.y) <= epsilon) &&
+			   (std::abs(z - b.z) <= epsilon);
+	}
+
 	inline std::string ToString()
 	{
 		return " (" + std::to_string(x) + " , " + std::to_string(y) + " , " + std::to_string(z) + ") ";

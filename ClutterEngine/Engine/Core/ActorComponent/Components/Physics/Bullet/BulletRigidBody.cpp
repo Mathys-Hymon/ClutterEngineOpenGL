@@ -68,6 +68,28 @@ void BulletRigidBody::SyncFromBullet()
     mOwner->SetActorRotation(Quaternion(rot.x(), rot.y(), rot.z(), rot.w()));
 }
 
+void BulletRigidBody::SyncToBullet()
+{
+    btVector3 pos = mBody->getWorldTransform().getOrigin();
+    Vector3 vectPos = { pos.x(),pos.y(), pos.z()};
+
+    btQuaternion rot = mBody->getWorldTransform().getRotation();
+    Quaternion quatRot = {rot.x(), rot.y(), rot.z(), rot.w() };
+
+    Vector3 worldLoc = GetWorldLocation();
+    Quaternion worldRot = GetWorldRotation();
+
+    if (!worldLoc.NearlyEqual(vectPos, 0.001f) || !worldRot.QuaternionToEuler().NearlyEqual(quatRot.QuaternionToEuler(), 0.001f))
+    {
+        btTransform newTransform;
+        newTransform.setOrigin(btVector3(worldLoc.x, worldLoc.y, worldLoc.z));
+        newTransform.setRotation(btQuaternion(worldRot.x, worldRot.y, worldRot.z, worldRot.w));
+
+        mBody->setWorldTransform(newTransform);
+        mBody->getMotionState()->setWorldTransform(newTransform);
+    }
+}
+
 void BulletRigidBody::SetMass(float mass)
 {
     mMass = mass;

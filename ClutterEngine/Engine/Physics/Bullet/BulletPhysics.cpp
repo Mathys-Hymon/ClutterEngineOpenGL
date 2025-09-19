@@ -27,12 +27,11 @@ BulletPhysics::~BulletPhysics()
 
 void BulletPhysics::UpdatePhysics()
 {
+    for (auto rb : mRigidbodies) rb->SyncToBullet();
+
     mDynamicsWorld->stepSimulation(Timer::deltaTime);
 
-    for (auto rb : mRigidbodies)
-    {
-        rb->SyncFromBullet();
-    }
+    for (auto rb : mRigidbodies)  rb->SyncFromBullet();
 }
 
 void BulletPhysics::AddRigidbody(IRigidbody* body)
