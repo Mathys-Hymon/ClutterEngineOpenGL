@@ -5,9 +5,18 @@
 #include "json/json.hpp"
 #include <fstream>
 #include <iostream>
+#include <Physics/Bullet/BulletPhysics.h>
 
 using namespace clt;
 using json = nlohmann::json;
+
+using PhysicsFactory = std::function<std::unique_ptr<IPhysics>()>;
+
+std::unordered_map<std::string, PhysicsFactory> physicsEngines = 
+{
+	//{ "Clutter", []() { return std::make_unique<ClutterPhysics>(); } },
+	 { "Bullet",  []() { return std::make_unique<BulletPhysics>(); } }
+};
 
 void CEngine::Init(const std::string& path, std::vector<Level*> pLevels)
 {
@@ -30,7 +39,15 @@ void CEngine::Init(const std::string& path, std::vector<Level*> pLevels)
 
 	mRenderer = std::make_unique<RendererGL>();
 	mRenderer->Initialize(this, backgroundColor);
-	mPhysics = std::make_unique<Physics>();
+
+	std::string physic = config["physic"]["engine"];
+
+	auto it = physicsEngines.find(physic);
+	if (it != physicsEngines.end())
+	{
+		mPhysics = it->second();
+	}
+	else CLUTTER_ERROR("Unknown physics engine: " + physic);
 
 	mLevelManager = std::make_unique<LevelManager>(pLevels, mRenderer.get(), mPhysics.get());
 	mRefreshFrameRate = 0;
@@ -39,25 +56,25 @@ void CEngine::Init(const std::string& path, std::vector<Level*> pLevels)
 
 void CEngine::Update()
 {
-mPhysics->Update();
+	mPhysics.get()->UpdatePhysics();
 
-Inputs::Get().Update();
-Audio::Get().Update();
-mLevelManager->Update();
+	Inputs::Get().Update();
+	mLevelManager->Update();
+	Audio::Get().Update();
 
-if (IsEditorMode())
-{
-	if (mRefreshFrameRate > 0.3f)
+	if (IsEditorMode())
 	{
-        std::string temp = mName + "     |    FPS: " + std::to_string(static_cast<int>(1.0f / Timer::deltaTime));
-		Window::Get().RenameViewport(temp.c_str());
-		mRefreshFrameRate = 0;
+		if (mRefreshFrameRate > 0.3f)
+		{
+			std::string temp = mName + "     |    FPS: " + std::to_string(static_cast<int>(1.0f / Timer::deltaTime));
+			Window::Get().RenameViewport(temp.c_str());
+			mRefreshFrameRate = 0;
+		}
+		else
+		{
+			mRefreshFrameRate += Timer::deltaTime;
+		}
 	}
-	else
-	{
-		mRefreshFrameRate += Timer::deltaTime;
-	}
-}
 }
 
 void CEngine::Close()

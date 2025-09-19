@@ -13,7 +13,7 @@ BulletPhysics::BulletPhysics()
     mSolver = new btSequentialImpulseConstraintSolver();
     mDynamicsWorld = new btDiscreteDynamicsWorld(mDispatcher, mBroadphase, mSolver, mCollisionConfig);
 
-    mDynamicsWorld->setGravity(btVector3(0, 9.81f, 0));
+    mDynamicsWorld->setGravity(btVector3(0, -9.81f, 0));
 }
 
 BulletPhysics::~BulletPhysics()
@@ -41,6 +41,7 @@ void BulletPhysics::AddRigidbody(IRigidbody* body)
 
     if (bulletRb && bulletRb->GetInternalBody())
     {
+        mDynamicsWorld->addRigidBody(bulletRb->GetInternalBody());
         bulletRb->SetWorld(this);
         mRigidbodies.push_back(bulletRb);
     };
@@ -48,10 +49,14 @@ void BulletPhysics::AddRigidbody(IRigidbody* body)
 
 void BulletPhysics::RemoveRigidBody(IRigidbody* body)
 {
-    auto it = std::find(mRigidbodies.begin(), mRigidbodies.end(), body);
+    auto bulletRb = static_cast<BulletRigidBody*>(body);
+
+    mDynamicsWorld->addRigidBody(bulletRb->GetInternalBody());
+
+    auto it = std::find(mRigidbodies.begin(), mRigidbodies.end(), bulletRb);
     if (it != mRigidbodies.end())  mRigidbodies.erase(it);
 
-    delete body;
+    delete bulletRb;
 }
 
 bool BulletPhysics::LineTrace(const Vector3& start, const Vector3& direction, float maxDistance, raycastHit& hit, bool debugPersistant, Actor* self)

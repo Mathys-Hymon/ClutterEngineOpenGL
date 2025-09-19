@@ -1,7 +1,6 @@
 #pragma once
 #include <Core/CCommon.h>
 #include<Core/Levels/Level.h>
-#include<Graphics/RendererGL.h>
 
 namespace clt
 {
@@ -23,7 +22,7 @@ namespace clt
    * @brief Constructs a CLevelManager with a list of levels.
    * @param pLevels Vector of pointers to levels to be managed.
    */
-		LevelManager(std::vector<Level*>& pLevels, RendererGL* pRenderer, Physics* pPhysics);
+		LevelManager(std::vector<Level*>& pLevels, IRenderer* pRenderer, IPhysics* pPhysics);
 
 		/**
 	* @brief Destructor for CLevelManager.

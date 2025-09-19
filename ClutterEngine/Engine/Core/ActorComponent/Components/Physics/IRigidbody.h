@@ -6,6 +6,7 @@ namespace clt
 	class CLUTTER_API IRigidbody : public Component
 	{
 	public:
+		IRigidbody(int drawOrder = 0) : Component(drawOrder) {};
 		virtual ~IRigidbody() = default;
 
 		virtual void SetMass(float mass) = 0;

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include <Core/Levels/Level.h>
 #include <Core/ActorComponent/Components/Graphics/Mesh/MeshComponent.h>
+#include <Core/Assets/Assets.h>
 
 using namespace clt;
 

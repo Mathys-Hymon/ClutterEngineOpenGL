@@ -17,9 +17,11 @@ namespace clt
 	class CLUTTER_API ICollider : public Component
 	{
 	public:
+
+		ICollider(int drawOrder = 0) : Component(drawOrder) {};
 		virtual ~ICollider() = default;
 
-		virtual void SetShape(ColliderShapeType type, const Vector3& size) = 0;
+		virtual void SetShape(ColliderShapeType shape, Vector3 bounds) = 0;
 		virtual ColliderShapeType GetShapeType() const = 0;
 
 		virtual void SetIsTrigger(bool trigger) = 0;

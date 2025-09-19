@@ -7,8 +7,8 @@
 
 using namespace clt;
 
-BulletRigidBody::BulletRigidBody() :
-    mWorld(nullptr), mBody(nullptr), mMotionState(nullptr), mShapes(nullptr), mMass(0.0f)
+BulletRigidBody::BulletRigidBody(float mass) :IRigidbody(0),
+    mWorld(nullptr), mBody(nullptr), mMotionState(nullptr), mShapes(nullptr), mMass(mass)
 {
     mShapes = new btCompoundShape();
 
@@ -44,7 +44,6 @@ void BulletRigidBody::Start()
 {
     auto collider = mOwner->GetComponentOfType<BulletCollider>();
     if (collider) AttachCollider(collider);
-    //mOwner->GetLevel()->GetPhysics().AddRigidbody(this);
 
     Vector3 worldPos = GetWorldLocation();
     Quaternion worldRot = GetWorldRotation();
@@ -55,6 +54,8 @@ void BulletRigidBody::Start()
 
     mBody->setWorldTransform(transform);
     mBody->getMotionState()->setWorldTransform(transform);
+
+    mOwner->GetLevel()->GetPhysics().AddRigidbody(this);
 }
 
 void BulletRigidBody::SyncFromBullet()
@@ -63,8 +64,8 @@ void BulletRigidBody::SyncFromBullet()
     btVector3 pos = transform.getOrigin();
     btQuaternion rot = transform.getRotation();
 
-    SetWorldLocation(Vector3(pos.x(), pos.y(), pos.z()));
-    SetWorldRotation(Quaternion(rot.w(), rot.x(), rot.y(), rot.z()));
+    mOwner->SetActorLocation(Vector3(pos.x(), pos.y(), pos.z()));
+    mOwner->SetActorRotation(Quaternion(rot.x(), rot.y(), rot.z(), rot.w()));
 }
 
 void BulletRigidBody::SetMass(float mass)

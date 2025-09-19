@@ -4,7 +4,7 @@
 
 namespace clt
 {
-	class Physics;
+	class ClutterPhysics;
 	class Level;
 
 	enum class CLUTTER_API ColliderType { Null, OBB, Sphere, AABB, Circle };

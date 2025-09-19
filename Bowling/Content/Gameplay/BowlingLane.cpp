@@ -24,8 +24,8 @@ BowlingLane::BowlingLane(clt::Level* pLevel, std::string pName, bool isStatic,  
 
     if (!isStatic)
     {
-        laneFloor1->GetComponentOfType<clt::OBBCollider>()->mFriction = 0.01f;
-        laneFloor2->GetComponentOfType<clt::OBBCollider>()->mFriction = 0.01f;
+        laneFloor1->GetComponentOfType<clt::BulletCollider>()->SetFriction(0.01f);
+        laneFloor2->GetComponentOfType<clt::BulletCollider>()->SetFriction(0.01f);
     }
 
     laneFloor1->SetActorScale({ 1.1f, 0.3f, 15 });
@@ -99,10 +99,9 @@ void BowlingLane::RespawnPins(bool leftLane, bool isStatic)
 
             if (!isStatic && leftLane)
             {
-                tempActor->AddComponent<clt::OBBCollider>(Vector3{ 15, 25, 15 });
-                tempActor->GetComponentOfType<clt::OBBCollider>()->mFriction = 0.5f;
-                tempActor->AddComponent<clt::RigidBody>()->SetMass(0.3f);
-                tempActor->GetComponentOfType<clt::RigidBody>()->LockRotation(false);
+                tempActor->AddComponent<clt::BulletCollider>(ColliderShapeType::Box, Vector3{ 15, 25, 15 });
+                tempActor->GetComponentOfType<clt::BulletCollider>()->SetFriction(0.5f);
+                tempActor->AddComponent<clt::BulletRigidBody>()->SetMass(0.3f);
             }
             tempActor->SetActorScale(0.1f);
 

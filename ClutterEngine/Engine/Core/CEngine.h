@@ -1,7 +1,7 @@
 #pragma once
 #include <Core/CCommon.h>
 #include <Core/Levels/LevelManager.h>
-#include <Physics/Physics.h>
+#include <Physics/IPhysics.h>
 #include <Graphics/RendererGL.h>
 #include <Window/Window.h>
 
@@ -18,7 +18,7 @@ namespace clt
 		std::unique_ptr<RendererGL> mRenderer; ///< The renderer instance.
 
 		std::unique_ptr<LevelManager> mLevelManager; ///< The level manager instance.
-		std::unique_ptr<Physics> mPhysics; 
+		std::unique_ptr<IPhysics> mPhysics;
 
 		std::string mName;
 		float mRefreshFrameRate;

@@ -1,6 +1,6 @@
 #include "pch.h"
 #include <Core/Levels/Level.h>
-#include "Physics/Physics.h"
+#include "Physics/IPhysics.h"
 #include "Core/Levels/LevelManager.h"
 #include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
 #include <Core/ActorComponent/ChildActors/EditorCamera.h>

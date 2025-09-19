@@ -61,14 +61,14 @@ namespace clt
 		void WireframeMode(bool wireframe) override;
 		void ToggleWireframe() override;
 
-		void AddMeshComponent(MeshComponent* pComp);
-		void RemoveMeshComponent(MeshComponent* pComp);
+		void AddMeshComponent(MeshComponent* pComp) override;
+		void RemoveMeshComponent(MeshComponent* pComp) override;
 
-		void AddSpriteComponent(SpriteComponent* pComp);
-		void RemoveSpriteComponent(SpriteComponent* pComp);
+		void AddSpriteComponent(SpriteComponent* pComp) override;
+		void RemoveSpriteComponent(SpriteComponent* pComp) override;
 
-		void AddHUDComponent(HUDComponent* pComp);
-		void RemoveHUDComponent(HUDComponent* pComp);
+		void AddHUDComponent(HUDComponent* pComp) override;
+		void RemoveHUDComponent(HUDComponent* pComp) override;
 		
 		/**
    * @brief Begins the drawing process.
@@ -86,6 +86,6 @@ namespace clt
 
 		const CEngine* GetEngine() const override { return mEngine; };
 
-		const RendererType GetType() const override { return RendererType::OPENGL; }
+		RendererType GetType() const override { return RendererType::OPENGL; }
 	};
 }

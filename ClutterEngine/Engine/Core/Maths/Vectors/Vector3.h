@@ -2,6 +2,7 @@
 #include "Core/CCommon.h"
 #include <Core/Debug/CLog/CLog.h>
 #include <Core/Maths/Vectors/Vector2.h>
+#include <Core/Timer.h>
 #include <algorithm>
 /**
  * @brief A 3D vector structure.

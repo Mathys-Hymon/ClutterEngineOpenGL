@@ -4,6 +4,7 @@
 
 class LevelMap : public clt::Level
 {
+	float tempTime;
 public:
 	LevelMap(std::string pName = "Level");
 	~LevelMap();

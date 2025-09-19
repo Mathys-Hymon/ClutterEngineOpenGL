@@ -8,13 +8,13 @@ BowlingBall::BowlingBall(clt::Level* pLevel, std::string pName) : clt::Actor(pLe
 	auto ball = AddComponent<clt::MeshComponent>("ball");
 	ball->SetTexture("BaseColor", clt::Assets::Get().LoadTexture("Content/Resources/Sprites/ballTexture.png", "ballTexture"));
 
-	AddComponent<clt::OBBCollider>()->mFriction = 0.5f;
-	AddComponent<clt::RigidBody>()->LockRotation();
+	AddComponent<clt::BulletCollider>(ColliderShapeType::Sphere);
+	AddComponent<clt::BulletRigidBody>();
 }
 
 void BowlingBall::Update()
 {
-	Vector3 rot = GetComponentOfType<clt::RigidBody>()->GetVelocity();
+	Vector3 rot = GetComponentOfType<clt::BulletRigidBody>()->GetVelocity();
 
 	GetComponentOfType<clt::MeshComponent>()->AddRelativeRotation(Vector3{rot.z,0,rot.x });
 }

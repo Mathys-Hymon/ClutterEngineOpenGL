@@ -2,6 +2,7 @@
 #include <Core/CCommon.h>
 #include "cmath"
 #include "string"
+#include <Core/Maths/Vectors/Vector3.h>
 
 struct CLUTTER_API Color
 {

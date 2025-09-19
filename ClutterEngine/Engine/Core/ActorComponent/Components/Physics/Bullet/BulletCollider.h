@@ -11,12 +11,12 @@ namespace clt
 		bool mIsTrigger;
 
 	public:
-		BulletCollider();
+		BulletCollider(ColliderShapeType shape = ColliderShapeType::Box, Vector3 bounds = {1,1,1});
 		~BulletCollider();
 
 		void Start() override;
 
-		void SetShape(ColliderShapeType type, const Vector3& size) override;
+		void SetShape(ColliderShapeType shape, Vector3 bounds) override;
 		ColliderShapeType GetShapeType() const override;
 
 		void SetIsTrigger(bool trigger) override;

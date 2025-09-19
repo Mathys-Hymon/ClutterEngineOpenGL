@@ -105,11 +105,11 @@
     <LibraryPath>Libraries\lib;Libraries\lib\FMOD\Core\x86;Libraries\lib\FMOD\Studio\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio</IncludePath>
+    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio;Libraries\include\Bullet\bullet</IncludePath>
     <LibraryPath>Libraries\lib;Libraries\lib\Bullet\Debug;Libraries\lib\FMOD\Core\x64;Libraries\lib\FMOD\Studio\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|x64'">
-    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio</IncludePath>
+    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio;Libraries\include\Bullet\bullet</IncludePath>
     <LibraryPath>Libraries\lib;Libraries\lib\FMOD\Core\x64;Libraries\lib\FMOD\Studio\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -117,7 +117,7 @@
     <LibraryPath>Libraries\lib;Libraries\lib\Bullet\Release;Libraries\lib\FMOD\Core\x86;Libraries\lib\FMOD\Studio\x86;$(LibraryPath);Libraries\lib\Bullet\Release;Libraries\lib\Bullet\Release</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio</IncludePath>
+    <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio;Libraries\include\Bullet\bullet</IncludePath>
     <LibraryPath>Libraries\lib;Libraries\lib\Bullet\Release;Libraries\lib\FMOD\Core\x64;Libraries\lib\FMOD\Studio\x64;$(LibraryPath);Libraries\lib\Bullet\Release;Libraries\lib\Bullet\Release</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -338,7 +338,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Engine\Physics\Collision\CollisionEvent.h" />
     <ClInclude Include="Engine\Physics\Collision\ICollisionListener.h" />
     <ClInclude Include="Engine\Physics\IPhysics.h" />
-    <ClInclude Include="Engine\Physics\Physics.h" />
+    <ClInclude Include="Engine\Physics\ClutterPhysics.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Graphics\Sprite\AnimatorComponent.h" />
     <ClInclude Include="Engine\Sound\Audio.h" />
     <ClInclude Include="Engine\Sound\SoundInstance.h" />
@@ -386,7 +386,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClCompile Include="Engine\Graphics\UI\UIPanel.cpp" />
     <ClCompile Include="Engine\Physics\Bullet\BulletPhysics.cpp" />
     <ClCompile Include="Engine\Physics\Collision\CollisionEvent.cpp" />
-    <ClCompile Include="Engine\Physics\Physics.cpp" />
+    <ClCompile Include="Engine\Physics\ClutterPhysics.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Physics\Collisions\2D\AABBCollider.cpp" />
     <ClCompile Include="Engine\Input\Inputs.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

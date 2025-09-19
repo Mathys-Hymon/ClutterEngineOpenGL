@@ -6,7 +6,7 @@ namespace clt
 	/**
   * @brief A rigid body component for physics simulation.
   */
-	class Physics;
+	class ClutterPhysics;
 	class CLUTTER_API RigidBody : public Component
 	{
 		Vector3 mVelocity; ///< The velocity of the rigid body.
@@ -143,7 +143,7 @@ namespace clt
 
 		bool IsRotationLocked() const { return mLockRotation; };
 
-		friend Physics;
+		friend ClutterPhysics;
 	};
 
 }

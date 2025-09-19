@@ -1,6 +1,6 @@
 #include "pch.h"
 #include <Core/ActorComponent/Components/Physics/RigidBody.h>
-#include <Physics/Physics.h>
+#include <Physics/Iphysics.h>
 #include <Core/Timer.h>
 #include <Core/Levels/Level.h>
 
@@ -13,7 +13,7 @@ RigidBody::RigidBody(float pMass, int pUpdadeOrder) : Component(pUpdadeOrder), m
 void RigidBody::SetOwner(Actor* pOwner)
 {
 	Component::SetOwner(pOwner);
-	mOwner->GetLevel()->GetPhysics().AddRigidbody(this);
+	//mOwner->GetLevel()->GetPhysics().AddRigidbody(this);
     CalculateInertia();
 }
 

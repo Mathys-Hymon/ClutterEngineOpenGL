@@ -10,7 +10,7 @@ namespace clt
 	/**
   * @brief The Physics class handles the physics simulation, including collision detection and resolution.
   */
-	class CLUTTER_API Physics
+	class CLUTTER_API ClutterPhysics
 	{
 		std::unordered_map<ColliderComponent*, CollisionEvent*> mColliderEvent; ///< Maps colliders to their collision events.
 		std::vector<ColliderComponent*> mColliders; ///< List of all colliders in the simulation.
@@ -42,12 +42,12 @@ namespace clt
 		/**
    * @brief Constructs a new Physic world.
    */
-		Physics();
+		ClutterPhysics();
 
 		/**
    * @brief Destroys the Physic world.
    */
-		~Physics() = default;
+		~ClutterPhysics() = default;
 
 		bool LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant = false, Actor* self = nullptr);
 

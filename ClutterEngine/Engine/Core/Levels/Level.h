@@ -1,10 +1,10 @@
 #pragma once
-#include "Graphics/RendererGL.h"
+#include "Graphics/IRenderer.h"
 #include "Core/ActorComponent/Actor.h"
 
 namespace clt
 {
-    class Physics;
+    class IPhysics;
     class LevelManager;
     /**
      * @brief Represents a level in the game engine.
@@ -20,8 +20,8 @@ namespace clt
 
     protected:
         std::string mTitle; ///< The title of the scene.
-        RendererGL* mRenderer; ///< The renderer used for drawing the scene.
-        Physics* mPhysics;
+        IRenderer* mRenderer; ///< The renderer used for drawing the scene.
+        IPhysics* mPhysics;
         LevelManager* mManager;
 
         std::unordered_map < size_t, std::vector<Actor*> > mActors; ///< Map of actors categorized by their type.
@@ -60,7 +60,7 @@ namespace clt
          * @brief Sets the renderer for the level.
          * @param pRenderer Pointer to the renderer.
          */
-        void SetManager(RendererGL* pRenderer, Physics* pPhysics, LevelManager* pManager) 
+        void SetManager(IRenderer* pRenderer, IPhysics* pPhysics, LevelManager* pManager) 
         { 
             mRenderer = pRenderer; 
             mPhysics = pPhysics;
@@ -137,8 +137,8 @@ namespace clt
          * @brief Gets the renderer for the level.
          * @return Reference to the renderer.
          */
-        RendererGL& GetRenderer() const { return *mRenderer; };
-        Physics& GetPhysics()   const { return *mPhysics;  };
+        IRenderer& GetRenderer() const { return *mRenderer; };
+        IPhysics& GetPhysics()   const { return *mPhysics;  };
 
         friend LevelManager;
     };

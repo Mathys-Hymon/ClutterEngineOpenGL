@@ -4,8 +4,9 @@
 
 using namespace clt;
 
-BulletCollider::BulletCollider() : mShape(nullptr), mType(ColliderShapeType::Box), mIsTrigger(false)
+BulletCollider::BulletCollider(ColliderShapeType shape, Vector3 bounds) : ICollider(0), mShape(nullptr), mType(shape), mIsTrigger(false)
 {
+    SetShape(shape, bounds);
 }
 
 BulletCollider::~BulletCollider()
@@ -20,23 +21,42 @@ void BulletCollider::Start()
     if (rb) rb->AttachCollider(this);
 }
 
-void BulletCollider::SetShape(ColliderShapeType type, const Vector3& size)
+void BulletCollider::SetShape(ColliderShapeType shape, Vector3 bounds)
 {
     if (mShape) delete mShape;
-    mType = type;
-    switch (type)
+    mType = shape;
+
+    Vector3 bulletBounds = bounds * 2;
+
+    switch (mType)
     {
-    case ColliderShapeType::Box:mShape = new btBoxShape(btVector3(size.x * 0.5f, size.y * 0.5f, size.z * 0.5f));
+    case ColliderShapeType::Box:
+        mShape = new btBoxShape(btVector3(
+            bulletBounds.x * 0.5f,
+            bulletBounds.y * 0.5f,
+            bulletBounds.z * 0.5f));
         break;
-    case ColliderShapeType::Sphere: mShape = new btSphereShape(size.x * 0.5f);
+
+    case ColliderShapeType::Sphere:
+        mShape = new btSphereShape(bulletBounds.x * 0.5f);
         break;
+
     case ColliderShapeType::Capsule:
+        // x = radius, y = height
+        mShape = new btCapsuleShape(bulletBounds.x, bulletBounds.y - 2 * bulletBounds.x);
         break;
+
     case ColliderShapeType::Mesh:
+
+        mShape = nullptr; // temporary
         break;
+
     case ColliderShapeType::Plane:
+        mShape = new btStaticPlaneShape(btVector3(0, 1, 0), 0);
         break;
-    default:  mShape = new btBoxShape(btVector3(1, 1, 1));
+
+    default:
+        mShape = new btBoxShape(btVector3(2.5f, 2.5f, 2.5f));
         break;
     }
 }

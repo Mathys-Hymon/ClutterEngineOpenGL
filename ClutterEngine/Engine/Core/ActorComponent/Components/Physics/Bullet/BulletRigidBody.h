@@ -13,7 +13,7 @@ namespace clt
 		float mMass;
 
 	public:
-		BulletRigidBody();
+		BulletRigidBody(float mass = 1);
 		~BulletRigidBody();
 
 		void SetWorld(class BulletPhysics* world);

@@ -1,11 +1,11 @@
 #include "pch.h"
 #include <Core/Levels/LevelManager.h>
 #include <Sound/Audio.h>
-#include <Physics/Physics.h>
+#include <Physics/ClutterPhysics.h>
 
 using namespace clt;
 
-LevelManager::LevelManager(std::vector<Level*>& pLevels, RendererGL* pRenderer, Physics* pPhysics) : mCurrentLevel(pLevels[0]), mLevels({})
+LevelManager::LevelManager(std::vector<Level*>& pLevels, IRenderer* pRenderer, IPhysics* pPhysics) : mCurrentLevel(pLevels[0]), mLevels({})
 {
 	for (Level* level : pLevels)
 	{

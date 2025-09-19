@@ -1,5 +1,5 @@
 #include "pch.h"  
-#include <Physics/Physics.h>  
+#include <Physics/ClutterPhysics.h>  
 #include "Core/ActorComponent/Components/Physics/Collisions/OBBCollider.h"
 #include "Core/ActorComponent/Components/Physics/Collisions/SphereCollider.h"
 #include <Core/Timer.h>  
@@ -7,11 +7,11 @@
 using namespace clt;
 
 // Constructor initializing gravity vector
-Physics::Physics() : mGravity({ 0.0f, -9.81f, 0.0f })
+ClutterPhysics::ClutterPhysics() : mGravity({ 0.0f, -9.81f, 0.0f })
 {
 }
 
-bool Physics::LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant, Actor* self)
+bool ClutterPhysics::LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant, Actor* self)
 {
     hit.Distance = maxDistance;
 
@@ -131,7 +131,7 @@ bool Physics::LineTrace(Vector3 start, Vector3 direction, float maxDistance, ray
 }
 
 // Adds a collider to the physics engine
-void Physics::AddCollider(ColliderComponent* pCollider)
+void ClutterPhysics::AddCollider(ColliderComponent* pCollider)
 {
     mColliders.push_back(pCollider);
     if (mColliderEvent.find(pCollider) == mColliderEvent.end())
@@ -141,13 +141,13 @@ void Physics::AddCollider(ColliderComponent* pCollider)
 }
 
 // Adds a rigidbody to the physics engine
-void Physics::AddRigidbody(RigidBody* pRigidbody)
+void ClutterPhysics::AddRigidbody(RigidBody* pRigidbody)
 {
     mRigidbody.push_back(pRigidbody);
 }
 
 // Removes a rigidbody from the physics engine
-void Physics::RemoveRigidBody(RigidBody* pRigidbody)
+void ClutterPhysics::RemoveRigidBody(RigidBody* pRigidbody)
 {
     auto it = std::find(mRigidbody.begin(), mRigidbody.end(), pRigidbody);
 
@@ -159,7 +159,7 @@ void Physics::RemoveRigidBody(RigidBody* pRigidbody)
 }
 
 // Removes a collider from the physics engine
-void Physics::RemoveCollider(ColliderComponent* pCollider)
+void ClutterPhysics::RemoveCollider(ColliderComponent* pCollider)
 {
     if (mColliderEvent.find(pCollider) != mColliderEvent.end())
     {
@@ -176,7 +176,7 @@ void Physics::RemoveCollider(ColliderComponent* pCollider)
 }
 
 // Subscribes a listener to collision events for a specific collider
-void Physics::SubscribeTo(ColliderComponent* pCollider, ICollisionListener* pListener)
+void ClutterPhysics::SubscribeTo(ColliderComponent* pCollider, ICollisionListener* pListener)
 {
     size_t hasCollider = mColliderEvent.count(pCollider);
 
@@ -188,7 +188,7 @@ void Physics::SubscribeTo(ColliderComponent* pCollider, ICollisionListener* pLis
 }
 
 // Updates the physics engine, applying gravity and checking for collisions
-void Physics::Update()
+void ClutterPhysics::Update()
 {
     float dt = Timer::clampedDeltaTime;
 
@@ -209,7 +209,7 @@ void Physics::Update()
 }
 
 // Checks for collisions between all colliders
-void Physics::CheckCollisions()
+void ClutterPhysics::CheckCollisions()
 {
     mCurrentFrameCollisions.clear();
 
@@ -230,7 +230,7 @@ void Physics::CheckCollisions()
 }
 
 // Resolves detected collisions by adjusting positions and velocities
-void Physics::ResolveCollisions()
+void ClutterPhysics::ResolveCollisions()
 {
     // Iterate through all current frame collisions
     for (auto& hit : mCurrentFrameCollisions)
@@ -316,7 +316,7 @@ void Physics::ResolveCollisions()
 }
 
 // Dispatches collision events to subscribed listeners
-void Physics::DispatchEvents()
+void ClutterPhysics::DispatchEvents()
 {
     std::set<std::pair<ColliderComponent*, ColliderComponent*>> currentCollisions;
 

@@ -117,7 +117,7 @@
     <ClInclude Include="Engine\Input\InputData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Physics\Physics.h">
+    <ClInclude Include="Engine\Physics\ClutterPhysics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\RigidBody.h">
@@ -335,7 +335,7 @@
     <ClCompile Include="Engine\Core\ActorComponent\Components\Physics\Collisions\2D\AABBCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Physics\Physics.cpp">
+    <ClCompile Include="Engine\Physics\ClutterPhysics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Physics\Collision\CollisionEvent.cpp">

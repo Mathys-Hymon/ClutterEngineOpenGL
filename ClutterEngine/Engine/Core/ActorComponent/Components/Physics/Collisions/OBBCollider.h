@@ -5,7 +5,7 @@
 namespace clt
 {
 	class SphereCollider;
-	class Physics;
+	class ClutterPhysics;
 	class CLUTTER_API OBBCollider : public ColliderComponent
 	{
 		bool CheckOBBvsOBB(OBBCollider* pOther, hitResult& outResult) const;
@@ -18,7 +18,7 @@ namespace clt
 		Vector3 mBoxExtend;
 
 		friend SphereCollider;
-		friend Physics;
+		friend ClutterPhysics;
 	public:
 
 		OBBCollider(Vector3 pBoxExtend);
