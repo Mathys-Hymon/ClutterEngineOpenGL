@@ -1,3 +1,4 @@
+#include "pch.h"
 #define IMGUI_IMPL_OPENGL_LOADER_GLAD
 #include"imgui.h"
 #include"backends/imgui_impl_glfw.h"
@@ -10,6 +11,8 @@
 #include <Input/Inputs.h>
 #include "Window/Window.h"
 #include <GLFW/glfw3.h>
+
+using namespace clt;
 
 EditorApplication::EditorApplication(std::vector<clt::Level*> pLevels, const std::string& configFile)
 {
@@ -25,6 +28,8 @@ void EditorApplication::Init(std::vector<clt::Level*> pLevels, const std::string
 	mEngine->Init(configFile, pLevels);
 	CLUTTER_INFO("Application created");
 
+	mEditor = std::make_unique<clt::ImGuiLayer>();
+
 	if (mEngine->IsEditorMode())
 	{
 		clt::Inputs::Get().MapKeyToAction(EKey::F1, "enableFillMode");
@@ -32,8 +37,6 @@ void EditorApplication::Init(std::vector<clt::Level*> pLevels, const std::string
 		clt::Inputs::Get().RegisterActionCallback("enableWireframeMode", [this] { this->ShowWireframe(); });
 		clt::Inputs::Get().RegisterActionCallback("enableFillMode", [this] { this->ShowLitMode(); });
 	}
-
-
 
 	Run();
 }
@@ -54,10 +57,6 @@ void EditorApplication::Run()
 
 		glfwPollEvents();
 	}
-
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplGlfw_Shutdown();
-	ImGui::DestroyContext();
 }
 
 void EditorApplication::Update()
@@ -67,9 +66,15 @@ void EditorApplication::Update()
 
 void EditorApplication::Render()
 {
+	mEditor.get()->BeginFrame();
 	GetRenderer()->BeginDraw();
+
+	
+	mEditor.get()->DrawUI();
 	GetRenderer()->Draw();
+
 	GetRenderer()->EndDraw();
+	mEditor.get()->EndFrame();
 }
 
 void EditorApplication::ShowWireframe()
@@ -85,5 +90,7 @@ void EditorApplication::ShowLitMode()
 EditorApplication::~EditorApplication()
 {
 	if (mEngine.get()) mEngine->Close();
+	mEngine.reset();
+	mEditor.reset();
 	CLog::Shutdown();
 }

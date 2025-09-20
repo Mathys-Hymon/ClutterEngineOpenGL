@@ -1,11 +1,15 @@
 #pragma once
 #include <Core/CEngine.h>
+#include <Editor/ImGuiLayer.h>
 
+namespace clt
+{
     class Level;
-    class EditorApplication 
-    {
+    class CLUTTER_API EditorApplication {
+
     protected:
         std::unique_ptr<clt::CEngine> mEngine;
+        std::unique_ptr<ImGuiLayer> mEditor;
 
         void Init(std::vector<clt::Level*> pLevels, const std::string& configFile = "Config/project.config.json");
 
@@ -25,3 +29,4 @@
 
         clt::RendererGL* GetRenderer() const { return mEngine->GetRenderer(); }
     };
+}

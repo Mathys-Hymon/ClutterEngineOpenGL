@@ -1,9 +1,9 @@
-#include <Application/Application.h>
+#include <Application/EditorApplication.h>
 #include <Maps/LevelMap.h>
 
 int main()
 {
-    clt::Application app({new LevelMap});
+    clt::EditorApplication app({new LevelMap});
 
     return 0;
 }

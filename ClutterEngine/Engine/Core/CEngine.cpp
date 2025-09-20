@@ -82,7 +82,6 @@ void CEngine::Update()
 
 void CEngine::Close()
 {
-
 	Audio::Get().Shutdown();
 	mRenderer->Close();
 
