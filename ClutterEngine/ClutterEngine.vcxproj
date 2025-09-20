@@ -110,7 +110,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|x64'">
     <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio;Libraries\include\Bullet\bullet</IncludePath>
-    <LibraryPath>Libraries\lib;Libraries\lib\FMOD\Core\x64;Libraries\lib\FMOD\Studio\x64;$(LibraryPath)</LibraryPath>
+    <LibraryPath>Libraries\lib;Libraries\lib\Bullet\Debug;Libraries\lib\FMOD\Core\x64;Libraries\lib\FMOD\Studio\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>Libraries\include;Engine\Header;Libraries\include\FreeType;Libraries\include\glad;Libraries\include\FMOD\Core;Libraries\include\FMOD\Studio</IncludePath>
@@ -282,6 +282,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Engine\Core\Assets\AssetsType\IMaterial.h" />
     <ClInclude Include="Engine\Core\Assets\AssetsType\Material.h" />
     <ClInclude Include="Engine\Core\Assets\AssetsType\MaterialInstance.h" />
+    <ClInclude Include="Engine\Core\Debug\BulletDebugDraw.h" />
     <ClInclude Include="Engine\Graphics\Shader\ShaderProgram.h" />
     <ClInclude Include="Engine\Graphics\UI\Elements\AnimatorElement.h" />
     <ClInclude Include="Engine\Graphics\UI\Elements\ButtonElement.h" />
@@ -360,12 +361,12 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClCompile Include="Engine\Core\Assets\AssetsType\Sound.cpp" />
     <ClCompile Include="Engine\Core\Assets\AssetsType\Material.cpp" />
     <ClCompile Include="Engine\Core\Assets\AssetsType\MaterialInstance.cpp" />
-    <ClCompile Include="Engine\Core\Debug\DebugDraw.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Physics\Collisions\OBBCollider.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Physics\Collisions\ColliderComponent.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\Mesh\MeshComponent.cpp" />
     <ClCompile Include="Engine\Core\Assets\AssetsType\Mesh.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\UI\HUDComponent.cpp" />
+    <ClCompile Include="Engine\Core\Debug\DebugDraw.cpp" />
     <ClCompile Include="Engine\Core\Maths\Color.cpp" />
     <ClCompile Include="Engine\Graphics\Shader\ShaderProgram.cpp" />
     <ClCompile Include="Engine\Graphics\Shader\VertexArray.cpp" />

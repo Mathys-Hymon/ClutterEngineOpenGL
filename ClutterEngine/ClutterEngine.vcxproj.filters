@@ -273,6 +273,9 @@
     <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\Bullet\BulletRigidBody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Core\Debug\BulletDebugDraw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Libraries\include\dll\dllmain.cpp">
@@ -395,9 +398,6 @@
     <ClCompile Include="Engine\Core\Maths\Color.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Core\Debug\DebugDraw.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Core\ActorComponent\Components\Movements\PlayerController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -459,6 +459,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Core\ActorComponent\Components\Physics\Bullet\BulletCollider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\Debug\DebugDraw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

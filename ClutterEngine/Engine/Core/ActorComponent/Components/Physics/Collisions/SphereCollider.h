@@ -6,7 +6,7 @@ namespace clt
 	class OBBCollider;
 	class CLUTTER_API SphereCollider : public ColliderComponent
 	{
-		bool CheckSphereVsSphere(SphereCollider* pOther, hitResult& outResult) const;
+		bool CheckSphereVsSphere(SphereCollider* pOther, HitResult& outResult) const;
 
 		float mRadius;
 	public:
@@ -18,6 +18,6 @@ namespace clt
 		void  SetRadius(float radius) { mRadius = radius; };
 		float GetRadius() const       { return mRadius;   };
 
-		bool CheckCollision(ColliderComponent* pOther, hitResult& outResult) const override;
+		bool CheckCollision(ColliderComponent* pOther, HitResult& outResult) const override;
 	};
 }

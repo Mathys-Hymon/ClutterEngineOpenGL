@@ -18,11 +18,11 @@ OBBCollider::OBBCollider(float pBoxExtend) : ColliderComponent(), mBoxExtend(pBo
     mBoxExtend /= 10;
 }
 
-bool OBBCollider::CheckOBBvsOBB(OBBCollider* pOther, hitResult& outResult) const
+bool OBBCollider::CheckOBBvsOBB(OBBCollider* pOther, HitResult& outResult) const
 {
     if (!pOther)
     {
-        DebugDraw::Get().DrawBox(GetWorldLocation(), mBoxExtend * GetWorldScale(), Color::Green, 2, GetWorldRotation());
+        //DebugDraw::Get().DrawBox(GetWorldLocation(), mBoxExtend * GetWorldScale(), Color::Green, 2, GetWorldRotation());
         return false;
     }
 
@@ -84,8 +84,8 @@ bool OBBCollider::CheckOBBvsOBB(OBBCollider* pOther, hitResult& outResult) const
     {
         if (!TestAxis(axesA[i]))
         {
-            DebugDraw::Get().DrawBox(centerA, mBoxExtend * GetWorldScale(), Color::Red, 2, GetWorldRotation());
-            DebugDraw::Get().DrawBox(centerB, pOther->mBoxExtend * pOther->GetWorldScale(), Color::Red, 2, pOther->GetWorldRotation());
+            //DebugDraw::Get().DrawBox(centerA, mBoxExtend * GetWorldScale(), Color::Red, 2, GetWorldRotation());
+            //DebugDraw::Get().DrawBox(centerB, pOther->mBoxExtend * pOther->GetWorldScale(), Color::Red, 2, pOther->GetWorldRotation());
             return false;
         }
     }
@@ -93,8 +93,8 @@ bool OBBCollider::CheckOBBvsOBB(OBBCollider* pOther, hitResult& outResult) const
     {
         if (!TestAxis(axesB[i]))
         {
-            DebugDraw::Get().DrawBox(centerA, mBoxExtend * GetWorldScale(), Color::Red, 2, GetWorldRotation());
-            DebugDraw::Get().DrawBox(centerB, pOther->mBoxExtend * pOther->GetWorldScale(), Color::Red, 2, pOther->GetWorldRotation());
+            //DebugDraw::Get().DrawBox(centerA, mBoxExtend * GetWorldScale(), Color::Red, 2, GetWorldRotation());
+            //DebugDraw::Get().DrawBox(centerB, pOther->mBoxExtend * pOther->GetWorldScale(), Color::Red, 2, pOther->GetWorldRotation());
             return false;
         }
     }
@@ -105,8 +105,8 @@ bool OBBCollider::CheckOBBvsOBB(OBBCollider* pOther, hitResult& outResult) const
             Vector3 axis = Vector3::Cross(axesA[i], axesB[j]);
             if (!TestAxis(axis))
             {
-                DebugDraw::Get().DrawBox(centerA, mBoxExtend * GetWorldScale(), Color::Red, 2, GetWorldRotation());
-                DebugDraw::Get().DrawBox(centerB, pOther->mBoxExtend * pOther->GetWorldScale(), Color::Red, 2, pOther->GetWorldRotation());
+                //DebugDraw::Get().DrawBox(centerA, mBoxExtend * GetWorldScale(), Color::Red, 2, GetWorldRotation());
+                //DebugDraw::Get().DrawBox(centerB, pOther->mBoxExtend * pOther->GetWorldScale(), Color::Red, 2, pOther->GetWorldRotation());
                 return false;
             }
         }
@@ -120,15 +120,15 @@ bool OBBCollider::CheckOBBvsOBB(OBBCollider* pOther, hitResult& outResult) const
     outResult.ColliderA = const_cast<OBBCollider*>(this);
     outResult.ColliderB = pOther;
 
-    DebugDraw::Get().DrawBox(outResult.Point, 0.01f, Color::Red, 5);
+    //DebugDraw::Get().DrawBox(outResult.Point, 0.01f, Color::Red, 5);
 
-    DebugDraw::Get().DrawBox(centerA, mBoxExtend * GetWorldScale(), Color::Green, 2, GetWorldRotation());
-    DebugDraw::Get().DrawBox(centerB, pOther->mBoxExtend * pOther->GetWorldScale(), Color::Green, 2, pOther->GetWorldRotation());
+    //DebugDraw::Get().DrawBox(centerA, mBoxExtend * GetWorldScale(), Color::Green, 2, GetWorldRotation());
+    //DebugDraw::Get().DrawBox(centerB, pOther->mBoxExtend * pOther->GetWorldScale(), Color::Green, 2, pOther->GetWorldRotation());
 
     return true;
 }
 
-bool OBBCollider::CheckOBBvsSphere(SphereCollider* pOther, hitResult& outResult) const
+bool OBBCollider::CheckOBBvsSphere(SphereCollider* pOther, HitResult& outResult) const
 {
     if (!pOther)
         return false;
@@ -177,7 +177,7 @@ bool OBBCollider::CheckOBBvsSphere(SphereCollider* pOther, hitResult& outResult)
     if (distSq > sphereRadius * sphereRadius)
     {
         // No collision: draw the OBB in red for debugging
-        DebugDraw::Get().DrawBox(obbCenter, mBoxExtend * GetWorldScale(), Color::Red, 2, GetWorldRotation());
+        //DebugDraw::Get().DrawBox(obbCenter, mBoxExtend * GetWorldScale(), Color::Red, 2, GetWorldRotation());
         return false;
     }
 
@@ -200,7 +200,7 @@ bool OBBCollider::CheckOBBvsSphere(SphereCollider* pOther, hitResult& outResult)
     outResult.ColliderB = pOther;
 
     // Debug: draw the contact point
-    DebugDraw::Get().DrawBox(closestPoint, 0.01f, Color::Red, 5);
+    //DebugDraw::Get().DrawBox(closestPoint, 0.01f, Color::Red, 5);
 
     return true;
 }
@@ -287,7 +287,7 @@ Vector3 OBBCollider::ComputeHitPoint(const OBBCollider* boxB) const
     return centroid / static_cast<float>(contactPoints.size());
 }
 
-bool OBBCollider::CheckCollision(ColliderComponent* pOther, hitResult& outResult) const
+bool OBBCollider::CheckCollision(ColliderComponent* pOther, HitResult& outResult) const
 {
 	if (pOther->GetType() == ColliderType::OBB) return CheckOBBvsOBB(static_cast<OBBCollider*>(pOther), outResult);
 	else if (pOther->GetType() == ColliderType::Sphere) return CheckOBBvsSphere(static_cast<SphereCollider*>(pOther), outResult);

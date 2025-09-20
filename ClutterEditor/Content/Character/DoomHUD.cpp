@@ -71,7 +71,7 @@ bool DoomHUD::TriggerShoot(int ammo)
 		GetCurrentWidget()->GetElement<clt::AnimatorElement>("playerWeapon")->PlayAnim("pistolShoot");
 		GetCurrentWidget()->GetElement<clt::TextElement>("ammoText")->SetText(ammo);
 
-		raycastHit hitResult;
+		RaycastHit hitResult;
 
 		LineTrace(GetWorldLocation(), GetWorldTransform().Forward(), 150, hitResult);
 

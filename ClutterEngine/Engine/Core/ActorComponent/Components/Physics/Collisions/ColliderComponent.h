@@ -28,7 +28,7 @@ namespace clt
 
 		void Subscribe(class ICollisionListener* listener) const;
 
-		virtual bool CheckCollision(ColliderComponent* pOther, hitResult& outResult) const = 0;
+		virtual bool CheckCollision(ColliderComponent* pOther, HitResult& outResult) const = 0;
 		const ColliderType GetType() const { return mType; };
 
 		bool IsTrigger() const { return mTrigger; };

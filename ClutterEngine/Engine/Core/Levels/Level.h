@@ -68,8 +68,6 @@ namespace clt
         };
 
         void OpenLevel(const std::string& pLevelName);
-
-        bool LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant = false, Actor* self = nullptr);
         /**
          * @brief Internal update function called by the engine.
          */

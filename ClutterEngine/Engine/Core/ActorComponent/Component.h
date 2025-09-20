@@ -23,9 +23,10 @@ namespace clt
             Start();
         };
 
-        bool LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant = false)
+        bool LineTrace(const Vector3& start, const Vector3& direction, float maxDistance, RaycastHit& outHit, const TraceParams& params)
         {
-            return mOwner->LineTrace(start, direction, maxDistance, hit, debugPersistant);
+            if (mOwner) return mOwner->LineTrace(start, direction, maxDistance, outHit, params);
+            else return false;
         };
 
     public:

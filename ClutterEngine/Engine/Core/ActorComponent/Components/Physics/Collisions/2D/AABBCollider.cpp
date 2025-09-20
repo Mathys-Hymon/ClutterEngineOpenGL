@@ -15,7 +15,7 @@ AABBCollider::AABBCollider(float pBoxExtend) : mBoxExtend(pBoxExtend)
    mType = ColliderType::AABB;  
 }  
 
-bool AABBCollider::CheckCollision(ColliderComponent* pOther, hitResult& outResult) const  
+bool AABBCollider::CheckCollision(ColliderComponent* pOther, HitResult& outResult) const  
 {  
    if (pOther->GetType() == ColliderType::AABB)  
    {  
@@ -27,7 +27,7 @@ bool AABBCollider::CheckCollision(ColliderComponent* pOther, hitResult& outResul
    }  
 }  
 
-bool AABBCollider::CheckAABBvsAABB(AABBCollider* pOther, hitResult& outResult) const 
+bool AABBCollider::CheckAABBvsAABB(AABBCollider* pOther, HitResult& outResult) const 
 {
     // Get the transformed points of both AABBs
     auto pointsA = GetTransformedPoints();
@@ -159,7 +159,7 @@ bool AABBCollider::CheckAABBvsAABB(AABBCollider* pOther, hitResult& outResult) c
     return true;
 }
 
-bool AABBCollider::CheckAABBvsCircle(CircleCollider* pOther, hitResult& outResult) const  
+bool AABBCollider::CheckAABBvsCircle(CircleCollider* pOther, HitResult& outResult) const  
 {  
     return false;
 }  

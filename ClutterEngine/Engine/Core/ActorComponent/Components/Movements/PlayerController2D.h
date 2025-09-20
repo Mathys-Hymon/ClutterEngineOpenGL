@@ -51,18 +51,18 @@ namespace clt
 * @brief Called when a collision starts.
 * @param result The result of the collision.
 */
-       virtual void OnCollisionEnter(ColliderComponent* collider, const hitResult& result) override;
+       virtual void OnCollisionEnter(ColliderComponent* collider, const HitResult& result) override;
 
        /**
         * @brief Called when a collision stays.
         * @param result The result of the collision.
         */
-       virtual void OnCollisionStay(ColliderComponent* collider, const hitResult& result) override;
+       virtual void OnCollisionStay(ColliderComponent* collider, const HitResult& result) override;
 
        /**
         * @brief Called when a collision ends.
         * @param result The result of the collision.
         */
-       virtual void OnCollisionExit(ColliderComponent* collider, const hitResult& result) override;
+       virtual void OnCollisionExit(ColliderComponent* collider, const HitResult& result) override;
    };  
 }

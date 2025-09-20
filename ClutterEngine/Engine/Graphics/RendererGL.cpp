@@ -4,7 +4,6 @@
 #include<Core/ActorComponent/Components/Graphics/Mesh/MeshComponent.h>  
 #include <Graphics/UI/WidgetElement.h>
 #include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
-#include <Core/Debug/DebugDraw.h>
 #include <Core/ActorComponent/ChildActors/EditorCamera.h>
 #include <Core/CEngine.h>
 #include <GLFW/glfw3.h>
@@ -57,7 +56,6 @@ void RendererGL::Initialize(CEngine* pEngine, Color backgroundColor)
     Vector2 windowSize = Window::Get().GetDimensions();
 
     mUiViewProj = Matrix4Row::CreateOrtho(windowSize.x, windowSize.y, -1, 100000);
-    DebugDraw::Get().Start(mEngine);
 
     mTextShader.Use();
     mTextShader.SetMat4Row("uViewProj", mUiViewProj);
@@ -199,7 +197,6 @@ void RendererGL::Draw()
 
         comp->Draw(viewProj);
     }
-    DebugDraw::Get().Draw(viewProj);
 
     mSpriteShader.Use();
 

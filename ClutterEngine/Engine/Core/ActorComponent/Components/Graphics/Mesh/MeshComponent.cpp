@@ -88,12 +88,9 @@ void MeshComponent::SetTexture(std::string textureName, std::weak_ptr<Texture> t
 {
     if (!mMaterial.get())
     {
-        std::string tempName = "MI_Mesh_" + Maths::Rand(0, 999);
+        std::string tempName = "MI_Mesh_" + std::to_string(Maths::Rand(0, 999));
 
-        while (Assets::Get().GetMaterial(tempName).get())
-        {
-            tempName = "MI_Mesh_" + Maths::Rand(0, 999);
-        }
+        while (Assets::Get().GetMaterial(tempName)) tempName = "MI_Mesh_" + std::to_string(Maths::Rand(0, 999));
 
         mMaterial = Assets::Get().CreateMaterialInstance(tempName, mMesh.lock()->GetMaterial());
     }
@@ -107,11 +104,11 @@ void MeshComponent::SetTexture(std::string textureName, std::string& texture, Ve
 
     if (!mMaterial)
     {
-        std::string tempName = "MI_Mesh_" + Maths::Rand(0, 999);
+        std::string tempName = "MI_Mesh_" + std::to_string(Maths::Rand(0, 999));
 
         while (Assets::Get().GetMaterial(tempName).get())
         {
-            tempName = "MI_Mesh_" + Maths::Rand(0, 999);
+            tempName = "MI_Mesh_" + std::to_string(Maths::Rand(0, 999));
         }
 
         mMaterial = Assets::Get().CreateMaterialInstance(tempName, mMesh.lock().get()->GetMaterial());

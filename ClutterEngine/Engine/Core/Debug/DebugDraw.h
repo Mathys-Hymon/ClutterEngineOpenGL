@@ -11,9 +11,7 @@ namespace clt
 	class RendererGL;
 	class CLUTTER_API DebugDraw
 	{
-		DebugDraw() = default;
-
-		CEngine* mEngine;
+	protected:
 
 		struct Line
 		{
@@ -40,43 +38,22 @@ namespace clt
 			float lineWidth = 1;
 		};
 
-		std::vector<Line> mLines;
-		std::vector<Line> mPersistantLines;
-
-		std::vector<Box> mBoxes;
-		std::vector<Box> mPersistantBoxes;
-
-		std::vector<Sphere> mSpheres;
-		std::vector<Sphere> mPersistantSpheres;
-
-		ShaderProgram* mShader;
-		VertexArray* mCubeVAO;
-		VertexArray* mSphereVAO;
-
-		GLuint mLineVAO;
-		GLuint mLineVBO;
-
-		void Start(CEngine* pEngine);
-		void Draw(Matrix4Row viewProj);
-		void Close();
-
-		friend RendererGL;
-
 	public:
 
-		DebugDraw(const DebugDraw&) = delete;
-		DebugDraw& operator=(const DebugDraw&) = delete;
+		DebugDraw() = default;
+		~DebugDraw() = default;
 
-		static DebugDraw& Get();
+		void Start();
+		void Draw(const Matrix4Row& viewProj);
+		void Close();
 
 		void DrawLine(const Vector3& start, const Vector3& end, const Color& color = Color::Red, float lineThickness = 1, bool persistant = false);
 
-		void DrawBox(const Vector3& center, const Vector3& extents, const Color& color = Color::Red, float lineThickness = 1, const Quaternion & rotation = Quaternion::Identity, bool persistant = false);
+		void DrawBox(const Vector3& center, const Vector3& extents, const Color& color = Color::Red, float lineThickness = 1, const Quaternion& rotation = Quaternion::Identity, bool persistant = false);
 
 		void DrawSphere(const Vector3& center, float radius, const Color& color = Color::Red, float lineThickness = 1, bool persistant = false);
 
 		void FlushPersistantDraw();
-
 		void FlushPersistantLines();
 		void FlushPersistantBoxes();
 		void FlushPersistantSpheres();

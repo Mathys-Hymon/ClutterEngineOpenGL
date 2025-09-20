@@ -4,7 +4,7 @@
 
 using namespace clt;
 
-bool SphereCollider::CheckSphereVsSphere(SphereCollider* pOther, hitResult& outResult) const
+bool SphereCollider::CheckSphereVsSphere(SphereCollider* pOther, HitResult& outResult) const
 {
     if (!pOther)
         return false;
@@ -22,9 +22,6 @@ bool SphereCollider::CheckSphereVsSphere(SphereCollider* pOther, hitResult& outR
 
     if (distSq > radiusSum * radiusSum)
     {
-        // No collision: draw the spheres in red for debugging
-        DebugDraw::Get().DrawSphere(centerA, radiusA, Color::Red, 2);
-        DebugDraw::Get().DrawSphere(centerB, radiusB, Color::Red, 2);
         return false;
     }
 
@@ -50,9 +47,6 @@ bool SphereCollider::CheckSphereVsSphere(SphereCollider* pOther, hitResult& outR
     outResult.ColliderA = const_cast<SphereCollider*>(this);
     outResult.ColliderB = pOther;
 
-    // Debug: draw the contact point as a small sphere
-    DebugDraw::Get().DrawSphere(contactPoint, 0.01f, Color::Red, 5);
-
     return true;
 }
 
@@ -63,7 +57,7 @@ SphereCollider::SphereCollider(float radius) : mRadius(radius)
     mRadius /= 10;
 }
 
-bool SphereCollider::CheckCollision(ColliderComponent* pOther, hitResult& outResult) const
+bool SphereCollider::CheckCollision(ColliderComponent* pOther, HitResult& outResult) const
 {
     if (pOther->GetType() == ColliderType::OBB)
     {

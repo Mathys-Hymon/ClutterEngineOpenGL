@@ -57,7 +57,7 @@ void Zombie::Update()
                 if (!mShooted)
                 {
                     mShooted = true;
-                    raycastHit hitResult;
+                    RaycastHit hitResult;
 
                     LineTrace(GetActorLocation(), -mAnimator->GetWorldTransform().Forward(), 150, hitResult);
 

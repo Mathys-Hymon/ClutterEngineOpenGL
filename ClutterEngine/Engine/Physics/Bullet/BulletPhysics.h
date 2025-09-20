@@ -24,7 +24,7 @@ namespace clt
 	    void AddRigidbody(IRigidbody*) override;
 	    void RemoveRigidBody(IRigidbody* body) override;
 	   
-	    bool LineTrace(const Vector3& start, const Vector3& direction, float maxDistance, raycastHit& hit, bool debugPersistant = false, Actor* self = nullptr) override;
+	    bool LineTrace(const Vector3& start, const Vector3& direction, float maxDistance, RaycastHit& outHit, const TraceParams& params, Actor* self) override;
 
 		btDiscreteDynamicsWorld* GetWorld() { return mDynamicsWorld; }
 	};

@@ -20,8 +20,8 @@ namespace clt
 		Vector3 mGravity; ///< The gravity vector applied to all rigid bodies.
 
 		std::set<std::pair<ColliderComponent*, ColliderComponent*>> mPreviousCollisions;
-		std::vector<hitResult> mCurrentFrameCollisions; ///< Collisions detected in the current frame.
-		std::vector<hitResult> mPreviousFrameCollisions; ///< Collisions detected in the previous frame.
+		std::vector<HitResult> mCurrentFrameCollisions; ///< Collisions detected in the current frame.
+		std::vector<HitResult> mPreviousFrameCollisions; ///< Collisions detected in the previous frame.
 
 		/**
    * @brief Checks for collisions between colliders.
@@ -49,7 +49,7 @@ namespace clt
    */
 		~ClutterPhysics() = default;
 
-		bool LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant = false, Actor* self = nullptr);
+		bool LineTrace(Vector3 start, Vector3 direction, float maxDistance, RaycastHit& hit, bool debugPersistant = false, Actor* self = nullptr);
 
 		void AddCollider(ColliderComponent* pCollider);
 

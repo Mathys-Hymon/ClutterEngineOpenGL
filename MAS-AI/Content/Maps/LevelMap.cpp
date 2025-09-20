@@ -33,9 +33,9 @@ void LevelMap::Update()
 	{
 		tempTime = 0;
 
-		std::string name = "actor " + Maths::Rand(0, 100);
+		//std::string name = "actor " + Maths::Rand(0, 100);
 
-		auto temp = AddActor<clt::CubeActor>(name, clt::Assets::Get().GetTexture("floor"), false, Vector2{ 100,100 });
+		auto temp = AddActor<clt::CubeActor>("test");
 		temp->SetActorLocation({ Maths::Rand(-2.0f,2.0f), 100, Maths::Rand(-2.0f,2.0f) });
 		temp->AddComponent<clt::BulletRigidBody>();
 	}

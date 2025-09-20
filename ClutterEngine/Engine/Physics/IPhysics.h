@@ -16,6 +16,6 @@ namespace clt
 		virtual void AddRigidbody(IRigidbody* body) = 0;
 		virtual void RemoveRigidBody(IRigidbody* body) = 0;
 
-		virtual bool LineTrace(const Vector3& start, const Vector3& direction, float maxDistance, raycastHit& hit, bool debugPersistant = false, Actor* self = nullptr) = 0;
+		virtual bool LineTrace(const Vector3& start, const Vector3& direction, float maxDistance, RaycastHit& outHit, const TraceParams& params, Actor* self) = 0;
 	};
 }

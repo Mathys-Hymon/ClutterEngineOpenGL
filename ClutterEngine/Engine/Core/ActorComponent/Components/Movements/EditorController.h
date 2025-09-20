@@ -26,12 +26,12 @@ namespace clt
 		void Rotation(Vector2 pRotation);
 		void ChangeSpeed(float pOffset);
 
-		virtual void OnCollisionEnter(ColliderComponent* collider, const hitResult& result) override {};
-		virtual void OnCollisionStay(ColliderComponent* collider, const hitResult& result)  override {};
-		virtual void OnCollisionExit(ColliderComponent* collider, const hitResult& result)  override {};
+		virtual void OnCollisionEnter(ColliderComponent* collider, const HitResult& result) override {};
+		virtual void OnCollisionStay(ColliderComponent* collider, const HitResult& result)  override {};
+		virtual void OnCollisionExit(ColliderComponent* collider, const HitResult& result)  override {};
 
-		virtual void OnTriggerEnter(ColliderComponent* collider, const hitResult& result)override {};
-		virtual void OnTriggerStay(ColliderComponent* collider, const hitResult& result) override {};
-		virtual void OnTriggerExit(ColliderComponent* collider, const hitResult& result) override {};
+		virtual void OnTriggerEnter(ColliderComponent* collider, const HitResult& result)override {};
+		virtual void OnTriggerStay(ColliderComponent* collider, const HitResult& result) override {};
+		virtual void OnTriggerExit(ColliderComponent* collider, const HitResult& result) override {};
 	};
 }

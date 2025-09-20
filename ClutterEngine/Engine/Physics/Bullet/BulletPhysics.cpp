@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "BulletPhysics.h"
 #include <Core/ActorComponent/Components/Physics/Bullet/BulletRigidBody.h>
 #include <Core/ActorComponent/Components/Physics/Bullet/BulletCollider.h>
@@ -57,7 +57,47 @@ void BulletPhysics::RemoveRigidBody(IRigidbody* body)
     delete bulletRb;
 }
 
-bool BulletPhysics::LineTrace(const Vector3& start, const Vector3& direction, float maxDistance, raycastHit& hit, bool debugPersistant, Actor* self)
+bool BulletPhysics::LineTrace(const Vector3& start, const Vector3& direction, float maxDistance, RaycastHit& outHit, const TraceParams& params, Actor* self)
 {
+    if (!mDynamicsWorld) return false;
+
+    Vector3 end = start + direction.Normalized() * maxDistance;
+
+    btVector3 btStart(start.x, start.y, start.z);
+    btVector3 btEnd(end.x, end.y, end.z);
+
+    btCollisionWorld::ClosestRayResultCallback rayCallback(btStart, btEnd);
+
+    rayCallback.m_collisionFilterGroup = static_cast<int>(params.Channel);
+    rayCallback.m_collisionFilterMask = params.CollisionMask;
+
+    mDynamicsWorld->rayTest(btStart, btEnd, rayCallback);
+
+    if (rayCallback.hasHit())
+    {
+        const btCollisionObject* obj = rayCallback.m_collisionObject;
+        if (obj)
+        {
+            auto* actorPtr = static_cast<Actor*>(obj->getUserPointer());
+
+            if (params.IgnoreActor && actorPtr == self) return false;
+
+            outHit.HitResult = true;
+            outHit.Actor = actorPtr;
+
+            if (actorPtr) outHit.Collider = actorPtr->GetComponentOfType<ColliderComponent>();
+
+            btVector3 point = rayCallback.m_hitPointWorld;
+            btVector3 normal = rayCallback.m_hitNormalWorld;
+
+            outHit.Point = Vector3(point.x(), point.y(), point.z());
+            outHit.Normal = Vector3(normal.x(), normal.y(), normal.z());
+            outHit.Distance = (outHit.Point - start).Length();
+
+            return true;
+        }
+    }
+
+    outHit.HitResult = false;
     return false;
 }

@@ -2,6 +2,7 @@
 #include <Core/ActorComponent/Actor.h>                // Include Actor header
 #include <Core/ActorComponent/Component.h>
 #include "Core/Levels/Level.h"
+#include <Physics/IPhysics.h>
 
 using namespace clt;                                  // Use clt namespace
 
@@ -27,13 +28,13 @@ Actor::~Actor()
    mComponentsToAdd.clear();
    mComponentsToRemove.clear();
 }
-bool Actor::LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant, bool ignoreSelf)
+bool Actor::LineTrace(const Vector3& start, const Vector3& direction, float maxDistance, RaycastHit& outHit, const TraceParams& params)
 {
     Actor* temp = nullptr;
 
-    if (ignoreSelf) temp = this;
+    if (params.IgnoreActor) temp = this;
 
-    return mLevel->LineTrace(start, direction, maxDistance, hit, debugPersistant, temp);
+    return mLevel->GetPhysics().LineTrace(start, direction, maxDistance, outHit, params, temp);
 }
 
 // Internal method to add a component

@@ -7,11 +7,9 @@
 using namespace clt;
 
 // Constructor initializing gravity vector
-ClutterPhysics::ClutterPhysics() : mGravity({ 0.0f, -9.81f, 0.0f })
-{
-}
+ClutterPhysics::ClutterPhysics() : mGravity({ 0.0f, -9.81f, 0.0f }) {}
 
-bool ClutterPhysics::LineTrace(Vector3 start, Vector3 direction, float maxDistance, raycastHit& hit, bool debugPersistant, Actor* self)
+bool ClutterPhysics::LineTrace(Vector3 start, Vector3 direction, float maxDistance, RaycastHit& hit, bool debugPersistant, Actor* self)
 {
     hit.Distance = maxDistance;
 
@@ -116,18 +114,18 @@ bool ClutterPhysics::LineTrace(Vector3 start, Vector3 direction, float maxDistan
         }
     }
 
-    if (hit.Actor)
-    {
-        hit.hitResult = true;
-        DebugDraw::Get().DrawLine(start, hit.Point, Color::Red, 3.0f, debugPersistant);
-        DebugDraw::Get().DrawLine(hit.Point, end, Color::Green, 3.0f, debugPersistant);
+    //if (hit.Actor)
+    //{
+    //    hit.HitResult = true;
+    //    DebugDraw::Get().DrawLine(start, hit.Point, Color::Red, 3.0f, debugPersistant);
+    //    DebugDraw::Get().DrawLine(hit.Point, end, Color::Green, 3.0f, debugPersistant);
 
-        DebugDraw::Get().DrawBox(hit.Point, 0.05f, Color::Red, 3.0f, Quaternion::FromEuler(hit.Normal), debugPersistant);
-    }
-    else DebugDraw::Get().DrawLine(start, end, Color::Red, 3.0f, debugPersistant);
+    //    DebugDraw::Get().DrawBox(hit.Point, 0.05f, Color::Red, 3.0f, Quaternion::FromEuler(hit.Normal), debugPersistant);
+    //}
+    //else DebugDraw::Get().DrawLine(start, end, Color::Red, 3.0f, debugPersistant);
 
 
-    return hit.hitResult;
+    return hit.HitResult;
 }
 
 // Adds a collider to the physics engine
@@ -219,7 +217,7 @@ void ClutterPhysics::CheckCollisions()
         {
             ColliderComponent* a = mColliders[i];
             ColliderComponent* b = mColliders[j];
-            hitResult result;
+            HitResult result;
 
             if (a->CheckCollision(b, result))
             {
@@ -320,7 +318,7 @@ void ClutterPhysics::DispatchEvents()
 {
     std::set<std::pair<ColliderComponent*, ColliderComponent*>> currentCollisions;
 
-    for (hitResult& result : mCurrentFrameCollisions)
+    for (HitResult& result : mCurrentFrameCollisions)
     {
         auto colliderPair = (result.ColliderA < result.ColliderB)
             ? std::make_pair(result.ColliderA, result.ColliderB)
@@ -334,7 +332,7 @@ void ClutterPhysics::DispatchEvents()
     {
         if (!mPreviousCollisions.count(colliderPair))
         {
-            for (hitResult& result : mCurrentFrameCollisions)
+            for (HitResult& result : mCurrentFrameCollisions)
             {
                 if ((result.ColliderA == colliderPair.first && result.ColliderB == colliderPair.second) ||
                     (result.ColliderA == colliderPair.second && result.ColliderB == colliderPair.first))
@@ -365,7 +363,7 @@ void ClutterPhysics::DispatchEvents()
     {
         if (currentCollisions.count(colliderPair))
         {
-            for (hitResult& result : mCurrentFrameCollisions)
+            for (HitResult& result : mCurrentFrameCollisions)
             {
                 if ((result.ColliderA == colliderPair.first && result.ColliderB == colliderPair.second) ||
                     (result.ColliderB == colliderPair.second && result.ColliderB == colliderPair.first))
@@ -396,7 +394,7 @@ void ClutterPhysics::DispatchEvents()
     {
         if (!currentCollisions.count(colliderPair))
         {
-            for (hitResult& prevResult : mPreviousFrameCollisions)
+            for (HitResult& prevResult : mPreviousFrameCollisions)
             {
                 if ((prevResult.ColliderA == colliderPair.first && prevResult.ColliderB == colliderPair.second) ||
                     (prevResult.ColliderA == colliderPair.second && prevResult.ColliderB == colliderPair.first))

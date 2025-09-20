@@ -7,6 +7,7 @@
  * @param interpSpeed The interpolation speed.
  * @return The interpolated vector.
  */
+#include <Core/CCommon.h>
 #include <algorithm>
 #include "cmath"
 #include <glm/glm.hpp>

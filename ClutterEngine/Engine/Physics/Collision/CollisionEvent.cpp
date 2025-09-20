@@ -23,7 +23,7 @@ void CollisionEvent::UnSubscribe(ICollisionListener* pListener)
 	}
 }
 
-void CollisionEvent::NotifyEnter(ColliderComponent* collider, hitResult& result)
+void CollisionEvent::NotifyEnter(ColliderComponent* collider, HitResult& result)
 {
 	for (ICollisionListener* listener : mListeners)
 	{
@@ -31,7 +31,7 @@ void CollisionEvent::NotifyEnter(ColliderComponent* collider, hitResult& result)
 	}	
 }
 
-void CollisionEvent::NotifyStay(ColliderComponent* collider, hitResult& result)
+void CollisionEvent::NotifyStay(ColliderComponent* collider, HitResult& result)
 {
 	for (ICollisionListener* listener : mListeners)
 	{
@@ -39,7 +39,7 @@ void CollisionEvent::NotifyStay(ColliderComponent* collider, hitResult& result)
 	}
 }
 
-void CollisionEvent::NotifyExit(ColliderComponent* collider, hitResult& result)
+void CollisionEvent::NotifyExit(ColliderComponent* collider, HitResult& result)
 {
 	for (ICollisionListener* listener : mListeners)
 	{
@@ -47,7 +47,7 @@ void CollisionEvent::NotifyExit(ColliderComponent* collider, hitResult& result)
 	}
 }
 
-void CollisionEvent::TriggerEnter(ColliderComponent* collider, hitResult& result)
+void CollisionEvent::TriggerEnter(ColliderComponent* collider, HitResult& result)
 {
 	for (ICollisionListener* listener : mListeners)
 	{
@@ -55,7 +55,7 @@ void CollisionEvent::TriggerEnter(ColliderComponent* collider, hitResult& result
 	}
 }
 
-void CollisionEvent::TriggerStay(ColliderComponent* collider, hitResult& result)
+void CollisionEvent::TriggerStay(ColliderComponent* collider, HitResult& result)
 {
 	for (ICollisionListener* listener : mListeners)
 	{
@@ -63,7 +63,7 @@ void CollisionEvent::TriggerStay(ColliderComponent* collider, hitResult& result)
 	}
 }
 
-void CollisionEvent::TriggerExit(ColliderComponent* collider, hitResult& result)
+void CollisionEvent::TriggerExit(ColliderComponent* collider, HitResult& result)
 {
 	for (ICollisionListener* listener : mListeners)
 	{

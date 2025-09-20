@@ -7,7 +7,7 @@ namespace clt
 	{
 		float mRadius;
 
-		bool CheckCircleVsCircle(CircleCollider* pOther, hitResult& outResult) const;
+		bool CheckCircleVsCircle(CircleCollider* pOther, HitResult& outResult) const;
 
 	public:
 		 CircleCollider(float pRadius = 32);
@@ -15,6 +15,6 @@ namespace clt
 
 		float GetRadius() const { return mRadius; };
 
-		bool CheckCollision(ColliderComponent* pOther, hitResult& outResult) const override;
+		bool CheckCollision(ColliderComponent* pOther, HitResult& outResult) const override;
 	};
 }

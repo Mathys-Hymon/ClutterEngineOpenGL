@@ -9,7 +9,7 @@ CircleCollider::CircleCollider(float pRadius) : mRadius(pRadius)
 	mType = ColliderType::Circle;
 }
 
-bool CircleCollider::CheckCollision(ColliderComponent* pOther, hitResult& outResult) const
+bool CircleCollider::CheckCollision(ColliderComponent* pOther, HitResult& outResult) const
 {
 	if (pOther->GetType() == ColliderType::Circle)
 	{
@@ -23,7 +23,7 @@ bool CircleCollider::CheckCollision(ColliderComponent* pOther, hitResult& outRes
 	}
 }
 
-bool CircleCollider::CheckCircleVsCircle(CircleCollider* pOther, hitResult& outResult) const
+bool CircleCollider::CheckCircleVsCircle(CircleCollider* pOther, HitResult& outResult) const
 {
 	CircleCollider* other = static_cast<CircleCollider*>(pOther);
 	Vector2 delta = other->GetWorldLocation().xy() - GetWorldLocation().xy();

@@ -15,12 +15,12 @@ namespace clt
 		void Subscribe(ICollisionListener* pListener);
 		void UnSubscribe(ICollisionListener* pListener);
 
-		void NotifyEnter(ColliderComponent* collider, hitResult& result);
-		void NotifyStay(ColliderComponent* collider, hitResult& result);
-		void NotifyExit(ColliderComponent* collider, hitResult& result);
+		void NotifyEnter(ColliderComponent* collider, HitResult& result);
+		void NotifyStay(ColliderComponent* collider, HitResult& result);
+		void NotifyExit(ColliderComponent* collider, HitResult& result);
 
-		void TriggerEnter(ColliderComponent* collider, hitResult& result);
-		void TriggerStay(ColliderComponent* collider, hitResult& result);
-		void TriggerExit(ColliderComponent* collider, hitResult& result);
+		void TriggerEnter(ColliderComponent* collider, HitResult& result);
+		void TriggerStay(ColliderComponent* collider, HitResult& result);
+		void TriggerExit(ColliderComponent* collider, HitResult& result);
 	};
 }

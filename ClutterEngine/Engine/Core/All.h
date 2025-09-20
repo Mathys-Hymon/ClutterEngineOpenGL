@@ -36,7 +36,7 @@
 
 #include <Core/Assets/Assets.h>
 
-#include <Core/Debug/DebugDraw.h>
+#include <Core/Debug/BulletDebugDraw.h>
 #include <Core/Debug/CLog/CLog.h>
 
 #include <Core/Levels/LevelManager.h>

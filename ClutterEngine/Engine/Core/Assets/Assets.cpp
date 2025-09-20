@@ -221,7 +221,7 @@ std::shared_ptr<IMaterial> Assets::GetMaterial(const std::string& pName)
     auto it = mMaterials.find(pName);
     if (it == mMaterials.end())
     {
-        CLUTTER_WARNING(("Unable to find Texture: " + pName).c_str());
+        CLUTTER_WARNING(("Unable to find Material: " + pName).c_str());
 
         return nullptr;
     }

@@ -8,8 +8,8 @@ namespace clt
 	class ClutterPhysics;
 	class CLUTTER_API OBBCollider : public ColliderComponent
 	{
-		bool CheckOBBvsOBB(OBBCollider* pOther, hitResult& outResult) const;
-		bool CheckOBBvsSphere(SphereCollider* pOther, hitResult& outResult) const;
+		bool CheckOBBvsOBB(OBBCollider* pOther, HitResult& outResult) const;
+		bool CheckOBBvsSphere(SphereCollider* pOther, HitResult& outResult) const;
 
 		void GetOBBAxis(Vector3 (&axes)[3]) const;
 
@@ -31,6 +31,6 @@ namespace clt
 
 		Vector3 GetBoxExtend() const { return mBoxExtend; };
 
-		bool CheckCollision(ColliderComponent* pOther, hitResult& outResult) const override;
+		bool CheckCollision(ColliderComponent* pOther, HitResult& outResult) const override;
 	};
 }
