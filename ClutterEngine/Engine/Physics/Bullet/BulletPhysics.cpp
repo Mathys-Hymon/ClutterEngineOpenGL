@@ -2,11 +2,15 @@
 #include "BulletPhysics.h"
 #include <Core/ActorComponent/Components/Physics/Bullet/BulletRigidBody.h>
 #include <Core/ActorComponent/Components/Physics/Bullet/BulletCollider.h>
+#include <Core/CEngine.h>
 
 using namespace clt;
 
-BulletPhysics::BulletPhysics()
+BulletPhysics::BulletPhysics(CEngine& engine) : mEngine(engine)
 {
+
+    mDebug = new BulletDebugDraw(engine);
+
     mBroadphase = new btDbvtBroadphase();
     mCollisionConfig = new btDefaultCollisionConfiguration();
     mDispatcher = new btCollisionDispatcher(mCollisionConfig);
@@ -14,6 +18,12 @@ BulletPhysics::BulletPhysics()
     mDynamicsWorld = new btDiscreteDynamicsWorld(mDispatcher, mBroadphase, mSolver, mCollisionConfig);
 
     mDynamicsWorld->setGravity(btVector3(0, -9.81f, 0));
+
+    if (engine.IsEditorMode())
+    {
+        mDynamicsWorld->setDebugDrawer(mDebug);
+        mDebug->setDebugMode(btIDebugDraw::DBG_DrawWireframe | btIDebugDraw::DBG_DrawContactPoints);
+    }
 }
 
 BulletPhysics::~BulletPhysics()
@@ -32,6 +42,8 @@ void BulletPhysics::UpdatePhysics()
     mDynamicsWorld->stepSimulation(Timer::deltaTime);
 
     for (auto rb : mRigidbodies)  rb->SyncFromBullet();
+
+    mDynamicsWorld->debugDrawWorld();
 }
 
 void BulletPhysics::AddRigidbody(IRigidbody* body)

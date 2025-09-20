@@ -18,7 +18,7 @@ namespace clt
 			Vector3 start;
 			Vector3 end;
 			Color color;
-			float lineWidth = 1;
+			float lineWidth = 3;
 		};
 
 		struct Box
@@ -27,7 +27,7 @@ namespace clt
 			Vector3 extents;
 			Color color;
 			Quaternion rotation;
-			float lineWidth = 1;
+			float lineWidth = 3;
 		};
 
 		struct Sphere
@@ -35,23 +35,41 @@ namespace clt
 			Vector3 center;
 			float radius;
 			Color color;
-			float lineWidth = 1;
+			float lineWidth = 3;
 		};
+
+		std::vector<Line> mLines;
+		std::vector<Line> mPersistentLines;
+
+		std::vector<Box> mBoxes;
+		std::vector<Box> mPersistentBoxes;
+
+		std::vector<Sphere> mSpheres;
+		std::vector<Sphere> mPersistentSpheres;
+
+		CEngine& mEngine;
+
+		ShaderProgram* mShader;
+		VertexArray* mCubeVAO;
+		VertexArray* mSphereVAO;
+
+		GLuint mLineVAO;
+		GLuint mLineVBO;
 
 	public:
 
-		DebugDraw() = default;
+		 DebugDraw(CEngine& engine);
 		~DebugDraw() = default;
 
 		void Start();
 		void Draw(const Matrix4Row& viewProj);
 		void Close();
 
-		void DrawLine(const Vector3& start, const Vector3& end, const Color& color = Color::Red, float lineThickness = 1, bool persistant = false);
+		void DrawLine(const Vector3& start, const Vector3& end, const Color& color = Color::Red, float lineThickness = 3, bool persistant = false);
 
-		void DrawBox(const Vector3& center, const Vector3& extents, const Color& color = Color::Red, float lineThickness = 1, const Quaternion& rotation = Quaternion::Identity, bool persistant = false);
+		void DrawBox(const Vector3& center, const Vector3& extents, const Color& color = Color::Red, float lineThickness = 3, const Quaternion& rotation = Quaternion::Identity, bool persistant = false);
 
-		void DrawSphere(const Vector3& center, float radius, const Color& color = Color::Red, float lineThickness = 1, bool persistant = false);
+		void DrawSphere(const Vector3& center, float radius, const Color& color = Color::Red, float lineThickness = 3, bool persistant = false);
 
 		void FlushPersistantDraw();
 		void FlushPersistantLines();

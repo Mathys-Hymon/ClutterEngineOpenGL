@@ -27,7 +27,7 @@ namespace clt
 	/**
    * @brief Default constructor.
    */
-		CEngine() = default;
+		CEngine();
 
 		/**
    * @brief Default destructor.

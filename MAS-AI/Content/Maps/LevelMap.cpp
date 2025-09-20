@@ -18,7 +18,7 @@ void LevelMap::Load()
 	floorActor = AddActor<clt::CubeActor>("floor", clt::Assets::Get().GetTexture("floor"), false, Vector2{ 100,100 });
 	floorActor->AddComponent < clt::BulletRigidBody>(clt::rbState::Static);
 	//floorActor->SetActorTransform({ 0,-2 ,0 }, 0, { 20,1,20 });
-	floorActor->SetActorLocation({ 0, -50,0 });
+	floorActor->SetActorLocation({ 0, -2,0 });
 
 	fallingCubes = AddActor<clt::CubeActor>("floor", clt::Assets::Get().GetTexture("floor"), false, Vector2{ 100,100 });
 	fallingCubes->SetActorLocation({ 0,100,0 });
@@ -33,10 +33,8 @@ void LevelMap::Update()
 	{
 		tempTime = 0;
 
-		//std::string name = "actor " + Maths::Rand(0, 100);
-
 		auto temp = AddActor<clt::CubeActor>("test");
-		temp->SetActorLocation({ Maths::Rand(-2.0f,2.0f), 100, Maths::Rand(-2.0f,2.0f) });
+		temp->SetActorLocation({ Maths::Rand(-1.0f,1.0f), 20, Maths::Rand(-1.0f,1.0f) });
 		temp->AddComponent<clt::BulletRigidBody>();
 	}
 }

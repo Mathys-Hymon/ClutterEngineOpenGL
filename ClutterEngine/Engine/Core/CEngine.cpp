@@ -10,13 +10,16 @@
 using namespace clt;
 using json = nlohmann::json;
 
-using PhysicsFactory = std::function<std::unique_ptr<IPhysics>()>;
+std::unordered_map<std::string, std::function<std::unique_ptr<IPhysics>()>> physicsEngines;
 
-std::unordered_map<std::string, PhysicsFactory> physicsEngines = 
+CEngine::CEngine()
 {
-	//{ "Clutter", []() { return std::make_unique<ClutterPhysics>(); } },
-	 { "Bullet",  []() { return std::make_unique<BulletPhysics>(); } }
-};
+	physicsEngines =
+	{
+		//{ "Clutter", []() { return std::make_unique<ClutterPhysics>(); } },
+		{ "Bullet", [this]() { return std::make_unique<BulletPhysics>(*this); } }
+	};
+}
 
 void CEngine::Init(const std::string& path, std::vector<Level*> pLevels)
 {

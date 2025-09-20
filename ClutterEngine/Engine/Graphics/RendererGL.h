@@ -9,6 +9,7 @@
 
 namespace clt
 {
+	class DebugDraw;
 	class CEngine;
 	class SpriteComponent;
 	class MeshComponent;
@@ -33,6 +34,7 @@ namespace clt
 		Matrix4Row mUiViewProj;
 
 		CEngine* mEngine;
+		DebugDraw* mDebug;
 
 		friend TextElement;
 		friend ButtonElement;
@@ -87,5 +89,7 @@ namespace clt
 		const CEngine* GetEngine() const override { return mEngine; };
 
 		RendererType GetType() const override { return RendererType::OPENGL; }
+
+		DebugDraw* GetDebugDraw() const override { return mDebug; };
 	};
 }

@@ -464,6 +464,9 @@
     <ClCompile Include="Engine\Core\Debug\DebugDraw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Core\Debug\BulletDebugDraw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineContent\Resources\Shader\Mesh\basicTess.frag" />

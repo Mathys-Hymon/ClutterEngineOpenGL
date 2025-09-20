@@ -366,6 +366,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\Mesh\MeshComponent.cpp" />
     <ClCompile Include="Engine\Core\Assets\AssetsType\Mesh.cpp" />
     <ClCompile Include="Engine\Core\ActorComponent\Components\Graphics\UI\HUDComponent.cpp" />
+    <ClCompile Include="Engine\Core\Debug\BulletDebugDraw.cpp" />
     <ClCompile Include="Engine\Core\Debug\DebugDraw.cpp" />
     <ClCompile Include="Engine\Core\Maths\Color.cpp" />
     <ClCompile Include="Engine\Graphics\Shader\ShaderProgram.cpp" />

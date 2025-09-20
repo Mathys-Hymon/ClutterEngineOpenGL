@@ -10,7 +10,7 @@
 
 using namespace clt;
 
-RendererGL::RendererGL() : mEngine(nullptr), mSpriteVAO(nullptr)
+RendererGL::RendererGL() : mEngine(nullptr), mSpriteVAO(nullptr), mDebug(nullptr)
 {
 }
 
@@ -18,6 +18,7 @@ void RendererGL::Initialize(CEngine* pEngine, Color backgroundColor)
 {
     mBackgroundColor = backgroundColor;
     mEngine = pEngine;
+    mDebug = new DebugDraw(*pEngine);
 
     // Initialize GLAD to load OpenGL functions  
     if (gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) CLUTTER_LOG("GLAD initialised successfully");
@@ -242,6 +243,8 @@ void RendererGL::Draw()
     }
 
     mSpriteVAO->Unbind();
+
+    if (mDebug) mDebug->Draw(viewProj);
 }
 
 void RendererGL::EndDraw()

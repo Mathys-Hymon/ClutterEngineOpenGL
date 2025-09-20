@@ -1,5 +1,7 @@
 #pragma once
 #include <Physics/IPhysics.h>
+#include <Graphics/IRenderer.h>
+#include <Core/Debug/BulletDebugDraw.h>
 #include <Bullet/bullet/btBulletDynamicsCommon.h>
 
 namespace clt
@@ -13,11 +15,14 @@ namespace clt
 		btSequentialImpulseConstraintSolver* mSolver;
 		btDiscreteDynamicsWorld* mDynamicsWorld;
 
+		BulletDebugDraw* mDebug;
+		CEngine& mEngine;
+
 		std::vector<BulletRigidBody*> mRigidbodies;
 
 	public:
 
-		BulletPhysics();
+		BulletPhysics(CEngine& engine);
 		~BulletPhysics();
 
 		void UpdatePhysics() override;

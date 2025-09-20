@@ -9,6 +9,7 @@ namespace clt
 		OPENGL
 	};
 
+	class DebugDraw;
 	class CEngine;
 	class CLUTTER_API IRenderer
 	{
@@ -29,6 +30,7 @@ namespace clt
 		virtual void Close() = 0;
 		virtual RendererType GetType() const = 0;
 		virtual const CEngine* GetEngine() const = 0;
+		virtual DebugDraw* GetDebugDraw() const = 0;
 
 		virtual void AddMeshComponent(class MeshComponent* pComp) = 0;
 		virtual void RemoveMeshComponent(class MeshComponent* pComp) = 0;
