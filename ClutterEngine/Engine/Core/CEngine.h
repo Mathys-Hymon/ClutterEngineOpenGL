@@ -66,5 +66,6 @@ namespace clt
    * @return A pointer to the level manager instance.
    */
 		LevelManager* GetLevelManager() const { return mLevelManager.get(); }
+		IPhysics* GetPhysics() const { return mPhysics.get(); };
 	};
 }

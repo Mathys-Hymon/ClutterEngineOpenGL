@@ -59,7 +59,7 @@ void CEngine::Init(const std::string& path, std::vector<Level*> pLevels)
 
 void CEngine::Update()
 {
-	mPhysics.get()->UpdatePhysics();
+	mPhysics->UpdatePhysics();
 
 	Inputs::Get().Update();
 	mLevelManager->Update();

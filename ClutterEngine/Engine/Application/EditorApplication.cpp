@@ -1,8 +1,4 @@
 #include "pch.h"
-#define IMGUI_IMPL_OPENGL_LOADER_GLAD
-#include"imgui.h"
-#include"backends/imgui_impl_glfw.h"
-#include"backends/imgui_impl_opengl3.h"
 
 #include<glad/glad.h>
 #include "EditorApplication.h"
@@ -38,6 +34,7 @@ void EditorApplication::Init(std::vector<clt::Level*> pLevels, const std::string
 		clt::Inputs::Get().RegisterActionCallback("enableFillMode", [this] { this->ShowLitMode(); });
 	}
 
+	Window::Get().ResizeViewport(100, 100, 1920, 1080);
 	Run();
 }
 

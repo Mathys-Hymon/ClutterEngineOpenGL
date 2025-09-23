@@ -1,5 +1,6 @@
 #include "pch.h"
 #include <Graphics/Shader/VertexArray.h>
+#include "FrameBuffer.h"
 
 using namespace clt;
 
@@ -48,7 +49,6 @@ void VertexArray::Set(const float* pVertices, u32 pVerticeCount)
 
     glBindVertexArray(0);
 }
-
 
 void VertexArray::Bind()
 {
