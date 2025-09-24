@@ -297,6 +297,9 @@
     <ClInclude Include="Engine\Graphics\FrameBuffer\FrameBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Libraries\ImGui\imgui_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Libraries\include\dll\dllmain.cpp">

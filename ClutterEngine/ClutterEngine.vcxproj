@@ -361,6 +361,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Libraries\ImGui\imgui_internal.h" />
     <ClInclude Include="Libraries\include\framework.h" />
     <ClInclude Include="Engine\Header\pch.h" />
     <ClInclude Include="Engine\Window\Window.h" />

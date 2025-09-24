@@ -1,6 +1,7 @@
 #pragma once
 #include <Core/CEngine.h>
 #include <Editor/ImGuiLayer.h>
+#include <Graphics/FrameBuffer/FrameBuffer.h>
 
 namespace clt
 {
@@ -10,6 +11,8 @@ namespace clt
     protected:
         std::unique_ptr<clt::CEngine> mEngine;
         std::unique_ptr<ImGuiLayer> mEditor;
+
+        FrameBuffer* mViewportFramebuffer;
 
         void Init(std::vector<clt::Level*> pLevels, const std::string& configFile = "Config/project.config.json");
 

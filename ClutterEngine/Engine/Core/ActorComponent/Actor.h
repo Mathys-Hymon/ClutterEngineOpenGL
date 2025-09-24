@@ -146,7 +146,13 @@ namespace clt
          * @param ignoreSelf Whether to ignore this actor in the trace.
          * @return True if something was hit, false otherwise.
          */
-        bool LineTrace(const Vector3& start, const Vector3& direction, float maxDistance, RaycastHit& outHit, const TraceParams& params);
+        bool LineTrace(const Vector3& start, const Vector3& direction, float maxDistance, RaycastHit& outHit, const TraceParams& params = {
+                TraceChannel::Visibility,
+                static_cast<uint16_t>(TraceChannel::All),
+                nullptr,
+                true,
+                false,
+                false });
 
         /**
          * @brief Gets the transform of the actor.

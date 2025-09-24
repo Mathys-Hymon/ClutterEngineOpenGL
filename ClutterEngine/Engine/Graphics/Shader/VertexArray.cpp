@@ -1,6 +1,5 @@
 #include "pch.h"
 #include <Graphics/Shader/VertexArray.h>
-#include "FrameBuffer.h"
 
 using namespace clt;
 
@@ -20,7 +19,7 @@ void VertexArray::Set(const float* pVertices, u32 pVerticeCount)
 {
     mVerticeCount = pVerticeCount;
 
-    if (mVertexArrayId == 0) // VAO
+    if (mVertexArrayId == 0)
     {
         glGenVertexArrays(1, &mVertexArrayId);
         glBindVertexArray(mVertexArrayId);
@@ -34,7 +33,7 @@ void VertexArray::Set(const float* pVertices, u32 pVerticeCount)
     {
         glBufferData(GL_ARRAY_BUFFER, pVerticeCount * sizeof(float) * 8, pVertices, GL_STATIC_DRAW);
     }
-    else // DYNAMIC or STREAM
+    else
     {
         glBufferData(GL_ARRAY_BUFFER, pVerticeCount * sizeof(float) * 8, nullptr, (GLenum)mUsage);
         glBufferSubData(GL_ARRAY_BUFFER, 0, pVerticeCount * sizeof(float) * 8, pVertices);

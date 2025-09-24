@@ -17,6 +17,7 @@ EditorApplication::EditorApplication(std::vector<clt::Level*> pLevels, const std
 
 void EditorApplication::Init(std::vector<clt::Level*> pLevels, const std::string& configFile)
 {
+
 	mEngine = std::make_unique<clt::CEngine>();
 
 	if (pLevels.empty()) pLevels.push_back(new clt::TemplateLevel());
@@ -24,7 +25,16 @@ void EditorApplication::Init(std::vector<clt::Level*> pLevels, const std::string
 	mEngine->Init(configFile, pLevels);
 	CLUTTER_INFO("Application created");
 
-	mEditor = std::make_unique<clt::ImGuiLayer>();
+#ifdef EDITOR
+	FrameBufferSpecification spec;
+	spec.Width = 1280;
+	spec.Height = 720;
+	spec.HasDepth = true;
+	spec.HasColor = true;
+
+	mViewportFramebuffer = new FrameBuffer(spec);
+#endif
+	mEditor = std::make_unique<clt::ImGuiLayer>(this, mViewportFramebuffer);
 
 	if (mEngine->IsEditorMode())
 	{
@@ -34,7 +44,10 @@ void EditorApplication::Init(std::vector<clt::Level*> pLevels, const std::string
 		clt::Inputs::Get().RegisterActionCallback("enableFillMode", [this] { this->ShowLitMode(); });
 	}
 
+#ifdef EDITOR
 	Window::Get().ResizeViewport(100, 100, 1920, 1080);
+#endif
+
 	Run();
 }
 
@@ -64,11 +77,20 @@ void EditorApplication::Update()
 void EditorApplication::Render()
 {
 	mEditor.get()->BeginFrame();
-	GetRenderer()->BeginDraw();
 
-	
-	mEditor.get()->DrawUI();
+#ifdef EDITOR
+	mViewportFramebuffer->Bind();
+#endif
+
+	GetRenderer()->BeginDraw();
 	GetRenderer()->Draw();
+
+
+#ifdef EDITOR
+	mViewportFramebuffer->Unbind();
+#endif
+
+	mEditor.get()->DrawUI();
 
 	GetRenderer()->EndDraw();
 	mEditor.get()->EndFrame();

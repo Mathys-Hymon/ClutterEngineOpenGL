@@ -69,7 +69,7 @@ void CEngine::Update()
 	{
 		if (mRefreshFrameRate > 0.3f)
 		{
-			std::string temp = mName + "     |    FPS: " + std::to_string(static_cast<int>(1.0f / Timer::deltaTime));
+			std::string temp = "Clutter Editor 0.0.1 |    FPS: " + std::to_string(static_cast<int>(1.0f / Timer::deltaTime));
 			Window::Get().RenameViewport(temp.c_str());
 			mRefreshFrameRate = 0;
 		}

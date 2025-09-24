@@ -15,6 +15,7 @@ namespace clt
         GLFWwindow* mGlfwWindow = nullptr;
         Vector2 mDimensions = { 0.f, 0.f };
         bool mIsInitialized = false;
+        std::string mName = "";
 
         friend class CEngine;
 
@@ -30,6 +31,7 @@ namespace clt
 
         Vector2 GetDimensions() const { return mDimensions; }
         GLFWwindow* GetGLFWWindow() const { return mGlfwWindow; }
+        std::string GetName() const { return mName; };
 
         void ResizeViewport(u32 startWidth, u32 startHeight, u32 width, u32 height);
         void RenameViewport(const char* name);

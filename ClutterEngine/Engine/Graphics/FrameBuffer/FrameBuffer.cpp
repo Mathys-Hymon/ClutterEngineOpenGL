@@ -1,5 +1,6 @@
 #include <pch.h>
 #include <Graphics/FrameBuffer/FrameBuffer.h>
+#include <Window/Window.h>
 
 using namespace clt;
 
@@ -33,7 +34,7 @@ void FrameBuffer::Invalidate()
     glGenFramebuffers(1, &mRendererID);
     glBindFramebuffer(GL_FRAMEBUFFER, mRendererID);
 
-    mColorAttachments.reserve(mSpec.ColorAttachments);
+    mColorAttachments.resize(mSpec.ColorAttachments);
     glGenTextures(mSpec.ColorAttachments, mColorAttachments.data());
 
     for (u32 i = 0; i < mSpec.ColorAttachments; i++)
@@ -69,6 +70,8 @@ void FrameBuffer::Bind()
 void FrameBuffer::Unbind()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    auto& win = Window::Get();
+    glViewport(0, 0, win.GetDimensions().x, win.GetDimensions().y);
 }
 
 void FrameBuffer::Resize(u32 width, u32 height)

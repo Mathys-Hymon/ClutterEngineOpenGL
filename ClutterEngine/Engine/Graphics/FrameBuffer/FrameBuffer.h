@@ -9,6 +9,7 @@ namespace clt
 		u32 Width = 1280;
 		u32 Height = 720;
 		bool HasDepth = true;
+		bool HasColor = true;
 		u32 ColorAttachments = 1;
 	};
 
@@ -29,6 +30,9 @@ namespace clt
 		void Bind();
 		void Unbind();
 		void Resize(u32 width, u32 height);
+
+		u32 GetWidth() const { return mSpec.Width; }
+		u32 GetHeight() const { return mSpec.Height; }
 
 		GLuint GetColorAttachment(u32 index = 0) const { return mColorAttachments[index]; };
 		const FrameBufferSpecification& GetSpecification() const { return mSpec; };

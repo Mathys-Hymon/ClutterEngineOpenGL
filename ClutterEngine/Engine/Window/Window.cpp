@@ -17,6 +17,8 @@ void Window::InternalInit(u32 width, u32 height, const std::string& name, bool v
         return;
 
     mDimensions = { static_cast<float>(width), static_cast<float>(height) };
+    CLUTTER_INFO(name);
+    mName = name;
 
     if (!glfwInit())
     {
