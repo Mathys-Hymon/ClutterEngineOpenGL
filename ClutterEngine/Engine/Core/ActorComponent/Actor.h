@@ -328,6 +328,7 @@ namespace clt
         Level* GetLevel() const { return mLevel; };
 
         friend Level;
+        friend class EditorApplication;
     };
 
     /**

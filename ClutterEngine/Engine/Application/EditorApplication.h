@@ -2,17 +2,31 @@
 #include <Core/CEngine.h>
 #include <Editor/ImGuiLayer.h>
 #include <Graphics/FrameBuffer/FrameBuffer.h>
+#include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
 
 namespace clt
 {
+    enum class CLUTTER_API EditorMode
+    {
+        InGame,
+        Paused,
+        InEditor,
+    };
+
+    class ImGuiLayer;
     class Level;
-    class CLUTTER_API EditorApplication {
+    class CLUTTER_API EditorApplication 
+    {
 
     protected:
         std::unique_ptr<clt::CEngine> mEngine;
         std::unique_ptr<ImGuiLayer> mEditor;
 
+        Actor* mEditorCam;
+        CameraComponent* mInGameCam;
         FrameBuffer* mViewportFramebuffer;
+        EditorMode mMode;
+        bool mFirstEditor;
 
         void Init(std::vector<clt::Level*> pLevels, const std::string& configFile = "Config/project.config.json");
 
@@ -25,11 +39,15 @@ namespace clt
         void ShowWireframe();
         void ShowLitMode();
 
+        void SetMode(EditorMode mode);
+
     public:
 
         EditorApplication(std::vector<clt::Level*> pLevels, const std::string& configFile = "Config/project.config.json");
         ~EditorApplication();
 
         clt::RendererGL* GetRenderer() const { return mEngine->GetRenderer(); }
+
+        friend ImGuiLayer;
     };
 }

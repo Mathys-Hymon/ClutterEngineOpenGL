@@ -4,13 +4,15 @@
 #include "EditorApplication.h"
 #include <Core/Timer.h>
 #include <Core/Levels/TemplateLevel/TemplateLevel.h>
+#include <Core/ActorComponent/ChildActors/EditorCamera.h>
+#include <Physics/IPhysics.h>
 #include <Input/Inputs.h>
 #include "Window/Window.h"
 #include <GLFW/glfw3.h>
 
 using namespace clt;
 
-EditorApplication::EditorApplication(std::vector<clt::Level*> pLevels, const std::string& configFile)
+EditorApplication::EditorApplication(std::vector<clt::Level*> pLevels, const std::string& configFile) : mInGameCam(nullptr), mEditorCam(nullptr)
 {
 	Init(pLevels, configFile);
 }
@@ -34,19 +36,29 @@ void EditorApplication::Init(std::vector<clt::Level*> pLevels, const std::string
 
 	mViewportFramebuffer = new FrameBuffer(spec);
 #endif
+
+
 	mEditor = std::make_unique<clt::ImGuiLayer>(this, mViewportFramebuffer);
 
-	if (mEngine->IsEditorMode())
-	{
-		clt::Inputs::Get().MapKeyToAction(EKey::F1, "enableFillMode");
-		clt::Inputs::Get().MapKeyToAction(EKey::F2, "enableWireframeMode");
-		clt::Inputs::Get().RegisterActionCallback("enableWireframeMode", [this] { this->ShowWireframe(); });
-		clt::Inputs::Get().RegisterActionCallback("enableFillMode", [this] { this->ShowLitMode(); });
-	}
 
 #ifdef EDITOR
+
+	clt::Inputs::Get().MapKeyToAction(EKey::F1, "enableFillMode");
+	clt::Inputs::Get().MapKeyToAction(EKey::F2, "enableWireframeMode");
+	clt::Inputs::Get().RegisterActionCallback("enableWireframeMode", [this] { this->ShowWireframe(); });
+	clt::Inputs::Get().RegisterActionCallback("enableFillMode", [this] { this->ShowLitMode(); });
+
 	Window::Get().ResizeViewport(100, 100, 1920, 1080);
+
+	mEngine->Update();
+
+	mInGameCam = CameraComponent::GetActiveCamera();
+	mEditorCam = mEngine->GetLevelManager()->GetCurrentLevel()->AddActor<EditorCamera>();
+
+	SetMode(clt::EditorMode::InEditor);
+
 #endif
+
 
 	Run();
 }
@@ -55,11 +67,10 @@ void EditorApplication::Run()
 {
 	clt::Window& window = clt::Window::Get();
 
-	float timer = 0;
-
 	while (!window.ShouldClose())
 	{
-		clt::Timer::ComputeDeltaTime();
+		Timer::ComputeDeltaTime();
+
 		Update();
 		Render();
 
@@ -71,12 +82,33 @@ void EditorApplication::Run()
 
 void EditorApplication::Update()
 {
+#ifdef EDITOR
+
+	switch (mMode)
+	{
+	case EditorMode::InGame:
+		mEngine->Update();
+
+		break;
+	case EditorMode::Paused:
+		Inputs::Get().Update();
+		mEditorCam->InternalUpdate();
+		break;
+	case EditorMode::InEditor:
+		Inputs::Get().Update();
+		mEditorCam->InternalUpdate();
+		break;
+	default:
+		break;
+	}
+#else
 	mEngine->Update();
+#endif
 }
 
 void EditorApplication::Render()
 {
-	mEditor.get()->BeginFrame();
+	mEditor->BeginFrame();
 
 #ifdef EDITOR
 	mViewportFramebuffer->Bind();
@@ -90,10 +122,10 @@ void EditorApplication::Render()
 	mViewportFramebuffer->Unbind();
 #endif
 
-	mEditor.get()->DrawUI();
+	mEditor->DrawUI();
 
 	GetRenderer()->EndDraw();
-	mEditor.get()->EndFrame();
+	mEditor->EndFrame();
 }
 
 void EditorApplication::ShowWireframe()
@@ -104,6 +136,34 @@ void EditorApplication::ShowWireframe()
 void EditorApplication::ShowLitMode()
 {
 	mEngine->GetRenderer()->WireframeMode(false);
+}
+
+void EditorApplication::SetMode(EditorMode mode)
+{
+	mMode = mode;
+
+	switch (mode)
+	{
+	case clt::EditorMode::InGame:
+		Inputs::Get().LockMouseCursor(true);
+		Inputs::Get().SetShowMouseCursor(false);
+		if (mInGameCam) mInGameCam->SetActive();
+		break;
+
+	case clt::EditorMode::Paused:
+		Inputs::Get().LockMouseCursor(false);
+		Inputs::Get().SetShowMouseCursor(true);
+		if (mEditorCam) mEditorCam->GetComponentOfType<CameraComponent>()->SetActive();
+		break;
+
+	case clt::EditorMode::InEditor:
+		Inputs::Get().LockMouseCursor(false);
+		Inputs::Get().SetShowMouseCursor(true);
+		if (mEditorCam) mEditorCam->GetComponentOfType<CameraComponent>()->SetActive();
+		break;
+	default:
+		break;
+	}
 }
 
 EditorApplication::~EditorApplication()

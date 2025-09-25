@@ -169,6 +169,10 @@ void ImGuiLayer::DrawUI()
         if (ImGui::BeginTabItem("Scene"))
         {
             currentTab = 0;
+            if (mOwner)
+            {
+
+            }
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Game"))

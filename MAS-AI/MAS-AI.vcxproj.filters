@@ -47,4 +47,9 @@
     <None Include="Content\Resources\Shaders\basic.tese" />
     <None Include="Config\project.config.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\EngineAssets\clutterLogoDark.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

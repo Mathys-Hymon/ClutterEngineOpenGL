@@ -247,6 +247,9 @@
     <None Include="Content\Resources\Shaders\text.frag" />
     <None Include="Content\Resources\Shaders\text.vert" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\EngineAssets\clutterLogoDark.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
