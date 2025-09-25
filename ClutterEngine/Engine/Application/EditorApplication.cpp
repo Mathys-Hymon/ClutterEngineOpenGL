@@ -166,6 +166,12 @@ void EditorApplication::SetMode(EditorMode mode)
 	}
 }
 
+void EditorApplication::SetCamera(bool inGame)
+{
+	if(inGame && mInGameCam) mInGameCam->SetActive();
+	else if(mEditorCam) mEditorCam->GetComponentOfType<CameraComponent>()->SetActive();
+}
+
 EditorApplication::~EditorApplication()
 {
 	if (mEngine.get()) mEngine->Close();

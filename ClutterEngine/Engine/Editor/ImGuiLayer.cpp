@@ -12,6 +12,7 @@
 #include "backends/imgui_impl_opengl3.h"
 #include "Window/Window.h"
 #include "Core/Assets/Assets.h"
+#include <Application/EditorApplication.h>
 #include <iostream>
 #endif
 
@@ -171,13 +172,17 @@ void ImGuiLayer::DrawUI()
             currentTab = 0;
             if (mOwner)
             {
-
+                mOwner->SetCamera(false);
             }
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Game"))
         {
             currentTab = 1;
+            if (mOwner)
+            {
+                mOwner->SetCamera(true);
+            }
             ImGui::EndTabItem();
         }
         ImGui::EndTabBar();
@@ -285,7 +290,7 @@ void ImGuiLayer::SetEditorTheme()
     colors[ImGuiCol_Text] = textColor;
     colors[ImGuiCol_TextDisabled] = ImVec4(textColor.x * 0.7f, textColor.y * 0.7f, textColor.z * 0.7f, 1.0f);
 
-    // Headers / Titles
+    // Headers
     colors[ImGuiCol_Header] = ImVec4(bgColor.x * 1.2f, bgColor.y * 1.2f, bgColor.z * 1.2f, 1.0f);
     colors[ImGuiCol_HeaderHovered] = ImVec4(bgColor.x * 1.4f, bgColor.y * 1.4f, bgColor.z * 1.4f, 1.0f);
     colors[ImGuiCol_HeaderActive] = ImVec4(bgColor.x * 0.8f, bgColor.y * 0.8f, bgColor.z * 0.8f, 1.0f);

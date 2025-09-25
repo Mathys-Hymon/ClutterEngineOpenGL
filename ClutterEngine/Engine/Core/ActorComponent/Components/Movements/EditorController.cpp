@@ -1,15 +1,16 @@
 #include "pch.h"
 #include <Core/ActorComponent/Components/Movements/EditorController.h>
+#include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
 #include <Input/Inputs.h>
 
 using namespace clt;
 
-EditorController::EditorController(float pMouseSpeed) : PlayerController(2), mMinSpeed(0.1f), mMaxSpeed(10.0f), mActualSpeed(1.0f)
+EditorController::EditorController(float pMouseSpeed) : PlayerController(2), mMinSpeed(0.1f), mMaxSpeed(10.0f), mActualSpeed(1.0f), mMainCam(false)
 {
 	Inputs::Get().RegisterMouseCallback([this](Vector2 value) { this->Rotation(value); });
 
 	Inputs::Get().MapKeysToVect(EKey::A, EKey::D, EKey::W, EKey::S, "CameraMovement");
-	Inputs::Get().MapKeysToAxis(EKey::LeftShift, EKey::LeftControl, "verticalMovement");
+	Inputs::Get().MapKeysToAxis(EKey::E, EKey::Q, "verticalMovement");
 
 	Inputs::Get().RegisterMouseCallback([this](Vector2 value) { this->Rotation(value); });
 	Inputs::Get().RegisterVectCallback("CameraMovement", [this](Vector2 value) { this->Movement(value); });
@@ -23,6 +24,8 @@ EditorController::EditorController(float pMouseSpeed) : PlayerController(2), mMi
 
 void EditorController::Movement(Vector2 pDirection)
 {
+	if (!mMainCam) return;
+
 	float dt = Timer::deltaTime;
 
 	Vector3 forward = pDirection.y * mOwner->GetTransform().Forward() * dt;
@@ -33,6 +36,8 @@ void EditorController::Movement(Vector2 pDirection)
 
 void EditorController::MoveVertically(float pDirection)
 {
+	if (!mMainCam) return;
+
 	Vector3 up = pDirection * mOwner->GetTransform().Up() * Timer::deltaTime;
 	
 	mOwner->AddActorLocationOffset(up * mActualSpeed);
@@ -40,11 +45,30 @@ void EditorController::MoveVertically(float pDirection)
 
 void EditorController::ChangeSpeed(float pDirection)
 {
-	mActualSpeed = Maths::Clamp(mActualSpeed + (pDirection * 0.2f), mMinSpeed, mMaxSpeed);
+	if (!mMainCam) return;
+
+	if (Inputs::Get().IsButtonPressed(EMouseButton::Right))
+	{
+		mActualSpeed = Maths::Clamp(mActualSpeed + (pDirection * 0.2f), mMinSpeed, mMaxSpeed);
+	}
+	else
+	{
+		Movement({ 0.0f , pDirection * 10.0f });
+	}
+}
+
+void EditorController::Update()
+{
+	auto cam = mOwner->GetComponentOfType<CameraComponent>();
+
+	if (!cam || !(cam == CameraComponent::GetActiveCamera())) mMainCam = false;
+	else mMainCam = true;
 }
 
 void EditorController::Rotation(Vector2 pRotation)
 {
+	if (!mMainCam) return;
+
 	if (Inputs::Get().IsButtonPressed(EMouseButton::Right))
 	{
 		clt::Inputs::Get().SetShowMouseCursor(false);

@@ -40,6 +40,7 @@ namespace clt
         void ShowLitMode();
 
         void SetMode(EditorMode mode);
+        void SetCamera(bool inGame);
 
     public:
 

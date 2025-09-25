@@ -11,6 +11,8 @@ namespace clt
 
 		float mActualSpeed;
 
+		bool mMainCam;
+
 	public:
 		EditorController(float pMouseSpeed = 1);
 		~EditorController() = default;
@@ -25,6 +27,8 @@ namespace clt
 
 		void Rotation(Vector2 pRotation);
 		void ChangeSpeed(float pOffset);
+
+		void Update() override;
 
 		virtual void OnCollisionEnter(ColliderComponent* collider, const HitResult& result) override {};
 		virtual void OnCollisionStay(ColliderComponent* collider, const HitResult& result)  override {};

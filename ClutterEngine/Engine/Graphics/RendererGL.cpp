@@ -230,6 +230,10 @@ void RendererGL::Draw()
 
     for (HUDComponent* hud : mHUD)
     {
+        auto cam = hud->GetOwner()->GetComponentOfType<CameraComponent>();
+
+        if (!cam || !(cam == CameraComponent::GetActiveCamera())) continue;
+
         for (WidgetElement* element : hud->GetCurrentWidget()->GetElements())
         {
             if (!element->mVisibility) continue;
