@@ -122,6 +122,7 @@ void ImGuiLayer::DrawUI()
 
         ImGui::EndMenuBar();
     }
+    ImGui::End();
 
     //ImGui::BeginChild("ViewportToolbar", ImVec2(0, 40), false);
 
@@ -234,9 +235,27 @@ void ImGuiLayer::DrawUI()
 
     // Console
     ImGui::Begin("Console");
-    ImGui::Text("Log output here");
-    ImGui::End();
 
+    for (const auto& entry : CLog::GetEntries())
+    {
+        ImVec4 color;
+
+        switch (entry.level)
+        {
+        case CLog::LogLevel::INFO:    color = ImVec4(0.4f, 1.0f, 0.4f, 1.0f); break;
+        case CLog::LogLevel::WARNING: color = ImVec4(1.0f, 1.0f, 0.2f, 1.0f); break;
+        case CLog::LogLevel::CERROR:  color = ImVec4(1.0f, 0.2f, 0.2f, 1.0f); break;
+        default:                      color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f); break;
+        }
+
+        ImGui::PushStyleColor(ImGuiCol_Text, color);
+        ImGui::TextWrapped("%s", entry.message.c_str());
+        ImGui::PopStyleColor();
+    }
+
+    if (ImGui::Button("Clear")) CLog::ClearEntries();
+
+    //ImGui::End();
     ImGui::End();
 
 #endif

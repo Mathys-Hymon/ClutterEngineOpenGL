@@ -11,6 +11,7 @@
  * @class CLog
  * @brief A logging utility class for handling console and file-based logging.
  */
+
 class CLUTTER_API CLog
 {
 public:
@@ -18,11 +19,19 @@ public:
      * @enum LogLevel
      * @brief Represents the severity level of a log message.
      */
-    enum class LogLevel {
+    enum class LogLevel 
+    {
         INFO,    ///< Informational messages.
         WARNING, ///< Warning messages.
         CERROR,  ///< Error messages.
         LOG      ///< General log messages.
+    };
+
+    struct CLUTTER_API LogEntry
+    {
+        std::string timeStamp;
+        CLog::LogLevel level;
+        std::string message;
     };
 
     /**
@@ -30,7 +39,8 @@ public:
      * @param logName The name of the log file.
      * @param logFilePath The directory path where the log file will be created. Defaults to an empty string.
      */
-    static void Init(const std::string& logName, const std::string& logFilePath = "") {
+    static void Init(const std::string& logName, const std::string& logFilePath = "") 
+    {
 #ifdef _DEBUG
 
         std::filesystem::create_directories(logFilePath + "logs");
@@ -42,7 +52,7 @@ public:
         localtime_s(&timeInfo, &now_time);
 
         std::ostringstream oss;
-        oss << logFilePath << "logs/" << logName << "_" << std::put_time(&timeInfo, "%Y-%m-%d__%H-%M-%S") << "_log.json";
+        oss << logFilePath << "logs/" << logName << ".log";
 
         std::string filePath = oss.str();
         GetInstance().mLogFile.open(filePath, std::ios::out | std::ios::trunc);
@@ -52,6 +62,14 @@ public:
             GetInstance().mFirstEntry = true;
         }
 #endif
+    }
+
+    static const std::vector<LogEntry>& GetEntries() {
+        return GetInstance().mEntries;
+    }
+
+    static void ClearEntries() {
+        GetInstance().mEntries.clear();
     }
 
     /**
@@ -79,9 +97,18 @@ public:
     static void Log(LogLevel level, const std::string& message, const char* file, int line, Args... args)
     {
 #ifdef EDITOR
-        std::cout << GetConsoleColor(level)
-            << FormatConsoleMessage(level, message, args...)
-            << "\033[0m" << std::endl;
+        std::string consoleMsg = FormatConsoleMessage(level, message, file, line, args...);
+
+        auto now = std::chrono::system_clock::now();
+        auto now_time = std::chrono::system_clock::to_time_t(now);
+        struct tm timeInfo;
+        localtime_s(&timeInfo, &now_time);
+
+        std::ostringstream timeSS;
+        timeSS << std::put_time(&timeInfo, "%H:%M:%S");
+        std::string timestamp = timeSS.str();
+
+        GetInstance().mEntries.push_back({ timestamp, level, consoleMsg });
 #endif
 
 #ifdef _DEBUG
@@ -89,24 +116,18 @@ public:
 #endif
     }
 
-private:
-    std::ofstream mLogFile; ///< The file stream for the log file.
-    bool mFirstEntry = true; ///< Indicates if the current log entry is the first in the file.
 
-    /**
-     * @brief Retrieves the singleton instance of the CLog class.
-     * @return A reference to the singleton instance.
-     */
+private:
+
+    std::vector<LogEntry> mEntries;
+    std::ofstream mLogFile;
+    bool mFirstEntry = true;
+
     static CLog& GetInstance() {
         static CLog instance;
         return instance;
     }
 
-    /**
-     * @brief Gets the console color code for a given log level.
-     * @param level The log level.
-     * @return The console color code as a C-string.
-     */
     static const char* GetConsoleColor(LogLevel level) {
         switch (level) {
         case LogLevel::INFO:      return "\033[38;5;120m";
@@ -117,16 +138,7 @@ private:
         }
     }
 
-    /**
-     * @brief Formats a log message for console output.
-     * @tparam Args Variadic template for additional arguments to format the message.
-     * @param level The severity level of the log message.
-     * @param format The log message format string.
-     * @param file The source file where the log was generated.
-     * @param line The line number in the source file where the log was generated.
-     * @param args Additional arguments for formatting the message.
-     * @return The formatted log message as a string.
-     */
+
     template<typename... Args>
     static std::string FormatConsoleMessage(LogLevel level, const std::string& format, const char* file, int line, Args... args) {
         std::string levelStr;
@@ -163,15 +175,6 @@ private:
         return oss.str();
     }
 
-    /**
-     * @brief Writes a log message to a JSON file.
-     * @tparam Args Variadic template for additional arguments to format the message.
-     * @param level The severity level of the log message.
-     * @param format The log message format string.
-     * @param file The source file where the log was generated.
-     * @param line The line number in the source file where the log was generated.
-     * @param args Additional arguments for formatting the message.
-     */
     template<typename... Args>
     static void WriteToJsonFile(LogLevel level, const std::string& format, const char* file, int line, Args... args) {
         if (!GetInstance().mLogFile.is_open()) return;
@@ -202,11 +205,6 @@ private:
             << "  }";
     }
 
-    /**
-     * @brief Converts a log level to its string representation.
-     * @param level The log level.
-     * @return The string representation of the log level.
-     */
     static std::string LogLevelToString(LogLevel level) {
         switch (level) {
         case LogLevel::INFO:     return "INFO";
@@ -217,11 +215,6 @@ private:
         }
     }
 
-    /**
-     * @brief Escapes special characters in a string for JSON formatting.
-     * @param input The input string.
-     * @return The escaped string.
-     */
     static std::string EscapeJsonString(const std::string& input) {
         std::ostringstream ss;
         for (char c : input) {
