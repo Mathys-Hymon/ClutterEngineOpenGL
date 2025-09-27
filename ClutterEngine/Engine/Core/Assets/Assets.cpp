@@ -161,12 +161,12 @@ void Assets::LoadEngineAssets()
     Assets::Get().LoadTexture("Content/Resources/Sprites/buttonBg.png", "buttonBg");
 }
 
-std::shared_ptr<Texture> Assets::LoadTexture(const std::string& path, const std::string& name, TextureFilter pTexFilter, bool generateMipMaps)
+std::shared_ptr<Texture> Assets::LoadTexture(const std::string& path, const std::string& name, TextureFilter pTexFilter, bool generateMipMaps, bool flipVertically)
 {
     if (mTextures.find(name) != mTextures.end()) return GetTexture(name);
 
     int width, height, channels;
-    stbi_set_flip_vertically_on_load(true);
+    stbi_set_flip_vertically_on_load(flipVertically);
 
     unsigned char* data = stbi_load(path.c_str(), &width, &height, &channels, STBI_rgb_alpha);
 

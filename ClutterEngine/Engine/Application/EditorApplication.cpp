@@ -141,21 +141,21 @@ void EditorApplication::SetMode(EditorMode mode)
 	switch (mode)
 	{
 	case clt::EditorMode::InGame:
+		SetCamera(true);
 		Inputs::Get().LockMouseCursor(true);
 		Inputs::Get().SetShowMouseCursor(false);
-		if (mInGameCam) mInGameCam->SetActive();
 		break;
 
 	case clt::EditorMode::Paused:
+		SetCamera(false);
 		Inputs::Get().LockMouseCursor(false);
 		Inputs::Get().SetShowMouseCursor(true);
-		if (mEditorCam) mEditorCam->GetComponentOfType<CameraComponent>()->SetActive();
 		break;
 
 	case clt::EditorMode::InEditor:
+		SetCamera(false);
 		Inputs::Get().LockMouseCursor(false);
 		Inputs::Get().SetShowMouseCursor(true);
-		if (mEditorCam) mEditorCam->GetComponentOfType<CameraComponent>()->SetActive();
 		break;
 	default:
 		break;

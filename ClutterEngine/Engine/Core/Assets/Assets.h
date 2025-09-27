@@ -48,7 +48,7 @@ namespace clt
 			LoadEngineAssets();
 		}
 
-		std::shared_ptr<Texture> LoadTexture(const std::string& pPath, const std::string& pName, TextureFilter pTexFilter = TextureFilter::LINEAR, bool generateMipMaps = true);
+		std::shared_ptr<Texture> LoadTexture(const std::string& pPath, const std::string& pName, TextureFilter pTexFilter = TextureFilter::LINEAR, bool generateMipMaps = true, bool flipVertically = true);
 		std::vector<std::weak_ptr<Texture>> BulkLoadTexture(const std::string& pPath, int pLastIndex, const std::string& pFileName, const std::string& pName, TextureFilter pTexFilter = TextureFilter::LINEAR, bool pMipMap = true);
 
 		std::shared_ptr<Mesh> LoadMesh(const std::string& pPath, const std::string& pName, std::vector < std::weak_ptr<Texture>> pTextures = {}, bool pTesselate = false);

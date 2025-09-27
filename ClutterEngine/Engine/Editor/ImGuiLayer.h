@@ -1,6 +1,7 @@
 #pragma once
 #include <Core/CCommon.h>
 #include <Graphics/FrameBuffer/FrameBuffer.h>
+#include <Editor/ContentBrowser.h>
 
 namespace clt
 {
@@ -9,6 +10,7 @@ namespace clt
 	{
 		FrameBuffer* mSceneFramebuffer;
 		EditorApplication* mOwner;
+		ContentBrowser* mContentBrowser;
 
 		int mSelectedCamera = 0;
 		float mPosition[3]{ 0,0,0 };

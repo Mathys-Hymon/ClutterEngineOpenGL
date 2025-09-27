@@ -21,7 +21,7 @@ ImFont* mConsoleFont;
 
 using namespace clt;
 
-ImGuiLayer::ImGuiLayer(EditorApplication* owner, FrameBuffer* frameBuffer) : mOwner(owner), mSceneFramebuffer(frameBuffer)
+ImGuiLayer::ImGuiLayer(EditorApplication* owner, FrameBuffer* frameBuffer) : mOwner(owner), mSceneFramebuffer(frameBuffer), mContentBrowser(new ContentBrowser())
 {
 #ifdef EDITOR
 
@@ -42,6 +42,7 @@ ImGuiLayer::ImGuiLayer(EditorApplication* owner, FrameBuffer* frameBuffer) : mOw
     mEditorFont = io.Fonts->AddFontFromFileTTF("../ClutterEngine/EngineContent/Resources/Font/Rubik.ttf", 15.0f);
     mConsoleFont = io.Fonts->AddFontFromFileTTF("../ClutterEngine/EngineContent/Resources/Font/JetBrains.ttf", 15.0f);
 
+    mContentBrowser->ScanFolder("Content/");
 #endif
 }
 
@@ -241,11 +242,6 @@ void ImGuiLayer::DrawUI()
     ImGui::PopFont();
     ImGui::End();
 
-    // Content Browser
-    ImGui::Begin("Content Browser");
-    ImGui::Text("Content hierarchy here");
-    ImGui::End();
-
     static bool showInfo = false;
     static bool showLog = false;
     static bool showWarning = false;
@@ -290,6 +286,9 @@ void ImGuiLayer::DrawUI()
         };
 
     ImGui::PopFont();
+
+
+    mContentBrowser->Draw();
 
     ImGui::PushFont(mEditorFont);
     drawFilterButton("INFO", showInfo, infoColor); ImGui::SameLine();

@@ -284,6 +284,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Engine\Core\Assets\AssetsType\Material.h" />
     <ClInclude Include="Engine\Core\Assets\AssetsType\MaterialInstance.h" />
     <ClInclude Include="Engine\Core\Debug\BulletDebugDraw.h" />
+    <ClInclude Include="Engine\Editor\ContentBrowser.h" />
     <ClInclude Include="Engine\Editor\ImGuiLayer.h" />
     <ClInclude Include="Engine\Graphics\FrameBuffer\FrameBuffer.h" />
     <ClInclude Include="Engine\Graphics\Shader\ShaderProgram.h" />
@@ -388,6 +389,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClCompile Include="Engine\Core\Debug\BulletDebugDraw.cpp" />
     <ClCompile Include="Engine\Core\Debug\DebugDraw.cpp" />
     <ClCompile Include="Engine\Core\Maths\Color.cpp" />
+    <ClCompile Include="Engine\Editor\ContentBrowser.cpp" />
     <ClCompile Include="Engine\Editor\ImGuiLayer.cpp" />
     <ClCompile Include="Engine\Graphics\FrameBuffer\FrameBuffer.cpp" />
     <ClCompile Include="Engine\Graphics\Shader\ShaderProgram.cpp" />
