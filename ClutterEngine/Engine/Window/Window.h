@@ -34,6 +34,7 @@ namespace clt
         std::string GetName() const { return mName; };
 
         void ResizeViewport(u32 startWidth, u32 startHeight, u32 width, u32 height);
+        void ResizeViewportCentered(u32 width, u32 height);
         void RenameViewport(const char* name);
         bool ShouldClose() const;
         void SwapBuffers() const;

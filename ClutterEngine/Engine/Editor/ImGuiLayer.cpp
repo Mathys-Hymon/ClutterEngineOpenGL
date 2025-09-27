@@ -1,6 +1,4 @@
-﻿
-
-#include <pch.h>
+﻿#include <pch.h>
 #include "ImGuiLayer.h"
 
 #ifdef EDITOR
@@ -14,13 +12,17 @@
 #include "Core/Assets/Assets.h"
 #include <Application/EditorApplication.h>
 #include <iostream>
+
+ImFont* mEditorFontTitle;
+ImFont* mEditorFont;
+ImFont* mConsoleFont;
+
 #endif
 
 using namespace clt;
 
 ImGuiLayer::ImGuiLayer(EditorApplication* owner, FrameBuffer* frameBuffer) : mOwner(owner), mSceneFramebuffer(frameBuffer)
 {
-
 #ifdef EDITOR
 
 	IMGUI_CHECKVERSION();
@@ -36,12 +38,15 @@ ImGuiLayer::ImGuiLayer(EditorApplication* owner, FrameBuffer* frameBuffer) : mOw
 
     SetEditorTheme();
 
+    mEditorFontTitle = io.Fonts->AddFontFromFileTTF("../ClutterEngine/EngineContent/Resources/Font/Rubik.ttf", 18.0f);
+    mEditorFont = io.Fonts->AddFontFromFileTTF("../ClutterEngine/EngineContent/Resources/Font/Rubik.ttf", 15.0f);
+    mConsoleFont = io.Fonts->AddFontFromFileTTF("../ClutterEngine/EngineContent/Resources/Font/JetBrains.ttf", 15.0f);
+
 #endif
 }
 
 void ImGuiLayer::BeginFrame()
 {
-
 #ifdef EDITOR
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
@@ -51,7 +56,6 @@ void ImGuiLayer::BeginFrame()
 
 void ImGuiLayer::DrawUI()
 {
-
 #ifdef EDITOR
 
     // DockSpace
@@ -66,6 +70,7 @@ void ImGuiLayer::DrawUI()
 
     ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+
     ImGui::Begin("DockSpace_Main", nullptr, windowFlags);
     ImGui::PopStyleVar(2);
 
@@ -76,22 +81,27 @@ void ImGuiLayer::DrawUI()
     if (!dockspaceInitialized)
     {
         dockspaceInitialized = true;
-        ImGui::DockBuilderRemoveNode(dockspaceID); // clear previous layout
+        ImGui::DockBuilderRemoveNode(dockspaceID);
         ImGui::DockBuilderAddNode(dockspaceID, ImGuiDockNodeFlags_DockSpace);
         ImGui::DockBuilderSetNodeSize(dockspaceID, viewport->Size);
 
         // Split main dockspace
         ImGuiID dock_main_id = dockspaceID;
+        ImGuiID dock_id_bottom = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.25f, nullptr, &dock_main_id);
+        ImGuiID dock_toolbar = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Up, 0.07f, nullptr, &dock_main_id);
         ImGuiID dock_id_left = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Left, 0.20f, nullptr, &dock_main_id);
         ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.25f, nullptr, &dock_main_id);
-        ImGuiID dock_id_bottom = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.25f, nullptr, &dock_main_id);
 
         // Dock windows
+        ImGui::DockBuilderDockWindow("ViewportToolbar", dock_toolbar);
         ImGui::DockBuilderDockWindow("Viewport", dock_main_id);
         ImGui::DockBuilderDockWindow("Scene Actors", dock_id_left);
         ImGui::DockBuilderDockWindow("Inspector", dock_id_right);
         ImGui::DockBuilderDockWindow("Content Browser", dock_id_bottom);
         ImGui::DockBuilderDockWindow("Console", dock_id_bottom);
+
+        ImGui::DockBuilderGetNode(dock_toolbar)->LocalFlags |= ImGuiDockNodeFlags_NoResize;
+        ImGui::DockBuilderGetNode(dock_toolbar)->LocalFlags |= ImGuiDockNodeFlags_NoTabBar;
 
         ImGui::DockBuilderFinish(dockspaceID);
     }
@@ -124,45 +134,49 @@ void ImGuiLayer::DrawUI()
     }
     ImGui::End();
 
-    //ImGui::BeginChild("ViewportToolbar", ImVec2(0, 40), false);
+    ImGui::SetNextWindowSizeConstraints(ImVec2(0, 40), ImVec2(FLT_MAX, 40));
 
-     //float windowWidth = ImGui::GetWindowWidth();
-     //float buttonWidth = 30.0f;   
-     //float spacing = 10.0f;
-     //int buttonCount = 4;
-     //float totalWidth = buttonCount * buttonWidth + (buttonCount - 1) * spacing;
-     //ImGui::SetCursorPosX((windowWidth - totalWidth) * 0.5f);
+    ImGui::Begin("ViewportToolbar", nullptr,
+        ImGuiWindowFlags_NoTitleBar |
+        ImGuiWindowFlags_NoCollapse |
+        ImGuiWindowFlags_NoResize |
+        ImGuiWindowFlags_NoMove |
+        ImGuiWindowFlags_NoScrollbar |
+        ImGuiWindowFlags_NoScrollWithMouse);
 
-     //GLuint playID = Assets::Get().LoadTexture("", "").get()->GetID();
-     //// Boutons avec "icônes"
+    float windowWidth = ImGui::GetWindowWidth();
+    float buttonWidth = 30.0f;
+    float spacing = 10.0f;
+    int buttonCount = 4;
+    float totalWidth = buttonCount * buttonWidth + (buttonCount - 1) * spacing;
+    ImGui::SetCursorPosX((windowWidth - totalWidth) * 0.5f);
 
-     //ImVec4 bg_col(0, 0, 0, 0);
-     //ImVec4 tint_col(1, 1, 1, 1);
-     //ImVec2 size(32, 32);
-     //ImVec2 uv0(0, 0), uv1(1, 1);
+    GLuint playID = Assets::Get().LoadTexture("../ClutterEngine/EngineContent/Resources/Textures/theBlock.png", "PlayButton").get()->GetID();
 
-     //if (ImGui::ImageButton("play_button", (ImTextureRef)(intptr_t)playID, size, uv0, uv1, bg_col, tint_col))
-     //{
-     //    // action quand le bouton est cliqué
-     //}
-     //if (ImGui::ImageButton("pause_button", (ImTextureRef)(intptr_t)playID, size, uv0, uv1, bg_col, tint_col))
-     //{
-     //    // action quand le bouton est cliqué
-     //}
+    ImVec4 bg_col(0, 0, 0, 0);
+    ImVec4 tint_col(1, 1, 1, 1);
+    ImVec2 size(32, 32);
+    ImVec2 uv0(0, 0), uv1(1, 1);
 
-     //if (ImGui::ImageButton("quit_button", (ImTextureRef)(intptr_t)playID, size, uv0, uv1, bg_col, tint_col))
-     //{
-     //    // action quand le bouton est cliqué
-     //}
 
-     //if (ImGui::ImageButton("simulate_button", (ImTextureRef)(intptr_t)playID, size, uv0, uv1, bg_col, tint_col))
-     //{
-     //    // action quand le bouton est cliqué
-     //}
+    if (ImGui::ImageButton("play_button", (ImTextureRef)(intptr_t)playID, size, uv0, uv1, bg_col, tint_col))
+    {
+        mOwner->SetMode(EditorMode::InGame);
+    }
+    ImGui::SameLine();
 
-     //ImGui::EndChild();
-     // 
-    // Viewport panel
+    if (ImGui::ImageButton("pause_button", (ImTextureRef)(intptr_t)playID, size, uv0, uv1, bg_col, tint_col))
+    {
+        mOwner->SetMode(EditorMode::Paused);
+    }
+    ImGui::SameLine();
+
+    if (ImGui::ImageButton("quit_button", (ImTextureRef)(intptr_t)playID, size, uv0, uv1, bg_col, tint_col))
+    {
+        mOwner->SetMode(EditorMode::InEditor);
+    }
+    ImGui::End();
+
     ImGui::Begin("Viewport");
 
     static int currentTab = 0;
@@ -171,19 +185,14 @@ void ImGuiLayer::DrawUI()
         if (ImGui::BeginTabItem("Scene"))
         {
             currentTab = 0;
-            if (mOwner)
-            {
-                mOwner->SetCamera(false);
-            }
+            if (mOwner) mOwner->SetCamera(false);
+
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Game"))
         {
             currentTab = 1;
-            if (mOwner)
-            {
-                mOwner->SetCamera(true);
-            }
+            if (mOwner) mOwner->SetCamera(true);
             ImGui::EndTabItem();
         }
         ImGui::EndTabBar();
@@ -207,7 +216,6 @@ void ImGuiLayer::DrawUI()
             renderSize.y = availSize.x / targetRatio;
         }
 
-        // Centrage horizontal uniquement
         ImVec2 cursorPos = ImGui::GetCursorPos();
         cursorPos.x += (availSize.x - renderSize.x) * 0.5f;
         ImGui::SetCursorPosX(cursorPos.x);
@@ -224,8 +232,13 @@ void ImGuiLayer::DrawUI()
     ImGui::End();
 
     // Inspector
+    ImGui::PushFont(mEditorFontTitle);
     ImGui::Begin("Inspector");
+    ImGui::PopFont();
+
+    ImGui::PushFont(mEditorFont);
     ImGui::Text("Inspector for selected actor");
+    ImGui::PopFont();
     ImGui::End();
 
     // Content Browser
@@ -233,29 +246,113 @@ void ImGuiLayer::DrawUI()
     ImGui::Text("Content hierarchy here");
     ImGui::End();
 
+    static bool showInfo = false;
+    static bool showLog = false;
+    static bool showWarning = false;
+    static bool showError = false;
+
+    const ImVec4 infoColor(0.4f, 1.0f, 0.4f, 1.0f);
+    const ImVec4 logColor(1.0f, 1.0f, 1.0f, 1.0f);
+    const ImVec4 warningColor(1.0f, 1.0f, 0.2f, 1.0f);
+    const ImVec4 errorColor(1.0f, 0.2f, 0.2f, 1.0f);
+
     // Console
+    ImGui::PushFont(mEditorFontTitle);
     ImGui::Begin("Console");
+
+    auto drawFilterButton = [](const char* label, bool& active, ImVec4 color)
+        {
+            ImVec4 btnColor = ImVec4(0.133f, 0.127f, 0.150f, 1.0f);
+
+            if (active) btnColor = ImVec4(0.110f, 0.104f, 0.123f, 1.0f);
+
+            ImGui::PushStyleColor(ImGuiCol_Button, btnColor);
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(btnColor.x + 0.1f, btnColor.y + 0.1f, btnColor.z + 0.1f, 1.0f));
+            ImGui::PushStyleColor(ImGuiCol_ButtonActive, btnColor);
+            ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 8.0f);
+            ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(12, 6));
+
+            bool pushedColor = false;
+            if (active)
+            {
+                ImGui::PushStyleColor(ImGuiCol_Text, color);
+                pushedColor = true;
+            }
+
+            if (ImGui::Button(label))
+                active = !active;
+
+            if (pushedColor)
+                ImGui::PopStyleColor();
+
+            ImGui::PopStyleVar(2);
+            ImGui::PopStyleColor(3);
+        };
+
+    ImGui::PopFont();
+
+    ImGui::PushFont(mEditorFont);
+    drawFilterButton("INFO", showInfo, infoColor); ImGui::SameLine();
+    drawFilterButton("LOG", showLog, logColor); ImGui::SameLine();
+    drawFilterButton("WARNING", showWarning, warningColor); ImGui::SameLine();
+    drawFilterButton("ERROR", showError, errorColor);
+
+    ImGui::PopFont();
+
+    ImGui::PushFont(mConsoleFont);
+
+    ImGui::BeginChild("LogRegion", ImVec2(0, -30), true);
+
+    bool noFilterActive = !showInfo && !showLog && !showWarning && !showError;
 
     for (const auto& entry : CLog::GetEntries())
     {
-        ImVec4 color;
+        bool show = noFilterActive;
 
-        switch (entry.level)
+        if (!show)
         {
-        case CLog::LogLevel::INFO:    color = ImVec4(0.4f, 1.0f, 0.4f, 1.0f); break;
-        case CLog::LogLevel::WARNING: color = ImVec4(1.0f, 1.0f, 0.2f, 1.0f); break;
-        case CLog::LogLevel::CERROR:  color = ImVec4(1.0f, 0.2f, 0.2f, 1.0f); break;
-        default:                      color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f); break;
+            switch (entry.level)
+            {
+            case CLog::LogLevel::INFO:    show = showInfo; break;
+            case CLog::LogLevel::LOG:     show = showLog; break;
+            case CLog::LogLevel::WARNING: show = showWarning; break;
+            case CLog::LogLevel::CERROR:  show = showError; break;
+            default:                      show = true; break;
+            }
         }
 
-        ImGui::PushStyleColor(ImGuiCol_Text, color);
-        ImGui::TextWrapped("%s", entry.message.c_str());
-        ImGui::PopStyleColor();
+        if (show)
+        {
+            ImVec4 color;
+            switch (entry.level)
+            {
+            case CLog::LogLevel::INFO:    color = infoColor; break;
+            case CLog::LogLevel::LOG:     color = logColor; break;
+            case CLog::LogLevel::WARNING: color = warningColor; break;
+            case CLog::LogLevel::CERROR:  color = errorColor; break;
+            default:                      color = logColor; break;
+            }
+
+            ImGui::PushStyleColor(ImGuiCol_Text, color);
+
+            std::string fullMessage = entry.timeStamp + " | " + entry.message;
+            ImGui::TextWrapped("%s", fullMessage.c_str());
+
+            ImGui::PopStyleColor();
+        }
     }
 
-    if (ImGui::Button("Clear")) CLog::ClearEntries();
+    ImGui::PopFont();
+    ImGui::EndChild();
 
-    //ImGui::End();
+    ImGui::SetCursorPosY(ImGui::GetWindowContentRegionMax().y - ImGui::GetFrameHeight());
+    ImGui::SetCursorPosX(ImGui::GetWindowContentRegionMax().x - ImGui::CalcTextSize("Clear").x - ImGui::GetStyle().FramePadding.x * 2);
+
+    ImGui::PushFont(mEditorFontTitle);
+
+    if (ImGui::Button("Clear"))  CLog::ClearEntries();
+
+    ImGui::PopFont();
     ImGui::End();
 
 #endif
@@ -276,7 +373,6 @@ void ImGuiLayer::EndFrame()
         ImGui::RenderPlatformWindowsDefault();
         glfwMakeContextCurrent(backup_current_context);
     }
-
 #endif
 }
 

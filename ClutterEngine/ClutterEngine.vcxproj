@@ -492,6 +492,9 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <None Include="EngineContent\Resources\Shader\text.frag" />
     <None Include="EngineContent\Resources\Shader\text.vert" />
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="C:\Users\marty\Desktop\Rubik.ttf" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

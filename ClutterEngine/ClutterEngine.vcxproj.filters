@@ -527,4 +527,7 @@
     <None Include="EngineContent\Resources\Shader\text.vert" />
     <None Include="EngineContent\Config\project.config.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="C:\Users\marty\Desktop\Rubik.ttf" />
+  </ItemGroup>
 </Project>

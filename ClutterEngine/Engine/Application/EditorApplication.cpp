@@ -19,7 +19,6 @@ EditorApplication::EditorApplication(std::vector<clt::Level*> pLevels, const std
 
 void EditorApplication::Init(std::vector<clt::Level*> pLevels, const std::string& configFile)
 {
-
 	mEngine = std::make_unique<clt::CEngine>();
 
 	if (pLevels.empty()) pLevels.push_back(new clt::TemplateLevel());
@@ -37,9 +36,7 @@ void EditorApplication::Init(std::vector<clt::Level*> pLevels, const std::string
 	mViewportFramebuffer = new FrameBuffer(spec);
 #endif
 
-
 	mEditor = std::make_unique<clt::ImGuiLayer>(this, mViewportFramebuffer);
-
 
 #ifdef EDITOR
 
@@ -48,7 +45,7 @@ void EditorApplication::Init(std::vector<clt::Level*> pLevels, const std::string
 	clt::Inputs::Get().RegisterActionCallback("enableWireframeMode", [this] { this->ShowWireframe(); });
 	clt::Inputs::Get().RegisterActionCallback("enableFillMode", [this] { this->ShowLitMode(); });
 
-	Window::Get().ResizeViewport(100, 100, 1920, 1080);
+	Window::Get().ResizeViewportCentered(1920, 1080);
 
 	mEngine->Update();
 
@@ -58,7 +55,6 @@ void EditorApplication::Init(std::vector<clt::Level*> pLevels, const std::string
 	SetMode(clt::EditorMode::InEditor);
 
 #endif
-
 
 	Run();
 }

@@ -72,6 +72,22 @@ void Window::ResizeViewport(u32 startWidth, u32 startHeight, u32 width, u32 heig
     glViewport(startWidth, startHeight, width, height);
 }
 
+void Window::ResizeViewportCentered(u32 width, u32 height)
+{
+    mDimensions = { static_cast<float>(width), static_cast<float>(height) };
+    GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(primaryMonitor);
+
+    int xpos = (mode->width - width) / 2;
+    int ypos = (mode->height - height) / 2;
+
+    glfwSetWindowSize(mGlfwWindow, width, height);
+    glfwSetWindowPos(mGlfwWindow, xpos, ypos);
+
+    glfwMakeContextCurrent(mGlfwWindow);
+    gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+}
+
 void Window::RenameViewport(const char* name)
 {
     glfwSetWindowTitle(mGlfwWindow, name);
