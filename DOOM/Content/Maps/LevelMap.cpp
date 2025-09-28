@@ -31,7 +31,7 @@ void LevelMap::Load()
 
 	clt::Assets::Get().LoadAudio("Content/Resources/Audio/inGame.mp3", "inGame", AudioCategory::Music);
 
-	clt::Audio::Get().SpawnSound("inGame");
+	//clt::Audio::Get().SpawnSound("inGame");
 
 	camera = AddActor<clt::Actor>("camera");
 

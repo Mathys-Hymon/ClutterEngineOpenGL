@@ -12,6 +12,7 @@ namespace clt
 		float mActualSpeed;
 
 		bool mMainCam;
+		bool mCanMove;
 
 	public:
 		EditorController(float pMouseSpeed = 1);
@@ -27,6 +28,9 @@ namespace clt
 
 		void Rotation(Vector2 pRotation);
 		void ChangeSpeed(float pOffset);
+
+		void SetCanMove(bool canMove) { mCanMove = canMove; };
+		void UnfocusWindow();
 
 		void Update() override;
 

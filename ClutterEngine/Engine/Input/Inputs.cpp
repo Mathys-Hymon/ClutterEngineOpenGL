@@ -134,6 +134,7 @@ bool Inputs::IsButtonPressed(EMouseButton pButton) const
 void Inputs::Update()
 {
 	GLFWwindow* pGLFWindow = Window::Get().GetGLFWWindow();
+	Vector2 windowSize = Window::Get().GetDimensions();
 
 		// INPUT MAPPING
 
@@ -270,10 +271,11 @@ void Inputs::Update()
 	}
 
 	double mouseX, mouseY;
+
 	glfwGetCursorPos(pGLFWindow, &mouseX, &mouseY);
 	Vector2 currentMousePos(static_cast<float>(mouseX), static_cast<float>(mouseY));
-	Vector2 mouseDelta = currentMousePos - mLastMousePosition;
-	mLastMousePosition = currentMousePos;
+	Vector2 mouseDelta = currentMousePos - (mLockMouse ? windowSize *0.5f : mLastMousePosition);
+	mLastMousePosition = mLockMouse ? 0 : currentMousePos;
 
 	for (const auto& callback : mMouseDeltaCallback)
 	{
@@ -349,5 +351,6 @@ void Inputs::Update()
 
 	glfwSetInputMode(pGLFWindow, GLFW_CURSOR, mShowMouse ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED);
 
+	if (mLockMouse) glfwSetCursorPos(pGLFWindow, windowSize.x * 0.5f, windowSize.y * 0.5f);
 	mScrollDelta = 0.0f;
 }

@@ -75,7 +75,7 @@ bool DoomHUD::TriggerShoot(int ammo)
 
 		LineTrace(GetWorldLocation(), GetWorldTransform().Forward(), 150, hitResult);
 
-		clt::Audio::Get().SpawnSound("shoot").SetPitch(Maths::Rand(0.8f, 1.5f));
+		//clt::Audio::Get().SpawnSound("shoot").SetPitch(Maths::Rand(0.8f, 1.5f));
 
 
 		Zombie* enemy = dynamic_cast<Zombie*>(hitResult.Actor);

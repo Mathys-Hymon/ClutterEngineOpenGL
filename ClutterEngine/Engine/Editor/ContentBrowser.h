@@ -9,6 +9,8 @@ namespace ImGui {
     typedef unsigned long long ImTextureID;
 }
 
+struct ImFont;
+
 namespace clt
 {
     enum class CLUTTER_API AssetType { Texture, Mesh, Font, Sound, Shader, Script, Unknown };
@@ -37,12 +39,14 @@ namespace clt
         ImGui::ImTextureID mFolderIcon;
         std::unordered_map<AssetType, Texture*> mAssetIcons;
 
+        bool FolderHasChild(ContentFolder* folder, ContentFolder* targetChild);
+
     public:
         ContentBrowser();
         ~ContentBrowser() = default;
 
         void ScanFolder(const std::string& root);
-        void Draw();
+        void Draw(ImFont* mEditorFontTitle, ImFont* mEditorFont);
 
         void SetFolderIcon(ImGui::ImTextureID icon) { mFolderIcon = icon; }
         void SetAssetIcon(AssetType type, std::weak_ptr<Texture> icon) { mAssetIcons[type] = icon.lock().get(); }

@@ -2,6 +2,7 @@
 #include "ImGuiLayer.h"
 
 #ifdef EDITOR
+#include <Core/ActorComponent/Components/Movements/EditorController.h>
 #include <glad/glad.h>         
 #include <GLFW/glfw3.h> 
 #include "imgui.h"
@@ -199,6 +200,13 @@ void ImGuiLayer::DrawUI()
         ImGui::EndTabBar();
     }
 
+    bool hovered = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows);
+
+    if (mOwner)
+    {
+        if (mOwner->mEditorCam) mOwner->mEditorCam->GetComponentOfType<EditorController>()->SetCanMove((hovered));
+    }
+
     if (mSceneFramebuffer)
     {
         ImVec2 availSize = ImGui::GetContentRegionAvail();
@@ -288,7 +296,7 @@ void ImGuiLayer::DrawUI()
     ImGui::PopFont();
 
 
-    mContentBrowser->Draw();
+    mContentBrowser->Draw(mEditorFontTitle, mEditorFont);
 
     ImGui::PushFont(mEditorFont);
     drawFilterButton("INFO", showInfo, infoColor); ImGui::SameLine();
