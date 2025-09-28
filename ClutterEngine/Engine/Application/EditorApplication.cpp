@@ -54,6 +54,16 @@ void EditorApplication::Init(std::vector<clt::Level*> pLevels, const std::string
 
 	SetMode(clt::EditorMode::InEditor);
 
+	Texture* tex = Assets::Get().LoadTexture("../ClutterEngine/EngineContent/Resources/Icon/clutterLogoLight.png", "EditorLogo").get();
+	unsigned char* pixels = tex->GetPixels();
+
+	GLFWimage image;
+	image.width = static_cast<int>(tex->GetWidth());
+	image.height = static_cast<int>(tex->GetHeight());
+	image.pixels = pixels;
+
+	glfwSetWindowIcon(Window::Get().GetGLFWWindow(), 1, &image);
+
 #endif
 
 	Run();

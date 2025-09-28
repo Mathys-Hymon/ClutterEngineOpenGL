@@ -39,7 +39,15 @@ namespace clt
         ImGui::ImTextureID mFolderIcon;
         std::unordered_map<AssetType, Texture*> mAssetIcons;
 
+        ImGui::ImTextureID mFolderClosedIcon;
+        ImGui::ImTextureID mFolderOpenIcon;
+
         bool FolderHasChild(ContentFolder* folder, ContentFolder* targetChild);
+
+        void ScanFolderRecursive(ContentFolder& folder);
+
+        void DrawFolderTree(ContentFolder* folder);
+        void DrawContentItems();
 
     public:
         ContentBrowser();
@@ -50,9 +58,5 @@ namespace clt
 
         void SetFolderIcon(ImGui::ImTextureID icon) { mFolderIcon = icon; }
         void SetAssetIcon(AssetType type, std::weak_ptr<Texture> icon) { mAssetIcons[type] = icon.lock().get(); }
-
-    private:
-        void ScanFolderRecursive(ContentFolder& folder);
-        void DrawFolderTree(ContentFolder* folder);
     };
 }

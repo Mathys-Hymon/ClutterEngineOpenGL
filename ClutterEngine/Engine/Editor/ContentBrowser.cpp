@@ -18,12 +18,18 @@ ContentBrowser::ContentBrowser()
 
     hoverColor.a = 0.25;
 
-    SetFolderIcon(Assets::Get().LoadTexture("../ClutterEngine/EngineContent/Resources/Textures/folder.png", "folder Icon", TextureFilter::LINEAR, false, false)->GetID());
+    mFolderIcon = Assets::Get().LoadTexture("../ClutterEngine/EngineContent/Resources/Textures/folder.png", "folder Icon", TextureFilter::LINEAR, false, false)->GetID();
+
     SetAssetIcon(AssetType::Mesh, Assets::Get().LoadTexture("../ClutterEngine/EngineContent/Resources/Textures/meshFile.png", "mesh Icon", TextureFilter::LINEAR, false, false));
     SetAssetIcon(AssetType::Font, Assets::Get().LoadTexture("../ClutterEngine/EngineContent/Resources/Textures/fontFile.png", "font Icon", TextureFilter::LINEAR, false, false));
     SetAssetIcon(AssetType::Shader, Assets::Get().LoadTexture("../ClutterEngine/EngineContent/Resources/Textures/shaderFile.png", "shader Icon", TextureFilter::LINEAR, false, false));
     SetAssetIcon(AssetType::Sound, Assets::Get().LoadTexture("../ClutterEngine/EngineContent/Resources/Textures/audioFile.png", "audio Icon", TextureFilter::LINEAR, false, false));
     SetAssetIcon(AssetType::Script, Assets::Get().LoadTexture("../ClutterEngine/EngineContent/Resources/Textures/scriptFile.png", "script Icon", TextureFilter::LINEAR, false, false));
+
+    mFolderOpenIcon = Assets::Get().LoadTexture("../ClutterEngine/EngineContent/Resources/Textures/folderIconOpened.png", "folder Opened Icon", 
+        TextureFilter::LINEAR, false, false)->GetID();
+    mFolderClosedIcon = Assets::Get().LoadTexture("../ClutterEngine/EngineContent/Resources/Textures/folderIconClosed.png", "folder Closed Icon", 
+        TextureFilter::LINEAR, false, false)->GetID();
 }
 
 void ContentBrowser::ScanFolder(const std::string& root)
@@ -77,7 +83,7 @@ void ContentBrowser::DrawFolderTree(ContentFolder* folder)
     bool isSelected = (folder == mCurrentFolder);
 
     bool childSelected = false;
-    for (auto& child : folder->Children) 
+    for (auto& child : folder->Children)
     {
         if (FolderHasChild(&child, mCurrentFolder))
         {
@@ -86,30 +92,218 @@ void ContentBrowser::DrawFolderTree(ContentFolder* folder)
         }
     }
 
-    if (childSelected || isSelected) ImGui::SetNextItemOpen(true, ImGuiCond_Always);
+    if (childSelected || isSelected)
+        ImGui::SetNextItemOpen(true, ImGuiCond_Always);
 
     ImGuiTreeNodeFlags flags = (isSelected ? ImGuiTreeNodeFlags_Selected : 0);
 
     if (folder->Children.empty())
     {
         flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
-        ImGui::TreeNodeEx(folder->Name.c_str(), flags);
+
+        std::string label = "##" + folder->Name;
+        ImGui::TreeNodeEx(label.c_str(), flags);
+
+        ImGui::SameLine();
+        if (mFolderClosedIcon) ImGui::Image((isSelected ? mFolderOpenIcon : mFolderClosedIcon), ImVec2(16, 16));
+        ImGui::SameLine();
+        ImGui::Text("%s", folder->Name.c_str());
 
         if (ImGui::IsItemClicked(0)) mCurrentFolder = folder;
     }
     else
     {
         flags |= ImGuiTreeNodeFlags_OpenOnArrow;
-        bool nodeOpen = ImGui::TreeNodeEx(folder->Name.c_str(), flags);
+
+        std::string label = "##" + folder->Name;
+        bool nodeOpen = ImGui::TreeNodeEx(label.c_str(), flags);
+
+        ImGui::SameLine();
+        ImTextureID icon = ((nodeOpen || isSelected) ? mFolderOpenIcon : mFolderClosedIcon);
+        if (icon) ImGui::Image(icon, ImVec2(16, 16));
+
+        ImGui::SameLine();
+        ImGui::Text("%s", folder->Name.c_str());
 
         if (ImGui::IsItemClicked(0)) mCurrentFolder = folder;
 
         if (nodeOpen)
         {
-            for (auto& child : folder->Children) DrawFolderTree(&child);
+            for (auto& child : folder->Children)
+                DrawFolderTree(&child);
 
             ImGui::TreePop();
         }
+    }
+}
+
+void ContentBrowser::DrawContentItems()
+{
+    if (!mCurrentFolder) { ImGui::EndChild(); ImGui::End(); return; }
+
+    float cellSize = 74.0f;
+    ImVec2 availRegion = ImGui::GetContentRegionAvail();
+    float x = 0.0f;
+
+    // --- Return Folder ---
+
+    if (mCurrentFolder != &mRootFolder)
+    {
+        ImGui::BeginGroup();
+        if (mFolderIcon) ImGui::Image(mFolderIcon, ImVec2(96.75, 76.5));
+
+        if (ImGui::IsItemHovered())
+        {
+            ImVec2 min = ImGui::GetItemRectMin();
+            ImVec2 max = ImGui::GetItemRectMax();
+
+            ImU32 col = ImGui::GetColorU32(ImVec4(hoverColor.r, hoverColor.g, hoverColor.b, hoverColor.a));
+
+            ImGui::GetWindowDrawList()->AddRectFilled(min, max, col, 4.0f);
+        }
+
+        if (ImGui::IsItemClicked(0) && ImGui::IsMouseDoubleClicked(0))
+        {
+            mCurrentFolder = mCurrentFolder->Parent;
+        }
+        ImGui::TextWrapped("..");
+
+        ImGui::EndGroup();
+        ImGui::SameLine(0, 10);
+
+        x += 106.5f;
+    }
+
+    // Draw all child folder in folder ---
+
+    for (auto& child : mCurrentFolder->Children)
+    {
+        if (x + cellSize > availRegion.x)
+        {
+            ImGui::NewLine();
+            x = 0.0f;
+        }
+
+        ImGui::BeginGroup();
+
+        ImVec2 folderSize(96.5, 76.25);
+
+        if (mFolderIcon) ImGui::Image(mFolderIcon, folderSize);
+
+        if (ImGui::IsItemHovered())
+        {
+            ImVec2 min = ImGui::GetItemRectMin();
+            ImVec2 max = ImGui::GetItemRectMax();
+
+            ImU32 col = ImGui::GetColorU32(ImVec4(hoverColor.r, hoverColor.g, hoverColor.b, hoverColor.a));
+
+            ImGui::GetWindowDrawList()->AddRectFilled(min, max, col, 4.0f);
+        }
+
+        if (ImGui::IsItemClicked(0) && ImGui::IsMouseDoubleClicked(0))
+        {
+            mCurrentFolder = &child;
+        }
+
+        ImVec2 textSize = ImGui::CalcTextSize(child.Name.c_str());
+        float textPosX = ImGui::GetCursorPosX() + (folderSize.x - textSize.x) * 0.5f;
+
+        ImGui::SetCursorPosX(textPosX);
+        ImGui::TextWrapped("%s", child.Name.c_str());
+
+        ImGui::EndGroup();
+        ImGui::SameLine(0, 10);
+        x += 106.5f;
+    }
+
+    // --- Draw all Items in the folder ---
+
+    for (auto& item : mCurrentFolder->Items)
+    {
+        if (x + cellSize > availRegion.x)
+        {
+            ImGui::NewLine();
+            x = 0.0f;
+        }
+
+        ImGui::BeginGroup();
+        ImTextureID icon = 0;
+
+        Texture* tex = nullptr;
+        ImVec2 texSize;
+
+        switch (item.Type)
+        {
+        case AssetType::Texture: // Use texture render for Icon if texture
+
+            tex = Assets::Get().GetTexture(item.Name).get();
+
+            if (tex)
+            {
+                GLuint texID = tex->GetID();
+                icon = (ImTextureID)(intptr_t)texID;
+
+                texSize = ImVec2(76.5, 76.5);
+                ImGui::Image(icon, texSize);
+
+                if (ImGui::IsItemHovered())
+                {
+                    ImVec2 min = ImGui::GetItemRectMin();
+                    ImVec2 max = ImGui::GetItemRectMax();
+
+                    ImU32 col = ImGui::GetColorU32(ImVec4(hoverColor.r, hoverColor.g, hoverColor.b, hoverColor.a));
+
+                    ImGui::GetWindowDrawList()->AddRectFilled(min, max, col, 4.0f);
+                }
+            }
+            break;
+
+        default:
+
+            tex = mAssetIcons[item.Type];
+
+            if (tex)
+            {
+                GLuint texID = tex->GetID();
+                icon = (ImTextureID)(intptr_t)texID;
+
+                texSize = { 64.0f, 77.3f };
+
+                ImGui::Image(icon, texSize);
+
+                if (ImGui::IsItemHovered())
+                {
+                    ImVec2 min = ImGui::GetItemRectMin();
+                    ImVec2 max = ImGui::GetItemRectMax();
+
+                    ImU32 col = ImGui::GetColorU32(ImVec4(hoverColor.r, hoverColor.g, hoverColor.b, hoverColor.a));
+
+                    ImGui::GetWindowDrawList()->AddRectFilled(min, max, col, 4.0f);
+                }
+            }
+            break;
+        }
+
+        ImVec2 size = ImGui::CalcTextSize(item.Name.c_str());
+
+        std::string displayName = item.Name;
+        if (size.x > texSize.x)
+        {
+            int chars = item.Name.size();
+            while (chars > 0 && ImGui::CalcTextSize(displayName.c_str()).x > texSize.y)
+            {
+                chars--;
+                displayName = item.Name.substr(0, chars) + "..";
+            }
+        }
+
+        float textPosX = ImGui::GetCursorPosX() + (texSize.x - ImGui::CalcTextSize(displayName.c_str()).x) * 0.5f;
+        ImGui::SetCursorPosX(textPosX);
+        ImGui::Text("%s", displayName.c_str());
+
+        ImGui::EndGroup();
+        ImGui::SameLine(0, 30);
+        x += 106.5f;
     }
 }
 
@@ -129,26 +323,37 @@ bool ContentBrowser::FolderHasChild(ContentFolder* folder, ContentFolder* target
 
 void ContentBrowser::Draw(ImFont* mEditorFontTitle, ImFont* mEditorFont)
 {
+    static float mHierarchyWidth = 250.0f;
+
     ImGui::Begin("Content Browser");
 
     ImGui::PushFont(mEditorFont);
 
-    // ---- Left side : hiérarchie ----
-    ImGui::BeginChild("Hierarchy", ImVec2(200, 0), true);
+    // ---- Left side : Hierarchy ----
+
+    ImGui::BeginChild("Hierarchy", ImVec2(mHierarchyWidth, 0), true);
     DrawFolderTree(&mRootFolder);
     ImGui::EndChild();
 
     ImGui::PopFont();
     ImGui::SameLine();
 
-    // ---- Right side : contenu du dossier ----
+    ImGui::InvisibleButton("Splitter", ImVec2(5.0f, -1.0f));
+    if (ImGui::IsItemActive())
+    {
+        mHierarchyWidth += ImGui::GetIO().MouseDelta.x;
+        if (mHierarchyWidth < 150.0f) mHierarchyWidth = 150.0f;   // min width
+        if (mHierarchyWidth > 800.0f) mHierarchyWidth = 800.0f; // max width
+    }
+    ImGui::SameLine();
+
     ImGui::BeginChild("Content", ImVec2(0, 0), true);
 
     if (ImGui::BeginPopupContextWindow())
     {
         if (ImGui::MenuItem("New Folder"))
         {
-            // Créer un nouveau dossier
+            // to do
         }
         ImGui::EndPopup();
     }
@@ -157,11 +362,11 @@ void ContentBrowser::Draw(ImFont* mEditorFontTitle, ImFont* mEditorFont)
     {
         if (ImGui::MenuItem("Rename"))
         {
-            // lancer mode renommage
+            // to do
         }
         if (ImGui::MenuItem("Delete"))
         {
-            // supprimer l'item
+            // to do
         }
         ImGui::EndPopup();
     }
@@ -196,151 +401,10 @@ void ContentBrowser::Draw(ImFont* mEditorFontTitle, ImFont* mEditorFont)
     ImGui::Separator();
     ImGui::Dummy(ImVec2(0.0f, 2.0f));
 
-    // Folder
-
     ImGui::PushFont(mEditorFont);
-
-    if (!mCurrentFolder) { ImGui::EndChild(); ImGui::End(); return; }
-
-    if (mCurrentFolder != &mRootFolder)
-    {
-        ImGui::BeginGroup();
-        if (mFolderIcon) ImGui::Image(mFolderIcon, ImVec2(96.75, 76.5));
-
-        if (ImGui::IsItemHovered())
-        {
-            ImVec2 min = ImGui::GetItemRectMin();
-            ImVec2 max = ImGui::GetItemRectMax();
-
-            ImU32 col = ImGui::GetColorU32(ImVec4(hoverColor.r, hoverColor.g, hoverColor.b, hoverColor.a));
-
-            ImGui::GetWindowDrawList()->AddRectFilled(min, max, col, 4.0f);
-        }
-
-        if (ImGui::IsItemClicked(0) && ImGui::IsMouseDoubleClicked(0))
-        {
-            mCurrentFolder = mCurrentFolder->Parent;
-        }
-        ImGui::TextWrapped("..");
-
-        ImGui::EndGroup();
-        ImGui::SameLine();
-    }
-
-    for (auto& child : mCurrentFolder->Children)
-    {
-        ImGui::BeginGroup();
-
-        ImVec2 folderSize(96.75, 76.5);
-
-        if (mFolderIcon) ImGui::Image(mFolderIcon, folderSize);
-
-        if (ImGui::IsItemHovered())
-        {
-            ImVec2 min = ImGui::GetItemRectMin();
-            ImVec2 max = ImGui::GetItemRectMax();
-
-            ImU32 col = ImGui::GetColorU32(ImVec4(hoverColor.r, hoverColor.g, hoverColor.b, hoverColor.a));
-
-            ImGui::GetWindowDrawList()->AddRectFilled(min, max, col, 4.0f);
-        }
-
-        if (ImGui::IsItemClicked(0) && ImGui::IsMouseDoubleClicked(0))
-        {
-            mCurrentFolder = &child;
-        }
-
-        ImVec2 textSize = ImGui::CalcTextSize(child.Name.c_str());
-        float textPosX = ImGui::GetCursorPosX() + (folderSize.x - textSize.x) * 0.5f;
-        
-        ImGui::SetCursorPosX(textPosX);
-        ImGui::TextWrapped("%s", child.Name.c_str());
-
-        ImGui::EndGroup();
-        ImGui::SameLine(0, 10);
-    }
-
-    for (auto& item : mCurrentFolder->Items)
-    {
-        ImGui::BeginGroup();
-        ImTextureID icon = 0;
-
-        Texture* tex = nullptr;
-        ImVec2 texSize;
-
-        switch (item.Type)
-        {
-        case AssetType::Texture:
-
-            tex = Assets::Get().GetTexture(item.Name).get();
-
-            if (tex)
-            {
-                GLuint texID = tex->GetID();
-                icon = (ImTextureID)(intptr_t)texID;
-
-                texSize = ImVec2(76.5, 76.5);
-                ImGui::Image(icon, texSize);
-
-                if (ImGui::IsItemHovered())
-                {
-                    ImVec2 min = ImGui::GetItemRectMin();
-                    ImVec2 max = ImGui::GetItemRectMax();
-
-                    ImU32 col = ImGui::GetColorU32(ImVec4(hoverColor.r, hoverColor.g, hoverColor.b, hoverColor.a));
-
-                    ImGui::GetWindowDrawList()->AddRectFilled(min, max, col, 4.0f);
-                }
-            }
-            break;
-
-        default:
-
-            tex = mAssetIcons[item.Type];
-
-            if (tex)
-            {
-                GLuint texID = tex->GetID();
-                icon = (ImTextureID)(intptr_t)texID;
-
-                texSize = ImVec2(tex->GetSize().x * 0.3f, tex->GetSize().y * 0.3f);
-
-                ImGui::Image(icon, { texSize.x, texSize.y});
-
-                if (ImGui::IsItemHovered())
-                {
-                    ImVec2 min = ImGui::GetItemRectMin();
-                    ImVec2 max = ImGui::GetItemRectMax();
-
-                    ImU32 col = ImGui::GetColorU32(ImVec4(hoverColor.r, hoverColor.g, hoverColor.b, hoverColor.a));
-
-                    ImGui::GetWindowDrawList()->AddRectFilled(min, max, col, 4.0f);
-                }
-            }
-            break;
-        }
-
-        ImVec2 size = ImGui::CalcTextSize(item.Name.c_str());
-
-        std::string displayName = item.Name;
-        if (size.x > texSize.x)
-        {
-            int chars = item.Name.size();
-            while (chars > 0 && ImGui::CalcTextSize(displayName.c_str()).x > texSize.x)
-            {
-                chars--;
-                displayName = item.Name.substr(0, chars) + "..";
-            }
-        }
-
-        float textPosX = ImGui::GetCursorPosX() + (texSize.x - ImGui::CalcTextSize(displayName.c_str()).x) * 0.5f;
-        ImGui::SetCursorPosX(textPosX);
-        ImGui::Text("%s", displayName.c_str());
-
-        ImGui::EndGroup();
-        ImGui::SameLine();
-    }
+    DrawContentItems();
     ImGui::PopFont();
+
 
     ImGui::NewLine();
     ImGui::EndChild();

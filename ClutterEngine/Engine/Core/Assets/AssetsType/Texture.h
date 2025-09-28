@@ -16,6 +16,7 @@ namespace clt
 		int mWidth; ///< Width of the texture
 		int mHeight; ///< Height of the texture
 		int mChannels; ///< Number of color channels in the texture
+		std::vector<unsigned char> mPixels;
 
 		/**
    * @brief Constructs a Texture object.
@@ -66,5 +67,7 @@ namespace clt
    * @return The OpenGL texture ID.
    */
 		inline GLuint GetID() const { return mID; };
+
+		unsigned char* GetPixels();
 	};
 }

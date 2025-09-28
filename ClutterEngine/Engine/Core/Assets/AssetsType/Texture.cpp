@@ -28,3 +28,20 @@ void Texture::UpdateInfo(int& rWidth, int& rHeight)
 	rWidth = mWidth;
 	rHeight = mHeight;
 }
+
+unsigned char* Texture::GetPixels()
+{
+    if (!mPixels.empty())
+        return mPixels.data();
+
+    if (mID == 0) return nullptr;
+
+    glBindTexture(GL_TEXTURE_2D, mID);
+
+    mPixels.resize(mWidth * mHeight * 4);
+
+    glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, mPixels.data());
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+    return mPixels.data();
+}
