@@ -5,7 +5,7 @@
 
 using namespace clt;
 
-EditorController::EditorController(float pMouseSpeed) : PlayerController(2), mMinSpeed(0.1f), mMaxSpeed(10.0f), mActualSpeed(1.0f), mMainCam(false), mCanMove(true)
+EditorController::EditorController(float pMouseSpeed) : PlayerController(2), mMinSpeed(0.1f), mMaxSpeed(10.0f), mActualSpeed(1.0f), mMainCam(false), mCanMove(true), mFirstClick(true), mRot(0,0)
 {
 	Inputs::Get().RegisterMouseCallback([this](Vector2 value) { this->Rotation(value); });
 
@@ -23,6 +23,63 @@ EditorController::EditorController(float pMouseSpeed) : PlayerController(2), mMi
 	mMaxAcceleration = 1;
 	mMaxWalkSpeed = 5;
 	mMouseSpeed = pMouseSpeed;
+}
+
+
+void EditorController::Update()
+{
+	auto cam = mOwner->GetComponentOfType<CameraComponent>();
+
+	if (!cam || !(cam == CameraComponent::GetActiveCamera())) mMainCam = false;
+	else mMainCam = true;
+
+	if (!mMainCam) return;
+
+	Inputs& i = Inputs::Get();
+
+	if (mCanMove)
+	{
+		if (i.IsButtonPressed(EMouseButton::Right))
+		{
+			Vector2 screenSize = Window::Get().GetDimensions();
+			i.SetShowMouseCursor(false);
+
+			if (mFirstClick) 
+			{
+				mFirstClick = false;
+				i.SetMousePosition({ screenSize.x * 0.5f, screenSize.y * 0.5f });
+				return;
+			}
+
+			double mouseX;
+			double mouseY;
+			glfwGetCursorPos(Window::Get().GetGLFWWindow(), &mouseX, &mouseY);
+			Vector2 currentMousePos(static_cast<float>(mouseX), static_cast<float>(mouseY));
+			Vector2 mouseDelta = currentMousePos - Vector2{ screenSize.x * 0.5f, screenSize.y * 0.5f };
+
+			i.SetMousePosition({ screenSize.x * 0.5f, screenSize.y * 0.5f });
+
+			Rotation(mouseDelta);
+		}
+		else
+		{	
+			mFirstClick = true;
+			i.SetShowMouseCursor(true);
+		}
+
+		if (i.IsButtonPressed(EKey::A)) Movement({ 1,0 });
+		if (i.IsButtonPressed(EKey::D)) Movement({ -1,0 });
+		if (i.IsButtonPressed(EKey::W)) Movement({ 0,1 });
+		if (i.IsButtonPressed(EKey::S)) Movement({ 0,-1 });
+
+		if (i.IsButtonPressed(EKey::E)) MoveVertically(1);
+		if (i.IsButtonPressed(EKey::Q)) MoveVertically(-1);
+	}
+	else
+	{
+		i.SetShowMouseCursor(true);
+	}
+
 }
 
 void EditorController::Movement(Vector2 pDirection)
@@ -66,14 +123,6 @@ void EditorController::UnfocusWindow()
 	clt::Inputs::Get().LockMouseCursor(false);
 }
 
-void EditorController::Update()
-{
-	auto cam = mOwner->GetComponentOfType<CameraComponent>();
-
-	if (!cam || !(cam == CameraComponent::GetActiveCamera())) mMainCam = false;
-	else mMainCam = true;
-}
-
 void EditorController::Rotation(Vector2 pRotation)
 {
 	if (!mMainCam || !mCanMove) return;
@@ -83,10 +132,16 @@ void EditorController::Rotation(Vector2 pRotation)
 		clt::Inputs::Get().SetShowMouseCursor(false);
 		clt::Inputs::Get().LockMouseCursor(true);
 
-		Vector3 up = pRotation.x * Vector3::Up;
-		Vector3 right = -pRotation.y * GetWorldTransform().Right();
+		mRot.x += pRotation.x * 0.001f;
+		mRot.y -= pRotation.y * 0.001f;
 
-		mOwner->AddActorRotationOffset((up + right));
+		mRot.y = Maths::Clamp(mRot.y, -Maths::PI_OVER2, Maths::PI_OVER2);
+
+		Quaternion qYaw(Vector3::Up, mRot.x);
+		Quaternion qPitch(Vector3::Right, mRot.y);
+		Quaternion finalRot = Quaternion::Concatenate(qPitch, qYaw);
+
+		mOwner->SetActorRotation(finalRot);
 	}
 	else
 	{

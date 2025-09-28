@@ -12,11 +12,10 @@ namespace clt
 		virtual ~IPhysics() = default;
 
 		virtual void UpdatePhysics() = 0;
+		virtual void DrawDebug() = 0;
 
 		virtual void AddRigidbody(IRigidbody* body) = 0;
 		virtual void RemoveRigidBody(IRigidbody* body) = 0;
-
-		virtual void EnablePhysics(bool enable) = 0;
 
 		virtual bool LineTrace(const Vector3& start, const Vector3& direction, float maxDistance, RaycastHit& outHit, const TraceParams& params, Actor* self) = 0;
 	};

@@ -23,6 +23,21 @@ Quaternion::Quaternion(const Vector3& axis, float angle)
 	w = Maths::Cos(angle / 2.0f);
 }
 
+Quaternion::Quaternion(const Vector3& euler)
+{
+	float cy = cos(euler.y * 0.5f); // yaw
+	float sy = sin(euler.y * 0.5f);
+	float cp = cos(euler.x * 0.5f); // pitch
+	float sp = sin(euler.x * 0.5f);
+	float cr = cos(euler.z * 0.5f); // roll
+	float sr = sin(euler.z * 0.5f);
+
+	w = cr * cp * cy + sr * sp * sy;
+	x = sr * cp * cy - cr * sp * sy;
+	y = cr * sp * cy + sr * cp * sy;
+	z = cr * cp * sy - sr * sp * cy;
+}
+
 Quaternion::Quaternion(float inAll)
 {
 	Quaternion temp = Quaternion::FromEuler({ 0, 0, inAll });

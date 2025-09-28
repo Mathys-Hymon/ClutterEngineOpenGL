@@ -24,6 +24,8 @@ struct CLUTTER_API Quaternion
 	// and the angle is in radians
 	Quaternion(const Vector3& axis, float angle);
 
+	Quaternion(const Vector3& euler);
+
 	Quaternion(float inAll);
 
 	void Set(float inX, float inY, float inZ, float inW);

@@ -6,7 +6,7 @@
 
 using namespace clt;
 
-BulletPhysics::BulletPhysics(CEngine& engine) : mEngine(engine), mEnablePhysics(true)
+BulletPhysics::BulletPhysics(CEngine& engine) : mEngine(engine)
 {
 
     mDebug = new BulletDebugDraw(engine);
@@ -37,15 +37,17 @@ BulletPhysics::~BulletPhysics()
 
 void BulletPhysics::UpdatePhysics()
 {
-    if (mEnablePhysics)
-    {
-        for (auto rb : mRigidbodies) rb->SyncToBullet();
+    for (auto rb : mRigidbodies) rb->SyncToBullet();
 
-        mDynamicsWorld->stepSimulation(Timer::deltaTime);
+    mDynamicsWorld->stepSimulation(Timer::deltaTime);
 
-        for (auto rb : mRigidbodies)  rb->SyncFromBullet();
-    }
+    for (auto rb : mRigidbodies)  rb->SyncFromBullet();
 
+    DrawDebug();
+}
+
+void BulletPhysics::DrawDebug()
+{
     mDynamicsWorld->debugDrawWorld();
 }
 
@@ -70,11 +72,6 @@ void BulletPhysics::RemoveRigidBody(IRigidbody* body)
     if (it != mRigidbodies.end())  mRigidbodies.erase(it);
 
     delete bulletRb;
-}
-
-void BulletPhysics::EnablePhysics(bool enable)
-{
-    mEnablePhysics = enable;
 }
 
 bool BulletPhysics::LineTrace(const Vector3& start, const Vector3& direction, float maxDistance, RaycastHit& outHit, const TraceParams& params, Actor* self)

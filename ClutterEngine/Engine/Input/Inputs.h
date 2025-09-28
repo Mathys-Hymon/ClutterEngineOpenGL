@@ -99,11 +99,12 @@ namespace clt
 			return instance;
 		}
 
-		void SetShowMouseCursor(bool show) { mShowMouse = show; };
-
+		void SetShowMouseCursor(bool show);
 		void LockMouseCursor(bool lock) { mLockMouse = lock; };
 
 		Vector2 GetMousePosition() const { return mLastMousePosition; };
+
+		void SetMousePosition(Vector2 pos);
 
 		/**
  * @brief Checks if a key, mouse button, or controller button is pressed.

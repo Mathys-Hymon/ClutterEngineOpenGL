@@ -28,8 +28,8 @@ void EditorApplication::Init(std::vector<clt::Level*> pLevels, const std::string
 
 #ifdef EDITOR
 	FrameBufferSpecification spec;
-	spec.Width = 1280;
-	spec.Height = 720;
+	spec.Width = 1920;
+	spec.Height = 1080;
 	spec.HasDepth = true;
 	spec.HasColor = true;
 
@@ -46,8 +46,6 @@ void EditorApplication::Init(std::vector<clt::Level*> pLevels, const std::string
 	clt::Inputs::Get().RegisterActionCallback("enableFillMode", [this] { this->ShowLitMode(); });
 
 	Window::Get().ResizeViewportCentered(1920, 1080);
-
-	mEngine->Update();
 
 	mInGameCam = CameraComponent::GetActiveCamera();
 	mEditorCam = mEngine->GetLevelManager()->GetCurrentLevel()->AddActor<EditorCamera>();
@@ -97,12 +95,12 @@ void EditorApplication::Update()
 
 		break;
 	case EditorMode::Paused:
-		Inputs::Get().Update();
 		mEditorCam->InternalUpdate();
+		mEngine->GetPhysics()->DrawDebug();
 		break;
 	case EditorMode::InEditor:
-		Inputs::Get().Update();
 		mEditorCam->InternalUpdate();
+		mEngine->GetPhysics()->DrawDebug();
 		break;
 	default:
 		break;

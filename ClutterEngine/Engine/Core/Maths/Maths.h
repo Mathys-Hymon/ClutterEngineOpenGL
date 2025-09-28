@@ -9,7 +9,7 @@ namespace Maths
 {
     const float PI = 3.1415926535f;
     const float TWO_PI = PI * 2.0f;
-    const float PI_HALVED = PI * 0.5f;
+    const float PI_OVER2 = PI * 0.5f;
     const float INFINITY_POS = std::numeric_limits<float>::infinity();
     const float INFINITY_NEG = -INFINITY_POS;
 

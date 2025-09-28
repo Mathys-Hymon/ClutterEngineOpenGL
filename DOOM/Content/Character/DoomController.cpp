@@ -56,9 +56,9 @@ void DoomController::Move(Vector2 movement)
 	{
 		Vector3 dir = (mOwner->GetTransform().Right() * movement.x * mMaxAcceleration * clt::Timer::deltaTime) + (-mOwner->GetTransform().Forward() * movement.y * mMaxAcceleration * clt::Timer::deltaTime);
 
-		clt::RigidBody* rb = mOwner->GetComponentOfType<clt::RigidBody>();
+		clt::BulletRigidBody* rb = mOwner->GetComponentOfType<clt::BulletRigidBody>();
 
-		rb->AddVelocity(dir);
+		rb->AddForce(dir);
 		Vector3 vel = rb->GetVelocity();
 		rb->SetVelocity(Vector3::Clamp(rb->GetVelocity(), -mMaxWalkSpeed, mMaxWalkSpeed));
 

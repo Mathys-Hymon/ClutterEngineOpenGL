@@ -5,11 +5,14 @@ namespace clt
 {
 	class CLUTTER_API EditorController : public PlayerController
 	{
-		Vector2 mWorldRotation;
+		bool mFirstClick;
+
 		float mMinSpeed;
 		float mMaxSpeed;
 
 		float mActualSpeed;
+
+		Vector2 mRot;
 
 		bool mMainCam;
 		bool mCanMove;

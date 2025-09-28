@@ -36,8 +36,8 @@ void LevelMap::Load()
 	camera = AddActor<clt::Actor>("camera");
 
 	camera->AddComponent<clt::CameraComponent>();
-	camera->AddComponent<clt::OBBCollider>(Vector3{ 2.5f,15.0f,2.5f })->mFriction = 1.5f;
-	camera->AddComponent<clt::RigidBody>()->LockRotation();
+	camera->AddComponent<clt::BulletCollider>(ColliderShapeType::Box, Vector3{ 0.25f,1.5f,0.25f })->SetFriction(1.5f);
+	camera->AddComponent < clt::BulletRigidBody> ()->LockRotation(true, true, false);
 	camera->AddComponent<DoomController>();
 	camera->SetActorLocation({ 10, 0, -12 });
 	camera->SetActorRotation({ 0,180,0 });

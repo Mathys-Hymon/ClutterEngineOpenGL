@@ -20,18 +20,16 @@ namespace clt
 
 		std::vector<BulletRigidBody*> mRigidbodies;
 
-		bool mEnablePhysics;
-
 	public:
 
 		BulletPhysics(CEngine& engine);
 		~BulletPhysics();
 
 		void UpdatePhysics() override;
+		void DrawDebug() override;
+
 	    void AddRigidbody(IRigidbody*) override;
 	    void RemoveRigidBody(IRigidbody* body) override;
-
-		void EnablePhysics(bool enable) override;
 	   
 	    bool LineTrace(const Vector3& start, const Vector3& direction, float maxDistance, RaycastHit& outHit, const TraceParams& params, Actor* self) override;
 

@@ -121,6 +121,17 @@ void Inputs::ScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 		callback(static_cast<float>(yoffset));
 }
 
+void Inputs::SetShowMouseCursor(bool show)
+{
+	mShowMouse = show;
+	glfwSetInputMode(Window::Get().GetGLFWWindow(), GLFW_CURSOR, mShowMouse ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED);
+}
+
+void Inputs::SetMousePosition(Vector2 pos)
+{
+	glfwSetCursorPos(Window::Get().GetGLFWWindow(), pos.x, pos.y );
+}
+
 bool Inputs::IsButtonPressed(EKey pKey) const
 {
 	return glfwGetKey(Window::Get().GetGLFWWindow(), static_cast<int>(pKey)) == GLFW_PRESS;
@@ -348,8 +359,6 @@ void Inputs::Update()
 			}
 		}
 	}
-
-	glfwSetInputMode(pGLFWindow, GLFW_CURSOR, mShowMouse ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED);
 
 	if (mLockMouse) glfwSetCursorPos(pGLFWindow, windowSize.x * 0.5f, windowSize.y * 0.5f);
 	mScrollDelta = 0.0f;
