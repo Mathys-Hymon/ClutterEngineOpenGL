@@ -232,6 +232,63 @@ void ImGuiLayer::DrawUI()
         // Image
         uint32_t texID = mSceneFramebuffer->GetColorAttachment();
         ImGui::Image((void*)(intptr_t)texID, renderSize, ImVec2(0, 1), ImVec2(1, 0));
+
+        ImVec2 viewportStart = ImGui::GetItemRectMin();
+        ImVec2 viewportEnd = ImGui::GetItemRectMax();
+
+
+        ImVec2 buttonPos = ImVec2(viewportStart.x + 10, viewportStart.y + 10);
+
+        ImGui::SetCursorScreenPos(buttonPos);
+
+        ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 6.0f);
+        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(8, 4));
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 0.4f));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.2f, 0.2f, 0.2f, 0.6f));
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.3f, 0.3f, 0.3f, 0.8f));
+
+        static bool is2D = false;
+        bool was2D = is2D;
+
+        ImVec4 activeColor = ImVec4(0.2f, 0.6f, 1.0f, 1.0f);
+        ImVec4 activeOverColor = ImVec4(0.2f, 0.6f, 1.0f, 1.0f); 
+        ImVec4 activeActivationColor = ImVec4(0.2f, 0.6f, 1.0f, 1.0f);
+
+        if (is2D)
+        {
+            ImGui::PushStyleColor(ImGuiCol_Button, activeColor);
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, activeOverColor);
+            ImGui::PushStyleColor(ImGuiCol_ButtonActive, activeActivationColor);
+        }
+
+        if (ImGui::Button("2D"))  is2D = !is2D;
+
+        if (is2D && !was2D)
+        {
+            mOwner->mEditorCam->GetComponentOfType<CameraComponent>()->SetProjectionMode(ProjectionMode::Orthographic);
+            mOwner->mEditorCam->SetActorRotation(0);
+        }
+        else if (!is2D && was2D)
+        {
+            mOwner->mEditorCam->GetComponentOfType<CameraComponent>()->SetProjectionMode(ProjectionMode::Perspective);
+        }
+
+        if (was2D)
+        {
+            ImGui::PopStyleColor(3);
+        }
+        ImGui::SameLine();
+
+        ImGui::SameLine();
+        if (ImGui::Button("Move")) { /* gizmo pos */ }
+        ImGui::SameLine();
+        if (ImGui::Button("Rot")) { /* gizmo rot */ }
+        ImGui::SameLine();
+        if (ImGui::Button("Scale")) { /* gizmo scale */ }
+
+        ImGui::PopStyleColor(3);
+        ImGui::PopStyleVar(2);
+
     }
     ImGui::End();
 

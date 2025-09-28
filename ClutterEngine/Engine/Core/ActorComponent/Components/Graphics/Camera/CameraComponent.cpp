@@ -9,7 +9,7 @@ using namespace clt;
 CameraComponent* CameraComponent::ACTIVE_CAMERA = nullptr;
 
 
-CameraComponent::CameraComponent(float pFOV, ProjectionMode pMode, float pNearPlane, float pFarPlane) : Component(), mProjectionMode(pMode), mFov(pFOV), mNearPlane(pNearPlane), mFarPlane(pFarPlane) { mDirty = true; }
+CameraComponent::CameraComponent(float pFOV, ProjectionMode pMode, float pNearPlane, float pFarPlane) : Component(), mProjectionMode(pMode), mFov(pFOV), mNearPlane(pNearPlane), mFarPlane(pFarPlane), mOrthoHeight(10) { mDirty = true; }
 
 CameraComponent::~CameraComponent()
 {
@@ -27,7 +27,9 @@ void CameraComponent::UpdateMatrices()
 	}
 	else
 	{
-		mProj = Matrix4Row::CreateOrtho(mViewSize.x, mViewSize.y, -1, mFarPlane);
+		float orthoWidth = mOrthoHeight * (mViewSize.x / mViewSize.y);
+
+		mProj = Matrix4Row::CreateOrtho(orthoWidth, mOrthoHeight, -mFarPlane, mFarPlane);
 	}
 	mDirty = false;
 }
@@ -54,6 +56,12 @@ void CameraComponent::Update()
 void CameraComponent::SetFOV(float pFOV)
 {
 	mFov = pFOV;
+	mDirty = true;
+}
+
+void CameraComponent::SetOrthoHeight(float pHeight)
+{
+	mOrthoHeight = pHeight;
 	mDirty = true;
 }
 

@@ -18,6 +18,7 @@ namespace clt
 		ProjectionMode mProjectionMode;
 
 		float mFov;
+		float mOrthoHeight;
 		float mNearPlane;
 		float mFarPlane;
 
@@ -38,6 +39,7 @@ namespace clt
 		virtual void Update() override;
 
 		void SetFOV(float pFOV);
+		void SetOrthoHeight(float pHeight);
 		void SetProjectionMode(ProjectionMode pProjectionMode);
 		void SetActive(CameraComponent* cam);
 		void SetActive();
@@ -58,6 +60,11 @@ namespace clt
 		{ 
 			if (mDirty) UpdateMatrices();
 			return mView * mProj; 
+		}
+
+		const ProjectionMode GetProjectionMode()
+		{
+			return mProjectionMode;
 		}
 	};
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include <Core/ActorComponent/Components/Movements/PlayerController.h>
+#include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
 
 namespace clt
 {
@@ -11,11 +12,14 @@ namespace clt
 		float mMaxSpeed;
 
 		float mActualSpeed;
+		float mOrthoView;
 
 		Vector2 mRot;
 
 		bool mMainCam;
 		bool mCanMove;
+
+		ProjectionMode mProj;
 
 	public:
 		EditorController(float pMouseSpeed = 1);

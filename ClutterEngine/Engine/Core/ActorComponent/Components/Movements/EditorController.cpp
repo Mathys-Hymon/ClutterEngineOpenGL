@@ -1,22 +1,13 @@
 #include "pch.h"
 #include <Core/ActorComponent/Components/Movements/EditorController.h>
-#include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
 #include <Input/Inputs.h>
 
 using namespace clt;
 
-EditorController::EditorController(float pMouseSpeed) : PlayerController(2), mMinSpeed(0.1f), mMaxSpeed(10.0f), mActualSpeed(1.0f), mMainCam(false), mCanMove(true), mFirstClick(true), mRot(0,0)
+EditorController::EditorController(float pMouseSpeed) : PlayerController(2), mMinSpeed(0.1f), mMaxSpeed(10.0f), mActualSpeed(1.0f), mMainCam(false), mCanMove(true), mFirstClick(true), mRot(0, 0), mOrthoView(10.0f)
 {
-	Inputs::Get().RegisterMouseCallback([this](Vector2 value) { this->Rotation(value); });
-
-	Inputs::Get().MapKeysToVect(EKey::A, EKey::D, EKey::W, EKey::S, "CameraMovement");
-	Inputs::Get().MapKeysToAxis(EKey::E, EKey::Q, "VerticalMovement");
-
 	Inputs::Get().MapKeyToAction(EKey::Escape, "UnfocusGame");
 
-	Inputs::Get().RegisterMouseCallback([this](Vector2 value) { this->Rotation(value); });
-	Inputs::Get().RegisterVectCallback("CameraMovement", [this](Vector2 value) { this->Movement(value); });
-	Inputs::Get().RegisterAxisCallback("VerticalMovement", [this](float value) { this->MoveVertically(value); });
 	Inputs::Get().RegisterScrollCallback([this](float value) { this->ChangeSpeed(value); });
 	Inputs::Get().RegisterActionCallback("UnfocusGame", [this] { this->UnfocusWindow(); });
 
@@ -33,7 +24,10 @@ void EditorController::Update()
 	if (!cam || !(cam == CameraComponent::GetActiveCamera())) mMainCam = false;
 	else mMainCam = true;
 
+
 	if (!mMainCam) return;
+
+	mProj = cam->GetProjectionMode();
 
 	Inputs& i = Inputs::Get();
 
@@ -44,7 +38,7 @@ void EditorController::Update()
 			Vector2 screenSize = Window::Get().GetDimensions();
 			i.SetShowMouseCursor(false);
 
-			if (mFirstClick) 
+			if (mFirstClick)
 			{
 				mFirstClick = false;
 				i.SetMousePosition({ screenSize.x * 0.5f, screenSize.y * 0.5f });
@@ -59,21 +53,28 @@ void EditorController::Update()
 
 			i.SetMousePosition({ screenSize.x * 0.5f, screenSize.y * 0.5f });
 
-			Rotation(mouseDelta);
+			if (mProj == ProjectionMode::Perspective) Rotation(mouseDelta);
+			else
+			{
+				mOwner->AddActorLocationOffset((mouseDelta.x * Vector3::Right + mouseDelta.y * Vector3::Up) * mOrthoView * 0.001f);
+			}
 		}
 		else
-		{	
+		{
 			mFirstClick = true;
 			i.SetShowMouseCursor(true);
 		}
+		if (mProj == ProjectionMode::Perspective)
+		{
+			if (i.IsButtonPressed(EKey::A)) Movement({ 1,0 });
+			if (i.IsButtonPressed(EKey::D)) Movement({ -1,0 });
+			if (i.IsButtonPressed(EKey::W)) Movement({ 0,1 });
+			if (i.IsButtonPressed(EKey::S)) Movement({ 0,-1 });
 
-		if (i.IsButtonPressed(EKey::A)) Movement({ 1,0 });
-		if (i.IsButtonPressed(EKey::D)) Movement({ -1,0 });
-		if (i.IsButtonPressed(EKey::W)) Movement({ 0,1 });
-		if (i.IsButtonPressed(EKey::S)) Movement({ 0,-1 });
-
-		if (i.IsButtonPressed(EKey::E)) MoveVertically(1);
-		if (i.IsButtonPressed(EKey::Q)) MoveVertically(-1);
+			if (i.IsButtonPressed(EKey::E)) MoveVertically(1);
+			if (i.IsButtonPressed(EKey::Q)) MoveVertically(-1);
+		}
+		else mRot = 0;
 	}
 	else
 	{
@@ -91,7 +92,7 @@ void EditorController::Movement(Vector2 pDirection)
 	Vector3 forward = pDirection.y * mOwner->GetTransform().Forward() * dt;
 	Vector3 right = pDirection.x * mOwner->GetTransform().Right() * dt;
 
-	mOwner->AddActorLocationOffset((- forward + right) * mActualSpeed);
+	mOwner->AddActorLocationOffset((-forward + right) * mActualSpeed);
 }
 
 void EditorController::MoveVertically(float pDirection)
@@ -99,7 +100,7 @@ void EditorController::MoveVertically(float pDirection)
 	if (!mMainCam || !mCanMove) return;
 
 	Vector3 up = pDirection * mOwner->GetTransform().Up() * Timer::deltaTime;
-	
+
 	mOwner->AddActorLocationOffset(up * mActualSpeed);
 }
 
@@ -107,13 +108,24 @@ void EditorController::ChangeSpeed(float pDirection)
 {
 	if (!mMainCam || !mCanMove) return;
 
-	if (Inputs::Get().IsButtonPressed(EMouseButton::Right))
+	if (mProj == ProjectionMode::Perspective)
 	{
-		mActualSpeed = Maths::Clamp(mActualSpeed + (pDirection * 0.2f), mMinSpeed, mMaxSpeed);
+		if (Inputs::Get().IsButtonPressed(EMouseButton::Right))
+		{
+			mActualSpeed = Maths::Clamp(mActualSpeed + (pDirection * 0.2f), mMinSpeed, mMaxSpeed);
+		}
+		else
+		{
+			Movement({ 0.0f , pDirection * 10.0f });
+		}
 	}
 	else
 	{
-		Movement({ 0.0f , pDirection * 10.0f });
+		mActualSpeed = Maths::Clamp(mActualSpeed + (pDirection * 0.2f), mMinSpeed, mMaxSpeed);
+
+		mOrthoView = Maths::Clamp(mOrthoView - pDirection, 3.0f, 20.0f);
+		mOwner->GetComponentOfType<CameraComponent>()->SetOrthoHeight(mOrthoView);
+
 	}
 }
 
