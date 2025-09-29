@@ -42,6 +42,8 @@ namespace clt
         void SetMode(EditorMode mode);
         void SetCamera(bool inGame);
 
+        EditorMode GetMode() const { return mMode; };
+
     public:
 
         EditorApplication(std::vector<clt::Level*> pLevels, const std::string& configFile = "Config/project.config.json");

@@ -42,6 +42,8 @@ namespace clt
         ImGui::ImTextureID mFolderClosedIcon;
         ImGui::ImTextureID mFolderOpenIcon;
 
+        float mIconHeight;
+
         bool FolderHasChild(ContentFolder* folder, ContentFolder* targetChild);
 
         void ScanFolderRecursive(ContentFolder& folder);

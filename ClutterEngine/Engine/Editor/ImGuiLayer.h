@@ -17,6 +17,8 @@ namespace clt
 		float mRotation[3]{ 0,0,0 };
 		float mScale[3]{ 1,1,1 };
 
+		void DrawGizmoCamera();
+
 	public:
 		ImGuiLayer(EditorApplication* owner , FrameBuffer* frameBuffer);
 		~ImGuiLayer();

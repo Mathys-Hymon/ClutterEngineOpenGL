@@ -28,8 +28,8 @@ void EditorApplication::Init(std::vector<clt::Level*> pLevels, const std::string
 
 #ifdef EDITOR
 	FrameBufferSpecification spec;
-	spec.Width = 1920;
-	spec.Height = 1080;
+	spec.Width = 1280;
+	spec.Height = 720;
 	spec.HasDepth = true;
 	spec.HasColor = true;
 

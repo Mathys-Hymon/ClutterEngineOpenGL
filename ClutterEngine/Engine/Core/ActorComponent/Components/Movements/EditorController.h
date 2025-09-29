@@ -39,6 +39,8 @@ namespace clt
 		void SetCanMove(bool canMove) { mCanMove = canMove; };
 		void UnfocusWindow();
 
+		void SyncRotation();
+
 		void Update() override;
 
 		virtual void OnCollisionEnter(ColliderComponent* collider, const HitResult& result) override {};

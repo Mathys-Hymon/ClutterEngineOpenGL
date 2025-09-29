@@ -119,7 +119,7 @@ void BulletRigidBody::SyncToBullet()
     Vector3 worldLoc = GetWorldLocation();
     Quaternion worldRot = GetWorldRotation();
 
-    if (!worldLoc.NearlyEqual(vectPos, 0.001f) || !worldRot.QuaternionToEuler().NearlyEqual(quatRot.QuaternionToEuler(), 0.001f))
+    if (!worldLoc.NearlyEqual(vectPos, 0.001f) || !worldRot.ToEuler().NearlyEqual(quatRot.ToEuler(), 0.001f))
     {
         btTransform newTransform;
         newTransform.setOrigin(btVector3(worldLoc.x, worldLoc.y, worldLoc.z));

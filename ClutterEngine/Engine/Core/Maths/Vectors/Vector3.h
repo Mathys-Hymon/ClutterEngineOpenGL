@@ -4,6 +4,7 @@
 #include <Core/Maths/Vectors/Vector2.h>
 #include <Core/Timer.h>
 #include <algorithm>
+
 /**
  * @brief A 3D vector structure.
  */
@@ -34,6 +35,10 @@ struct CLUTTER_API Vector3
 		:x(xP), y(yP), z(zP) {
 	}
 
+	Vector3(glm::vec3 vect)
+		:x(vect.x), y(vect.y), z(vect.z) {
+	}
+
 	void Set(float xP, float yP, float zP);
 	float LengthSq() const;
 	float Length() const;
@@ -58,6 +63,10 @@ struct CLUTTER_API Vector3
 		if (index == 1) return y;
 		if (index == 2) return z;
 		throw std::out_of_range("Index out of range for Vector3");
+	}
+
+	inline glm::vec3 ToGLM() {
+		return glm::vec3(x, y, z);
 	}
 
 

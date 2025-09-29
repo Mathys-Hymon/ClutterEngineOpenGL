@@ -99,7 +99,7 @@ public:
     Vector3 Location() const { return location; };
     Vector3 Scale() const { return scale; };
     Quaternion Rotation() const { return rotation; };
-    Vector3 EulerRotation() const { return rotation.QuaternionToEuler(); };
+    Vector3 EulerRotation() const { return rotation.ToEuler(); };
     Matrix4Row GetMat4Transform() 
     { 
         if (mDirty)  ComputeWorldTransform();

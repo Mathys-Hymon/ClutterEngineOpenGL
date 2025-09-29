@@ -51,6 +51,7 @@ namespace clt
 			if (mDirty) UpdateMatrices();
 			return mView; 
 		}
+
 		const Matrix4Row& GetProjectionMatrix() 
 		{ 
 			if (mDirty) UpdateMatrices();

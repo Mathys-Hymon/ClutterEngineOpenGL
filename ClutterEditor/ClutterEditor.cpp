@@ -4,6 +4,6 @@
 
 int main()
 {
-    EditorApplication editor({ new LevelMap });
+    //EditorApplication editor({ new LevelMap });
 	return 0;
 }

@@ -20,6 +20,33 @@ struct CLUTTER_API Matrix4Row
 
 	}
 
+	glm::mat4 ToGLM() const
+	{
+		glm::mat4 glmMat(1.0f);
+
+		for (int row = 0; row < 4; ++row)
+		{
+			for (int col = 0; col < 4; ++col)
+			{
+				glmMat[col][row] = mat[row][col];
+			}
+		}
+		return glmMat;
+	}
+
+	static Matrix4Row FromGLM(const glm::mat4& glmMat)
+	{
+		Matrix4Row result;
+		for (int row = 0; row < 4; ++row)
+		{
+			for (int col = 0; col < 4; ++col)
+			{
+				result.mat[row][col] = glmMat[col][row];
+			}
+		}
+		return result;
+	}
+
 
 	// Cast to a const float pointer
 	const float* GetAsFloatPtr() const

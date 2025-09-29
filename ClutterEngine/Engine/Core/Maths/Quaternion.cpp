@@ -14,6 +14,11 @@ Quaternion::Quaternion(float xP, float yP, float zP, float wP)
 	Set(xP, yP, zP, wP);
 }
 
+Quaternion::Quaternion(glm::quat quat)
+{
+	Set(quat.x, quat.y, quat.z, quat.w);
+}
+
 Quaternion::Quaternion(const Vector3& axis, float angle)
 {
 	float scalar = Maths::Sin(angle / 2.0f);
@@ -66,6 +71,47 @@ void Quaternion::Normalize()
 	y /= len;
 	z /= len;
 	w /= len;
+}
+
+Quaternion Quaternion::FromMatrix(const Matrix4Row& m)
+{
+
+	Quaternion q;
+	float trace = m.mat[0][0] + m.mat[1][1] + m.mat[2][2];
+	if (trace > 0.0f)
+	{
+		float s = sqrtf(trace + 1.0f) * 2.0f;
+		q.w = 0.25f * s;
+		q.x = (m.mat[2][1] - m.mat[1][2]) / s;
+		q.y = (m.mat[0][2] - m.mat[2][0]) / s;
+		q.z = (m.mat[1][0] - m.mat[0][1]) / s;
+	}
+	else if ((m.mat[0][0] > m.mat[1][1]) && (m.mat[0][0] > m.mat[2][2]))
+	{
+		float s = sqrtf(1.0f + m.mat[0][0] - m.mat[1][1] - m.mat[2][2]) * 2.0f;
+		q.w = (m.mat[2][1] - m.mat[1][2]) / s;
+		q.x = 0.25f * s;
+		q.y = (m.mat[0][1] + m.mat[1][0]) / s;
+		q.z = (m.mat[0][2] + m.mat[2][0]) / s;
+	}
+	else if (m.mat[1][1] > m.mat[2][2])
+	{
+		float s = sqrtf(1.0f + m.mat[1][1] - m.mat[0][0] - m.mat[2][2]) * 2.0f;
+		q.w = (m.mat[0][2] - m.mat[2][0]) / s;
+		q.x = (m.mat[0][1] + m.mat[1][0]) / s;
+		q.y = 0.25f * s;
+		q.z = (m.mat[1][2] + m.mat[2][1]) / s;
+	}
+	else
+	{
+		float s = sqrtf(1.0f + m.mat[2][2] - m.mat[0][0] - m.mat[1][1]) * 2.0f;
+		q.w = (m.mat[1][0] - m.mat[0][1]) / s;
+		q.x = (m.mat[0][2] + m.mat[2][0]) / s;
+		q.y = (m.mat[1][2] + m.mat[2][1]) / s;
+		q.z = 0.25f * s;
+	}
+	q.Normalize();
+	return q;
 }
 
 Matrix4 Quaternion::AsMatrix() const

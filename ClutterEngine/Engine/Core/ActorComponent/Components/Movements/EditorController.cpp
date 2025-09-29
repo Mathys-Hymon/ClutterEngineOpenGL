@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include <Core/ActorComponent/Components/Movements/EditorController.h>
 #include <Input/Inputs.h>
 
@@ -131,8 +131,20 @@ void EditorController::ChangeSpeed(float pDirection)
 
 void EditorController::UnfocusWindow()
 {
-	clt::Inputs::Get().SetShowMouseCursor(true);
-	clt::Inputs::Get().LockMouseCursor(false);
+	Inputs::Get().SetShowMouseCursor(true);
+	Inputs::Get().LockMouseCursor(false);
+}
+
+void clt::EditorController::SyncRotation()
+{ 
+	if (!mOwner) return;
+
+	Quaternion actorRot = mOwner->GetRotation();
+
+	Vector3 euler = actorRot.ToEuler();
+
+	mRot.x = euler.y;
+	mRot.y = euler.x;
 }
 
 void EditorController::Rotation(Vector2 pRotation)

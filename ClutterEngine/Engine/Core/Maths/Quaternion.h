@@ -1,8 +1,10 @@
-#pragma once
+﻿#pragma once
 #include <Core/CCommon.h>
 #include <Core/Maths/Maths.h>
+#include <glm/gtx/quaternion.hpp> 
 #include <Core/Maths/Vectors/Vector3.h>
 
+class Matrix4Row;
 struct CLUTTER_API Quaternion
 {
 	float x;
@@ -18,6 +20,8 @@ struct CLUTTER_API Quaternion
 	// This directly sets the quaternion components --
 	// don't use for axis/angle
 	Quaternion(float inX, float inY, float inZ, float inW);
+
+	Quaternion(glm::quat quat);
 
 	// Construct the quaternion from an axis and angle
 	// It is assumed that axis is already normalized,
@@ -266,15 +270,25 @@ struct CLUTTER_API Quaternion
 		return result.Normalized();
 	}
 
-	Vector3 QuaternionToEuler() const
-	{
-		float pitch = std::atan2(2.0f * (w * x + y * z),
-			1.0f - 2.0f * (x * x + y * y));
-		float yaw = std::asin(2.0f * (w * y - z * x));
-		float roll = std::atan2(2.0f * (w * z + x * y),
-			1.0f - 2.0f * ( y * y + z * z));
+	static Quaternion FromMatrix(const Matrix4Row& m);
 
-		return Vector3(pitch, yaw, roll);
+	Vector3 ToEuler() const
+	{
+		Vector3 euler;
+		
+		euler.y = std::atan2(2.0f * (w * y + z * x),
+			1.0f - 2.0f * (y * y + x * x));
+
+		float sinp = 2.0f * (w * x - y * z);
+		if (std::abs(sinp) >= 1)
+			euler.x = std::copysign(Maths::PI_OVER2, sinp);
+		else
+			euler.x = std::asin(sinp);
+
+		euler.z = std::atan2(2.0f * (w * z + x * y),
+			1.0f - 2.0f * (z * z + x * x));
+
+		return euler;
 	}
 
 	inline std::string ToString()
@@ -284,6 +298,11 @@ struct CLUTTER_API Quaternion
 			+ std::to_string(y) + ", "
 			+ std::to_string(z) + ", "
 			+ std::to_string(w) + ")";
+	}
+
+	inline glm::quat ToGLM()
+	{
+		return { x, y, z, w };
 	}
 
 	class Matrix4 AsMatrix() const;

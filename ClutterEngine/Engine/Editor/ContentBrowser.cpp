@@ -3,7 +3,9 @@
 #include <Core/Assets/Assets.h>
 #include "ContentBrowser.h"
 #include <Core/Maths/Color.h>
+#ifdef EDITOR
 #include <imgui.h>
+#endif
 
 using namespace clt;
 
@@ -11,6 +13,8 @@ static Color hoverColor = Color::Olive;
 
 ContentBrowser::ContentBrowser()
 {
+#ifdef EDITOR
+
     mRootFolder.Name = "Content";
     mRootFolder.Path = "Content";
     ScanFolder(mRootFolder.Path);
@@ -30,6 +34,7 @@ ContentBrowser::ContentBrowser()
         TextureFilter::LINEAR, false, false)->GetID();
     mFolderClosedIcon = Assets::Get().LoadTexture("../ClutterEngine/EngineContent/Resources/Textures/folderIconClosed.png", "folder Closed Icon", 
         TextureFilter::LINEAR, false, false)->GetID();
+#endif
 }
 
 void ContentBrowser::ScanFolder(const std::string& root)
@@ -80,6 +85,8 @@ void ContentBrowser::ScanFolderRecursive(ContentFolder& folder)
 
 void ContentBrowser::DrawFolderTree(ContentFolder* folder)
 {
+#ifdef EDITOR
+
     bool isSelected = (folder == mCurrentFolder);
 
     bool childSelected = false;
@@ -135,10 +142,13 @@ void ContentBrowser::DrawFolderTree(ContentFolder* folder)
             ImGui::TreePop();
         }
     }
+
+#endif
 }
 
 void ContentBrowser::DrawContentItems()
 {
+#ifdef EDITOR
     if (!mCurrentFolder) { ImGui::EndChild(); ImGui::End(); return; }
 
     float cellSize = 74.0f;
@@ -150,7 +160,7 @@ void ContentBrowser::DrawContentItems()
     if (mCurrentFolder != &mRootFolder)
     {
         ImGui::BeginGroup();
-        if (mFolderIcon) ImGui::Image(mFolderIcon, ImVec2(96.75, 76.5));
+        if (mFolderIcon) ImGui::Image(mFolderIcon, ImVec2(64,64));
 
         if (ImGui::IsItemHovered())
         {
@@ -171,7 +181,7 @@ void ContentBrowser::DrawContentItems()
         ImGui::EndGroup();
         ImGui::SameLine(0, 10);
 
-        x += 106.5f;
+        x += 74;
     }
 
     // Draw all child folder in folder ---
@@ -186,7 +196,7 @@ void ContentBrowser::DrawContentItems()
 
         ImGui::BeginGroup();
 
-        ImVec2 folderSize(96.5, 76.25);
+        ImVec2 folderSize(64, 64);
 
         if (mFolderIcon) ImGui::Image(mFolderIcon, folderSize);
 
@@ -213,7 +223,7 @@ void ContentBrowser::DrawContentItems()
 
         ImGui::EndGroup();
         ImGui::SameLine(0, 10);
-        x += 106.5f;
+        x += 74;
     }
 
     // --- Draw all Items in the folder ---
@@ -243,7 +253,7 @@ void ContentBrowser::DrawContentItems()
                 GLuint texID = tex->GetID();
                 icon = (ImTextureID)(intptr_t)texID;
 
-                texSize = ImVec2(76.5, 76.5);
+                texSize = ImVec2(64, 64);
                 ImGui::Image(icon, texSize);
 
                 if (ImGui::IsItemHovered())
@@ -267,7 +277,7 @@ void ContentBrowser::DrawContentItems()
                 GLuint texID = tex->GetID();
                 icon = (ImTextureID)(intptr_t)texID;
 
-                texSize = { 64.0f, 77.3f };
+                texSize = { 64, 64 };
 
                 ImGui::Image(icon, texSize);
 
@@ -302,9 +312,11 @@ void ContentBrowser::DrawContentItems()
         ImGui::Text("%s", displayName.c_str());
 
         ImGui::EndGroup();
-        ImGui::SameLine(0, 30);
-        x += 106.5f;
+        ImGui::SameLine(0, 10);
+        x += 74;
     }
+
+#endif
 }
 
 bool ContentBrowser::FolderHasChild(ContentFolder* folder, ContentFolder* targetChild)
@@ -323,6 +335,8 @@ bool ContentBrowser::FolderHasChild(ContentFolder* folder, ContentFolder* target
 
 void ContentBrowser::Draw(ImFont* mEditorFontTitle, ImFont* mEditorFont)
 {
+#ifdef EDITOR
+
     static float mHierarchyWidth = 250.0f;
 
     ImGui::Begin("Content Browser");
@@ -409,4 +423,6 @@ void ContentBrowser::Draw(ImFont* mEditorFontTitle, ImFont* mEditorFont)
     ImGui::NewLine();
     ImGui::EndChild();
     ImGui::End();
+
+#endif
 }
