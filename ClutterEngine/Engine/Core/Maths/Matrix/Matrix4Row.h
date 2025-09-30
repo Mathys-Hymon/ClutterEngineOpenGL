@@ -394,6 +394,18 @@ struct CLUTTER_API Matrix4Row
 		return Matrix4Row(temp);
 	}
 
+	static Matrix4Row CreateUIOrtho(float width, float height, float pNear, float pFar)
+	{
+		float temp[4][4] =
+		{
+			{ 1.0f / width, 0.0f, 0.0f, 0.0f },
+			{ 0.0f, 1.0f / height, 0.0f, 0.0f },
+			{ 0.0f, 0.0f, -2.0f / (pFar - pNear), 0.0f },
+			{ 0.0f, 0.0f, (pFar + pNear) / (pNear - pFar), 1.0f }
+		};
+		return Matrix4Row(temp);
+	}
+
 	static Matrix4Row CreateOrtho(float width, float height, float pNear, float pFar)
 	{
 		float l = -width * 0.5f;

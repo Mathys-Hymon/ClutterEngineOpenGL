@@ -56,7 +56,7 @@ void RendererGL::Initialize(CEngine* pEngine, Color backgroundColor)
 
     Vector2 windowSize = Window::Get().GetDimensions();
 
-    mUiViewProj = Matrix4Row::CreateOrtho(windowSize.x, windowSize.y, -1, 100000);
+    mUiViewProj = Matrix4Row::CreateUIOrtho(windowSize.x, windowSize.y, -1, 100000);
 
     mTextShader.Use();
     mTextShader.SetMat4Row("uViewProj", mUiViewProj);
