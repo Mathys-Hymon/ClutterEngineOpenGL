@@ -545,6 +545,9 @@
     <ClCompile Include="Engine\Editor\EditorViewport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Editor\Gizmo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineContent\Resources\Shader\Mesh\basicTess.frag" />

@@ -3,6 +3,7 @@
 #include <Editor/ContentBrowser.h>
 #include <Editor/EditorViewport.h>
 #include <Core/ActorComponent/Actor.h>
+#include <Editor/Gizmo.h>
 
 namespace clt
 {
@@ -13,14 +14,10 @@ namespace clt
 		ContentBrowser* mContentBrowser;
 		EditorViewport* mViewport;
 
+		Gizmo* mActorGizmo;
 		Actor* mFocusedActor;
 
-		int mSelectedCamera = 0;
-		float mPosition[3]{ 0,0,0 };
-		float mRotation[3]{ 0,0,0 };
-		float mScale[3]{ 1,1,1 };
-
-		void DrawGizmoCamera();
+		void DrawGizmoFocusedActor();
 
 	public:
 		ImGuiLayer(EditorApplication* owner , FrameBuffer* frameBuffer);

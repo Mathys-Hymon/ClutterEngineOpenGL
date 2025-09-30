@@ -203,6 +203,7 @@ void ImGuiLayer::DrawUI()
     ImGui::End();
 
     mViewport->Draw();
+    DrawGizmoFocusedActor();
 
     ImGui::Begin("Outliner");
 
@@ -212,7 +213,7 @@ void ImGuiLayer::DrawUI()
     {
         if (actor->GetName() == "EditorCamera") continue; // DEBUG TO REPLACE
 
-        if (ImGui::Button(actor->GetName().c_str(), { 300, 32 }))
+        if (ImGui::Selectable(actor->GetName().c_str(), actor == mFocusedActor))
         {
             mFocusedActor = actor;
         }
@@ -230,6 +231,7 @@ void ImGuiLayer::DrawUI()
     if (mFocusedActor)
     {
         ImGui::Text(mFocusedActor->GetName().c_str());
+
     }
     // TODO: Display properties of currently selected actor/components
     ImGui::PopFont();
@@ -339,6 +341,12 @@ void ImGuiLayer::DrawUI()
     ImGui::End();
 #endif
 }
+
+void ImGuiLayer::DrawGizmoFocusedActor()
+{
+    if (!mFocusedActor) return;
+}
+
 
 void ImGuiLayer::EndFrame()
 {
