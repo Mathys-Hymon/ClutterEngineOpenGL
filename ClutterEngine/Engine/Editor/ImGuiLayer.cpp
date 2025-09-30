@@ -31,8 +31,9 @@ using namespace clt;
 
 ImGuiLayer::ImGuiLayer(EditorApplication* owner, FrameBuffer* frameBuffer)
     : mOwner(owner),
-    mSceneFramebuffer(frameBuffer),
-    mContentBrowser(new ContentBrowser())
+
+    mContentBrowser(new ContentBrowser()),
+    mViewport(new EditorViewport(this, frameBuffer))
 {
 #ifdef EDITOR
 
@@ -40,10 +41,8 @@ ImGuiLayer::ImGuiLayer(EditorApplication* owner, FrameBuffer* frameBuffer)
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
 
-
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-
 
     ImGui::StyleColorsDark();
 
@@ -111,7 +110,7 @@ void ImGuiLayer::DrawUI()
 
         ImGui::DockBuilderDockWindow("ViewportToolbar", dock_toolbar);
         ImGui::DockBuilderDockWindow("Viewport", dock_main_id);
-        ImGui::DockBuilderDockWindow("Scene Actors", dock_id_left);
+        ImGui::DockBuilderDockWindow("Outliner", dock_id_left);
         ImGui::DockBuilderDockWindow("Inspector", dock_id_right);
         ImGui::DockBuilderDockWindow("Content Browser", dock_id_bottom);
         ImGui::DockBuilderDockWindow("Console", dock_id_bottom);
@@ -203,114 +202,22 @@ void ImGuiLayer::DrawUI()
 
     ImGui::End();
 
-    ImGui::Begin("Viewport");
+    mViewport->Draw();
 
-    static int currentTab = 0;
-    if (ImGui::BeginTabBar("ViewportTabs"))
+    ImGui::Begin("Outliner");
+
+    auto actors = mOwner->GetEngine().GetLevelManager()->GetCurrentLevel()->GetAllActors();
+
+    for (auto actor : actors)
     {
-        if (ImGui::BeginTabItem("Scene"))
+        if (actor->GetName() == "EditorCamera") continue; // DEBUG TO REPLACE
+
+        if (ImGui::Button(actor->GetName().c_str(), { 300, 32 }))
         {
-            currentTab = 0;
-            if (mOwner) mOwner->SetCamera(false);
-            ImGui::EndTabItem();
+            mFocusedActor = actor;
         }
-        if (ImGui::BeginTabItem("Game"))
-        {
-            currentTab = 1;
-            if (mOwner) mOwner->SetCamera(true);
-            ImGui::EndTabItem();
-        }
-        ImGui::EndTabBar();
     }
 
-    bool hovered = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows);
-    if (mOwner && mOwner->mEditorCam)
-        mOwner->mEditorCam->GetComponentOfType<EditorController>()->SetCanMove(hovered);
-
-    if (mSceneFramebuffer)
-    {
-        ImVec2 availSize = ImGui::GetContentRegionAvail();
-        float targetRatio = 16.0f / 9.0f;
-
-        ImVec2 renderSize = availSize;
-        float availRatio = (availSize.y == 0.0f) ? targetRatio : (availSize.x / availSize.y);
-        if (availRatio > targetRatio)
-        {
-            renderSize.x = availSize.y * targetRatio;
-            renderSize.y = availSize.y;
-        }
-        else
-        {
-            renderSize.x = availSize.x;
-            renderSize.y = (targetRatio == 0.0f) ? availSize.y : (availSize.x / targetRatio);
-        }
-
-        ImVec2 cursorPos = ImGui::GetCursorPos();
-        cursorPos.x += (availSize.x - renderSize.x) * 0.5f;
-        ImGui::SetCursorPosX(cursorPos.x);
-
-        uint32_t texID = mSceneFramebuffer->GetColorAttachment();
-        ImGui::Image((void*)(intptr_t)texID, renderSize, ImVec2(0, 1), ImVec2(1, 0));
-
-        DrawGizmoCamera();
-
-        ImVec2 viewportStart = ImGui::GetItemRectMin();
-        ImVec2 viewportEnd = ImGui::GetItemRectMax();
-        (void)viewportEnd;
-
-        ImVec2 buttonPos = ImVec2(viewportStart.x + 10, viewportStart.y + 10);
-        ImGui::SetCursorScreenPos(buttonPos);
-
-        ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 6.0f);
-        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(8, 4));
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 0.4f));
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.2f, 0.2f, 0.2f, 0.6f));
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.3f, 0.3f, 0.3f, 0.8f));
-
-        static bool is2D = false;
-        bool was2D = is2D;
-
-        ImVec4 activeColor = ImVec4(0.2f, 0.6f, 1.0f, 1.0f);
-        ImVec4 activeOverColor = activeColor;
-        ImVec4 activeActivationColor = activeColor;
-
-        if (is2D)
-        {
-            ImGui::PushStyleColor(ImGuiCol_Button, activeColor);
-            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, activeOverColor);
-            ImGui::PushStyleColor(ImGuiCol_ButtonActive, activeActivationColor);
-        }
-
-        if (ImGui::Button("2D"))  is2D = !is2D;
-
-        if (is2D && !was2D && mOwner && mOwner->mEditorCam)
-        {
-            mOwner->mEditorCam->GetComponentOfType<CameraComponent>()->SetProjectionMode(ProjectionMode::Orthographic);
-            mOwner->mEditorCam->SetActorRotation(0);
-        }
-        else if (!is2D && was2D && mOwner && mOwner->mEditorCam)
-        {
-            mOwner->mEditorCam->GetComponentOfType<CameraComponent>()->SetProjectionMode(ProjectionMode::Perspective);
-        }
-
-        if (was2D)
-            ImGui::PopStyleColor(3);
-
-        ImGui::SameLine();
-        if (ImGui::Button("Move")) { /* TODO: set gizmo to translation */ }
-        ImGui::SameLine();
-        if (ImGui::Button("Rot")) { /* TODO: set gizmo to rotation */ }
-        ImGui::SameLine();
-        if (ImGui::Button("Scale")) { /* TODO: set gizmo to scaling */ }
-
-        ImGui::PopStyleColor(3);
-        ImGui::PopStyleVar(2);
-    }
-    ImGui::End();
-
-    ImGui::Begin("Scene Actors");
-    ImGui::Text("Actors list here...");
-    // TODO: Populate with actual scene actor hierarchy / selection
     ImGui::End();
 
 
@@ -319,7 +226,11 @@ void ImGuiLayer::DrawUI()
     ImGui::PopFont();
 
     ImGui::PushFont(mEditorFont);
-    ImGui::Text("Inspector for selected actor");
+
+    if (mFocusedActor)
+    {
+        ImGui::Text(mFocusedActor->GetName().c_str());
+    }
     // TODO: Display properties of currently selected actor/components
     ImGui::PopFont();
     ImGui::End();
@@ -443,103 +354,6 @@ void ImGuiLayer::EndFrame()
         ImGui::UpdatePlatformWindows();
         ImGui::RenderPlatformWindowsDefault();
         glfwMakeContextCurrent(backup_current_context);
-    }
-#endif
-}
-
-void ImGuiLayer::DrawGizmoCamera()
-{
-#ifdef EDITOR
-    if (!mOwner || !mOwner->mEditorCam) return;
-
-    CameraComponent* cam = mOwner->mEditorCam->GetComponentOfType<CameraComponent>();
-    if (!cam || cam != CameraComponent::GetActiveCamera()) return;
-
-    bool is2D = cam->GetProjectionMode() == ProjectionMode::Orthographic;
-
-    ImVec2 viewportMin = ImGui::GetWindowContentRegionMin();
-    ImVec2 viewportMax = ImGui::GetWindowContentRegionMax();
-    ImVec2 windowPos = ImGui::GetWindowPos();
-
-    float gizmoSize = 80.0f;
-    ImVec2 gizmoPos = ImVec2(
-        windowPos.x + viewportMin.x + 5.0f,
-        windowPos.y + viewportMax.y - gizmoSize - 5.0f
-    );
-
-    ImDrawList* drawList = ImGui::GetForegroundDrawList();
-    ImVec2 center(gizmoPos.x + gizmoSize * 0.5f, gizmoPos.y + gizmoSize * 0.5f);
-    float arrowLength = gizmoSize * 0.4f;
-
-    Vector3 forward = Vector3::Forward;
-    Vector3 right = Vector3::Right;
-    Vector3 up = Vector3::Up;
-
-    auto ProjectAxis = [&](Vector3 axis) -> ImVec2
-        {
-            float x = Vector3::Dot(axis, cam->GetWorldTransform().Right());
-            float y = Vector3::Dot(axis, cam->GetWorldTransform().Up());
-            return ImVec2(center.x + x * arrowLength,
-                center.y - y * arrowLength);
-        };
-
-    float textOffset = 0.4f;
-
-    ImVec2 yEnd = ProjectAxis(up);
-    ImVec2 xEnd = ProjectAxis(right);
-    ImVec2 zEnd = ProjectAxis(forward);
-
-    ImVec2 xEndOffset = ProjectAxis(right + right * textOffset);
-    ImVec2 yEndOffset = ProjectAxis(up + up * textOffset);
-    ImVec2 zEndOffset = ProjectAxis(forward + forward * textOffset);
-
-    drawList->AddLine(center, xEnd, IM_COL32(255, 0, 0, 255), 2.0f);
-    drawList->AddLine(center, yEnd, IM_COL32(0, 255, 0, 255), 2.0f);
-    if (!is2D) drawList->AddLine(center, zEnd, IM_COL32(0, 0, 255, 255), 2.0f);
-
-    float sphereRadius = 5.0f;
-    drawList->AddCircleFilled(xEnd, sphereRadius, IM_COL32(255, 0, 0, 255));
-    drawList->AddCircleFilled(yEnd, sphereRadius, IM_COL32(0, 255, 0, 255));
-    if (!is2D) drawList->AddCircleFilled(zEnd, sphereRadius, IM_COL32(0, 0, 255, 255));
-
-    auto DrawCenteredText = [&](ImVec2 pos, const char* text, ImU32 color) 
-        {
-        ImVec2 textSize = ImGui::CalcTextSize(text);
-        ImVec2 textPos(pos.x - textSize.x * 0.5f, pos.y - textSize.y * 0.5f);
-        drawList->AddText(textPos, color, text);
-        };
-
-    ImVec2 mousePos = ImGui::GetIO().MousePos;
-    float clickRadius = 10.0f;
-
-    auto IsHovered = [&](ImVec2 pos) -> bool
-        {
-            if (!is2D)
-            {
-                ImVec2 delta = ImVec2(mousePos.x - pos.x, mousePos.y - pos.y);
-                return (delta.x * delta.x + delta.y * delta.y) <= clickRadius * clickRadius;
-            }
-            else return false;
-        };
-
-    ImU32 xColor = IsHovered(xEndOffset) ? IM_COL32(255, 150, 150, 255) : IM_COL32(255, 0, 0, 255);
-    ImU32 yColor = IsHovered(yEndOffset) ? IM_COL32(150, 255, 150, 255) : IM_COL32(0, 255, 0, 255);
-    ImU32 zColor = IsHovered(zEndOffset) ? IM_COL32(150, 150, 255, 255) : IM_COL32(0, 0, 255, 255);
-
-    DrawCenteredText(xEndOffset, "X", xColor);
-    DrawCenteredText(yEndOffset, "Y", yColor);
-    if (!is2D) DrawCenteredText(zEndOffset, "Z", zColor);
-
-    if (ImGui::IsMouseClicked(0) && !is2D)
-    {
-        if (IsHovered(xEndOffset))
-            mOwner->mEditorCam->SetActorRotation({ 0,90,0 });
-        else if (IsHovered(yEndOffset))
-            mOwner->mEditorCam->SetActorRotation({90,0,0});
-        else if (IsHovered(zEndOffset))
-            mOwner->mEditorCam->SetActorRotation({ 0,0,0 });
-
-        mOwner->mEditorCam->GetComponentOfType<EditorController>()->SyncRotation();
     }
 #endif
 }

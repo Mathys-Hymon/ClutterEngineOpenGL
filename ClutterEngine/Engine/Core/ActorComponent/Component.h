@@ -100,10 +100,10 @@ namespace clt
                 return;
 
             Vector3 ownerLocation = mOwner->GetActorLocation();
-            Quaternion ownerRotation = mOwner->GetRotation();
+            Quaternion ownerRotation = mOwner->GetActorRotation();
             Vector3 localPosition = Vector3::Transform(loc - ownerLocation, ownerRotation.Inverse());
 
-            Vector3 parentScale = mOwner->GetScale();
+            Vector3 parentScale = mOwner->GetActorScale();
             localPosition = localPosition / parentScale;
 
             SetRelativeLocation(localPosition);
@@ -132,7 +132,7 @@ namespace clt
         {
             if (mOwner)
             {
-                Quaternion ownerRotation = mOwner->GetRotation();
+                Quaternion ownerRotation = mOwner->GetActorRotation();
                 Quaternion relativeRotation = Quaternion::Concatenate(ownerRotation, rot);
                 mRelativeTransform.SetRotation(relativeRotation);
             }
@@ -170,13 +170,13 @@ namespace clt
             if (!mOwner) return Vector3::Zero;
 
             return mOwner->GetActorLocation() +
-                mRelativeTransform.Location().x * mOwner->GetTransform().Right() +
-                mRelativeTransform.Location().y * mOwner->GetTransform().Up() +
-                mRelativeTransform.Location().z * mOwner->GetTransform().Forward();
+                mRelativeTransform.Location().x * mOwner->GetActorTransform().Right() +
+                mRelativeTransform.Location().y * mOwner->GetActorTransform().Up() +
+                mRelativeTransform.Location().z * mOwner->GetActorTransform().Forward();
         };
 
-        Vector3 GetWorldScale()            const { return mRelativeTransform.Scale() * mOwner->GetScale();            };
-        Quaternion GetWorldRotation()      const { return Quaternion::Concatenate(mOwner->GetRotation(), mRelativeTransform.Rotation()); };
+        Vector3 GetWorldScale()            const { return mRelativeTransform.Scale() * mOwner->GetActorScale();            };
+        Quaternion GetWorldRotation()      const { return Quaternion::Concatenate(mOwner->GetActorRotation(), mRelativeTransform.Rotation()); };
         virtual Transform GetWorldTransform() const
         {
             if (!mOwner) return Transform{};

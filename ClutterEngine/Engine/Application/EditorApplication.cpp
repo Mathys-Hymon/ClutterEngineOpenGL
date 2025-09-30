@@ -61,7 +61,7 @@ void EditorApplication::Init(std::vector<clt::Level*> pLevels, const std::string
 	image.pixels = pixels;
 
 	glfwSetWindowIcon(Window::Get().GetGLFWWindow(), 1, &image);
-
+	Window::Get().RenameViewport("Clutter Editor 0.0.1");
 #endif
 
 	Run();

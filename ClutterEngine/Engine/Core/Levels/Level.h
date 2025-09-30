@@ -131,6 +131,16 @@ namespace clt
             }
         };
 
+        std::vector<Actor*> GetAllActors()
+        {
+            std::vector<Actor*> result;
+            for (auto& [hash, actorsVec] : mActors)
+            {
+                result.insert(result.end(), actorsVec.begin(), actorsVec.end());
+            }
+            return result;
+        }
+
         /**
          * @brief Gets the renderer for the level.
          * @return Reference to the renderer.

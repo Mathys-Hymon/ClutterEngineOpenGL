@@ -542,6 +542,9 @@
     <ClCompile Include="Libraries\ImGuizmo\ImSequencer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Editor\EditorViewport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineContent\Resources\Shader\Mesh\basicTess.frag" />

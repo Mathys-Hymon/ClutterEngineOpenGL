@@ -13,8 +13,8 @@ CameraController::CameraController(std::string pMovementCallback, std::string pV
 
 void CameraController::Movement(Vector2 pDirection)
 {
-	Vector3 forward = pDirection.y * mOwner->GetTransform().Forward();
-	Vector3 right = pDirection.x * mOwner->GetTransform().Right();
+	Vector3 forward = pDirection.y * mOwner->GetActorTransform().Forward();
+	Vector3 right = pDirection.x * mOwner->GetActorTransform().Right();
 
 	mOwner->AddActorLocationOffset( (- forward + right) * mMaxWalkSpeed);
 }

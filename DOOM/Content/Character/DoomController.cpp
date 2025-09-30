@@ -54,7 +54,7 @@ void DoomController::Move(Vector2 movement)
 {
 	if (!mDead)
 	{
-		Vector3 dir = (mOwner->GetTransform().Right() * movement.x * mMaxAcceleration * clt::Timer::deltaTime) + (-mOwner->GetTransform().Forward() * movement.y * mMaxAcceleration * clt::Timer::deltaTime);
+		Vector3 dir = (mOwner->GetActorTransform().Right() * movement.x * mMaxAcceleration * clt::Timer::deltaTime) + (-mOwner->GetActorTransform().Forward() * movement.y * mMaxAcceleration * clt::Timer::deltaTime);
 
 		clt::BulletRigidBody* rb = mOwner->GetComponentOfType<clt::BulletRigidBody>();
 

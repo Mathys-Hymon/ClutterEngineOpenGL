@@ -13,7 +13,7 @@ namespace clt
         InEditor,
     };
 
-    class ImGuiLayer;
+    class EditorViewport;
     class Level;
     class CLUTTER_API EditorApplication 
     {
@@ -39,18 +39,20 @@ namespace clt
         void ShowWireframe();
         void ShowLitMode();
 
-        void SetMode(EditorMode mode);
         void SetCamera(bool inGame);
-
-        EditorMode GetMode() const { return mMode; };
 
     public:
 
         EditorApplication(std::vector<clt::Level*> pLevels, const std::string& configFile = "Config/project.config.json");
         ~EditorApplication();
 
-        clt::RendererGL* GetRenderer() const { return mEngine->GetRenderer(); }
+        RendererGL* GetRenderer() const { return mEngine->GetRenderer(); }
 
-        friend ImGuiLayer;
+        CEngine& GetEngine() const { return *mEngine.get(); }
+
+        EditorMode GetMode() const { return mMode; };
+        void SetMode(EditorMode mode);
+
+        friend EditorViewport;
     };
 }

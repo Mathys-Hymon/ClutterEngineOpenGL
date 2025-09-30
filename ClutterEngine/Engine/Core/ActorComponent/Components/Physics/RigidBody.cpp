@@ -56,7 +56,7 @@ void RigidBody::UpdateRotation(float deltaTime)
     if (mAngularVelocity.Length() > 0.0001f) 
     {
         Quaternion deltaRot = Quaternion::FromEuler(mAngularVelocity * deltaTime);
-        mOwner->SetActorRotation(Quaternion::Concatenate(deltaRot, mOwner->GetRotation()));
+        mOwner->SetActorRotation(Quaternion::Concatenate(deltaRot, mOwner->GetActorRotation()));
     }
 
     mTorque = Vector3::Zero;

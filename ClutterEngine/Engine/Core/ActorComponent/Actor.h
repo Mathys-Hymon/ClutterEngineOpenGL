@@ -45,6 +45,8 @@ namespace clt
         bool mIsUpdatingComponents; ///< Flag indicating if components are being updated.
 
         std::string mName; ///< The name of the actor.
+        std::vector<std::string> mTags;
+
         ActorState mState; ///< The state of the actor.
         Level* mLevel; ///< The scene the actor is attached to.
         Transform mTransform; ///< The transform of the actor.
@@ -154,11 +156,16 @@ namespace clt
                 false,
                 false });
 
+        void SetTag(std::string& tag) { mTags.push_back(tag); };
+
+        std::vector<std::string> GetTags() const { return mTags; }
+
+        bool HasTag(std::string& const tag) const { return std::find(mTags.begin(), mTags.end(), tag) != mTags.end(); }
         /**
          * @brief Gets the transform of the actor.
          * @return The transform of the actor.
          */
-        Transform GetTransform() const { return mTransform; };
+        Transform GetActorTransform() const { return mTransform; };
 
         /**
          * @brief Gets the position of the actor.
@@ -170,7 +177,7 @@ namespace clt
          * @brief Gets the scale of the actor.
          * @return The scale of the actor.
          */
-        Vector3 GetScale() const { return mTransform.Scale(); };
+        Vector3 GetActorScale() const { return mTransform.Scale(); };
 
         /**
          * @brief Gets the name of the actor.
@@ -182,7 +189,7 @@ namespace clt
          * @brief Gets the rotation of the actor as a quaternion.
          * @return The rotation of the actor.
          */
-        Quaternion GetRotation() const { return mTransform.Rotation(); };
+        Quaternion GetActorRotation() const { return mTransform.Rotation(); };
 
         /**
          * @brief Sets the location of the actor.

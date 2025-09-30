@@ -55,7 +55,7 @@ void BowlingController::Move(float movement)
 	
 	if (movement != 0 && mMode != mode::shoot)
 	{
-		mBall->SetActorLocation((mOwner->GetActorLocation() - mOwner->GetTransform().Forward()) - Vector3{ 0,0.5,0 });
+		mBall->SetActorLocation((mOwner->GetActorLocation() - mOwner->GetActorTransform().Forward()) - Vector3{ 0,0.5,0 });
 		//mBall->GetComponentOfType<clt::BulletRigidBody>()->SetSimulate(false);
 	}
 }
@@ -87,7 +87,7 @@ void BowlingController::ChargeShoot()
 		mSprite->SetSize({ 1.0,mShootForce });
 		mSprite->SetPosition({ 0.0f ,-600 + mShootForce * 300 });
 
-		mBall->SetActorLocation((mOwner->GetActorLocation() - mOwner->GetTransform().Forward()) - Vector3{ 0,0.5,0 });
+		mBall->SetActorLocation((mOwner->GetActorLocation() - mOwner->GetActorTransform().Forward()) - Vector3{ 0,0.5,0 });
 	}
 }
 
@@ -97,7 +97,7 @@ void BowlingController::Shoot()
 	{
 		if (mBall)
 		{
-			mBall->GetComponentOfType<clt::BulletRigidBody>()->AddForce(mOwner->GetTransform().Forward() * mShootForce * -5000 * mBall->GetComponentOfType<clt::BulletRigidBody>()->GetMass());
+			mBall->GetComponentOfType<clt::BulletRigidBody>()->AddForce(mOwner->GetActorTransform().Forward() * mShootForce * -5000 * mBall->GetComponentOfType<clt::BulletRigidBody>()->GetMass());
 		}
 		mShootForce = 0;
 		mMode = mode::shoot;
@@ -141,6 +141,6 @@ void BowlingController::Update()
 		mMode = mode::movement;
 		mSprite->mVisibility = true;
 		mOwner->GetComponentOfType<clt::SpringArmComponent>()->SetRelativeLocation(Vector3::Zero);
-		mBall->SetActorLocation((mOwner->GetActorLocation() - mOwner->GetTransform().Forward()) - Vector3{ 0,0.5,0 });
+		mBall->SetActorLocation((mOwner->GetActorLocation() - mOwner->GetActorTransform().Forward()) - Vector3{ 0,0.5,0 });
 	}
 }

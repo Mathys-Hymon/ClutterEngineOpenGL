@@ -104,8 +104,8 @@ void Zombie::GetDirection()
     mOldAnimIndex = mAnimIndex;
 
     Vector2 toCam = (clt::CameraComponent::GetActiveCamera()->GetWorldLocation().xz() - GetActorLocation().xz()).Normalized();
-    Vector2 forward = GetTransform().Forward().xz().Normalized();
-    Vector2 right = GetTransform().Right().xz().Normalized();
+    Vector2 forward = GetActorTransform().Forward().xz().Normalized();
+    Vector2 right = GetActorTransform().Right().xz().Normalized();
 
     float dotF = Vector2::Dot(forward, toCam);
     float dotR = Vector2::Dot(right, toCam);

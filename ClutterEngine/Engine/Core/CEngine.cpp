@@ -64,20 +64,6 @@ void CEngine::Update()
 	Inputs::Get().Update();
 	mLevelManager->Update();
 	Audio::Get().Update();
-
-	if (IsEditorMode())
-	{
-		if (mRefreshFrameRate > 0.3f)
-		{
-			std::string temp = "Clutter Editor 0.0.1 |    FPS: " + std::to_string(static_cast<int>(1.0f / Timer::deltaTime));
-			Window::Get().RenameViewport(temp.c_str());
-			mRefreshFrameRate = 0;
-		}
-		else
-		{
-			mRefreshFrameRate += Timer::deltaTime;
-		}
-	}
 }
 
 void CEngine::Close()

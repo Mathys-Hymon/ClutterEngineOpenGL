@@ -42,13 +42,13 @@ void FPSController::Update()
 {
 	if (mMovementVelocity.x != 0)
 	{
-		mOwner->AddActorLocationOffset(mMovementVelocity.x * mOwner->GetTransform().Right() * clt::Timer::deltaTime);
+		mOwner->AddActorLocationOffset(mMovementVelocity.x * mOwner->GetActorTransform().Right() * clt::Timer::deltaTime);
 		mMovementVelocity.x = 0;
 	}
 
 	if (mMovementVelocity.y != 0)
 	{
-		mOwner->AddActorLocationOffset(-mMovementVelocity.y * mOwner->GetTransform().Forward() * clt::Timer::deltaTime);
+		mOwner->AddActorLocationOffset(-mMovementVelocity.y * mOwner->GetActorTransform().Forward() * clt::Timer::deltaTime);
 		mMovementVelocity.y = 0;
 	}
 }
