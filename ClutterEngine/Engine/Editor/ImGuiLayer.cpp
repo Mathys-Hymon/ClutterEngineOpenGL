@@ -202,8 +202,7 @@ void ImGuiLayer::DrawUI()
 
     ImGui::End();
 
-    mViewport->Draw();
-    DrawGizmoFocusedActor();
+    mViewport->Draw(mFocusedActor);
 
     ImGui::Begin("Outliner");
 
@@ -340,11 +339,6 @@ void ImGuiLayer::DrawUI()
 
     ImGui::End();
 #endif
-}
-
-void ImGuiLayer::DrawGizmoFocusedActor()
-{
-    if (!mFocusedActor) return;
 }
 
 

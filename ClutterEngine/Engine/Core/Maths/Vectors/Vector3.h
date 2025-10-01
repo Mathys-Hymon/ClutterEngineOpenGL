@@ -156,6 +156,32 @@ struct CLUTTER_API Vector3
 		return *this;
 	}
 
+	bool operator==(const Vector3& right)
+	{
+		return 
+		{
+		x == right.x &&
+		y == right.y &&
+		z == right.z
+		};
+	}
+
+	bool operator==(const Vector3& other) const
+	{
+		return x == other.x && y == other.y && z == other.z;
+	}
+
+	bool operator!=(const Vector3& right)
+	{
+		return x != right.x || y != right.y || z != right.z;
+	}
+
+	bool operator!=(const Vector3& right) const
+	{
+		return x != right.x || y != right.y || z != right.z;
+	}
+
+
 	/**
  * @brief Clamps the vector components to the given range.
  * @param temp The vector to clamp.

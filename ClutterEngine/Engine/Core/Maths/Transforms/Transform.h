@@ -96,6 +96,26 @@ public:
         return { location + q.location, scale * q.scale, Quaternion::Concatenate(q.rotation, rotation) };
     }
 
+    bool operator==(const Transform& q) const
+    {
+        return 
+        { 
+            location == q.location &&
+            scale  == q.scale && 
+            rotation == q.rotation
+        };
+    }
+
+    bool operator!=(const Transform& q) const
+    {
+        return
+        {
+            location != q.location ||
+            scale != q.scale ||
+            rotation != q.rotation
+        };
+    }
+
     Vector3 Location() const { return location; };
     Vector3 Scale() const { return scale; };
     Quaternion Rotation() const { return rotation; };

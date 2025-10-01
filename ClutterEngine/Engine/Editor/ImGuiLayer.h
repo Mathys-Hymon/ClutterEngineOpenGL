@@ -17,8 +17,6 @@ namespace clt
 		Gizmo* mActorGizmo;
 		Actor* mFocusedActor;
 
-		void DrawGizmoFocusedActor();
-
 	public:
 		ImGuiLayer(EditorApplication* owner , FrameBuffer* frameBuffer);
 		~ImGuiLayer();

@@ -56,7 +56,6 @@ void CEngine::Init(const std::string& path, std::vector<Level*> pLevels)
 	mRefreshFrameRate = 0;
 }
 
-
 void CEngine::Update()
 {
 	mPhysics->UpdatePhysics();

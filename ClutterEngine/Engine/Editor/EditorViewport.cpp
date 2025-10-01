@@ -37,9 +37,11 @@ EditorViewport::EditorViewport(ImGuiLayer* owner, FrameBuffer* sceneFramebuffer)
     scaleIconActiveID = Assets::Get()
         .LoadTexture("../ClutterEngine/EngineContent/Resources/Textures/ScaleGizmoIconActive.png", "scaleIconActive", TextureFilter::LINEAR, true, false)
         .get()->GetID();
+
+    mActorGizmo = new Gizmo();
 }
 
-void EditorViewport::Draw()
+void EditorViewport::Draw(Actor* focusedActor)
 {
     ImGui::Begin("Viewport");
 
@@ -67,6 +69,11 @@ void EditorViewport::Draw()
 
     if (mSceneFramebuffer)
     {
+        if (focusedActor && mActorGizmo->GetTransform() != focusedActor->GetActorTransform())
+        {
+            mActorGizmo->SetTransform(focusedActor->GetActorTransform());
+        }
+
         ImVec2 availSize = ImGui::GetContentRegionAvail();
         float targetRatio = 16.0f / 9.0f;
 
@@ -90,11 +97,12 @@ void EditorViewport::Draw()
         uint32_t texID = mSceneFramebuffer->GetColorAttachment();
         ImGui::Image((void*)(intptr_t)texID, renderSize, ImVec2(0, 1), ImVec2(1, 0));
 
-        DrawGizmoCamera();
-
         ImVec2 viewportStart = ImGui::GetItemRectMin();
         ImVec2 viewportEnd = ImGui::GetItemRectMax();
         (void)viewportEnd;
+
+        if (focusedActor) mActorGizmo->Draw({ viewportStart.x, viewportStart.y }, { viewportEnd.x, viewportEnd.y });
+        DrawGizmoCamera({viewportStart.x, viewportStart.y}, {viewportEnd.x, viewportEnd.y});
 
         ImVec2 buttonPos = ImVec2(viewportStart.x + 10, viewportStart.y + 10);
         ImGui::SetCursorScreenPos(buttonPos);
@@ -131,16 +139,16 @@ void EditorViewport::Draw()
             mApp->mEditorCam->GetComponentOfType<CameraComponent>()->SetProjectionMode(ProjectionMode::Perspective);
         }
 
-        if (was2D)
-            ImGui::PopStyleColor(3);
+        if (was2D) ImGui::PopStyleColor(3);
 
         static bool moveActive = true;
         static bool rotateActive = false;
         static bool scaleActive = false;
 
         ImGui::SameLine();
-        if (ImGui::ImageButton("Move", moveActive ? moveIconActiveID : moveIconID, { 16,16 }))
-        { /* TODO: set gizmo to translation */
+        if (ImGui::ImageButton("Translate", moveActive ? moveIconActiveID : moveIconID, { 16,16 }))
+        {
+            mActorGizmo->SetMode(GizmoMode::Translate); 
             moveActive = true;
             rotateActive = false;
             scaleActive = false;
@@ -148,6 +156,7 @@ void EditorViewport::Draw()
         ImGui::SameLine();
         if (ImGui::ImageButton("Rotate", rotateActive ? rotateIconActiveID : rotateIconID, { 16,16 }))
         {
+            mActorGizmo->SetMode(GizmoMode::Rotate);
             moveActive = false;
             rotateActive = true;
             scaleActive = false;
@@ -155,6 +164,7 @@ void EditorViewport::Draw()
         ImGui::SameLine();
         if (ImGui::ImageButton("Scale", scaleActive ? scaleIconActiveID : scaleIconID, { 16,16 }))
         {
+            mActorGizmo->SetMode(GizmoMode::Scale);
             moveActive = false;
             rotateActive = false;
             scaleActive = true;
@@ -163,10 +173,16 @@ void EditorViewport::Draw()
         ImGui::PopStyleColor(3);
         ImGui::PopStyleVar(2);
     }
+
+    if (focusedActor && mActorGizmo->GetTransform() != focusedActor->GetActorTransform())
+    {
+        focusedActor->SetActorTransform(mActorGizmo->GetTransform());
+    }
+
     ImGui::End();
 }
 
-void EditorViewport::DrawGizmoCamera()
+void EditorViewport::DrawGizmoCamera(const Vector2& startViewport, const Vector2& endViewport)
 {
 #ifdef EDITOR
 
@@ -182,12 +198,15 @@ void EditorViewport::DrawGizmoCamera()
     ImVec2 windowPos = ImGui::GetWindowPos();
 
     float gizmoSize = 80.0f;
-    ImVec2 gizmoPos = ImVec2(
-        windowPos.x + viewportMin.x + 5.0f,
-        windowPos.y + viewportMax.y - gizmoSize - 5.0f
-    );
+
+    ImVec2 gizmoPos;
+    gizmoPos.x = startViewport.x + 5.0f;
+    gizmoPos.y = endViewport.y - gizmoSize - 5.0f;
+
 
     ImDrawList* drawList = ImGui::GetForegroundDrawList();
+    drawList->PushClipRect({startViewport.x, startViewport.y}, { endViewport.x, endViewport.y }, true);
+
     ImVec2 center(gizmoPos.x + gizmoSize * 0.5f, gizmoPos.y + gizmoSize * 0.5f);
     float arrowLength = gizmoSize * 0.4f;
 

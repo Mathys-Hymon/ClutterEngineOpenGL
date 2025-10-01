@@ -27,11 +27,12 @@ namespace clt
 
 		void SetScale(Vector3& scale) { mTransform.SetScale(scale); };
 
-		void Draw();
+		void Draw(const Vector2& startViewport,const Vector2& endViewport);
 
 		void SetMode(GizmoMode mode) { mMode = mode; };
 
-		Transform GetTransform() { return mTransform; };
+		void SetTransform(const Transform& transform) { mTransform = transform; };
+		Transform& GetTransform() { return mTransform; };
 
 	};
 }

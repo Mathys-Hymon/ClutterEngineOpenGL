@@ -36,6 +36,27 @@ struct CLUTTER_API Quaternion
 	void Conjugate();
 	void Normalize();
 
+	bool operator==(const Quaternion& other) const
+	{
+		return x == other.x && y == other.y && z == other.z && w == other.w;
+	}
+
+	bool operator==(Quaternion& other)
+	{
+		return x == other.x && y == other.y && z == other.z && w == other.w;
+	}
+
+	bool operator!=(const Quaternion& other) const
+	{
+		return x != other.x || y != other.y || z != other.z || w != other.w;
+	}
+
+	bool operator!=(Quaternion& other)
+	{
+		return x != other.x || y != other.y || z != other.z || w != other.w;
+	}
+
+
 	float LengthSqr() const
 	{
 		return (x * x + y * y + z * z + w * w);

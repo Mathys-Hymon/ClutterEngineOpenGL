@@ -276,6 +276,13 @@ namespace clt
             mTransform.SetScale(scale);
         }
 
+        void SetActorTransform(const Transform& transform)
+        {
+            mTransform.SetLocation(transform.Location());
+            mTransform.SetRotation(transform.Rotation());
+            mTransform.SetScale(transform.Scale());
+        }
+
         /**
          * @brief Adds an offset to the actor's location.
          * @param locOffset The location offset.
