@@ -14,8 +14,8 @@ namespace clt
 		ContentBrowser* mContentBrowser;
 		EditorViewport* mViewport;
 
-		Gizmo* mActorGizmo;
-		Actor* mFocusedActor;
+		Gizmo* mActorGizmo{ nullptr };
+		Actor* mFocusedActor{ nullptr };
 
 	public:
 		ImGuiLayer(EditorApplication* owner , FrameBuffer* frameBuffer);

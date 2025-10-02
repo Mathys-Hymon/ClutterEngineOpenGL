@@ -6,9 +6,6 @@
 #ifdef EDITOR
 #include "imgui.h"
 #include "imgui_internal.h"
-#include "backends/imgui_impl_glfw.h"
-#include "backends/imgui_impl_opengl3.h"
-#include "ImGuizmo.h"
 #include "ImGuiLayer.h"
 #endif
 
@@ -51,25 +48,22 @@ void EditorViewport::Draw(Actor* focusedActor)
 #ifdef EDITOR
     ImGui::Begin("Viewport");
 
-    static int currentTab = 0;
     if (ImGui::BeginTabBar("ViewportTabs"))
     {
         if (ImGui::BeginTabItem("Scene"))
         {
-            currentTab = 0;
             if (mOwner) mApp->SetCamera(false);
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Game"))
         {
-            currentTab = 1;
             if (mOwner) mApp->SetCamera(true);
             ImGui::EndTabItem();
         }
         ImGui::EndTabBar();
     }
 
-    bool hovered = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows);
+    const bool hovered = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows);
     if (mOwner && mApp->mEditorCam)
         mApp->mEditorCam->GetComponentOfType<EditorController>()->SetCanMove(hovered);
 
@@ -80,7 +74,7 @@ void EditorViewport::Draw(Actor* focusedActor)
             mActorGizmo->SetTransform(focusedActor->GetActorTransform());
         }
 
-        ImVec2 availSize = ImGui::GetContentRegionAvail();
+        const ImVec2 availSize = ImGui::GetContentRegionAvail();
         float targetRatio = 16.0f / 9.0f;
 
         ImVec2 renderSize = availSize;
@@ -110,7 +104,7 @@ void EditorViewport::Draw(Actor* focusedActor)
         if (focusedActor) mActorGizmo->Draw({ viewportStart.x, viewportStart.y }, { viewportEnd.x, viewportEnd.y });
         DrawGizmoCamera({viewportStart.x, viewportStart.y}, {viewportEnd.x, viewportEnd.y});
 
-        ImVec2 buttonPos = ImVec2(viewportStart.x + 10, viewportStart.y + 10);
+        const auto buttonPos = ImVec2(viewportStart.x + 10, viewportStart.y + 10);
         ImGui::SetCursorScreenPos(buttonPos);
 
         ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 6.0f);
@@ -201,10 +195,6 @@ void EditorViewport::DrawGizmoCamera(const Vector2& startViewport, const Vector2
 
     bool is2D = cam->GetProjectionMode() == ProjectionMode::Orthographic;
 
-    ImVec2 viewportMin = ImGui::GetWindowContentRegionMin();
-    ImVec2 viewportMax = ImGui::GetWindowContentRegionMax();
-    ImVec2 windowPos = ImGui::GetWindowPos();
-
     float gizmoSize = 80.0f;
 
     ImVec2 gizmoPos;
@@ -226,8 +216,8 @@ void EditorViewport::DrawGizmoCamera(const Vector2& startViewport, const Vector2
         {
             float x = Vector3::Dot(axis, cam->GetWorldTransform().Right());
             float y = Vector3::Dot(axis, cam->GetWorldTransform().Up());
-            return ImVec2(center.x + x * arrowLength,
-                center.y - y * arrowLength);
+            return ImVec2{center.x + x * arrowLength,
+                center.y - y * arrowLength};
         };
 
     float textOffset = 0.4f;
