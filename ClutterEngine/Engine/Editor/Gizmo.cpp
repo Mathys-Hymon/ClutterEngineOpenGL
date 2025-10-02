@@ -2,11 +2,14 @@
 #include "Gizmo.h"
 #include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
 
+#ifdef EDITOR
 #include "imgui.h"
 #include "imgui_internal.h"
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 #include "ImGuizmo.h"
+#endif
+
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -14,6 +17,8 @@ using namespace clt;
 
 void Gizmo::Draw(const Vector2& startViewport, const Vector2& endViewport)
 {
+#ifdef EDITOR
+
 	auto cam = CameraComponent::GetActiveCamera();
 
 	ImGuizmo::SetOrthographic(cam->GetProjectionMode() == ProjectionMode::Orthographic);
@@ -71,4 +76,6 @@ void Gizmo::Draw(const Vector2& startViewport, const Vector2& endViewport)
 		mTransform.SetRotation(rotation);
 		mTransform.SetScale(Vector3(scale.x, scale.y, scale.z));
 	}
+
+#endif
 }

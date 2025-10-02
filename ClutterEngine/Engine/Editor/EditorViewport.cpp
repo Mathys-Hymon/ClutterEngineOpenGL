@@ -1,19 +1,23 @@
 #include <pch.h>
 #include "EditorViewport.h"
+#include <Application/EditorApplication.h>
+#include <Core/ActorComponent/Components/Movements/EditorController.h>
 
+#ifdef EDITOR
 #include "imgui.h"
 #include "imgui_internal.h"
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 #include "ImGuizmo.h"
 #include "ImGuiLayer.h"
-#include <Application/EditorApplication.h>
-#include <Core/ActorComponent/Components/Movements/EditorController.h>
+#endif
 
 using namespace clt;
 
 EditorViewport::EditorViewport(ImGuiLayer* owner, FrameBuffer* sceneFramebuffer) : mOwner(owner), mSceneFramebuffer(sceneFramebuffer), mApp(mOwner->GetOwner())
 {
+
+#ifdef EDITOR
     moveIconID = Assets::Get()
         .LoadTexture("../ClutterEngine/EngineContent/Resources/Textures/moveGizmoIcon.png", "moveIcon", TextureFilter::LINEAR, true, false)
         .get()->GetID();
@@ -39,10 +43,12 @@ EditorViewport::EditorViewport(ImGuiLayer* owner, FrameBuffer* sceneFramebuffer)
         .get()->GetID();
 
     mActorGizmo = new Gizmo();
+#endif
 }
 
 void EditorViewport::Draw(Actor* focusedActor)
 {
+#ifdef EDITOR
     ImGui::Begin("Viewport");
 
     static int currentTab = 0;
@@ -180,6 +186,8 @@ void EditorViewport::Draw(Actor* focusedActor)
     }
 
     ImGui::End();
+
+#endif
 }
 
 void EditorViewport::DrawGizmoCamera(const Vector2& startViewport, const Vector2& endViewport)
