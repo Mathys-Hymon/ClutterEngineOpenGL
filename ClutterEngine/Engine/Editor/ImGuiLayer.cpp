@@ -431,8 +431,39 @@ void ImGuiLayer::SetEditorTheme()
 
 void clt::ImGuiLayer::DrawGraphEditor()
 {
-    ImGui::Begin("Graph Editor", NULL, 0);
+    ImGuiWindowFlags flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+    ImGui::Begin("Material Graph", nullptr, flags);
+    ImGui::SetWindowFocus("Material Editor");
 
+    ImVec2 windowSize = ImGui::GetContentRegionAvail();
+
+    float leftWidth = 300.0f;
+    float rightWidth = windowSize.x - leftWidth;
+
+    ImGui::BeginChild("LeftColumn", ImVec2(leftWidth, windowSize.y), true);
+
+    ImVec2 leftSize = ImGui::GetContentRegionAvail();
+    float previewHeight = leftSize.y * 0.3f; 
+    float propertiesHeight = leftSize.y - previewHeight;
+
+
+    ImGui::BeginChild("PreviewZone", ImVec2(leftWidth, previewHeight), true);
+    //DrawPreviewMesh(); // ta fonction OpenGL/Framebuffer
+    ImGui::EndChild();
+
+    // Properties en bas
+    ImGui::BeginChild("PropertiesZone", ImVec2(leftWidth, propertiesHeight), true);
+    //if (selectedNode >= 0)
+    //{
+    //    DrawNodeProperties(selectedNode); // Inputs interactifs
+    //}
+    ImGui::EndChild();
+
+    ImGui::EndChild();
+
+    ImGui::SameLine();
+
+    ImGui::BeginChild("GraphZone", ImVec2(rightWidth, windowSize.y), true);
     static GraphEditor::Options options;
     static MaterialGraphEditor graphEditor;
     static GraphEditor::ViewState viewState;
@@ -454,16 +485,19 @@ void clt::ImGuiLayer::DrawGraphEditor()
 
     if (ImGui::BeginPopup("NodeContextMenu"))
     {
-        if (ImGui::MenuItem("Add")) graphEditor.AddNode("Add", 1, pos, {100,65});
-        if (ImGui::MenuItem("Multiply")) graphEditor.AddNode("Multiply", 2, pos, { 100,65 });
-        if (ImGui::MenuItem("Divide")) graphEditor.AddNode("Divide", 3, pos, { 100,65 });
-        if (ImGui::MenuItem("Float")) graphEditor.AddNode("Float", 4, pos, { 75,75 });
-        if (ImGui::MenuItem("Vector2")) graphEditor.AddNode("Vector2", 5, pos, { 75,75 });
-        if (ImGui::MenuItem("Vector3")) graphEditor.AddNode("Vector3", 6, pos, { 75,75 });
-        if (ImGui::MenuItem("Texture")) graphEditor.AddNode("Texture", 7, pos, { 200,200 });
+        if (ImGui::MenuItem("Add")) graphEditor.AddNode(NodeType::Add,"Add", 1, pos, {100,65});
+        if (ImGui::MenuItem("Multiply")) graphEditor.AddNode(NodeType::Multiply,"Multiply", 2, pos, {100,65});
+        if (ImGui::MenuItem("Divide")) graphEditor.AddNode(NodeType::Divide,"Divide", 3, pos, {100,65});
+        if (ImGui::MenuItem("Float")) graphEditor.AddNode(NodeType::Float, "Float", 4, pos, {75,75});
+        if (ImGui::MenuItem("Vector2")) graphEditor.AddNode(NodeType::Vector2,"Vector2", 5, pos, {75,75});
+        if (ImGui::MenuItem("Vector3")) graphEditor.AddNode(NodeType::Vector3,"Vector3", 6, pos, {75,75});
+        if (ImGui::MenuItem("Texture")) graphEditor.AddNode(NodeType::Texture,"Texture", 7, pos, {200,200});
+        if (ImGui::MenuItem("Break Vect3")) graphEditor.AddNode(NodeType::Break,"Break", 8, pos, {200,200});
+        if (ImGui::MenuItem("Break Vect2")) graphEditor.AddNode(NodeType::Break,"Break", 9, pos, {200,200});
 
         ImGui::EndPopup();
     }
+    ImGui::EndChild();
 
     ImGui::End();
 }

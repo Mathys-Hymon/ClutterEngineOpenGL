@@ -321,13 +321,7 @@
     <ClInclude Include="Engine\Editor\Graph\Material\Node.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Editor\Graph\Material\MaterialGraph.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Editor\Graph\Material\MaterialGraphEditor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Editor\Graph\Material\NodeFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

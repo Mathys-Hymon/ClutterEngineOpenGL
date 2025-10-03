@@ -24,7 +24,7 @@ namespace clt
         void AddLink(GraphEditor::NodeIndex inputNodeIndex, GraphEditor::SlotIndex inputSlotIndex,
             GraphEditor::NodeIndex outputNodeIndex, GraphEditor::SlotIndex outputSlotIndex) override;
 
-        void AddNode(const char* name, size_t templateIndex, const Vector2& pos, const Vector2& size);
+        void AddNode(NodeType type, const char* name, size_t templateIndex, const Vector2& pos, const Vector2& size);
         void DelLink(GraphEditor::LinkIndex linkIndex) override;
         void CustomDraw(ImDrawList* drawList, ImRect rectangle, GraphEditor::NodeIndex nodeIndex) override;
 

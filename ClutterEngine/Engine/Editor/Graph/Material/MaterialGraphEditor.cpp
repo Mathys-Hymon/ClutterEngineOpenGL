@@ -3,6 +3,8 @@
 #include "GraphEditor.h"
 #include "imgui.h"
 #include "imgui_internal.h"
+#define _CRT_SECURE_NO_WARNINGS
+#include <cstring>
 
 using namespace clt;
 
@@ -15,10 +17,15 @@ static const char* inputs_return[] = { "Base Color", "Metallic", "Specular", "Ro
 static const char* inputs_math[] = { "A", "B" };
 static const char* outputs_math[] = { "Result" };
 
-static const char* outputs_float[] = { "Value" };
-static const char* outputs_vec2[] = { "Value" };
-static const char* outputs_vec3[] = { "Value" };
+static const char* intput_vect2[] = { "Vector2" };
+static const char* intput_vect3[] = { "Vector3" };
 
+static const char* outputs_value[] = { "Value" };
+static const char* outputs_vec2[] = { "X", "Y"};
+static const char* outputs_vec3[] = { "X", "Y", "Z"};
+
+static ImU32 outputs_vec3Color[] = { IM_COL32(200,100,100,255), IM_COL32(100,200,100,255), IM_COL32(100,100,200,255) };
+static ImU32 outputs_vec2Color[] = { IM_COL32(200,100,100,255), IM_COL32(100,200,100,255) };
 
 static const char* inputs_texture[] = { "UV" };
 static const char* outputs_texture[] = { "Texture" };
@@ -33,17 +40,19 @@ const GraphEditor::Template MaterialGraphEditor::mTemplates[] =
     { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 2, inputs_math, nullptr, 1, outputs_math, nullptr }, // ADD
     { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 2, inputs_math, nullptr, 1, outputs_math, nullptr }, // MULTIPLY
     { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 2, inputs_math, nullptr, 1, outputs_math, nullptr }, // DIVIDE
-    { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 0, nullptr, nullptr, 1, outputs_float, nullptr },
-    { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 0, nullptr, nullptr, 1, outputs_vec2, nullptr },
-    { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 0, nullptr, nullptr, 1, outputs_vec3, nullptr },
-    { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 1, inputs_texture, nullptr, 1, outputs_texture, nullptr }
+    { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 0, nullptr, nullptr, 1, outputs_value, nullptr },
+    { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 0, nullptr, nullptr, 1, outputs_value, nullptr },
+    { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 0, nullptr, nullptr, 1, outputs_value, nullptr },
+    { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 1, inputs_texture, nullptr, 1, outputs_texture, nullptr },
+    { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 1, outputs_value, nullptr, 3, outputs_vec3, outputs_vec3Color},  // Break Vector3
+    { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 1, intput_vect3, nullptr, 2, outputs_vec2, outputs_vec2Color }, // Break Vector2
 };
 
 // --- Constructeur ---
 MaterialGraphEditor::MaterialGraphEditor()
 {
     mNodes = {
-        {"OutResult", 0, Vector2{100,100}, Vector2{100,400}, false},
+        {"OutResult", 0, Vector2{100,100}, Vector2{100,400}, std::monostate{}, false},
     };
 }
 
@@ -83,9 +92,20 @@ void MaterialGraphEditor::AddLink(GraphEditor::NodeIndex inputNodeIndex, GraphEd
     mLinks.push_back({ inputNodeIndex, inputSlotIndex, outputNodeIndex, outputSlotIndex });
 }
 
-void MaterialGraphEditor::AddNode(const char* name, size_t templateIndex, const Vector2& pos, const Vector2& size)
+void MaterialGraphEditor::AddNode(NodeType type, const char* name, size_t templateIndex, const Vector2& pos, const Vector2& size)
 {
-    mNodes.push_back({ name, templateIndex, pos, size , false });
+    Node n{name, templateIndex, pos, size, std::monostate{}, false};
+
+    switch (type)
+    {
+    case NodeType::Float:     n.value = 0.f; break;
+    case NodeType::Vector2:   n.value = Vector2(0.f, 0.f); break;
+    case NodeType::Vector3:   n.value = Vector3(0.f, 0.f, 0.f); break;
+    case NodeType::Texture:   n.value = std::string(""); break;
+    default:                  n.value = std::monostate{}; break;
+    }
+
+    mNodes.emplace_back(n);
 }
 
 void MaterialGraphEditor::DelLink(GraphEditor::LinkIndex linkIndex)
@@ -93,10 +113,8 @@ void MaterialGraphEditor::DelLink(GraphEditor::LinkIndex linkIndex)
     mLinks.erase(mLinks.begin() + linkIndex);
 }
 
-void MaterialGraphEditor::CustomDraw(ImDrawList* drawList, ImRect rect, GraphEditor::NodeIndex)
+void MaterialGraphEditor::CustomDraw(ImDrawList* drawList, ImRect rect, GraphEditor::NodeIndex nodeIndex)
 {
-    drawList->AddLine(rect.Min, rect.Max, IM_COL32(0, 0, 0, 255));
-    drawList->AddText(rect.Min, IM_COL32(255, 128, 64, 255), "Draw");
 }
 
 const size_t MaterialGraphEditor::GetTemplateCount()
