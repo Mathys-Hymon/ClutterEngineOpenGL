@@ -284,8 +284,13 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Engine\Core\Assets\AssetsType\Material.h" />
     <ClInclude Include="Engine\Core\Assets\AssetsType\MaterialInstance.h" />
     <ClInclude Include="Engine\Core\Debug\BulletDebugDraw.h" />
+    <ClInclude Include="Engine\Core\JsonUtility.h" />
     <ClInclude Include="Engine\Editor\ContentBrowser.h" />
     <ClInclude Include="Engine\Editor\Gizmo.h" />
+    <ClInclude Include="Engine\Editor\Graph\Material\MaterialGraph.h" />
+    <ClInclude Include="Engine\Editor\Graph\Material\MaterialGraphEditor.h" />
+    <ClInclude Include="Engine\Editor\Graph\Material\Node.h" />
+    <ClInclude Include="Engine\Editor\Graph\Material\NodeFactory.h" />
     <ClInclude Include="Engine\Editor\ImGuiLayer.h" />
     <ClInclude Include="Engine\Editor\EditorViewport.h" />
     <ClInclude Include="Engine\Graphics\FrameBuffer\FrameBuffer.h" />
@@ -351,6 +356,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Libraries\ImGuizmo\GraphEditor.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Libraries\ImGuizmo\ImGuizmo.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -410,6 +416,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClCompile Include="Engine\Editor\ContentBrowser.cpp" />
     <ClCompile Include="Engine\Editor\EditorViewport.cpp" />
     <ClCompile Include="Engine\Editor\Gizmo.cpp" />
+    <ClCompile Include="Engine\Editor\Graph\Material\MaterialGraphEditor.cpp" />
     <ClCompile Include="Engine\Editor\ImGuiLayer.cpp" />
     <ClCompile Include="Engine\Graphics\FrameBuffer\FrameBuffer.cpp" />
     <ClCompile Include="Engine\Graphics\Shader\ShaderProgram.cpp" />
@@ -457,6 +464,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|x64'">NotUsing</PrecompiledHeader>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Libraries\ImGuizmo\ImGuizmo.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>

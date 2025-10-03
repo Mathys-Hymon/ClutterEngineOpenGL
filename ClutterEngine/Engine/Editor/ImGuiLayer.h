@@ -4,6 +4,7 @@
 #include <Editor/EditorViewport.h>
 #include <Core/ActorComponent/Actor.h>
 #include <Editor/Gizmo.h>
+#include <Editor/Graph/Material/MaterialGraphEditor.h>
 
 namespace clt
 {
@@ -22,6 +23,7 @@ namespace clt
 		~ImGuiLayer();
 
 		void SetEditorTheme();
+		void DrawGraphEditor();
 
 		EditorApplication* GetOwner() { return mOwner; }
 

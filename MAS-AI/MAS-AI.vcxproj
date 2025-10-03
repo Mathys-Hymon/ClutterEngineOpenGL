@@ -116,7 +116,7 @@
     <LibraryPath>..\ClutterEngine\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_EDITOR|x64'">
-    <IncludePath>..\ClutterEngine\Libraries\include;..\ClutterEngine\Libraries\include\FMOD\Core;..\ClutterEngine\Libraries\include\FMOD\Studio;$(IncludePath)</IncludePath>
+    <IncludePath>..\ClutterEngine\Libraries\include;..\ClutterEngine\Libraries\include\FMOD\Core;..\ClutterEngine\Libraries\include\FMOD\Studio;..\ClutterEngine\Libraries\ImGuizmo;..\ClutterEngine\Libraries\ImGui;$(IncludePath)</IncludePath>
     <LibraryPath>..\ClutterEngine\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -199,7 +199,7 @@
       <AdditionalIncludeDirectories>..\ClutterEngine\Engine;Content;Content\Resources</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\x64\DEBUG_EDITOR;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>ClutterEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>

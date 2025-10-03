@@ -14,6 +14,7 @@
 #include "Core/Assets/Assets.h"
 #include <Application/EditorApplication.h>
 #include <iostream>
+#include "GraphEditor.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -232,7 +233,7 @@ void ImGuiLayer::DrawUI()
         ImGui::Text(mFocusedActor->GetName().c_str());
 
     }
-    // TODO: Display properties of currently selected actor/components
+
     ImGui::PopFont();
     ImGui::End();
 
@@ -338,6 +339,8 @@ void ImGuiLayer::DrawUI()
     ImGui::PopFont();
 
     ImGui::End();
+
+    DrawGraphEditor();
 #endif
 }
 
@@ -424,4 +427,43 @@ void ImGuiLayer::SetEditorTheme()
     colors[ImGuiCol_HeaderHovered] = ImVec4(bgColor.x * 1.4f, bgColor.y * 1.4f, bgColor.z * 1.4f, 1.0f);
     colors[ImGuiCol_HeaderActive] = ImVec4(bgColor.x * 0.8f, bgColor.y * 0.8f, bgColor.z * 0.8f, 1.0f);
 #endif
+}
+
+void clt::ImGuiLayer::DrawGraphEditor()
+{
+    ImGui::Begin("Graph Editor", NULL, 0);
+
+    static GraphEditor::Options options;
+    static MaterialGraphEditor graphEditor;
+    static GraphEditor::ViewState viewState;
+    static GraphEditor::FitOnScreen fit = GraphEditor::Fit_None;
+    static bool showGraphEditor = true;
+
+    GraphEditor::Show(graphEditor, options, viewState, true, &fit);
+
+    if (graphEditor.mOpenContextMenu)
+    {
+        ImGui::OpenPopup("NodeContextMenu");
+        graphEditor.mOpenContextMenu = false;
+    }
+
+    Vector2 camPos = { -viewState.mPosition.x, -viewState.mPosition.y };
+    Vector2 mousePosInWindow = { ImGui::GetMousePos().x - ImGui::GetWindowPos().x, ImGui::GetMousePos().y - ImGui::GetWindowPos().y };
+
+    Vector2 pos = camPos + mousePosInWindow;
+
+    if (ImGui::BeginPopup("NodeContextMenu"))
+    {
+        if (ImGui::MenuItem("Add")) graphEditor.AddNode("Add", 1, pos, {100,65});
+        if (ImGui::MenuItem("Multiply")) graphEditor.AddNode("Multiply", 2, pos, { 100,65 });
+        if (ImGui::MenuItem("Divide")) graphEditor.AddNode("Divide", 3, pos, { 100,65 });
+        if (ImGui::MenuItem("Float")) graphEditor.AddNode("Float", 4, pos, { 75,75 });
+        if (ImGui::MenuItem("Vector2")) graphEditor.AddNode("Vector2", 5, pos, { 75,75 });
+        if (ImGui::MenuItem("Vector3")) graphEditor.AddNode("Vector3", 6, pos, { 75,75 });
+        if (ImGui::MenuItem("Texture")) graphEditor.AddNode("Texture", 7, pos, { 200,200 });
+
+        ImGui::EndPopup();
+    }
+
+    ImGui::End();
 }
