@@ -53,13 +53,14 @@ namespace GraphEditor {
       ImRect mMinimap{ {0.75f, 0.8f, 0.99f, 0.99f} }; // rectangle coordinates of minimap
       ImU32 mBackgroundColor{ IM_COL32(40, 40, 40, 255) }; // full background color
       ImU32 mGridColor{ IM_COL32(0, 0, 0, 60) }; // grid lines color
-      ImU32 mGridColor2{ IM_COL32(0, 0, 0, 160) }; // grid lines color every 10th
+      ImU32 mGridBgColor{ IM_COL32(0, 0, 0, 160) }; // grid lines color every 10th
       ImU32 mSelectedNodeBorderColor{ IM_COL32(255, 130, 30, 255) }; // node border color when it's selected
       ImU32 mNodeBorderColor{ IM_COL32(100, 100, 100, 0) }; // node border color when it's not selected
       ImU32 mQuadSelection{ IM_COL32(255, 32, 32, 64) }; // quad selection inside color
       ImU32 mQuadSelectionBorder{ IM_COL32(255, 32, 32, 255) }; // quad selection border color
       ImU32 mDefaultSlotColor{ IM_COL32(128, 128, 128, 255) }; // when no color is provided in node template, use this value
       ImU32 mFrameFocus{ IM_COL32(64, 128, 255, 255) }; // rectangle border when graph editor has focus
+      ImU32 mNodeNameColor{ IM_COL32(0, 0, 0, 255) }; // Node Name Color
       float mLineThickness{ 5 }; // links width in pixels when zoom value is 1
       float mGridSize{ 64.f }; // background grid size in pixels when zoom value is 1
       float mRounding{ 3.f }; // rounding at node corners
@@ -75,6 +76,8 @@ namespace GraphEditor {
       bool mAllowQuadSelection{ true }; // multiple selection using drag and drop
       bool mRenderGrid{ true }; // grid or nothing
       bool mDrawIONameOnHover{ true }; // only draw node input/output when hovering
+      bool mEnableMinimap{ true };
+      bool mBackgroundDots{ false };
    };
 
    // View state: scroll position and zoom factor

@@ -470,6 +470,21 @@ void clt::ImGuiLayer::DrawGraphEditor()
     static GraphEditor::FitOnScreen fit = GraphEditor::Fit_None;
     static bool showGraphEditor = true;
 
+    options.mDisplayLinksAsCurves = false;
+    options.mDrawIONameOnHover = false;
+    options.mRounding = 5;
+
+
+    options.mBackgroundColor = IM_COL32(30, 30, 30, 255);
+    options.mGridColor = IM_COL32(60, 60, 60, 255);
+    options.mGridBgColor = IM_COL32(30, 30, 30, 255);
+
+    options.mLineThickness = 4;
+    options.mNodeNameColor = IM_COL32(255, 255, 255, 255);
+    options.mEnableMinimap = false;
+    options.mBackgroundDots = true;
+
+
     GraphEditor::Show(graphEditor, options, viewState, true, &fit);
 
     if (graphEditor.mOpenContextMenu)

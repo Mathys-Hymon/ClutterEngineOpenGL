@@ -36,7 +36,7 @@ static ImU32 template1_colors_out[] = { IM_COL32(200,200,200,255) };
 
 const GraphEditor::Template MaterialGraphEditor::mTemplates[] = 
 {
-    { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 10, inputs_return, nullptr, 0, nullptr, nullptr }, // OutResult
+    { IM_COL32(180,40,40,255), IM_COL32(20,20,20,255) , IM_COL32(50,50,50,255), 10, inputs_return, nullptr, 0, nullptr, nullptr }, // OutResult
     { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 2, inputs_math, nullptr, 1, outputs_math, nullptr }, // ADD
     { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 2, inputs_math, nullptr, 1, outputs_math, nullptr }, // MULTIPLY
     { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 2, inputs_math, nullptr, 1, outputs_math, nullptr }, // DIVIDE

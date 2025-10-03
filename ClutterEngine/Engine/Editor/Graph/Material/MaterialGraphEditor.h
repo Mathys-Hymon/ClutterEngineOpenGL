@@ -12,7 +12,7 @@ namespace clt
     public:
         MaterialGraphEditor();
 
-        bool mOpenContextMenu = false;
+        bool mOpenContextMenu{false};
         ImVec2 mContextMenuPos;
 
         bool AllowedLink(GraphEditor::NodeIndex from, GraphEditor::NodeIndex to) override;
@@ -40,6 +40,8 @@ namespace clt
         std::vector<Node> mNodes;
         std::vector<GraphEditor::Link> mLinks;
         static const GraphEditor::Template mTemplates[];
+
+        int mSelectedNode{ -1 };
     };
 
 }

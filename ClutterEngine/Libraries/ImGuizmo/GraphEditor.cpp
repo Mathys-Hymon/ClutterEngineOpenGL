@@ -530,6 +530,24 @@ namespace GraphEditor {
       }
    }
 
+   static void DrawDots(ImDrawList* drawList, ImVec2 windowPos, const ViewState& viewState, const ImVec2 canvasSize, ImU32 dotColor, ImU32 bgColor, float gridSize, float dotRadius = 1.5f)
+   {
+      drawList->AddRectFilled(windowPos, windowPos + canvasSize, bgColor);
+
+      float spacing = gridSize * viewState.mFactor;
+
+      float startX = fmodf(viewState.mPosition.x * viewState.mFactor, spacing);
+      float startY = fmodf(viewState.mPosition.y * viewState.mFactor, spacing);
+
+      for (float x = startX; x < canvasSize.x; x += spacing)
+      {
+         for (float y = startY; y < canvasSize.y; y += spacing)
+         {
+            drawList->AddCircleFilled(windowPos + ImVec2(x, y), dotRadius, dotColor, 6);
+         }
+      }
+   }
+
    // return true if node is hovered
    static bool DrawNode(ImDrawList* drawList,
       NodeIndex nodeIndex,
@@ -673,7 +691,7 @@ namespace GraphEditor {
          nodeTemplate.mHeaderColor, options.mRounding);
 
       drawList->PushClipRect(nodeRectangleMin, ImVec2(nodeRectangleMax.x, nodeRectangleMin.y + 20), true);
-      drawList->AddText(nodeRectangleMin + ImVec2(2, 2), IM_COL32(0, 0, 0, 255), node.mName);
+      drawList->AddText(nodeRectangleMin + ImVec2(2, 2), options.mNodeNameColor, node.mName);
       drawList->PopClipRect();
 
       ImRect customDrawRect(nodeRectangleMin + ImVec2(options.mRounding, 20 + options.mRounding), nodeRectangleMax - ImVec2(options.mRounding, options.mRounding));
@@ -717,6 +735,11 @@ namespace GraphEditor {
 
    bool DrawMiniMap(ImDrawList* drawList, Delegate& delegate, ViewState& viewState, const Options& options, const ImVec2 windowPos, const ImVec2 canvasSize)
    {
+      if (!options.mEnableMinimap)
+      {
+         return false;
+      }
+
       if (Distance(options.mMinimap.Min, options.mMinimap.Max) <= FLT_EPSILON)
       {
          return false;
@@ -856,7 +879,14 @@ namespace GraphEditor {
       // Background or Display grid
       if (options.mRenderGrid)
       {
-         DrawGrid(drawList, windowPos, viewState, canvasSize, options.mGridColor, options.mGridColor2, options.mGridSize);
+         if (options.mBackgroundDots)
+         {
+            DrawDots(drawList, windowPos, viewState, canvasSize, options.mGridColor, options.mGridBgColor, options.mGridSize);
+         }
+         else
+         {
+            DrawGrid(drawList, windowPos, viewState, canvasSize, options.mGridColor, options.mGridBgColor, options.mGridSize);
+         }
       }
 
       // Fit view
@@ -930,27 +960,27 @@ namespace GraphEditor {
                bool overInput = (!inMinimap) && HandleConnections(drawList, nodeIndex, offset, viewState.mFactor, delegate, options, false, inputSlot, outputSlot, inMinimap);
 
                // shadow
-               /*
-               ImVec2 shadowOffset = ImVec2(30, 30);
-               ImVec2 shadowPivot = (nodeRect.Min + nodeRect.Max) /2.f;
-               ImVec2 shadowPointMiddle = shadowPivot + shadowOffset;
-               ImVec2 shadowPointTop = ImVec2(shadowPivot.x, nodeRect.Min.y) + shadowOffset;
-               ImVec2 shadowPointBottom = ImVec2(shadowPivot.x, nodeRect.Max.y) + shadowOffset;
-               ImVec2 shadowPointLeft = ImVec2(nodeRect.Min.x, shadowPivot.y) + shadowOffset;
-               ImVec2 shadowPointRight = ImVec2(nodeRect.Max.x, shadowPivot.y) + shadowOffset;
+               
+               //ImVec2 shadowOffset = ImVec2(30, 30);
+               //ImVec2 shadowPivot = (nodeRect.Min + nodeRect.Max) * .5f;
+               //ImVec2 shadowPointMiddle = shadowPivot + shadowOffset;
+               //ImVec2 shadowPointTop = ImVec2(shadowPivot.x, nodeRect.Min.y) + shadowOffset;
+               //ImVec2 shadowPointBottom = ImVec2(shadowPivot.x, nodeRect.Max.y) + shadowOffset;
+               //ImVec2 shadowPointLeft = ImVec2(nodeRect.Min.x, shadowPivot.y) + shadowOffset;
+               //ImVec2 shadowPointRight = ImVec2(nodeRect.Max.x, shadowPivot.y) + shadowOffset;
 
-               // top left
-               drawList->AddRectFilledMultiColor(nodeRect.Min + shadowOffset, shadowPointMiddle, IM_COL32(0 ,0, 0, 0), IM_COL32(0,0,0,0), IM_COL32(0, 0, 0, 255), IM_COL32(0, 0, 0, 0));
+               //// top left
+               //drawList->AddRectFilledMultiColor(nodeRect.Min + shadowOffset, shadowPointMiddle, IM_COL32(0 ,0, 0, 0), IM_COL32(0,0,0,0), IM_COL32(0, 0, 0, 255), IM_COL32(0, 0, 0, 0));
 
-               // top right
-               drawList->AddRectFilledMultiColor(shadowPointTop, shadowPointRight, IM_COL32(0 ,0, 0, 0), IM_COL32(0,0,0,0), IM_COL32(0, 0, 0, 0), IM_COL32(0, 0, 0, 255));
+               //// top right
+               //drawList->AddRectFilledMultiColor(shadowPointTop, shadowPointRight, IM_COL32(0 ,0, 0, 0), IM_COL32(0,0,0,0), IM_COL32(0, 0, 0, 0), IM_COL32(0, 0, 0, 255));
 
-               // bottom left
-               drawList->AddRectFilledMultiColor(shadowPointLeft, shadowPointBottom, IM_COL32(0 ,0, 0, 0), IM_COL32(0, 0, 0, 255), IM_COL32(0, 0, 0, 0), IM_COL32(0,0,0,0));
+               //// bottom left
+               //drawList->AddRectFilledMultiColor(shadowPointLeft, shadowPointBottom, IM_COL32(0 ,0, 0, 0), IM_COL32(0, 0, 0, 255), IM_COL32(0, 0, 0, 0), IM_COL32(0,0,0,0));
 
-               // bottom right
-               drawList->AddRectFilledMultiColor(shadowPointMiddle, nodeRect.Max + shadowOffset, IM_COL32(0, 0, 0, 255), IM_COL32(0 ,0, 0, 0), IM_COL32(0,0,0,0), IM_COL32(0, 0, 0, 0));
-               */
+               //// bottom right
+               //drawList->AddRectFilledMultiColor(shadowPointMiddle, nodeRect.Max + shadowOffset, IM_COL32(0, 0, 0, 255), IM_COL32(0 ,0, 0, 0), IM_COL32(0,0,0,0), IM_COL32(0, 0, 0, 0));
+               //
                if (DrawNode(drawList, nodeIndex, offset, viewState.mFactor, delegate, overInput, options, inMinimap, regionRect))
                {
                   hoveredNode = nodeIndex;
