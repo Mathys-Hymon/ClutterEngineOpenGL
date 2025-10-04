@@ -440,29 +440,48 @@ namespace GraphEditor {
 
                if (i == 0) // input
                {
-                  // regarde si ce slot input est connecté
                   LinkIndex connectedLink = delegate.GetLinkConnectedToInput(nodeIndex, slotIndex);
                   if (connectedLink != -1)
                   {
                      const auto link = delegate.GetLink(connectedLink);
-                     slotColor = link.mColor; // couleur du lien
+                     slotColor = link.mColor;
+
+                     drawList->AddRectFilled(topLeft, bottomRight, slotColor, rounding);
                   }
                   else
                   {
                      const ImU32* inputColors = nodeTemplate.mInputColors;
                      slotColor = inputColors ? inputColors[slotIndex] : options.mDefaultSlotColor;
+                     drawList->AddRect(topLeft, bottomRight, slotColor, rounding, 0, 2 * factor);
                   }
                }
                else // output
                {
-                  const ImU32* outputColors = nodeTemplate.mOutputColors;
-                  slotColor = outputColors ? outputColors[slotIndex] : options.mDefaultSlotColor;
+                  bool hasLink = false;
+                  for (LinkIndex li = 0; li < delegate.GetLinkCount(); ++li)
+                  {
+                     const auto& link = delegate.GetLink(li);
+                     if (link.mInputNodeIndex == nodeIndex && link.mInputSlotIndex == slotIndex)
+                     {
+                        slotColor = link.mColor;
+                        hasLink = true;
+                        break;
+                     }
+                  }
+
+                  if (hasLink)
+                     drawList->AddRectFilled(topLeft, bottomRight, slotColor, rounding);
+                  else
+                  {
+                     const ImU32* outputColors = nodeTemplate.mOutputColors;
+                     slotColor = outputColors ? outputColors[slotIndex] : options.mDefaultSlotColor;
+                     drawList->AddRect(topLeft, bottomRight, slotColor, rounding, 0, 2 * factor);
+                  }
                }
 
-               drawList->AddRect(topLeft, bottomRight, slotColor, rounding, 0, 2 * factor);
 
                if (!options.mDrawIONameOnHover)
-               {
+{
                   drawList->AddText(io.FontDefault, 15 * factor, (textPosFactor + ImVec2(2 * factor, 2 * factor)), IM_COL32(0, 0, 0, 255), conText); drawList->AddText(io.FontDefault, 15 * factor, textPosFactor, IM_COL32(150, 150, 150, 255), conText);
                }
             }
