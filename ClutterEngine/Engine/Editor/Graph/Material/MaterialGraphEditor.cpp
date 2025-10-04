@@ -37,15 +37,15 @@ static ImU32 template1_colors_out[] = { IM_COL32(200,200,200,255) };
 const GraphEditor::Template MaterialGraphEditor::mTemplates[] = 
 {
     { IM_COL32(180,40,40,255), IM_COL32(20,20,20,255) , IM_COL32(50,50,50,255), 10, inputs_return, nullptr, 0, nullptr, nullptr }, // OutResult
-    { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 2, inputs_math, nullptr, 1, outputs_math, nullptr }, // ADD
-    { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 2, inputs_math, nullptr, 1, outputs_math, nullptr }, // MULTIPLY
-    { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 2, inputs_math, nullptr, 1, outputs_math, nullptr }, // DIVIDE
-    { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 0, nullptr, nullptr, 1, outputs_value, nullptr },
-    { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 0, nullptr, nullptr, 1, outputs_value, nullptr },
-    { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 0, nullptr, nullptr, 1, outputs_value, nullptr },
-    { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 1, inputs_texture, nullptr, 1, outputs_texture, nullptr },
-    { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 1, outputs_value, nullptr, 3, outputs_vec3, outputs_vec3Color},  // Break Vector3
-    { IM_COL32(80,80,100,255), IM_COL32(100,100,140,255), IM_COL32(90,90,120,255), 1, intput_vect3, nullptr, 2, outputs_vec2, outputs_vec2Color }, // Break Vector2
+    { IM_COL32(180,40,40,255), IM_COL32(20,20,20,255) , IM_COL32(50,50,50,255), 2, inputs_math, nullptr, 1, outputs_math, nullptr }, // ADD
+    { IM_COL32(180,40,40,255), IM_COL32(20,20,20,255) , IM_COL32(50,50,50,255), 2, inputs_math, nullptr, 1, outputs_math, nullptr }, // MULTIPLY
+    { IM_COL32(180,40,40,255), IM_COL32(20,20,20,255) , IM_COL32(50,50,50,255), 2, inputs_math, nullptr, 1, outputs_math, nullptr }, // DIVIDE
+    { IM_COL32(180,40,40,255), IM_COL32(20,20,20,255) , IM_COL32(50,50,50,255), 0, nullptr, nullptr, 1, outputs_value, nullptr },
+    { IM_COL32(180,40,40,255), IM_COL32(20,20,20,255) , IM_COL32(50,50,50,255), 0, nullptr, nullptr, 1, outputs_value, nullptr },
+    { IM_COL32(180,40,40,255), IM_COL32(20,20,20,255) , IM_COL32(50,50,50,255), 0, nullptr, nullptr, 1, outputs_value, nullptr },
+    { IM_COL32(180,40,40,255), IM_COL32(20,20,20,255) , IM_COL32(50,50,50,255), 1, inputs_texture, nullptr, 1, outputs_texture, nullptr },
+    { IM_COL32(180,40,40,255), IM_COL32(20,20,20,255) , IM_COL32(50,50,50,255), 1, outputs_value, nullptr, 3, outputs_vec3, outputs_vec3Color},  // Break Vector3
+    { IM_COL32(180,40,40,255), IM_COL32(20,20,20,255) , IM_COL32(50,50,50,255), 1, intput_vect3, nullptr, 2, outputs_vec2, outputs_vec2Color }, // Break Vector2
 };
 
 // --- Constructeur ---
@@ -87,9 +87,21 @@ void MaterialGraphEditor::RightClick(GraphEditor::NodeIndex n, GraphEditor::Slot
 }
 
 void MaterialGraphEditor::AddLink(GraphEditor::NodeIndex inputNodeIndex, GraphEditor::SlotIndex inputSlotIndex,
-    GraphEditor::NodeIndex outputNodeIndex, GraphEditor::SlotIndex outputSlotIndex)
+    GraphEditor::NodeIndex outputNodeIndex, GraphEditor::SlotIndex outputSlotIndex, ImU32 nodeColor)
 {
-    mLinks.push_back({ inputNodeIndex, inputSlotIndex, outputNodeIndex, outputSlotIndex });
+    mLinks.push_back({ inputNodeIndex, inputSlotIndex, outputNodeIndex, outputSlotIndex, nodeColor });
+}
+
+GraphEditor::LinkIndex clt::MaterialGraphEditor::GetLinkConnectedToInput(GraphEditor::NodeIndex nodeIndex, GraphEditor::SlotIndex inputSlotIndex)
+{
+    const size_t linkCount = GetLinkCount();
+    for (GraphEditor::LinkIndex i = 0; i < linkCount; ++i)
+    {
+        const GraphEditor::Link& link = GetLink(i);
+        if (link.mOutputNodeIndex == nodeIndex && link.mOutputSlotIndex == inputSlotIndex)
+            return i;
+    }
+    return static_cast<GraphEditor::LinkIndex>(-1);
 }
 
 void MaterialGraphEditor::AddNode(NodeType type, const char* name, size_t templateIndex, const Vector2& pos, const Vector2& size)

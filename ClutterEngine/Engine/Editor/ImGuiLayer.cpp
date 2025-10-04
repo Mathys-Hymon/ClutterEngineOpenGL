@@ -472,15 +472,15 @@ void clt::ImGuiLayer::DrawGraphEditor()
 
     options.mDisplayLinksAsCurves = false;
     options.mDrawIONameOnHover = false;
-    options.mRounding = 5;
+    options.mRounding = 10;
 
 
     options.mBackgroundColor = IM_COL32(30, 30, 30, 255);
-    options.mGridColor = IM_COL32(60, 60, 60, 255);
-    options.mGridBgColor = IM_COL32(30, 30, 30, 255);
+    options.mGridColor = IM_COL32(78, 78, 78, 255);
+    options.mGridBgColor = IM_COL32(40, 38, 45, 255);
 
     options.mLineThickness = 4;
-    options.mNodeNameColor = IM_COL32(255, 255, 255, 255);
+    options.mNodeNameColor = IM_COL32(174, 166, 165, 255);
     options.mEnableMinimap = false;
     options.mBackgroundDots = true;
 

@@ -115,6 +115,7 @@ namespace GraphEditor {
       SlotIndex mInputSlotIndex;
       NodeIndex mOutputNodeIndex;
       SlotIndex mOutputSlotIndex;
+      ImU32 mColor;
    };
 
    struct Delegate
@@ -124,8 +125,9 @@ namespace GraphEditor {
       virtual void SelectNode(NodeIndex nodeIndex, bool selected) = 0;
       virtual void MoveSelectedNodes(const ImVec2 delta) = 0;
 
-      virtual void AddLink(NodeIndex inputNodeIndex, SlotIndex inputSlotIndex, NodeIndex outputNodeIndex, SlotIndex outputSlotIndex) = 0;
+      virtual void AddLink(NodeIndex inputNodeIndex, SlotIndex inputSlotIndex, NodeIndex outputNodeIndex, SlotIndex outputSlotIndex, ImU32 nodeColor) = 0;
       virtual void DelLink(LinkIndex linkIndex) = 0;
+      virtual LinkIndex GetLinkConnectedToInput(NodeIndex nodeIndex, SlotIndex inputSlotIndex) = 0;
 
       // user is responsible for clipping
       virtual void CustomDraw(ImDrawList* drawList, ImRect rectangle, NodeIndex nodeIndex) = 0;

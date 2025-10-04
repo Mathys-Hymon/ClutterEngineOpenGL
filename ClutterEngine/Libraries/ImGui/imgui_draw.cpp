@@ -41,6 +41,8 @@ Index of this file:
 
 #include <stdio.h>      // vsnprintf, sscanf, printf
 #include <stdint.h>     // intptr_t
+#include <cmath>
+#include <algorithm>
 
 // Visual Studio warnings
 #ifdef _MSC_VER
@@ -176,6 +178,23 @@ namespace IMGUI_STB_NAMESPACE
 } // namespace ImStb
 using namespace IMGUI_STB_NAMESPACE;
 #endif
+
+//-----------------------------------------------------------------------------
+// [SECTION] Added Maths Functions
+//-----------------------------------------------------------------------------
+
+
+static inline float ImLen(const ImVec2& v)
+{
+    return std::sqrt(v.x * v.x + v.y * v.y);
+}
+
+static inline ImVec2 ImNormalize(const ImVec2& v)
+{
+    float l = ImLen(v);
+    if (l > 1e-6f) return ImVec2(v.x / l, v.y / l);
+    return ImVec2(0.0f, 0.0f);
+}
 
 //-----------------------------------------------------------------------------
 // [SECTION] Style functions
@@ -1575,6 +1594,42 @@ void ImDrawList::AddTriangleFilled(const ImVec2& p1, const ImVec2& p2, const ImV
     PathLineTo(p1);
     PathLineTo(p2);
     PathLineTo(p3);
+    PathFillConvex(col);
+}
+
+void ImDrawList::AddTriangleRounded(ImVec2 a, ImVec2 b, ImVec2 c, float radius, ImU32 col, int numSegments)
+{
+    ImVec2 pts[3] = { a, b, c };
+    ImVec2 prev, next, cornerDir0, cornerDir1, start, end;
+
+    PathClear();
+
+    for (int i = 0; i < 3; i++)
+    {
+        prev = pts[(i + 2) % 3];
+        next = pts[(i + 1) % 3];
+        ImVec2 current = pts[i];
+
+        // Vecteurs vers les coins adjacents
+        cornerDir0 = ImNormalize(current - prev);
+        cornerDir1 = ImNormalize(current - next);
+
+        // Points de départ et de fin de l'arc
+        start = current - cornerDir0 * radius;
+        end = current - cornerDir1 * radius;
+
+        // Ajouter ligne jusqu’au start
+        if (i == 0)
+            PathLineTo(start);
+        else
+            PathLineTo(start);
+
+        // Ajouter arc arrondi
+        float angle0 = atan2f(-cornerDir0.y, -cornerDir0.x);
+        float angle1 = atan2f(-cornerDir1.y, -cornerDir1.x);
+        PathArcTo(current, radius, angle0, angle1, numSegments);
+    }
+
     PathFillConvex(col);
 }
 

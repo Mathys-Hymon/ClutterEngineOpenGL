@@ -22,7 +22,8 @@ namespace clt
             GraphEditor::SlotIndex slotIndexInput,
             GraphEditor::SlotIndex slotIndexOutput) override;
         void AddLink(GraphEditor::NodeIndex inputNodeIndex, GraphEditor::SlotIndex inputSlotIndex,
-            GraphEditor::NodeIndex outputNodeIndex, GraphEditor::SlotIndex outputSlotIndex) override;
+            GraphEditor::NodeIndex outputNodeIndex, GraphEditor::SlotIndex outputSlotIndex, ImU32 nodeColor) override;
+        GraphEditor::LinkIndex GetLinkConnectedToInput(GraphEditor::NodeIndex nodeIndex, GraphEditor::SlotIndex inputSlotIndex) override;
 
         void AddNode(NodeType type, const char* name, size_t templateIndex, const Vector2& pos, const Vector2& size);
         void DelLink(GraphEditor::LinkIndex linkIndex) override;
