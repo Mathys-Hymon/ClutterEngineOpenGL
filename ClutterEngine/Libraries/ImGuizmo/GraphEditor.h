@@ -120,7 +120,7 @@ namespace GraphEditor {
 
    struct Delegate
    {
-      virtual bool AllowedLink(NodeIndex from, NodeIndex to) = 0;
+      virtual bool AllowedLink(NodeIndex inputNodeIndex, SlotIndex inputSlotIndex, NodeIndex outputNodeIndex, SlotIndex outputSlotIndex) = 0;
 
       virtual void SelectNode(NodeIndex nodeIndex, bool selected) = 0;
       virtual void MoveSelectedNodes(const ImVec2 delta) = 0;

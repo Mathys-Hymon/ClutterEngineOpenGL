@@ -289,6 +289,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Engine\Editor\Gizmo.h" />
     <ClInclude Include="Engine\Editor\Graph\Material\MaterialGraphEditor.h" />
     <ClInclude Include="Engine\Editor\Graph\Material\Node.h" />
+    <ClInclude Include="Engine\Editor\Graph\Material\NodeTemplate.h" />
     <ClInclude Include="Engine\Editor\ImGuiLayer.h" />
     <ClInclude Include="Engine\Editor\EditorViewport.h" />
     <ClInclude Include="Engine\Graphics\FrameBuffer\FrameBuffer.h" />

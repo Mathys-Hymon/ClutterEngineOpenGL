@@ -539,7 +539,7 @@ namespace GraphEditor {
                   Link nl{ targetNodeIndex, targetSlotIndex, sourceNodeIndex, sourceSlotIndex, linkColor };
 
                      
-                  if (!delegate.AllowedLink(nl.mOutputNodeIndex, nl.mInputNodeIndex))
+                  if (!delegate.AllowedLink(nl.mInputNodeIndex, nl.mInputSlotIndex, nl.mOutputNodeIndex, nl.mOutputSlotIndex))
                   {
                      break;
                   }
