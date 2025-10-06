@@ -135,6 +135,7 @@ bool MaterialGraphEditor::AllowedLink(GraphEditor::NodeIndex senderNodeIndex, Gr
 void MaterialGraphEditor::SelectNode(GraphEditor::NodeIndex nodeIndex, bool selected)
 {
     mNodes[nodeIndex].mSelected = selected;
+    mSelectedNode = nodeIndex;
 }
 
 void MaterialGraphEditor::MoveSelectedNodes(const ImVec2 delta)
@@ -232,7 +233,7 @@ void MaterialGraphEditor::PropagateNodeType(GraphEditor::NodeIndex startNodeInde
             Slot& in = currentNode.inputs[i];
             NodeType initialType = NodeTemplates[currentNode.templateIndex].inputs[i].type;
 
-            if (in.connectedNode != -1)
+            if (in.connectedNode > -1)
             {
                 Node& connectedNode = mNodes[in.connectedNode];
                 Slot& connectedSlot = connectedNode.outputs[in.connectedSlot];
@@ -272,7 +273,7 @@ void MaterialGraphEditor::PropagateNodeType(GraphEditor::NodeIndex startNodeInde
             Slot& out = currentNode.outputs[i];
             NodeType initialType = NodeTemplates[currentNode.templateIndex].outputs[i].type;
 
-            if (out.connectedNode != -1)
+            if (out.connectedNode > -1)
             {
                 Node& connectedNode = mNodes[out.connectedNode];
                 Slot& connectedSlot = connectedNode.inputs[out.connectedSlot];
@@ -312,7 +313,7 @@ void MaterialGraphEditor::PropagateNodeType(GraphEditor::NodeIndex startNodeInde
         }
         for (const Slot& s : currentNode.inputs)
         {
-            if (s.connectedNode != -1 && visited.find(s.connectedNode) == visited.end())
+            if (s.connectedNode > -1 && visited.find(s.connectedNode) == visited.end())
             {
                 queue.push_back(s.connectedNode);
                 visited.insert(s.connectedNode);
@@ -320,7 +321,7 @@ void MaterialGraphEditor::PropagateNodeType(GraphEditor::NodeIndex startNodeInde
         }
         for (const Slot& s : currentNode.outputs)
         {
-            if (s.connectedNode != -1 && visited.find(s.connectedNode) == visited.end())
+            if (s.connectedNode > -1 && visited.find(s.connectedNode) == visited.end())
             {
                 queue.push_back(s.connectedNode);
                 visited.insert(s.connectedNode);
@@ -467,6 +468,69 @@ const size_t MaterialGraphEditor::GetLinkCount()
 const GraphEditor::Link MaterialGraphEditor::GetLink(GraphEditor::LinkIndex index)
 {
     return mLinks[index];
+}
+
+void MaterialGraphEditor::HandleInputs()
+{
+    ImGuiIO& io = ImGui::GetIO();
+
+    if (mSelectedNode != -1 && !ImGui::IsAnyItemActive() && mSelectedNode != 0)
+    {
+        if (ImGui::IsKeyPressed(ImGuiKey_Delete) || ImGui::IsKeyPressed(ImGuiKey_Backspace))
+        {
+            int nodeToDelete = mSelectedNode;
+
+            for (int i = (int)mLinks.size() - 1; i >= 0; --i)
+            {
+                const auto& link = mLinks[i];
+                if (link.mInputNodeIndex == nodeToDelete || link.mOutputNodeIndex == nodeToDelete)
+                {
+                    DelLink(i);
+                }
+            }
+
+            mNodes.erase(mNodes.begin() + nodeToDelete);
+            mSelectedNode = -1;
+
+            for (auto& link : mLinks)
+            {
+                if (link.mInputNodeIndex > nodeToDelete) --link.mInputNodeIndex;
+                if (link.mOutputNodeIndex > nodeToDelete) --link.mOutputNodeIndex;
+            }
+
+            for (auto& node : mNodes)
+            {
+                for (auto& slot : node.inputs)
+                {
+                    if (slot.connectedNode > nodeToDelete)
+                    {
+                        --slot.connectedNode;
+                    }
+
+                    else if (slot.connectedNode == nodeToDelete)
+                    {
+                        slot.connectedNode = -1;
+                    }
+                }
+                    
+                for (auto& slot : node.outputs)
+                {
+                    if (slot.connectedNode > nodeToDelete)
+                    {
+                        --slot.connectedNode;
+                    }
+
+                    else if (slot.connectedNode == nodeToDelete)
+                    {
+                        slot.connectedNode = -1;
+                    }
+                        
+                }
+            }
+
+            for (int i = 0; i < (int)mNodes.size(); ++i) PropagateNodeType(i);
+        }
+    }
 }
 
 void MaterialGraphEditor::SaveGraphToFile(const std::string filePath)

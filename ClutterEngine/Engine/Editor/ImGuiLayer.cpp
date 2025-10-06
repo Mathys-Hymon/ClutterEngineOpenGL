@@ -463,7 +463,7 @@ void clt::ImGuiLayer::DrawGraphEditor()
 
     ImGui::SameLine();
 
-    ImGui::BeginChild("GraphZone", ImVec2(rightWidth, windowSize.y), true);
+    ImGui::BeginChild("GraphEditor Window", ImVec2(rightWidth, windowSize.y), true);
     static GraphEditor::Options options;
     static MaterialGraphEditor graphEditor;
     static GraphEditor::ViewState viewState;
@@ -486,6 +486,7 @@ void clt::ImGuiLayer::DrawGraphEditor()
 
 
     GraphEditor::Show(graphEditor, options, viewState, true, &fit);
+    graphEditor.HandleInputs();
 
     static bool temp = true;
 

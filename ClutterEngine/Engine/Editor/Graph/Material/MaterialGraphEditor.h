@@ -24,6 +24,8 @@ namespace clt
         int mSelectedNode{ -1 };
         InvalidLinkFeedback mInvalidLink;
 
+
+
     public:
 
         bool mOpenContextMenu{ false };
@@ -53,6 +55,8 @@ namespace clt
         const GraphEditor::Node GetNode(GraphEditor::NodeIndex index) override;
         const size_t GetLinkCount() override;
         const GraphEditor::Link GetLink(GraphEditor::LinkIndex index) override;
+
+        void HandleInputs() override;
 
         void SaveGraphToFile(const std::string filePath);
         void LoadGraphFromFile(const std::string filePath);

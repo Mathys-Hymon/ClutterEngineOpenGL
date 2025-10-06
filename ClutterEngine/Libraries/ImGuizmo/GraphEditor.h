@@ -145,6 +145,7 @@ namespace GraphEditor {
       virtual const size_t GetLinkCount() = 0;
       virtual const Link GetLink(LinkIndex index) = 0;
 
+      virtual void HandleInputs() = 0;
       virtual ~Delegate() = default;
    };
 

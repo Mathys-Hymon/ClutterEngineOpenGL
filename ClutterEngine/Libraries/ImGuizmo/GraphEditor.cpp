@@ -402,13 +402,13 @@ namespace GraphEditor {
             textSize = ImGui::CalcTextSize(conText);
             ImVec2 textPosFactor;
 
-            if (i == 0)
+            if (i == 0) // input
             {
-               textPosFactor = p + ImVec2(radiusFactor + 4.0f, -textSize.y * 0.5f);
+               textPosFactor = p + ImVec2(radiusFactor + (4.0f * factor), -textSize.y * 0.5f);
             }
-            else
+            else // output
             {
-               textPosFactor = p - ImVec2(textSize.x + radiusFactor + 4.0f, textSize.y * 0.5f);
+               textPosFactor = p - ImVec2((textSize.x + radiusFactor + 4.0f) * factor, textSize.y * 0.5f);
             }
 
             ImRect nodeRect = GetNodeRect(node, factor);
@@ -481,7 +481,7 @@ namespace GraphEditor {
 
 
                if (!options.mDrawIONameOnHover)
-{
+               {
                   drawList->AddText(io.FontDefault, 15 * factor, (textPosFactor + ImVec2(2 * factor, 2 * factor)), IM_COL32(0, 0, 0, 255), conText); drawList->AddText(io.FontDefault, 15 * factor, textPosFactor, IM_COL32(150, 150, 150, 255), conText);
                }
             }
@@ -502,7 +502,7 @@ namespace GraphEditor {
 
             drawList->AddRectFilled(topLeft, bottomRight, slotColor, rounding);
 
-            ImVec2 textOffset = ImVec2(2, 1);
+            ImVec2 textOffset = ImVec2(2 * factor, 1 * factor);
             drawList->AddText(io.FontDefault, 16 * factor, closestTextPos + textOffset, IM_COL32(0, 0, 0, 255), conText);
             drawList->AddText(io.FontDefault, 16 * factor, closestTextPos, IM_COL32(250, 250, 250, 255), conText);
 
@@ -946,9 +946,10 @@ namespace GraphEditor {
       const ImVec2 canvasSize = ImGui::GetContentRegionAvail();
       const ImVec2 scrollRegionLocalPos(0, 0);
 
-      ImRect regionRect(windowPos, windowPos + canvasSize);
+      ImRect regionRect(windowPos, windowPos + canvasSize); 
 
       HandleZoomScroll(regionRect, viewState, options);
+
       ImVec2 offset = ImGui::GetCursorScreenPos() + viewState.mPosition * viewState.mFactor;
       captureOffset = viewState.mPosition * viewState.mFactor;
 
