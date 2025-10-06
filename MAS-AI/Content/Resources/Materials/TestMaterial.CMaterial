@@ -1,0 +1,219 @@
+{
+    "nodes": [
+        {
+            "inputs": [
+                {
+                    "connectedNode": 7,
+                    "connectedSlot": 0,
+                    "type": 0
+                },
+                {
+                    "connectedNode": -1,
+                    "connectedSlot": -1,
+                    "type": 0
+                },
+                {
+                    "connectedNode": -1,
+                    "connectedSlot": -1,
+                    "type": 0
+                },
+                {
+                    "connectedNode": -1,
+                    "connectedSlot": -1,
+                    "type": 0
+                },
+                {
+                    "connectedNode": -1,
+                    "connectedSlot": -1,
+                    "type": 0
+                },
+                {
+                    "connectedNode": -1,
+                    "connectedSlot": -1,
+                    "type": 0
+                },
+                {
+                    "connectedNode": -1,
+                    "connectedSlot": -1,
+                    "type": 0
+                },
+                {
+                    "connectedNode": -1,
+                    "connectedSlot": -1,
+                    "type": 0
+                },
+                {
+                    "connectedNode": -1,
+                    "connectedSlot": -1,
+                    "type": 0
+                },
+                {
+                    "connectedNode": -1,
+                    "connectedSlot": -1,
+                    "type": 0
+                }
+            ],
+            "outputs": [
+                {
+                    "connectedNode": -1,
+                    "connectedSlot": -1,
+                    "type": 0
+                }
+            ],
+            "pos": [
+                1201.177490234375,
+                183.37725830078125
+            ],
+            "templateIndex": 0
+        },
+        {
+            "inputs": [
+                {
+                    "connectedNode": 4,
+                    "connectedSlot": 0,
+                    "type": 1
+                },
+                {
+                    "connectedNode": 5,
+                    "connectedSlot": 0,
+                    "type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "connectedNode": 2,
+                    "connectedSlot": 0,
+                    "type": 1
+                }
+            ],
+            "pos": [
+                414.0,
+                148.0
+            ],
+            "templateIndex": 1
+        },
+        {
+            "inputs": [
+                {
+                    "connectedNode": 1,
+                    "connectedSlot": 0,
+                    "type": 1
+                },
+                {
+                    "connectedNode": 5,
+                    "connectedSlot": 0,
+                    "type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "connectedNode": 7,
+                    "connectedSlot": 0,
+                    "type": 1
+                }
+            ],
+            "pos": [
+                619.0,
+                185.0
+            ],
+            "templateIndex": 3
+        },
+        {
+            "inputs": [
+                {
+                    "connectedNode": 6,
+                    "connectedSlot": 0,
+                    "type": 4
+                }
+            ],
+            "outputs": [
+                {
+                    "connectedNode": 7,
+                    "connectedSlot": 1,
+                    "type": 1
+                },
+                {
+                    "connectedNode": -1,
+                    "connectedSlot": -1,
+                    "type": 1
+                }
+            ],
+            "pos": [
+                467.994873046875,
+                356.7241516113281
+            ],
+            "templateIndex": 7
+        },
+        {
+            "inputs": [],
+            "outputs": [
+                {
+                    "connectedNode": 1,
+                    "connectedSlot": 0,
+                    "type": 1
+                }
+            ],
+            "pos": [
+                234.0,
+                59.0
+            ],
+            "templateIndex": 13
+        },
+        {
+            "inputs": [],
+            "outputs": [
+                {
+                    "connectedNode": 2,
+                    "connectedSlot": 1,
+                    "type": 1
+                }
+            ],
+            "pos": [
+                215.0,
+                222.0
+            ],
+            "templateIndex": 13
+        },
+        {
+            "inputs": [],
+            "outputs": [
+                {
+                    "connectedNode": 3,
+                    "connectedSlot": 0,
+                    "type": 4
+                }
+            ],
+            "pos": [
+                176.0,
+                379.0
+            ],
+            "templateIndex": 16
+        },
+        {
+            "inputs": [
+                {
+                    "connectedNode": 2,
+                    "connectedSlot": 0,
+                    "type": 1
+                },
+                {
+                    "connectedNode": 3,
+                    "connectedSlot": 0,
+                    "type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "connectedNode": 0,
+                    "connectedSlot": 0,
+                    "type": 0
+                }
+            ],
+            "pos": [
+                852.0,
+                186.0
+            ],
+            "templateIndex": 1
+        }
+    ]
+}

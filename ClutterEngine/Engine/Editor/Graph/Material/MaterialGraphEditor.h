@@ -40,6 +40,7 @@ namespace clt
         void AddLink(GraphEditor::NodeIndex inputNodeIndex, GraphEditor::SlotIndex inputSlotIndex,
             GraphEditor::NodeIndex outputNodeIndex, GraphEditor::SlotIndex outputSlotIndex, ImU32 nodeColor) override;
         GraphEditor::LinkIndex GetLinkConnectedToInput(GraphEditor::NodeIndex nodeIndex, GraphEditor::SlotIndex inputSlotIndex) override;
+        ImU32 GetLinkColor(GraphEditor::NodeIndex outputNodeIndex, GraphEditor::SlotIndex outputSlotIndex);
 
         void PropagateNodeType(GraphEditor::NodeIndex startNodeIndex);
         void AddNode(const NodeTemplate& node, const Vector2& pos);
@@ -52,6 +53,9 @@ namespace clt
         const GraphEditor::Node GetNode(GraphEditor::NodeIndex index) override;
         const size_t GetLinkCount() override;
         const GraphEditor::Link GetLink(GraphEditor::LinkIndex index) override;
+
+        void SaveGraphToFile(const std::string filePath);
+        void LoadGraphFromFile(const std::string filePath);
     };
 
 }

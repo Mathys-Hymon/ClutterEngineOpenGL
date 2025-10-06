@@ -1,12 +1,14 @@
 ﻿#include <pch.h>
-#include "MaterialGraphEditor.h"
-#include "GraphEditor.h"
-#include "imgui.h"
-#include "imgui_internal.h"
 #define _CRT_SECURE_NO_WARNINGS
 #include <cstring>
 #include <unordered_set>
 #include <deque>
+
+#include "MaterialGraphEditor.h"
+#include <Core/JsonUtility.h>
+#include "GraphEditor.h"
+#include "imgui.h"
+#include "imgui_internal.h"
 
 using namespace clt;
 
@@ -166,7 +168,7 @@ void MaterialGraphEditor::AddLink(GraphEditor::NodeIndex senderNodeIndex, GraphE
         senderNode.outputs[senderSlotIndex].connectedSlot = receiverSlotIndex;
     }
 
-    if (receiverSlotIndex >= 0 && receiverSlotIndex < (GraphEditor::SlotIndex)senderNode.outputs.size())
+    if (receiverSlotIndex >= 0 && receiverSlotIndex < (GraphEditor::SlotIndex)receiverNode.inputs.size())
     {
         receiverNode.inputs[receiverSlotIndex].connectedNode = senderNodeIndex;
         receiverNode.inputs[receiverSlotIndex].connectedSlot = senderSlotIndex;
@@ -185,6 +187,23 @@ GraphEditor::LinkIndex clt::MaterialGraphEditor::GetLinkConnectedToInput(GraphEd
             return i;
     }
     return static_cast<GraphEditor::LinkIndex>(-1);
+}
+
+ImU32 MaterialGraphEditor::GetLinkColor(GraphEditor::NodeIndex outputNodeIndex, GraphEditor::SlotIndex outputSlotIndex)
+{
+    static GraphEditor::Options options;
+
+    if (outputNodeIndex < 0 || outputNodeIndex >= (GraphEditor::NodeIndex)mNodes.size())
+        return options.mDefaultSlotColor;
+
+    const Node& node = mNodes[outputNodeIndex];
+    const GraphEditor::Template nodeTemplate = GetTemplate(node.templateIndex);
+
+    const ImU32* outputColors = nodeTemplate.mOutputColors;
+    if (outputColors && outputSlotIndex >= 0 && outputSlotIndex < (int)nodeTemplate.mOutputCount)
+        return outputColors[outputSlotIndex];
+
+    return options.mDefaultSlotColor;
 }
 
 void MaterialGraphEditor::PropagateNodeType(GraphEditor::NodeIndex startNodeIndex)
@@ -221,20 +240,17 @@ void MaterialGraphEditor::PropagateNodeType(GraphEditor::NodeIndex startNodeInde
 
                 if (connectedSlotInitialType != NodeType::Any) isConnectedToValue = true;
 
-                // Si le connected slot est Any -> il prend notre type
                 if (connectedSlot.type == NodeType::Any && in.type != NodeType::Any)
                 {
                     connectedSlot.type = in.type;
                 }
 
-                // Si nous sommes Any -> on prend le type du connected slot
                 else if (in.type == NodeType::Any && connectedSlot.type != NodeType::Any)
                 {
                     in.type = connectedSlot.type;
                     finalType = connectedSlot.type;
                 }
 
-                // Si les deux sont Any, on fallback sur le type du template
                 else if (in.type == NodeType::Any && connectedSlot.type == NodeType::Any)
                 {
                     in.type = initialType;
@@ -264,19 +280,16 @@ void MaterialGraphEditor::PropagateNodeType(GraphEditor::NodeIndex startNodeInde
 
                 if (connectedSlotInitialType != NodeType::Any) isConnectedToValue = true;
 
-                // Si le connected slot est Any -> il prend notre type
                 if (connectedSlot.type == NodeType::Any && out.type != NodeType::Any)
                 {
                     connectedSlot.type = out.type;
                 }
 
-                // Si nous sommes Any -> on prend le type du connected slot
                 else if (out.type == NodeType::Any && connectedSlot.type != NodeType::Any)
                 {
                     out.type = connectedSlot.type;
                 }
 
-                // Si les deux sont Any, on fallback sur le type du template
                 else if (out.type == NodeType::Any && connectedSlot.type == NodeType::Any)
                 {
                     out.type = initialType;
@@ -454,4 +467,116 @@ const size_t MaterialGraphEditor::GetLinkCount()
 const GraphEditor::Link MaterialGraphEditor::GetLink(GraphEditor::LinkIndex index)
 {
     return mLinks[index];
+}
+
+void MaterialGraphEditor::SaveGraphToFile(const std::string filePath)
+{
+    nlohmann::json data;
+    data["nodes"] = nlohmann::json::array();
+
+    for (int i = 0; i < mNodes.size(); ++i)
+    {
+        const Node& node = mNodes[i];
+        nlohmann::json nodeJson;
+
+        nodeJson["templateIndex"] = node.templateIndex;
+        nodeJson["pos"] = { node.pos.x, node.pos.y };
+
+        // Inputs
+        nodeJson["inputs"] = nlohmann::json::array();
+        for (const auto& input : node.inputs)
+        {
+            nodeJson["inputs"].push_back({
+                { "connectedNode", input.connectedNode },
+                { "connectedSlot", input.connectedSlot },
+                { "type", (int)input.type }
+                });
+        }
+
+        // Outputs
+        nodeJson["outputs"] = nlohmann::json::array();
+        for (const auto& output : node.outputs)
+        {
+            nodeJson["outputs"].push_back({
+                { "connectedNode", output.connectedNode },
+                { "connectedSlot", output.connectedSlot },
+                { "type", (int)output.type }
+                });
+        }
+
+        data["nodes"].push_back(nodeJson);
+    }
+
+    clt::JsonUtility::SaveToFile(filePath, data);
+}
+
+void MaterialGraphEditor::LoadGraphFromFile(const std::string filePath)
+{
+    nlohmann::json data;
+    if (!clt::JsonUtility::LoadFromFile(filePath, data))
+        return;
+
+    mNodes.clear();
+    mLinks.clear();
+
+    struct PendingLink
+    {
+        GraphEditor::NodeIndex fromNode;
+        GraphEditor::SlotIndex fromSlot;
+        GraphEditor::NodeIndex toNode;
+        GraphEditor::SlotIndex toSlot;
+        ImU32 color;
+    };
+    std::vector<PendingLink> pendingLinks;
+
+    if (!data.contains("nodes"))
+        return;
+
+    for (const auto& nodeJson : data["nodes"])
+    {
+        int templateIndex = nodeJson.value("templateIndex", -1);
+        if (templateIndex < 0 || templateIndex >= (int)GetTemplateCount())
+            continue;
+
+        Vector2 pos(0.0f, 0.0f);
+        if (nodeJson.contains("pos") && nodeJson["pos"].is_array() && nodeJson["pos"].size() == 2)
+            pos = Vector2((float)nodeJson["pos"][0], (float)nodeJson["pos"][1]);
+
+        const NodeTemplate& tmpl = NodeTemplates[templateIndex];
+        AddNode(tmpl, pos);
+
+        int nodeIndex = (int)mNodes.size() - 1;
+
+        if (nodeJson.contains("inputs"))
+        {
+            for (int i = 0; i < nodeJson["inputs"].size(); ++i)
+            {
+                const auto& inSlot = nodeJson["inputs"][i];
+                int connectedNode = inSlot.value("connectedNode", -1);
+                int connectedSlot = inSlot.value("connectedSlot", -1);
+
+                if (connectedNode != -1 && connectedSlot != -1)
+                {
+                    ImU32 linkColor = GetLinkColor(connectedNode, connectedSlot);
+
+                    PendingLink link;
+                    link.fromNode = connectedNode;
+                    link.fromSlot = connectedSlot;
+                    link.toNode = nodeIndex;
+                    link.toSlot = i;
+                    link.color = linkColor;
+                    pendingLinks.push_back(link);
+                }
+            }
+        }
+    }
+
+    for (const auto& link : pendingLinks)
+    {
+        if (link.fromNode >= 0 && link.fromNode < (GraphEditor::NodeIndex)mNodes.size() &&
+            link.toNode >= 0 && link.toNode < (GraphEditor::NodeIndex)mNodes.size())
+        {
+            AddLink(link.fromNode, link.fromSlot, link.toNode, link.toSlot, link.color);
+        }
+    }
 }

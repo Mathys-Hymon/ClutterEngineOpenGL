@@ -487,6 +487,14 @@ void clt::ImGuiLayer::DrawGraphEditor()
 
     GraphEditor::Show(graphEditor, options, viewState, true, &fit);
 
+    static bool temp = true;
+
+    if (temp == true)
+    {
+        graphEditor.LoadGraphFromFile("Content/Resources/Materials/TestMaterial.CMaterial");
+        temp = false;
+    }
+
     if (graphEditor.mOpenContextMenu)
     {
         ImGui::OpenPopup("NodeContextMenu");
@@ -511,6 +519,12 @@ void clt::ImGuiLayer::DrawGraphEditor()
         }
         ImGui::EndPopup();
     }
+
+    if (ImGui::IsKeyDown(ImGuiKey_LeftCtrl) && ImGui::IsKeyPressed(ImGuiKey_S))
+    {
+        graphEditor.SaveGraphToFile("Content/Resources/Materials/TestMaterial.CMaterial");
+    }
+
     ImGui::EndChild();
 
     ImGui::End();
