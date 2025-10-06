@@ -5,6 +5,8 @@
 #include "imgui_internal.h"
 #define _CRT_SECURE_NO_WARNINGS
 #include <cstring>
+#include <unordered_set>
+#include <deque>
 
 using namespace clt;
 
@@ -97,6 +99,7 @@ bool MaterialGraphEditor::AllowedLink(GraphEditor::NodeIndex senderNodeIndex, Gr
         recieverSlot.type = senderSlot.type;
 
         Node& node = mNodes[recieverNodeIndex];
+
         for (Slot& s : node.inputs)  s.type = senderSlot.type;
         for (Slot& s : node.outputs) s.type = senderSlot.type;
         return true;
@@ -149,10 +152,27 @@ void MaterialGraphEditor::RightClick(GraphEditor::NodeIndex n, GraphEditor::Slot
     mOpenContextMenu = true;
 }
 
-void MaterialGraphEditor::AddLink(GraphEditor::NodeIndex inputNodeIndex, GraphEditor::SlotIndex inputSlotIndex,
-    GraphEditor::NodeIndex outputNodeIndex, GraphEditor::SlotIndex outputSlotIndex, ImU32 nodeColor)
+void MaterialGraphEditor::AddLink(GraphEditor::NodeIndex senderNodeIndex, GraphEditor::SlotIndex senderSlotIndex,
+    GraphEditor::NodeIndex receiverNodeIndex, GraphEditor::SlotIndex receiverSlotIndex, ImU32 nodeColor)
 {
-    mLinks.push_back({ inputNodeIndex, inputSlotIndex, outputNodeIndex, outputSlotIndex, nodeColor });
+    mLinks.push_back({ senderNodeIndex, senderSlotIndex, receiverNodeIndex, receiverSlotIndex, nodeColor });
+
+    Node& senderNode = mNodes[senderNodeIndex];
+    Node& receiverNode = mNodes[receiverNodeIndex];
+
+    if (senderSlotIndex >= 0 && senderSlotIndex < (GraphEditor::SlotIndex)senderNode.outputs.size())
+    {
+        senderNode.outputs[senderSlotIndex].connectedNode = receiverNodeIndex;
+        senderNode.outputs[senderSlotIndex].connectedSlot = receiverSlotIndex;
+    }
+
+    if (receiverSlotIndex >= 0 && receiverSlotIndex < (GraphEditor::SlotIndex)senderNode.outputs.size())
+    {
+        receiverNode.inputs[receiverSlotIndex].connectedNode = senderNodeIndex;
+        receiverNode.inputs[receiverSlotIndex].connectedSlot = senderSlotIndex;
+    }
+
+    PropagateNodeType(senderNodeIndex);
 }
 
 GraphEditor::LinkIndex clt::MaterialGraphEditor::GetLinkConnectedToInput(GraphEditor::NodeIndex nodeIndex, GraphEditor::SlotIndex inputSlotIndex)
@@ -165,6 +185,157 @@ GraphEditor::LinkIndex clt::MaterialGraphEditor::GetLinkConnectedToInput(GraphEd
             return i;
     }
     return static_cast<GraphEditor::LinkIndex>(-1);
+}
+
+void MaterialGraphEditor::PropagateNodeType(GraphEditor::NodeIndex startNodeIndex)
+{
+    if (startNodeIndex >= mNodes.size()) return;
+
+    std::unordered_set<GraphEditor::NodeIndex> visited;
+    std::deque<GraphEditor::NodeIndex> queue;
+
+    bool isConnectedToValue{ false };
+
+    queue.push_back(startNodeIndex);
+    visited.insert(startNodeIndex);
+
+    while (!queue.empty())
+    {
+        GraphEditor::NodeIndex currentIndex = queue.front();
+        queue.pop_front();
+
+        Node& currentNode = mNodes[currentIndex];
+        NodeType finalType = NodeType::Any;
+        bool isConnected{ false };
+
+        for (int i = 0; i < currentNode.inputs.size(); i++)
+        {
+            Slot& in = currentNode.inputs[i];
+            NodeType initialType = NodeTemplates[currentNode.templateIndex].inputs[i].type;
+
+            if (in.connectedNode != -1)
+            {
+                Node& connectedNode = mNodes[in.connectedNode];
+                Slot& connectedSlot = connectedNode.outputs[in.connectedSlot];
+                const NodeType& connectedSlotInitialType = NodeTemplates[connectedNode.templateIndex].outputs[in.connectedSlot].type;
+
+                if (connectedSlotInitialType != NodeType::Any) isConnectedToValue = true;
+
+                // Si le connected slot est Any -> il prend notre type
+                if (connectedSlot.type == NodeType::Any && in.type != NodeType::Any)
+                {
+                    connectedSlot.type = in.type;
+                }
+
+                // Si nous sommes Any -> on prend le type du connected slot
+                else if (in.type == NodeType::Any && connectedSlot.type != NodeType::Any)
+                {
+                    in.type = connectedSlot.type;
+                    finalType = connectedSlot.type;
+                }
+
+                // Si les deux sont Any, on fallback sur le type du template
+                else if (in.type == NodeType::Any && connectedSlot.type == NodeType::Any)
+                {
+                    in.type = initialType;
+                    finalType = initialType;
+                    connectedSlot.type = connectedSlotInitialType;
+                }
+
+                finalType = in.type;
+                isConnected = true;
+            }
+            else
+            {
+                in.type = initialType;
+            }
+        }
+
+        for (int i = 0; i < currentNode.outputs.size(); i++)
+        {
+            Slot& out = currentNode.outputs[i];
+            NodeType initialType = NodeTemplates[currentNode.templateIndex].outputs[i].type;
+
+            if (out.connectedNode != -1)
+            {
+                Node& connectedNode = mNodes[out.connectedNode];
+                Slot& connectedSlot = connectedNode.inputs[out.connectedSlot];
+                const NodeType& connectedSlotInitialType = NodeTemplates[connectedNode.templateIndex].inputs[out.connectedSlot].type;
+
+                if (connectedSlotInitialType != NodeType::Any) isConnectedToValue = true;
+
+                // Si le connected slot est Any -> il prend notre type
+                if (connectedSlot.type == NodeType::Any && out.type != NodeType::Any)
+                {
+                    connectedSlot.type = out.type;
+                }
+
+                // Si nous sommes Any -> on prend le type du connected slot
+                else if (out.type == NodeType::Any && connectedSlot.type != NodeType::Any)
+                {
+                    out.type = connectedSlot.type;
+                }
+
+                // Si les deux sont Any, on fallback sur le type du template
+                else if (out.type == NodeType::Any && connectedSlot.type == NodeType::Any)
+                {
+                    out.type = initialType;
+                    connectedSlot.type = connectedSlotInitialType;
+                }
+
+                finalType = out.type;
+                isConnected = true;
+            }
+            else
+            {
+                out.type = initialType;
+            }
+        }
+
+        if (isConnected)
+        {
+            for (auto& in : currentNode.inputs) if (in.type == NodeType::Any) in.type = finalType;
+            for (auto& out : currentNode.outputs) if (out.type == NodeType::Any) out.type = finalType;
+        }
+        for (const Slot& s : currentNode.inputs)
+        {
+            if (s.connectedNode != -1 && visited.find(s.connectedNode) == visited.end())
+            {
+                queue.push_back(s.connectedNode);
+                visited.insert(s.connectedNode);
+            }
+        }
+        for (const Slot& s : currentNode.outputs)
+        {
+            if (s.connectedNode != -1 && visited.find(s.connectedNode) == visited.end())
+            {
+                queue.push_back(s.connectedNode);
+                visited.insert(s.connectedNode);
+            }
+        }
+    }
+
+    if (!isConnectedToValue)
+    {
+        for (auto& index : visited)
+        {
+            Node& currentNode = mNodes[index];
+
+            for (int i = 0; i < currentNode.inputs.size(); i++)
+            {
+                NodeType initialType = NodeTemplates[currentNode.templateIndex].inputs[i].type;
+                
+                currentNode.inputs[i].type = initialType;
+            }
+
+            for (int i = 0; i < currentNode.outputs.size(); i++)
+            {
+                NodeType initialType = NodeTemplates[currentNode.templateIndex].outputs[i].type;
+
+                currentNode.outputs[i].type = initialType;
+            }
+        }
+    }
 }
 
 void MaterialGraphEditor::AddNode(const NodeTemplate& node, const Vector2& pos)
@@ -192,62 +363,28 @@ void MaterialGraphEditor::DelLink(GraphEditor::LinkIndex linkIndex)
 
     GraphEditor::Link link = mLinks[linkIndex];
 
-    Node& receiverNode = mNodes[link.mOutputNodeIndex];
-    Node& senderNode = mNodes[link.mInputNodeIndex];
+    if (link.mInputNodeIndex >= 0 && link.mInputNodeIndex < (GraphEditor::NodeIndex)mNodes.size() &&
+        link.mOutputNodeIndex >= 0 && link.mOutputNodeIndex < (GraphEditor::NodeIndex)mNodes.size())
+    {
+        Node& inputNode = mNodes[link.mInputNodeIndex];   // sender
+        Node& outputNode = mNodes[link.mOutputNodeIndex]; // receiver
 
-    Slot& senderSlot = senderNode.outputs[link.mInputSlotIndex];
-    Slot& receiverSlot = receiverNode.inputs[link.mOutputSlotIndex];
+        if (link.mInputSlotIndex >= 0 && link.mInputSlotIndex < (GraphEditor::SlotIndex)inputNode.outputs.size())
+        {
+            inputNode.outputs[link.mInputSlotIndex].connectedNode = -1;
+            inputNode.outputs[link.mInputSlotIndex].connectedSlot = -1;
+        }
 
-    senderSlot.connectedNode = -1;
-    senderSlot.connectedSlot = -1;
-    receiverSlot.connectedNode = -1;
-    receiverSlot.connectedSlot = -1;
+        if (link.mOutputSlotIndex >= 0 && link.mOutputSlotIndex < (GraphEditor::SlotIndex)outputNode.inputs.size())
+        {
+            outputNode.inputs[link.mOutputSlotIndex].connectedNode = -1;
+            outputNode.inputs[link.mOutputSlotIndex].connectedSlot = -1;
+        }
+    }
 
     mLinks.erase(mLinks.begin() + linkIndex);
 
-    if (receiverNode.kind == NodeKind::Add ||
-        receiverNode.kind == NodeKind::Subtract ||
-        receiverNode.kind == NodeKind::Multiply ||
-        receiverNode.kind == NodeKind::Divide)
-    {
-        bool hasConnections = false;
-        for (const Slot& s : receiverNode.inputs)
-        {
-            if (s.connectedNode != -1)
-            {
-                hasConnections = true;
-                break;
-            }
-        }
-
-        if (!hasConnections)
-        {
-            for (Slot& s : receiverNode.inputs)  s.type = NodeType::Any;
-            for (Slot& s : receiverNode.outputs) s.type = NodeType::Any;
-        }
-    }
-
-    if (senderNode.kind == NodeKind::Add ||
-        senderNode.kind == NodeKind::Subtract ||
-        senderNode.kind == NodeKind::Multiply ||
-        senderNode.kind == NodeKind::Divide)
-    {
-        bool hasConnections = false;
-        for (const Slot& s : senderNode.outputs)
-        {
-            if (s.connectedNode != -1)
-            {
-                hasConnections = true;
-                break;
-            }
-        }
-
-        if (!hasConnections)
-        {
-            for (Slot& s : senderNode.inputs)  s.type = NodeType::Any;
-            for (Slot& s : senderNode.outputs) s.type = NodeType::Any;
-        }
-    }
+    PropagateNodeType(link.mInputNodeIndex);
 }
 
 void MaterialGraphEditor::CustomDraw(ImDrawList* drawList, ImRect rect, GraphEditor::NodeIndex nodeIndex)

@@ -41,6 +41,7 @@ namespace clt
             GraphEditor::NodeIndex outputNodeIndex, GraphEditor::SlotIndex outputSlotIndex, ImU32 nodeColor) override;
         GraphEditor::LinkIndex GetLinkConnectedToInput(GraphEditor::NodeIndex nodeIndex, GraphEditor::SlotIndex inputSlotIndex) override;
 
+        void PropagateNodeType(GraphEditor::NodeIndex startNodeIndex);
         void AddNode(const NodeTemplate& node, const Vector2& pos);
         void DelLink(GraphEditor::LinkIndex linkIndex) override;
         void CustomDraw(ImDrawList* drawList, ImRect rectangle, GraphEditor::NodeIndex nodeIndex) override;
