@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include <filesystem>
 #include <Core/Assets/Assets.h>
+#include <Core/JsonUtility.h>
 #include "ContentBrowser.h"
 #include <Core/Maths/Color.h>
 #ifdef EDITOR
@@ -74,7 +75,7 @@ void ContentBrowser::ScanFolderRecursive(ContentFolder& folder)
             else if (ext == ".ttf") item.Type = AssetType::Font;
             else if (ext == ".wav" || ext == ".mp3" || ext == ".avi") item.Type = AssetType::Sound;
             else if (ext == ".cpp" || ext == ".h") item.Type = AssetType::Script;
-            else if (ext == ".frag" || ext == ".tese" || ext == ".vert" || ext == ".tesc") item.Type = AssetType::Shader;
+            else if (ext == ".frag" || ext == ".tese" || ext == ".vert" || ext == ".tesc" || ext == ".CMaterial") item.Type = AssetType::Shader;
             else item.Type = AssetType::Unknown;
 
             if (item.Type == AssetType::Texture) Assets::Get().LoadTexture(item.Path, item.Name, TextureFilter::LINEAR, true, false);
@@ -367,8 +368,43 @@ void ContentBrowser::Draw(ImFont* mEditorFontTitle, ImFont* mEditorFont)
     {
         if (ImGui::MenuItem("New Folder"))
         {
-            // to do
+            std::string folderName = "NewFolder";
+            int counter = 1;
+            std::filesystem::path newPath = mCurrentFolder->Path + "/" + folderName;
+
+            while (std::filesystem::exists(newPath))
+            {
+                folderName = "NewFolder_" + std::to_string(counter++);
+                newPath = mCurrentFolder->Path + "/" + folderName;
+            }
+
+            std::filesystem::create_directory(newPath);
+            ScanFolder(mCurrentFolder->Path);
         }
+
+        if (ImGui::MenuItem("Create Material"))
+        {
+            std::string matName = "NewMaterial";
+            int counter = 1;
+            std::filesystem::path newMatPath = mCurrentFolder->Path + "/" + (matName + ".CMaterial");
+
+            while (std::filesystem::exists(newMatPath))
+            {
+                matName = "NewMaterial_" + std::to_string(counter++);
+                newMatPath = mCurrentFolder->Path + "/" + (matName + ".CMaterial");
+            }
+
+            nlohmann::json matJson;
+            clt::JsonUtility::Set(matJson, "nodes", nlohmann::json::array());
+            clt::JsonUtility::Set(matJson, "links", nlohmann::json::array());
+
+            if (!clt::JsonUtility::SaveToFile(newMatPath.string(), matJson))
+            {
+                std::cerr << "Failed to create material file: " << newMatPath << "\n";
+            }
+            ScanFolder(mCurrentFolder->Path);
+        }
+
         ImGui::EndPopup();
     }
 

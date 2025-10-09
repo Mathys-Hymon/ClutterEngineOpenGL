@@ -5,64 +5,64 @@
                 {
                     "connectedNode": -1,
                     "connectedSlot": -1,
-                    "type": 1
+                    "type": 0
                 },
                 {
                     "connectedNode": 8,
                     "connectedSlot": 0,
-                    "type": 1
+                    "type": 0
                 },
                 {
                     "connectedNode": -1,
                     "connectedSlot": -1,
-                    "type": 1
+                    "type": 0
                 },
                 {
                     "connectedNode": -1,
                     "connectedSlot": -1,
-                    "type": 1
+                    "type": 0
                 },
                 {
                     "connectedNode": -1,
                     "connectedSlot": -1,
-                    "type": 1
+                    "type": 0
                 },
                 {
                     "connectedNode": -1,
                     "connectedSlot": -1,
-                    "type": 1
+                    "type": 0
                 },
                 {
                     "connectedNode": -1,
                     "connectedSlot": -1,
-                    "type": 1
+                    "type": 0
                 },
                 {
                     "connectedNode": -1,
                     "connectedSlot": -1,
-                    "type": 1
+                    "type": 0
                 },
                 {
                     "connectedNode": -1,
                     "connectedSlot": -1,
-                    "type": 1
+                    "type": 0
                 },
                 {
                     "connectedNode": -1,
                     "connectedSlot": -1,
-                    "type": 1
+                    "type": 0
                 }
             ],
             "outputs": [
                 {
                     "connectedNode": -1,
                     "connectedSlot": -1,
-                    "type": 1
+                    "type": 0
                 }
             ],
             "pos": [
-                873.0,
-                331.0
+                887.5454711914063,
+                345.54541015625
             ],
             "templateIndex": 0
         },
@@ -167,8 +167,8 @@
                     "type": 1
                 },
                 {
-                    "connectedNode": 7,
-                    "connectedSlot": 0,
+                    "connectedNode": -1,
+                    "connectedSlot": -1,
                     "type": 1
                 }
             ],
@@ -180,8 +180,8 @@
                 }
             ],
             "pos": [
-                295.46185302734375,
-                277.0968322753906
+                317.9577331542969,
+                291.4567565917969
             ],
             "templateIndex": 1
         },
@@ -195,8 +195,8 @@
                 }
             ],
             "pos": [
-                -32.67502975463867,
-                273.1708984375
+                -301.40093994140625,
+                621.5584106445313
             ],
             "templateIndex": 13
         },
@@ -210,8 +210,8 @@
                 }
             ],
             "pos": [
-                177.6976318359375,
-                461.7154541015625
+                -34.53510665893555,
+                206.78822326660156
             ],
             "templateIndex": 14
         },
@@ -219,14 +219,14 @@
             "inputs": [],
             "outputs": [
                 {
-                    "connectedNode": 4,
-                    "connectedSlot": 1,
+                    "connectedNode": -1,
+                    "connectedSlot": -1,
                     "type": 1
                 }
             ],
             "pos": [
-                35.18545150756836,
-                372.9163818359375
+                -178.1094512939453,
+                176.40774536132813
             ],
             "templateIndex": 13
         },
@@ -240,14 +240,14 @@
                 {
                     "connectedNode": -1,
                     "connectedSlot": -1,
-                    "type": 1
+                    "type": 0
                 }
             ],
             "outputs": [
                 {
                     "connectedNode": 0,
                     "connectedSlot": 1,
-                    "type": 1
+                    "type": 0
                 }
             ],
             "pos": [
@@ -255,6 +255,21 @@
                 275.4100036621094
             ],
             "templateIndex": 2
+        },
+        {
+            "inputs": [],
+            "outputs": [
+                {
+                    "connectedNode": -1,
+                    "connectedSlot": -1,
+                    "type": 5
+                }
+            ],
+            "pos": [
+                -240.85348510742188,
+                276.34539794921875
+            ],
+            "templateIndex": 17
         }
     ]
 }

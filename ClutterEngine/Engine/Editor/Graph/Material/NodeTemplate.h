@@ -24,7 +24,7 @@ namespace clt
     inline const std::vector<NodeTemplate> NodeTemplates = {
 
         // --- OutResult ---
-        { "OutResult", NodeKind::OutResult, 0, {100,400},
+        { "OutResult", NodeKind::OutResult, 0, {175,450},
             {
                 {NodeType::Any, 0.0f}, {NodeType::Any, 0.0f}, {NodeType::Any, 0.0f},
                 {NodeType::Any, 0.0f}, {NodeType::Any, 0.0f}, {NodeType::Any, 0.0f},
@@ -35,27 +35,27 @@ namespace clt
         },
 
         // --- Math operations ---
-        { "Add", NodeKind::Add, 1, {100,65},
+        { "Add", NodeKind::Add, 1, {100,60},
             { {NodeType::Any, 0.0f}, {NodeType::Any, 0.0f} },
             { {NodeType::Any, 0.0f} }
         },
-        { "Subtract", NodeKind::Subtract, 2, {100,65},
+        { "Subtract", NodeKind::Subtract, 2, {100,60},
             { {NodeType::Any, 0.0f}, {NodeType::Any, 0.0f} },
             { {NodeType::Any, 0.0f} }
         },
-        { "Multiply", NodeKind::Multiply, 3, {100,65},
+        { "Multiply", NodeKind::Multiply, 3, {100,60},
             { {NodeType::Any, 0.0f}, {NodeType::Any, 0.0f} },
             { {NodeType::Any, 0.0f} }
         },
-        { "Divide", NodeKind::Divide, 4, {100,65},
+        { "Divide", NodeKind::Divide, 4, {100,60},
             { {NodeType::Any, 0.0f}, {NodeType::Any, 0.0f} },
             { {NodeType::Any, 0.0f} }
         },
-        { "Equal", NodeKind::Equal, 5, {100,65},
+        { "Equal", NodeKind::Equal, 5, {100,60},
             { {NodeType::Any, 0.0f}, {NodeType::Any, 0.0f} },
             { {NodeType::Bool, false} }
         },
-        { "Select", NodeKind::Select, 6, {120,65},
+        { "Select", NodeKind::Select, 6, {150,100},
             { {NodeType::Any, 0.0f}, {NodeType::Any, 0.0f}, {NodeType::Bool, false} },
             { {NodeType::Any, 0.0f} }
         },
@@ -89,12 +89,12 @@ namespace clt
         },
 
         // --- Constants ---
-        { "Float", NodeKind::FloatConstant, 13, {75,75}, {}, { {NodeType::Float, 0.f} } },
-        { "Int", NodeKind::IntConstant, 14, {75,75}, {}, { {NodeType::Int, 0} } },
-        { "Bool", NodeKind::BoolConstant, 15, {75,75}, {}, { {NodeType::Bool, false} } },
-        { "Vector2", NodeKind::Vector2Constant, 16, {75,75}, {}, { {NodeType::Vector2, Vector2{0,0}} } },
-        { "Vector3", NodeKind::Vector3Constant, 17, {75,75}, {}, { {NodeType::Vector3, Vector3{0,0,0}} } },
-        { "Color", NodeKind::ColorConstant, 18, {75,75}, {}, { {NodeType::Color, Color{1,1,1}} } },
+        { "Float", NodeKind::FloatConstant, 13, {75,60}, {}, { {NodeType::Float, 0.f} } },
+        { "Int", NodeKind::IntConstant, 14, {75,60}, {}, { {NodeType::Int, 0} } },
+        { "Bool", NodeKind::BoolConstant, 15, {75,60}, {}, { {NodeType::Bool, false} } },
+        { "Vector2", NodeKind::Vector2Constant, 16, {75,60}, {}, { {NodeType::Vector2, Vector2{0,0}} } },
+        { "Vector3", NodeKind::Vector3Constant, 17, {75,60}, {}, { {NodeType::Vector3, Vector3{0,0,0}} } },
+        { "Color", NodeKind::ColorConstant, 18, {75,60}, {}, { {NodeType::Color, Color{1,1,1}} } },
         { "Texture", NodeKind::TextureConstant, 19, {200,200}, {}, { {NodeType::Texture, ""} } },
 
         // --- Entry nodes ---

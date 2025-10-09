@@ -24,8 +24,6 @@ namespace clt
         int mSelectedNode{ -1 };
         InvalidLinkFeedback mInvalidLink;
 
-
-
     public:
 
         bool mOpenContextMenu{ false };

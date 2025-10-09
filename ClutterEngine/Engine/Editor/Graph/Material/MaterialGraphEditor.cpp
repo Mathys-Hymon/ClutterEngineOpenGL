@@ -239,8 +239,6 @@ void MaterialGraphEditor::PropagateNodeType(GraphEditor::NodeIndex startNodeInde
                 Slot& connectedSlot = connectedNode.outputs[in.connectedSlot];
                 const NodeType& connectedSlotInitialType = NodeTemplates[connectedNode.templateIndex].outputs[in.connectedSlot].type;
 
-                if (connectedSlotInitialType != NodeType::Any) isConnectedToValue = true;
-
                 if (connectedSlot.type == NodeType::Any && in.type != NodeType::Any)
                 {
                     connectedSlot.type = in.type;
@@ -255,12 +253,14 @@ void MaterialGraphEditor::PropagateNodeType(GraphEditor::NodeIndex startNodeInde
                 else if (in.type == NodeType::Any && connectedSlot.type == NodeType::Any)
                 {
                     in.type = initialType;
-                    finalType = initialType;
                     connectedSlot.type = connectedSlotInitialType;
                 }
 
-                finalType = in.type;
-                isConnected = true;
+                if (in.type != initialType)
+                {
+                    finalType = in.type;
+                    isConnected = true;
+                }
             }
             else
             {
@@ -279,8 +279,6 @@ void MaterialGraphEditor::PropagateNodeType(GraphEditor::NodeIndex startNodeInde
                 Slot& connectedSlot = connectedNode.inputs[out.connectedSlot];
                 const NodeType& connectedSlotInitialType = NodeTemplates[connectedNode.templateIndex].inputs[out.connectedSlot].type;
 
-                if (connectedSlotInitialType != NodeType::Any) isConnectedToValue = true;
-
                 if (connectedSlot.type == NodeType::Any && out.type != NodeType::Any)
                 {
                     connectedSlot.type = out.type;
@@ -297,8 +295,11 @@ void MaterialGraphEditor::PropagateNodeType(GraphEditor::NodeIndex startNodeInde
                     connectedSlot.type = connectedSlotInitialType;
                 }
 
-                finalType = out.type;
-                isConnected = true;
+                if (out.type != initialType)
+                {
+                    finalType = out.type;
+                    isConnected = true;
+                }
             }
             else
             {
@@ -308,6 +309,7 @@ void MaterialGraphEditor::PropagateNodeType(GraphEditor::NodeIndex startNodeInde
 
         if (isConnected)
         {
+            isConnectedToValue = true;
             for (auto& in : currentNode.inputs) if (in.type == NodeType::Any) in.type = finalType;
             for (auto& out : currentNode.outputs) if (out.type == NodeType::Any) out.type = finalType;
         }
@@ -399,6 +401,7 @@ void MaterialGraphEditor::DelLink(GraphEditor::LinkIndex linkIndex)
     mLinks.erase(mLinks.begin() + linkIndex);
 
     PropagateNodeType(link.mInputNodeIndex);
+    PropagateNodeType(link.mOutputNodeIndex);
 }
 
 void MaterialGraphEditor::CustomDraw(ImDrawList* drawList, ImRect rect, GraphEditor::NodeIndex nodeIndex)
@@ -524,7 +527,6 @@ void MaterialGraphEditor::HandleInputs()
                     {
                         slot.connectedNode = -1;
                     }
-                        
                 }
             }
 
