@@ -4,7 +4,7 @@
 #include <Editor/EditorViewport.h>
 #include <Core/ActorComponent/Actor.h>
 #include <Editor/Gizmo.h>
-#include <Editor/Graph/Material/MaterialGraphEditor.h>
+#include <Editor/Graph/Material/MaterialGraphEditorPanel.h>
 
 namespace clt
 {

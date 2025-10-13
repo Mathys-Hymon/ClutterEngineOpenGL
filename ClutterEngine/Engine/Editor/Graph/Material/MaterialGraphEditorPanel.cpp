@@ -4,7 +4,7 @@
 #include <unordered_set>
 #include <deque>
 
-#include "MaterialGraphEditor.h"
+#include "MaterialGraphEditorPanel.h"
 #include <Core/JsonUtility.h>
 #include "GraphEditor.h"
 #include "imgui.h"
@@ -37,7 +37,7 @@ static ImU32 outputs_vec3Color[] = { IM_COL32(200,100,100,255), IM_COL32(100,200
 static ImU32 outputs_vec2Color[] = { IM_COL32(200,100,100,255), IM_COL32(100,200,100,255) };
 
 // --- Template array ---
-const GraphEditor::Template MaterialGraphEditor::mTemplates[] =
+const GraphEditor::Template MaterialGraphEditorPanel::mTemplates[] =
 {
     // OutResult
     { COLOR_HEADER_CALC, COLOR_BG, COLOR_BG_OVER, 10, inputs_return, nullptr, 0, nullptr, nullptr },
@@ -78,13 +78,13 @@ const GraphEditor::Template MaterialGraphEditor::mTemplates[] =
 };
 
 // --- Constructeur ---
-MaterialGraphEditor::MaterialGraphEditor()
+MaterialGraphEditorPanel::MaterialGraphEditorPanel()
 {
     AddNode(NodeTemplates[0], { 1200,450 });
 }
 
 // --- Delegate overrides ---
-bool MaterialGraphEditor::AllowedLink(GraphEditor::NodeIndex senderNodeIndex, GraphEditor::SlotIndex senderSlotIndex, GraphEditor::NodeIndex recieverNodeIndex, GraphEditor::SlotIndex recieverSlotIndex)
+bool MaterialGraphEditorPanel::AllowedLink(GraphEditor::NodeIndex senderNodeIndex, GraphEditor::SlotIndex senderSlotIndex, GraphEditor::NodeIndex recieverNodeIndex, GraphEditor::SlotIndex recieverSlotIndex)
 {
     if (senderNodeIndex >= mNodes.size() || recieverNodeIndex >= mNodes.size() || senderNodeIndex == recieverNodeIndex) return false;
 
@@ -132,13 +132,13 @@ bool MaterialGraphEditor::AllowedLink(GraphEditor::NodeIndex senderNodeIndex, Gr
     return senderSlot.type == recieverSlot.type;
 }
 
-void MaterialGraphEditor::SelectNode(GraphEditor::NodeIndex nodeIndex, bool selected)
+void MaterialGraphEditorPanel::SelectNode(GraphEditor::NodeIndex nodeIndex, bool selected)
 {
     mNodes[nodeIndex].mSelected = selected;
     mSelectedNode = nodeIndex;
 }
 
-void MaterialGraphEditor::MoveSelectedNodes(const ImVec2 delta)
+void MaterialGraphEditorPanel::MoveSelectedNodes(const ImVec2 delta)
 {
     for (auto& node : mNodes)
     {
@@ -150,12 +150,12 @@ void MaterialGraphEditor::MoveSelectedNodes(const ImVec2 delta)
     }
 }
 
-void MaterialGraphEditor::RightClick(GraphEditor::NodeIndex n, GraphEditor::SlotIndex si_a, GraphEditor::SlotIndex si_b)
+void MaterialGraphEditorPanel::RightClick(GraphEditor::NodeIndex n, GraphEditor::SlotIndex si_a, GraphEditor::SlotIndex si_b)
 {
     mOpenContextMenu = true;
 }
 
-void MaterialGraphEditor::AddLink(GraphEditor::NodeIndex senderNodeIndex, GraphEditor::SlotIndex senderSlotIndex,
+void MaterialGraphEditorPanel::AddLink(GraphEditor::NodeIndex senderNodeIndex, GraphEditor::SlotIndex senderSlotIndex,
     GraphEditor::NodeIndex receiverNodeIndex, GraphEditor::SlotIndex receiverSlotIndex, ImU32 nodeColor)
 {
     mLinks.push_back({ senderNodeIndex, senderSlotIndex, receiverNodeIndex, receiverSlotIndex, nodeColor });
@@ -178,7 +178,7 @@ void MaterialGraphEditor::AddLink(GraphEditor::NodeIndex senderNodeIndex, GraphE
     PropagateNodeType(senderNodeIndex);
 }
 
-GraphEditor::LinkIndex clt::MaterialGraphEditor::GetLinkConnectedToInput(GraphEditor::NodeIndex nodeIndex, GraphEditor::SlotIndex inputSlotIndex)
+GraphEditor::LinkIndex clt::MaterialGraphEditorPanel::GetLinkConnectedToInput(GraphEditor::NodeIndex nodeIndex, GraphEditor::SlotIndex inputSlotIndex)
 {
     const size_t linkCount = GetLinkCount();
     for (GraphEditor::LinkIndex i = 0; i < linkCount; ++i)
@@ -190,7 +190,7 @@ GraphEditor::LinkIndex clt::MaterialGraphEditor::GetLinkConnectedToInput(GraphEd
     return static_cast<GraphEditor::LinkIndex>(-1);
 }
 
-ImU32 MaterialGraphEditor::GetLinkColor(GraphEditor::NodeIndex outputNodeIndex, GraphEditor::SlotIndex outputSlotIndex)
+ImU32 MaterialGraphEditorPanel::GetLinkColor(GraphEditor::NodeIndex outputNodeIndex, GraphEditor::SlotIndex outputSlotIndex)
 {
     static GraphEditor::Options options;
 
@@ -207,7 +207,7 @@ ImU32 MaterialGraphEditor::GetLinkColor(GraphEditor::NodeIndex outputNodeIndex, 
     return options.mDefaultSlotColor;
 }
 
-void MaterialGraphEditor::PropagateNodeType(GraphEditor::NodeIndex startNodeIndex)
+void MaterialGraphEditorPanel::PropagateNodeType(GraphEditor::NodeIndex startNodeIndex)
 {
     if (startNodeIndex >= mNodes.size()) return;
 
@@ -354,7 +354,7 @@ void MaterialGraphEditor::PropagateNodeType(GraphEditor::NodeIndex startNodeInde
     }
 }
 
-void MaterialGraphEditor::AddNode(const NodeTemplate& node, const Vector2& pos)
+void MaterialGraphEditorPanel::AddNode(const NodeTemplate& node, const Vector2& pos)
 {
     Node n;
     n.name = node.name;
@@ -373,7 +373,7 @@ void MaterialGraphEditor::AddNode(const NodeTemplate& node, const Vector2& pos)
     mNodes.push_back(n);
 }
 
-void MaterialGraphEditor::DelLink(GraphEditor::LinkIndex linkIndex)
+void MaterialGraphEditorPanel::DelLink(GraphEditor::LinkIndex linkIndex)
 {
     if (linkIndex >= mLinks.size())     return;
 
@@ -404,7 +404,7 @@ void MaterialGraphEditor::DelLink(GraphEditor::LinkIndex linkIndex)
     PropagateNodeType(link.mOutputNodeIndex);
 }
 
-void MaterialGraphEditor::CustomDraw(ImDrawList* drawList, ImRect rect, GraphEditor::NodeIndex nodeIndex)
+void MaterialGraphEditorPanel::CustomDraw(ImDrawList* drawList, ImRect rect, GraphEditor::NodeIndex nodeIndex)
 {
     if (!mInvalidLink.active)
         return;
@@ -437,22 +437,22 @@ void MaterialGraphEditor::CustomDraw(ImDrawList* drawList, ImRect rect, GraphEdi
     }
 }
 
-const size_t MaterialGraphEditor::GetTemplateCount()
+const size_t MaterialGraphEditorPanel::GetTemplateCount()
 {
     return sizeof(mTemplates) / sizeof(GraphEditor::Template);
 }
 
-const GraphEditor::Template MaterialGraphEditor::GetTemplate(GraphEditor::NodeIndex index)
+const GraphEditor::Template MaterialGraphEditorPanel::GetTemplate(GraphEditor::NodeIndex index)
 {
     return mTemplates[index];
 }
 
-const size_t MaterialGraphEditor::GetNodeCount()
+const size_t MaterialGraphEditorPanel::GetNodeCount()
 {
     return mNodes.size();
 }
 
-const GraphEditor::Node MaterialGraphEditor::GetNode(GraphEditor::NodeIndex index)
+const GraphEditor::Node MaterialGraphEditorPanel::GetNode(GraphEditor::NodeIndex index)
 {
     const auto& n = mNodes[index];
     return GraphEditor::Node{
@@ -463,17 +463,17 @@ const GraphEditor::Node MaterialGraphEditor::GetNode(GraphEditor::NodeIndex inde
     };
 }
 
-const size_t MaterialGraphEditor::GetLinkCount()
+const size_t MaterialGraphEditorPanel::GetLinkCount()
 {
     return mLinks.size();
 }
 
-const GraphEditor::Link MaterialGraphEditor::GetLink(GraphEditor::LinkIndex index)
+const GraphEditor::Link MaterialGraphEditorPanel::GetLink(GraphEditor::LinkIndex index)
 {
     return mLinks[index];
 }
 
-void MaterialGraphEditor::HandleInputs()
+void MaterialGraphEditorPanel::HandleInputs()
 {
     ImGuiIO& io = ImGui::GetIO();
 
@@ -535,7 +535,7 @@ void MaterialGraphEditor::HandleInputs()
     }
 }
 
-void MaterialGraphEditor::SaveGraphToFile(const std::string filePath)
+void MaterialGraphEditorPanel::SaveGraphToFile(const std::string filePath)
 {
     nlohmann::json data;
     data["nodes"] = nlohmann::json::array();
@@ -576,7 +576,7 @@ void MaterialGraphEditor::SaveGraphToFile(const std::string filePath)
     clt::JsonUtility::SaveToFile(filePath, data);
 }
 
-void MaterialGraphEditor::LoadGraphFromFile(const std::string filePath)
+void MaterialGraphEditorPanel::LoadGraphFromFile(const std::string filePath)
 {
     nlohmann::json data;
     if (!clt::JsonUtility::LoadFromFile(filePath, data))

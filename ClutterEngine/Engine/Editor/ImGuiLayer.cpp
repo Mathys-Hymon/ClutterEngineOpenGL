@@ -433,7 +433,7 @@ void clt::ImGuiLayer::DrawGraphEditor()
 {
     ImGuiWindowFlags flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
     ImGui::Begin("Material Graph", nullptr, flags);
-    ImGui::SetWindowFocus("Material Editor");
+    ImGui::SetWindowFocus("Material Graph");
 
     ImVec2 windowSize = ImGui::GetContentRegionAvail();
 
@@ -448,14 +448,14 @@ void clt::ImGuiLayer::DrawGraphEditor()
 
 
     ImGui::BeginChild("PreviewZone", ImVec2(leftWidth, previewHeight), true);
-    //DrawPreviewMesh(); // ta fonction OpenGL/Framebuffer
+    //DrawPreviewMesh();
     ImGui::EndChild();
 
     // Properties en bas
     ImGui::BeginChild("PropertiesZone", ImVec2(leftWidth, propertiesHeight), true);
     //if (selectedNode >= 0)
     //{
-    //    DrawNodeProperties(selectedNode); // Inputs interactifs
+    //    DrawNodeProperties(selectedNode);
     //}
     ImGui::EndChild();
 
@@ -463,9 +463,9 @@ void clt::ImGuiLayer::DrawGraphEditor()
 
     ImGui::SameLine();
 
-    ImGui::BeginChild("GraphEditor Window", ImVec2(rightWidth, windowSize.y), true);
+    ImGui::BeginChild("GraphEditor Window", ImVec2(rightWidth, windowSize.y), false, ImGuiWindowFlags_NoScrollWithMouse);
     static GraphEditor::Options options;
-    static MaterialGraphEditor graphEditor;
+    static MaterialGraphEditorPanel graphEditor;
     static GraphEditor::ViewState viewState;
     static GraphEditor::FitOnScreen fit = GraphEditor::Fit_None;
     static bool showGraphEditor = true;

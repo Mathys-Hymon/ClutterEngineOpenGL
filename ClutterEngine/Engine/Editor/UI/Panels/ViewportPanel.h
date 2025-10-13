@@ -1,0 +1,20 @@
+#pragma once
+#include <Core/CCommon.h>
+#include <Editor/UI/IEditorPanel.h>
+#include <Editor/EditorContext.h>
+
+namespace clt
+{
+	namespace editor
+	{
+		class CLUTTER_API ViewportPanel : public IEditorPanel
+		{
+			EditorContext* ctx;
+
+		public:
+			ViewportPanel(EditorContext* context);
+			const char* GetName() const override;
+			void Draw() override;
+		};
+	}
+}

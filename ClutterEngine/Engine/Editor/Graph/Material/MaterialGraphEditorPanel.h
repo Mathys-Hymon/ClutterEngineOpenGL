@@ -15,7 +15,7 @@ namespace clt
         float totalTimer = 0.0f;
     };
 
-    class CLUTTER_API MaterialGraphEditor : public GraphEditor::Delegate
+    class CLUTTER_API MaterialGraphEditorPanel : public GraphEditor::Delegate
     {
         std::vector<Node> mNodes;
         std::vector<GraphEditor::Link> mLinks;
@@ -29,7 +29,7 @@ namespace clt
         bool mOpenContextMenu{ false };
         ImVec2 mContextMenuPos;
 
-        MaterialGraphEditor();
+        MaterialGraphEditorPanel();
 
         bool AllowedLink(GraphEditor::NodeIndex inputNodeIndex, GraphEditor::SlotIndex inputSlotIndex, GraphEditor::NodeIndex outputNodeIndex, GraphEditor::SlotIndex outputSlotIndex) override;
         void SelectNode(GraphEditor::NodeIndex nodeIndex, bool selected) override;

@@ -315,6 +315,13 @@ void ContentBrowser::DrawContentItems()
         ImGui::EndGroup();
         ImGui::SameLine(0, 10);
         x += 74;
+
+        if (clt::JsonUtility::EndsWith(item.Name, ".CMaterial"))
+        {
+            std::string path = mCurrentFolder->Path + item.Name + ".CMaterial";
+
+            //materialGraphEditor->LoadGraphFromFile(path);
+        }
     }
 
 #endif
@@ -358,7 +365,7 @@ void ContentBrowser::Draw(ImFont* mEditorFontTitle, ImFont* mEditorFont)
     {
         mHierarchyWidth += ImGui::GetIO().MouseDelta.x;
         if (mHierarchyWidth < 150.0f) mHierarchyWidth = 150.0f;   // min width
-        if (mHierarchyWidth > 800.0f) mHierarchyWidth = 800.0f; // max width
+        if (mHierarchyWidth > 800.0f) mHierarchyWidth = 800.0f;  // max width
     }
     ImGui::SameLine();
 
@@ -425,7 +432,8 @@ void ContentBrowser::Draw(ImFont* mEditorFontTitle, ImFont* mEditorFont)
     ContentFolder* folder = mCurrentFolder;
     std::vector<ContentFolder*> hierarchy;
 
-    while (folder) {
+    while (folder) 
+    {
         hierarchy.push_back(folder);
         folder = folder->Parent;
     }
@@ -435,7 +443,8 @@ void ContentBrowser::Draw(ImFont* mEditorFontTitle, ImFont* mEditorFont)
     {
         ContentFolder* f = hierarchy[i];
 
-        if (ImGui::SmallButton(f->Name.c_str())) {
+        if (ImGui::SmallButton(f->Name.c_str())) 
+        {
             mCurrentFolder = f;
         }
 
