@@ -15,7 +15,7 @@ namespace clt
   */
 	class CLUTTER_API CEngine
 	{
-		std::unique_ptr<RendererGL> mRenderer; ///< The renderer instance.
+		std::unique_ptr<IRenderer> mRenderer; ///< The renderer instance.
 
 		std::unique_ptr<LevelManager> mLevelManager; ///< The level manager instance.
 		std::unique_ptr<IPhysics> mPhysics;
@@ -51,7 +51,7 @@ namespace clt
    * @brief Gets the renderer instance.
    * @return A pointer to the renderer instance.
    */
-		RendererGL* GetRenderer() const { return mRenderer.get(); }
+		IRenderer* GetRenderer() const { return mRenderer.get(); }
 
 		bool IsEditorMode() const
 		{

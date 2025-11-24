@@ -11,6 +11,7 @@ using namespace clt;
 using json = nlohmann::json;
 
 std::unordered_map<std::string, std::function<std::unique_ptr<IPhysics>()>> physicsEngines;
+std::unordered_map<std::string, std::function<std::unique_ptr<IRenderer>()>> rendererEngines;
 
 CEngine::CEngine()
 {
@@ -18,6 +19,12 @@ CEngine::CEngine()
 	{
 		//{ "Clutter", []() { return std::make_unique<ClutterPhysics>(); } },
 		{ "Bullet", [this]() { return std::make_unique<BulletPhysics>(*this); } }
+	};
+
+	rendererEngines =
+	{
+		{ "OpenGL", [this]() { return std::make_unique<RendererGL>(); } }
+		//{ "Vulkan", [this]() { return std::make_unique<BulletPhysics>(); } }
 	};
 }
 
@@ -40,15 +47,23 @@ void CEngine::Init(const std::string& path, std::vector<Level*> pLevels)
 
 	Window::Get().InternalInit(res[0], res[1], mName, config["render"]["vsync"]);
 
-	mRenderer = std::make_unique<RendererGL>();
-	mRenderer->Initialize(this, backgroundColor);
+
+	std::string renderer = config["render"]["engine"];
+
+	auto rendererIt = rendererEngines.find(renderer);
+	if (rendererIt != rendererEngines.end())
+	{
+		mRenderer = rendererIt->second();
+		mRenderer->Initialize(this, backgroundColor);
+	}
+	else CLUTTER_ERROR("Unknown rendering engine: " + renderer);
 
 	std::string physic = config["physic"]["engine"];
 
-	auto it = physicsEngines.find(physic);
-	if (it != physicsEngines.end())
+	auto physicsIt = physicsEngines.find(physic);
+	if (physicsIt != physicsEngines.end())
 	{
-		mPhysics = it->second();
+		mPhysics = physicsIt->second();
 	}
 	else CLUTTER_ERROR("Unknown physics engine: " + physic);
 

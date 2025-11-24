@@ -6,7 +6,8 @@ namespace clt
 {
 	enum class RendererType
 	{
-		OPENGL
+		OPENGL,
+		VULKAN
 	};
 
 	class DebugDraw;

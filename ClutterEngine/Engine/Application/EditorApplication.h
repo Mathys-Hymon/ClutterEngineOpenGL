@@ -46,7 +46,7 @@ namespace clt
         EditorApplication(std::vector<clt::Level*> pLevels, const std::string& configFile = "Config/project.config.json");
         ~EditorApplication();
 
-        RendererGL* GetRenderer() const { return mEngine->GetRenderer(); }
+        IRenderer* GetRenderer() const { return mEngine->GetRenderer(); }
 
         CEngine& GetEngine() const { return *mEngine.get(); }
 

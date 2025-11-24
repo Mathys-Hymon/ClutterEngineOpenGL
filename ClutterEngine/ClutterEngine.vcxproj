@@ -199,13 +199,14 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Engine\;C:\VulkanSDK\1.4.328.1\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype.lib;fmodstudioL_vc.lib;fmodL_vc.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;LinearMath_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;vulkan-1.lib;freetype.lib;fmodstudioL_vc.lib;fmodL_vc.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;LinearMath_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\VulkanSDK\1.4.328.1\Lib</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y/d  "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Core\x64\*.dll" "$(OutDir)"
@@ -289,6 +290,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Engine\Editor\ImGuiLayer.h" />
     <ClInclude Include="Engine\Editor\EditorViewport.h" />
     <ClInclude Include="Engine\Graphics\FrameBuffer\FrameBuffer.h" />
+    <ClInclude Include="Engine\Graphics\RendererVulkan.h" />
     <ClInclude Include="Engine\Graphics\Shader\ShaderProgram.h" />
     <ClInclude Include="Engine\Graphics\UI\Elements\AnimatorElement.h" />
     <ClInclude Include="Engine\Graphics\UI\Elements\ButtonElement.h" />
@@ -412,6 +414,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClCompile Include="Engine\Editor\Gizmo.cpp" />
     <ClCompile Include="Engine\Editor\ImGuiLayer.cpp" />
     <ClCompile Include="Engine\Graphics\FrameBuffer\FrameBuffer.cpp" />
+    <ClCompile Include="Engine\Graphics\RendererVulkan.cpp" />
     <ClCompile Include="Engine\Graphics\Shader\ShaderProgram.cpp" />
     <ClCompile Include="Engine\Graphics\Shader\VertexArray.cpp" />
     <ClCompile Include="Engine\Core\Maths\Matrix\Matrix4.cpp" />
