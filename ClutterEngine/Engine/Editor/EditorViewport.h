@@ -28,7 +28,7 @@ namespace clt
 	public:
 
 		EditorViewport(ImGuiLayer* owner, FrameBuffer* sceneFramebuffer);
-		~EditorViewport();
+		~EditorViewport() = default;
 
 		void Draw(Actor* focusedActor);
 	};

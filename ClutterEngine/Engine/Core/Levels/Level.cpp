@@ -60,6 +60,7 @@ void Level::UpdateActors()
 			}
 		}
 	}
+	
 	mUpdatingActors = false;
 
 	for (Actor* pActor : mPendingActors)

@@ -340,7 +340,7 @@ void ImGuiLayer::DrawUI()
 
     ImGui::End();
 
-    DrawGraphEditor();
+    //DrawGraphEditor();
 #endif
 }
 
