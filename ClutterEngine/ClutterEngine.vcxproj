@@ -512,6 +512,11 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClCompile Include="Engine\Editor\Services\SelectionService.cpp" />
     <ClCompile Include="Engine\Editor\UI\EditorUIManager.cpp" />
     <ClCompile Include="Engine\Editor\UI\PanelManager.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Panels\ConsolePanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Panels\ContentBrowserPanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Panels\InspectorPanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Panels\OutlinerPanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Panels\ViewportPanel.cpp" />
     <ClCompile Include="Engine\Graphics\FrameBuffer\FrameBuffer.cpp" />
     <ClCompile Include="Engine\Graphics\Shader\ShaderProgram.cpp" />
     <ClCompile Include="Engine\Graphics\Shader\VertexArray.cpp" />

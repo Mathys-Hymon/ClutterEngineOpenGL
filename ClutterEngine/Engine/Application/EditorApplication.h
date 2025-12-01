@@ -30,6 +30,7 @@ namespace clt
         void Init(std::vector<clt::Level*> pLevels, const std::string& configFile);
         void SetupEditor();
         void SetCamera(bool inGameMode);
+        void RegisterDefaultPanels();
         
         // Engine
         std::unique_ptr<CEngine> mEngine;
@@ -38,6 +39,7 @@ namespace clt
         std::unique_ptr<editor::ImGuiContextService> mImGuiService;
         std::unique_ptr<editor::EditorContext> mEditorCtx;
         std::unique_ptr<editor::EditorUIManager> mUIManager;
+        std::unique_ptr<editor::PanelManager> mPanelManager;
         
         // State
         EditorMode mMode{EditorMode::InEditor};

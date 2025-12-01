@@ -1,19 +1,24 @@
 #include "pch.h"
-#include "EditorApplication.h"
-#include <Editor/Services/EventBus.h>
-#include <editor/Services/SelectionService.h>
-
-#include <Core/Timer.h>
-#include <Core/Levels/TemplateLevel/TemplateLevel.h>
-#include <Core/ActorComponent/ChildActors/EditorCamera.h>
-
 #include <Input/Inputs.h>
 #include <Window/Window.h>
 #include <GLFW/glfw3.h>
 
+#include "EditorApplication.h"
+#include <Editor/Services/EventBus.h>
+#include <editor/Services/SelectionService.h>
+#include "Editor/UI/Panels/ContentBrowserPanel.h"
+#include "Editor/UI/Panels/InspectorPanel.h"
+#include "Editor/UI/Panels/OutlinerPanel.h"
+#include "Editor/UI/Panels/ViewportPanel.h"
+
+#include <Core/Timer.h>
+#include <Core/Levels/TemplateLevel/TemplateLevel.h>
+#include <Core/ActorComponent/ChildActors/EditorCamera.h>
+#include "Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h"
+
 #include <Graphics/FrameBuffer/FrameBuffer.h>
 
-#include "Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h"
+
 
 using namespace clt;
 
@@ -25,6 +30,7 @@ EditorApplication::EditorApplication(std::vector<clt::Level*> pLevels, const std
 void EditorApplication::Init(std::vector<clt::Level*> pLevels, const std::string& configFile)
 {
 	mEngine = std::make_unique<clt::CEngine>();
+	mPanelManager = std::make_unique<editor::PanelManager>();
 
 	if (pLevels.empty()) pLevels.push_back(new clt::TemplateLevel());
 
@@ -44,6 +50,8 @@ void EditorApplication::Init(std::vector<clt::Level*> pLevels, const std::string
 	mEditorCtx->sceneFrameBuffer = new FrameBuffer(spec);
 	mEditorCtx->events = new editor::EventBus();
 	mEditorCtx->selection = new editor::SelectionService();
+	mEditorCtx->panels = mPanelManager.get();
+	mEditorCtx->app = this;
 	
 	mImGuiService = std::make_unique<clt::editor::ImGuiContextService>("#version 460");
 	
@@ -75,6 +83,8 @@ void EditorApplication::SetupEditor()
 	Inputs::Get().RegisterActionCallback("wireframe", [this] { GetRenderer()->WireframeMode(true); });
 
 	Inputs::Get().RegisterActionCallback("lit", [this] { GetRenderer()->WireframeMode(false); });
+	
+	RegisterDefaultPanels();
 }
 
 void EditorApplication::Run()
@@ -114,6 +124,7 @@ void EditorApplication::Update()
 
 void EditorApplication::Render()
 {
+	mEditorCtx->sceneFrameBuffer->Bind();
 	mUIManager->BeginFrame();
 
 	GetRenderer()->BeginDraw();
@@ -123,6 +134,7 @@ void EditorApplication::Render()
 
 	GetRenderer()->EndDraw();
 	mUIManager->EndFrame();
+	mEditorCtx->sceneFrameBuffer->Unbind();
 }
 
 void EditorApplication::SetMode(EditorMode mode)
@@ -140,6 +152,25 @@ void EditorApplication::SetCamera(bool inGame)
 {
 	if(inGame && mInGameCam) mInGameCam->SetActive();
 	else if(mEditorCam) mEditorCam->GetComponentOfType<CameraComponent>()->SetActive();
+}
+
+void EditorApplication::RegisterDefaultPanels()
+{
+	mPanelManager->RegisterPanel(
+		std::make_shared<editor::ViewportPanel>(mEditorCtx.get())
+	);
+
+	mPanelManager->RegisterPanel(
+		std::make_shared<editor::OutlinerPanel>(mEditorCtx.get())
+	);
+
+	mPanelManager->RegisterPanel(
+		std::make_shared<editor::InspectorPanel>(mEditorCtx.get())
+	);
+
+	mPanelManager->RegisterPanel(
+		std::make_shared<editor::ContentBrowserPanel>(mEditorCtx.get())
+	);
 }
 
 EditorApplication::~EditorApplication()

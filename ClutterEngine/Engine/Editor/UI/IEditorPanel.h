@@ -1,5 +1,6 @@
 #pragma once
 #include <Core/CCommon.h>
+#include <Editor/Services/EditorContext.h>
 
 namespace clt
 {

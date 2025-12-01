@@ -232,7 +232,7 @@ void RendererGL::Draw()
     {
         auto cam = hud->GetOwner()->GetComponentOfType<CameraComponent>();
 
-        if (!cam || !(cam == CameraComponent::GetActiveCamera())) continue;
+        if (!cam || cam != CameraComponent::GetActiveCamera()) continue;
 
         for (WidgetElement* element : hud->GetCurrentWidget()->GetElements())
         {
