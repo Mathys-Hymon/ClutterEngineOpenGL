@@ -277,6 +277,8 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\ICollider.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Physics\IRigidbody.h" />
     <ClInclude Include="Engine\Core\ActorComponent\Components\Sounds\SoundComponent.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\SerializableTypes.h" />
+    <ClInclude Include="Engine\Core\ActorComponent\TypeRegistry.h" />
     <ClInclude Include="Engine\Core\All.h" />
     <ClInclude Include="Engine\Core\Assets\AssetsType\Sound.h" />
     <ClInclude Include="Engine\Core\Assets\AssetsType\Font.h" />
@@ -286,13 +288,16 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Engine\Core\Debug\BulletDebugDraw.h" />
     <ClInclude Include="Engine\Core\JsonUtility.h" />
     <ClInclude Include="Engine\Editor\ContentBrowser.h" />
-    <ClInclude Include="Engine\Editor\EditorContext.h" />
     <ClInclude Include="Engine\Editor\Gizmo.h" />
     <ClInclude Include="Engine\Editor\Graph\Material\MaterialGraphEditorPanel.h" />
     <ClInclude Include="Engine\Editor\Graph\Material\Node.h" />
     <ClInclude Include="Engine\Editor\Graph\Material\NodeTemplate.h" />
     <ClInclude Include="Engine\Editor\ImGuiLayer.h" />
     <ClInclude Include="Engine\Editor\EditorViewport.h" />
+    <ClInclude Include="Engine\Editor\Services\EditorContext.h" />
+    <ClInclude Include="Engine\Editor\Services\EventBus.h" />
+    <ClInclude Include="Engine\Editor\Services\ImGuiContextService.h" />
+    <ClInclude Include="Engine\Editor\Services\SelectionService.h" />
     <ClInclude Include="Engine\Editor\UI\EditorUIManager.h" />
     <ClInclude Include="Engine\Editor\UI\PanelManager.h" />
     <ClInclude Include="Engine\Editor\UI\Panels\ConsolePanel.h" />
@@ -427,6 +432,86 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClCompile Include="Engine\Editor\Gizmo.cpp" />
     <ClCompile Include="Engine\Editor\Graph\Material\MaterialGraphEditorPanel.cpp" />
     <ClCompile Include="Engine\Editor\ImGuiLayer.cpp" />
+    <ClCompile Include="Engine\Editor\Services\ImGuiContextService.cpp">
+      <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <Optimization>Disabled</Optimization>
+      <SupportJustMyCode>true</SupportJustMyCode>
+      <AssemblerOutput>NoListing</AssemblerOutput>
+      <AssemblerListingLocation>x64\DEBUG_EDITOR\</AssemblerListingLocation>
+      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
+      <BrowseInformation>false</BrowseInformation>
+      <BrowseInformationFile>x64\DEBUG_EDITOR\</BrowseInformationFile>
+      <CompileAs>Default</CompileAs>
+      <UseDynamicDebugging>false</UseDynamicDebugging>
+      <ConformanceMode>true</ConformanceMode>
+      <DiagnosticsFormat>Column</DiagnosticsFormat>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+      <ErrorReporting>Prompt</ErrorReporting>
+      <ExpandAttributedSource>false</ExpandAttributedSource>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <EnableASAN>false</EnableASAN>
+      <EnableFuzzer>false</EnableFuzzer>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <EnableVectorLength>NotSet</EnableVectorLength>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <GenerateModuleDependencies>false</GenerateModuleDependencies>
+      <GenerateSourceDependencies>false</GenerateSourceDependencies>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>Default</LanguageStandard_C>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ModuleDependenciesFile>x64\DEBUG_EDITOR\</ModuleDependenciesFile>
+      <ModuleOutputFile>x64\DEBUG_EDITOR\</ModuleOutputFile>
+      <OmitDefaultLibName>false</OmitDefaultLibName>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <ObjectFileName>x64\DEBUG_EDITOR\</ObjectFileName>
+      <CallingConvention>Cdecl</CallingConvention>
+      <ProgramDataBaseFileName>x64\DEBUG_EDITOR\vc143.pdb</ProgramDataBaseFileName>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>x64\DEBUG_EDITOR\ClutterEngine.pch</PrecompiledHeaderOutputFile>
+      <PreprocessToFile>false</PreprocessToFile>
+      <PreprocessKeepComments>false</PreprocessKeepComments>
+      <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
+      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+      <ShowIncludes>false</ShowIncludes>
+      <SourceDependenciesFile>x64\DEBUG_EDITOR\</SourceDependenciesFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <SpectreMitigation>false</SpectreMitigation>
+      <StructMemberAlignment>Default</StructMemberAlignment>
+      <TrackerLogDirectory>x64\DEBUG_EDITOR\ClutterEngine.tlog\</TrackerLogDirectory>
+      <TranslateIncludes>false</TranslateIncludes>
+      <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <UseFullPaths>true</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <XMLDocumentationFileName>x64\DEBUG_EDITOR\</XMLDocumentationFileName>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <IntelJCCErratum>false</IntelJCCErratum>
+      <BuildStlModules>false</BuildStlModules>
+      <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
+      <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
+      <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
+      <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
+      <PreprocessorDefinitions>EDITOR;CLUTTERENGINE_EXPORTS;_WINDOWS;_USRDLL;_WINDLL;_UNICODE;UNICODE;</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>Engine\;Libraries\ImGui;Libraries\ImGuizmo;</AdditionalIncludeDirectories>
+      <LinkCompiled>true</LinkCompiled>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\Services\SelectionService.cpp" />
+    <ClCompile Include="Engine\Editor\UI\EditorUIManager.cpp" />
+    <ClCompile Include="Engine\Editor\UI\PanelManager.cpp" />
     <ClCompile Include="Engine\Graphics\FrameBuffer\FrameBuffer.cpp" />
     <ClCompile Include="Engine\Graphics\Shader\ShaderProgram.cpp" />
     <ClCompile Include="Engine\Graphics\Shader\VertexArray.cpp" />

@@ -12,14 +12,12 @@ namespace clt
 	class CLUTTER_API ImGuiLayer
 	{
 		EditorApplication* mOwner;
-		ContentBrowser* mContentBrowser;
-		EditorViewport* mViewport;
 
 		Gizmo* mActorGizmo{ nullptr };
 		Actor* mFocusedActor{ nullptr };
 
 	public:
-		ImGuiLayer(EditorApplication* owner , FrameBuffer* frameBuffer);
+		ImGuiLayer(EditorApplication* owner , class FrameBuffer* frameBuffer);
 		~ImGuiLayer();
 
 		void SetEditorTheme();

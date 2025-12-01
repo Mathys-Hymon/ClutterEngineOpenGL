@@ -22,6 +22,7 @@
     ]
   },
   "render": {
+    "engine": "OpenGL",
     "resolution": [ 1280, 720 ],
     "fullscreen": false,
     "vsync": false,

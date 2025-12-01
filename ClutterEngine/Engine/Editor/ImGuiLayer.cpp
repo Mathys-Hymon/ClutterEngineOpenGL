@@ -13,14 +13,7 @@
 #include "Window/Window.h"
 #include "Core/Assets/Assets.h"
 #include <Application/EditorApplication.h>
-#include <iostream>
 #include "GraphEditor.h"
-
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtx/quaternion.hpp>
-#include <glm/gtx/matrix_decompose.hpp>
 
 
 ImFont* mEditorFontTitle = nullptr;
@@ -31,10 +24,7 @@ ImFont* mConsoleFont = nullptr;
 using namespace clt;
 
 ImGuiLayer::ImGuiLayer(EditorApplication* owner, FrameBuffer* frameBuffer)
-    : mOwner(owner),
-
-    mContentBrowser(new ContentBrowser()),
-    mViewport(new EditorViewport(this, frameBuffer))
+    : mOwner(owner)
 {
 #ifdef EDITOR
 
@@ -56,7 +46,6 @@ ImGuiLayer::ImGuiLayer(EditorApplication* owner, FrameBuffer* frameBuffer)
     mEditorFont = io.Fonts->AddFontFromFileTTF("../ClutterEngine/EngineContent/Resources/Font/Rubik.ttf", 15.0f);
     mConsoleFont = io.Fonts->AddFontFromFileTTF("../ClutterEngine/EngineContent/Resources/Font/JetBrains.ttf", 15.0f);
 
-    mContentBrowser->ScanFolder("Content/");
 #endif
 }
 
@@ -165,7 +154,7 @@ void ImGuiLayer::DrawUI()
     int   buttonCount = 4;
     float totalWidth = buttonCount * buttonWidth + (buttonCount - 1) * spacing;
     ImGui::SetCursorPosX((windowWidth - totalWidth) * 0.5f);
-
+    
     GLuint offPlayID = Assets::Get()
         .LoadTexture("../ClutterEngine/EngineContent/Resources/Textures/offPlayButton.png", "offPlayButton")
         .get()->GetID();
@@ -202,8 +191,6 @@ void ImGuiLayer::DrawUI()
     if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(0)) mOwner->SetMode(EditorMode::InEditor);
 
     ImGui::End();
-
-    mViewport->Draw(mFocusedActor);
 
     ImGui::Begin("Outliner");
 
@@ -278,8 +265,6 @@ void ImGuiLayer::DrawUI()
             ImGui::PopStyleVar(2);
             ImGui::PopStyleColor(3);
         };
-
-    mContentBrowser->Draw(mEditorFontTitle, mEditorFont);
 
     ImGui::PushFont(mEditorFont);
     drawFilterButton("INFO", showInfo, infoColor);    ImGui::SameLine();

@@ -1,22 +1,28 @@
 #pragma once
 #include <Core/CCommon.h>
-#include <Editor/UI/IEditorPanel.h>
-#include <Editor/EditorContext.h>
+#include <Editor/Services/ImGuiContextService.h>
+#include <Editor/UI/PanelManager.h>
+#include <Editor/Services/EditorContext.h>
 
 namespace clt
 {
 	namespace editor
 	{
-        class EditorUIManager {
-            std::vector<std::unique_ptr<IEditorPanel>> panels;
-            EditorContext* ctx;
-
+        class CLUTTER_API EditorUIManager 
+	    {
+        	ImGuiContextService* mImGui{nullptr};
+        	EditorContext* mEditorContext{nullptr};
+        	PanelManager mPanelManager;
+        	
+        	bool mDockInitialized{false};
+        	
         public:
-            EditorUIManager(EditorContext* context) : ctx(context) {}
-
-            void RegisterPanel(std::unique_ptr<IEditorPanel> panel);
-
-            void DrawAll();
+        	EditorUIManager(ImGuiContextService* imgui, EditorContext* ctx) : mImGui(imgui), mEditorContext(ctx) {};
+        	~EditorUIManager() = default;
+        	
+        	void BeginFrame();
+        	void Draw();
+        	void EndFrame();
         };
 	}
 }

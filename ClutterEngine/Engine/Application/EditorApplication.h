@@ -1,8 +1,12 @@
 #pragma once
+#include <memory>
+#include <vector>
+#include <string>
+
 #include <Core/CEngine.h>
-#include <Editor/ImGuiLayer.h>
-#include <Graphics/FrameBuffer/FrameBuffer.h>
-#include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
+#include <Editor/UI/EditorUIManager.h>
+#include <Editor/Services/ImGuiContextService.h>
+#include <Editor/Services/EditorContext.h>
 
 namespace clt
 {
@@ -13,46 +17,43 @@ namespace clt
         InEditor,
     };
 
-    class EditorViewport;
     class Level;
-    class CLUTTER_API EditorApplication 
+    class Actor;
+    class CameraComponent;
+    
+    class CLUTTER_API EditorApplication
     {
-
-    protected:
-        std::unique_ptr<clt::CEngine> mEngine;
-        std::unique_ptr<ImGuiLayer> mEditor;
-
-        Actor* mEditorCam;
-        CameraComponent* mInGameCam;
-        FrameBuffer* mViewportFramebuffer;
-        EditorMode mMode;
-        bool mFirstEditor;
-
-        void Init(std::vector<clt::Level*> pLevels, const std::string& configFile = "Config/project.config.json");
-
-        void Run();
-
+        protected:
         virtual void Update();
-
         virtual void Render();
-
-        void ShowWireframe();
-        void ShowLitMode();
-
-        void SetCamera(bool inGame);
-
+        
+        void Init(std::vector<clt::Level*> pLevels, const std::string& configFile);
+        void SetupEditor();
+        void SetCamera(bool inGameMode);
+        
+        // Engine
+        std::unique_ptr<CEngine> mEngine;
+        
+        // Editor
+        std::unique_ptr<editor::ImGuiContextService> mImGuiService;
+        std::unique_ptr<editor::EditorContext> mEditorCtx;
+        std::unique_ptr<editor::EditorUIManager> mUIManager;
+        
+        // State
+        EditorMode mMode{EditorMode::InEditor};
+        Actor* mEditorCam{nullptr};
+        CameraComponent* mInGameCam{nullptr};
+        
     public:
-
         EditorApplication(std::vector<clt::Level*> pLevels, const std::string& configFile = "Config/project.config.json");
-        ~EditorApplication();
-
-        RendererGL* GetRenderer() const { return mEngine->GetRenderer(); }
-
-        CEngine& GetEngine() const { return *mEngine.get(); }
-
-        EditorMode GetMode() const { return mMode; };
+        virtual ~EditorApplication();
+        
+        void Run();
+        
+        CEngine& GetEngine() const { return *mEngine; };
+        IRenderer* GetRenderer() const { return mEngine->GetRenderer(); }
+        EditorMode GetMode() const { return mMode; }
+        
         void SetMode(EditorMode mode);
-
-        friend EditorViewport;
     };
 }
