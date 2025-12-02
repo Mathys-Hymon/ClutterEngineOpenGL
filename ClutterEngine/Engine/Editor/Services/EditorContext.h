@@ -1,9 +1,11 @@
 #pragma once
+#include "Editor/UI/ThemeManager.h"
 
 namespace clt
 {
     class Engine;
     class Assets;
+    class ThemeManager;
     class FrameBuffer;
     class EditorApplication;
     
@@ -24,6 +26,7 @@ namespace clt
             SelectionService* selection = nullptr;
             
             PanelManager* panels = nullptr;  
+            ThemeManager* themes = nullptr;
             EditorApplication* app = nullptr;
         };
     }

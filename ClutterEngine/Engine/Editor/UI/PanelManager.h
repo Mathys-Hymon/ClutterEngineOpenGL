@@ -1,7 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include <Core/CCommon.h>
-#include "IEditorPanel.h"
+#include "EditorPanel.h"
 
 namespace clt
 {
@@ -10,20 +10,20 @@ namespace clt
 		class CLUTTER_API PanelManager
 		{
 		public:
-			using PanelPtr = std::shared_ptr<IEditorPanel>;
+			using PanelPtr = std::shared_ptr<EditorPanel>;
 			
 		private:
 			std::vector<PanelPtr> mPanels;
-			std::unordered_map<std::string, IEditorPanel*> mPanelsById;
-			std::unordered_map<IEditorPanel*, std::string> mIdOverrides;
+			std::unordered_map<std::string, EditorPanel*> mPanelsById;
+			std::unordered_map<EditorPanel*, std::string> mIdOverrides;
 			
 		public:
 			void RegisterPanel(PanelPtr panel);
 			
 			const std::vector<PanelPtr>& GetPanels() const { return mPanels; }
 			
-			IEditorPanel* FindByID(const std::string& id) const;
-			std::string GetRegisteredID(IEditorPanel* panel) const;
+			EditorPanel* FindByID(const std::string& id) const;
+			std::string GetRegisteredID(EditorPanel* panel) const;
 			
 		};
 	}

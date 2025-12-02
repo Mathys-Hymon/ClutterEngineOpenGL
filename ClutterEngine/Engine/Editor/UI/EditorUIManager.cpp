@@ -4,6 +4,12 @@
 
 #include "imgui_internal.h"
 
+clt::editor::EditorUIManager::EditorUIManager(ImGuiContextService* imgui, EditorContext* ctx) : mImGui(imgui), mEditorContext(ctx)
+{
+    mTheme = std::make_unique<editor::ThemeManager>();
+    ctx->themes = mTheme.get();
+}
+
 void clt::editor::EditorUIManager::BeginFrame()
 {
     if (mImGui) mImGui->NewFrame();
@@ -45,7 +51,7 @@ void clt::editor::EditorUIManager::Draw()
         ImGuiID dock_id_left   = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Left, 0.20f, nullptr, &dock_main_id);
         ImGuiID dock_id_right  = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.25f, nullptr, &dock_main_id);
         
-        ImGui::DockBuilderDockWindow("ViewportToolBar", dock_toolbar);
+        ImGui::DockBuilderDockWindow("Viewport ToolBar", dock_toolbar);
         ImGui::DockBuilderDockWindow("Viewport", dock_main_id);
         ImGui::DockBuilderDockWindow("Outliner", dock_id_left);
         ImGui::DockBuilderDockWindow("Inspector", dock_id_right);
@@ -63,8 +69,18 @@ void clt::editor::EditorUIManager::Draw()
     
     if (ImGui::BeginMenuBar())
     {
-        if (ImGui::BeginMenu("File")) { ImGui::EndMenu(); }
-        if (ImGui::BeginMenu("Edit")) { ImGui::EndMenu(); }
+        if (ImGui::BeginMenu("File")) 
+            { ImGui::EndMenu(); }
+        if (ImGui::BeginMenu("Edit"))
+        {
+            if (ImGui::MenuItem("Project Settings")) {}
+            if (ImGui::MenuItem("Appearances"))
+            {
+                auto panel = mEditorContext->panels->FindByID("Editor Appearance");
+                panel->SetOpen(true);
+            }
+            ImGui::EndMenu();
+        }
         ImGui::EndMenuBar();
     }
     
@@ -72,8 +88,8 @@ void clt::editor::EditorUIManager::Draw()
     
     for (const auto& ptr : mEditorContext->panels->GetPanels())
     {
-        IEditorPanel* panel = ptr.get();
-        if (!panel) continue;
+        EditorPanel* panel = ptr.get();
+        if (!panel || !panel->IsOpen()) continue;
         
         ImGui::Begin(panel->GetName(), nullptr, panel->GetWindowFlags());
         panel->Draw();

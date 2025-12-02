@@ -14,9 +14,10 @@ namespace clt
         	EditorContext* mEditorContext{nullptr};
         	
         	bool mDockInitialized{false};
+        	std::unique_ptr<ThemeManager> mTheme;
         	
         public:
-        	EditorUIManager(ImGuiContextService* imgui, EditorContext* ctx) : mImGui(imgui), mEditorContext(ctx) {};
+        	EditorUIManager(ImGuiContextService* imgui, EditorContext* ctx);
         	~EditorUIManager() = default;
         	
         	void BeginFrame();

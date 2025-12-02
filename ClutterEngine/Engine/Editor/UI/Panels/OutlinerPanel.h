@@ -1,12 +1,12 @@
 #pragma once
 #include <Core/CCommon.h>
-#include <Editor/UI/IEditorPanel.h>
+#include <Editor/UI/EditorPanel.h>
 
 namespace clt
 {
 	namespace editor
 	{
-		class CLUTTER_API OutlinerPanel : public IEditorPanel
+		class CLUTTER_API OutlinerPanel : public EditorPanel
 		{
 			EditorContext* ctx;
 

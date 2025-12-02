@@ -11,6 +11,8 @@
 #include "Editor/UI/Panels/OutlinerPanel.h"
 #include "Editor/UI/Panels/ViewportPanel.h"
 #include "Editor/UI/Panels/ConsolePanel.h"
+#include "Editor/UI/Panels/ViewportToolBarPanel.h"
+#include "Editor/UI/Panels/ThemePanel.h"
 
 #include <Core/Timer.h>
 #include <Core/Levels/TemplateLevel/TemplateLevel.h>
@@ -176,8 +178,16 @@ void EditorApplication::RegisterDefaultPanels()
 	);
 	
 	mPanelManager->RegisterPanel(
-	std::make_shared<editor::ConsolePanel>(mEditorCtx.get())
-);
+		std::make_shared<editor::ConsolePanel>(mEditorCtx.get())
+	);
+	
+	mPanelManager->RegisterPanel(
+		std::make_shared<editor::ViewportToolBarPanel>(mEditorCtx.get())
+	);
+	
+	mPanelManager->RegisterPanel(
+		std::make_shared<editor::ThemePanel>(mEditorCtx.get())
+	);
 }
 
 EditorApplication::~EditorApplication()

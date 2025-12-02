@@ -6,11 +6,11 @@ namespace clt
 {
 	namespace editor
 	{
-		class CLUTTER_API IEditorPanel
+		class CLUTTER_API EditorPanel
 		{
+			bool mIsOpen{true};
+			
 		public:
-			virtual ~IEditorPanel() = default;
-
 			// label visible in UI ("Console")
 			virtual const char* GetName() const = 0;
 
@@ -20,10 +20,10 @@ namespace clt
 			// ImGui window flags for this panel
 			virtual int GetWindowFlags() const { return 0; }
 
-			// lifecycle
-			virtual void OnAttach() {}
-			virtual void OnDetach() {}
-
+			void Toggle() { mIsOpen = !mIsOpen; }
+			void SetOpen(bool newOpen) { mIsOpen = newOpen; }
+			bool IsOpen() const { return mIsOpen; }
+			
 			// draw content only (NO ImGui::Begin/End here)
 			virtual void Draw() = 0;
 		};

@@ -26,14 +26,14 @@ void clt::editor::PanelManager::RegisterPanel(PanelPtr panel)
     }
 }
 
-clt::editor::IEditorPanel* clt::editor::PanelManager::FindByID(const std::string& id) const
+clt::editor::EditorPanel* clt::editor::PanelManager::FindByID(const std::string& id) const
 {
     auto it = mPanelsById.find(id);
     if (it != mPanelsById.end()) return it->second;
     return nullptr;
 }
 
-std::string clt::editor::PanelManager::GetRegisteredID(IEditorPanel* panel) const
+std::string clt::editor::PanelManager::GetRegisteredID(EditorPanel* panel) const
 {
     auto it = mIdOverrides.find(panel);
     if (it != mIdOverrides.end()) return it->second;

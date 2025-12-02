@@ -299,10 +299,12 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Engine\Editor\UI\PanelManager.h" />
     <ClInclude Include="Engine\Editor\UI\Panels\ConsolePanel.h" />
     <ClInclude Include="Engine\Editor\UI\Panels\ContentBrowserPanel.h" />
-    <ClInclude Include="Engine\Editor\UI\IEditorPanel.h" />
+    <ClInclude Include="Engine\Editor\UI\EditorPanel.h" />
     <ClInclude Include="Engine\Editor\UI\Panels\InspectorPanel.h" />
     <ClInclude Include="Engine\Editor\UI\Panels\OutlinerPanel.h" />
+    <ClInclude Include="Engine\Editor\UI\Panels\ThemePanel.h" />
     <ClInclude Include="Engine\Editor\UI\Panels\ViewportPanel.h" />
+    <ClInclude Include="Engine\Editor\UI\Panels\ViewportToolBarPanel.h" />
     <ClInclude Include="Engine\Editor\UI\ThemeManager.h" />
     <ClInclude Include="Engine\Graphics\FrameBuffer\FrameBuffer.h" />
     <ClInclude Include="Engine\Graphics\Shader\ShaderProgram.h" />
@@ -510,7 +512,10 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClCompile Include="Engine\Editor\UI\Panels\ContentBrowserPanel.cpp" />
     <ClCompile Include="Engine\Editor\UI\Panels\InspectorPanel.cpp" />
     <ClCompile Include="Engine\Editor\UI\Panels\OutlinerPanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Panels\ThemePanel.cpp" />
     <ClCompile Include="Engine\Editor\UI\Panels\ViewportPanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Panels\ViewportToolBarPanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\ThemeManager.cpp" />
     <ClCompile Include="Engine\Graphics\FrameBuffer\FrameBuffer.cpp" />
     <ClCompile Include="Engine\Graphics\Shader\ShaderProgram.cpp" />
     <ClCompile Include="Engine\Graphics\Shader\VertexArray.cpp" />
