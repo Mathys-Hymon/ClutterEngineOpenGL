@@ -12,7 +12,6 @@ namespace clt
 	    {
         	ImGuiContextService* mImGui{nullptr};
         	EditorContext* mEditorContext{nullptr};
-        	PanelManager mPanelManager;
         	
         	bool mDockInitialized{false};
         	

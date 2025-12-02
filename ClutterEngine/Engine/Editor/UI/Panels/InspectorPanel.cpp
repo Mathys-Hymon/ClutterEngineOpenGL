@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "InspectorPanel.h"
+#include "imgui.h"
 
 clt::editor::InspectorPanel::InspectorPanel(EditorContext* context)
 {
@@ -7,7 +8,7 @@ clt::editor::InspectorPanel::InspectorPanel(EditorContext* context)
 
 const char* clt::editor::InspectorPanel::GetName() const
 {
-    return "InspectorPanel";
+    return "Inspector";
 }
 
 void clt::editor::InspectorPanel::Draw()

@@ -10,6 +10,7 @@
 #include "Editor/UI/Panels/InspectorPanel.h"
 #include "Editor/UI/Panels/OutlinerPanel.h"
 #include "Editor/UI/Panels/ViewportPanel.h"
+#include "Editor/UI/Panels/ConsolePanel.h"
 
 #include <Core/Timer.h>
 #include <Core/Levels/TemplateLevel/TemplateLevel.h>
@@ -124,17 +125,19 @@ void EditorApplication::Update()
 
 void EditorApplication::Render()
 {
-	mEditorCtx->sceneFrameBuffer->Bind();
+	//mEditorCtx->sceneFrameBuffer->Bind();
 	mUIManager->BeginFrame();
 
+	mEditorCtx->sceneFrameBuffer->Bind();
 	GetRenderer()->BeginDraw();
 	GetRenderer()->Draw();
+	mEditorCtx->sceneFrameBuffer->Unbind();
 
 	mUIManager->Draw();
 
 	GetRenderer()->EndDraw();
 	mUIManager->EndFrame();
-	mEditorCtx->sceneFrameBuffer->Unbind();
+	//mEditorCtx->sceneFrameBuffer->Unbind();
 }
 
 void EditorApplication::SetMode(EditorMode mode)
@@ -171,6 +174,10 @@ void EditorApplication::RegisterDefaultPanels()
 	mPanelManager->RegisterPanel(
 		std::make_shared<editor::ContentBrowserPanel>(mEditorCtx.get())
 	);
+	
+	mPanelManager->RegisterPanel(
+	std::make_shared<editor::ConsolePanel>(mEditorCtx.get())
+);
 }
 
 EditorApplication::~EditorApplication()

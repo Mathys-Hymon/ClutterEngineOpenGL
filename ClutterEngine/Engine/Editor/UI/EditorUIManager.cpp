@@ -70,7 +70,7 @@ void clt::editor::EditorUIManager::Draw()
     
     ImGui::End();
     
-    for (const auto& ptr : mPanelManager.GetPanels())
+    for (const auto& ptr : mEditorContext->panels->GetPanels())
     {
         IEditorPanel* panel = ptr.get();
         if (!panel) continue;

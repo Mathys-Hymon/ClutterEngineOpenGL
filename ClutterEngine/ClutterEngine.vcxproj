@@ -287,13 +287,10 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Engine\Core\Assets\AssetsType\MaterialInstance.h" />
     <ClInclude Include="Engine\Core\Debug\BulletDebugDraw.h" />
     <ClInclude Include="Engine\Core\JsonUtility.h" />
-    <ClInclude Include="Engine\Editor\ContentBrowser.h" />
     <ClInclude Include="Engine\Editor\Gizmo.h" />
     <ClInclude Include="Engine\Editor\Graph\Material\MaterialGraphEditorPanel.h" />
     <ClInclude Include="Engine\Editor\Graph\Material\Node.h" />
     <ClInclude Include="Engine\Editor\Graph\Material\NodeTemplate.h" />
-    <ClInclude Include="Engine\Editor\ImGuiLayer.h" />
-    <ClInclude Include="Engine\Editor\EditorViewport.h" />
     <ClInclude Include="Engine\Editor\Services\EditorContext.h" />
     <ClInclude Include="Engine\Editor\Services\EventBus.h" />
     <ClInclude Include="Engine\Editor\Services\ImGuiContextService.h" />
@@ -427,11 +424,8 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClCompile Include="Engine\Core\Debug\BulletDebugDraw.cpp" />
     <ClCompile Include="Engine\Core\Debug\DebugDraw.cpp" />
     <ClCompile Include="Engine\Core\Maths\Color.cpp" />
-    <ClCompile Include="Engine\Editor\ContentBrowser.cpp" />
-    <ClCompile Include="Engine\Editor\EditorViewport.cpp" />
     <ClCompile Include="Engine\Editor\Gizmo.cpp" />
     <ClCompile Include="Engine\Editor\Graph\Material\MaterialGraphEditorPanel.cpp" />
-    <ClCompile Include="Engine\Editor\ImGuiLayer.cpp" />
     <ClCompile Include="Engine\Editor\Services\ImGuiContextService.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
