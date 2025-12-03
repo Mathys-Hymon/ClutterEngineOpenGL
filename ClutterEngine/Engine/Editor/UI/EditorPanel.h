@@ -6,6 +6,8 @@ namespace clt
 {
 	namespace editor
 	{
+		enum class DockPosition {center, right, left, top, bottom, none};
+		
 		class CLUTTER_API EditorPanel
 		{
 			bool mIsOpen{true};
@@ -21,6 +23,7 @@ namespace clt
 			EditorPanel(EditorContext* Context) : ctx(Context) {};
 			// label visible in UI ("Console")
 			virtual const char* GetName() const = 0;
+			virtual DockPosition GetDockingPos() const { return DockPosition::none; };
 
 			// draw content only (NO ImGui::Begin/End here)
 			virtual void Draw() = 0;

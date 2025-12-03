@@ -38,6 +38,11 @@ const char* clt::editor::ViewportPanel::GetName() const
     return "Viewport";
 }
 
+clt::editor::DockPosition clt::editor::ViewportPanel::GetDockingPos() const
+{
+    return DockPosition::center();
+}
+
 void clt::editor::ViewportPanel::Draw()
 {
 

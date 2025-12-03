@@ -6,12 +6,11 @@ namespace clt
 {
     namespace editor
     {
-        class CLUTTER_API ViewportToolBarPanel : public EditorPanel
+        class CLUTTER_API PluginsPanel : public EditorPanel
         {
         public :
-            ViewportToolBarPanel(EditorContext* context);
+            PluginsPanel(EditorContext* context);
             const char* GetName() const override;
-            DockPosition GetDockingPos() const override;
             void Draw() override;
         };
     }

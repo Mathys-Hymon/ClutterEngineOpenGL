@@ -13,6 +13,7 @@
 #include "Editor/UI/Panels/ConsolePanel.h"
 #include "Editor/UI/Panels/ViewportToolBarPanel.h"
 #include "Editor/UI/Panels/ThemePanel.h"
+#include "Editor/UI/Panels/PluginsPanel.h"
 
 #include <Core/Timer.h>
 #include <Core/Levels/TemplateLevel/TemplateLevel.h>
@@ -197,6 +198,10 @@ void EditorApplication::RegisterDefaultPanels()
 	mPanelManager->RegisterPanel(
 		std::make_shared<editor::ThemePanel>(mEditorCtx.get())
 	);
+	
+	mPanelManager->RegisterPanel(
+	std::make_shared<editor::PluginsPanel>(mEditorCtx.get())
+);
 }
 
 EditorApplication::~EditorApplication()

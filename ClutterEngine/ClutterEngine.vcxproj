@@ -302,6 +302,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClInclude Include="Engine\Editor\UI\EditorPanel.h" />
     <ClInclude Include="Engine\Editor\UI\Panels\InspectorPanel.h" />
     <ClInclude Include="Engine\Editor\UI\Panels\OutlinerPanel.h" />
+    <ClInclude Include="Engine\Editor\UI\Panels\PluginsPanel.h" />
     <ClInclude Include="Engine\Editor\UI\Panels\ThemePanel.h" />
     <ClInclude Include="Engine\Editor\UI\Panels\ViewportPanel.h" />
     <ClInclude Include="Engine\Editor\UI\Panels\ViewportToolBarPanel.h" />
@@ -513,6 +514,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
     <ClCompile Include="Engine\Editor\UI\Panels\ContentBrowserPanel.cpp" />
     <ClCompile Include="Engine\Editor\UI\Panels\InspectorPanel.cpp" />
     <ClCompile Include="Engine\Editor\UI\Panels\OutlinerPanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Panels\PluginsPanel.cpp" />
     <ClCompile Include="Engine\Editor\UI\Panels\ThemePanel.cpp" />
     <ClCompile Include="Engine\Editor\UI\Panels\ViewportPanel.cpp" />
     <ClCompile Include="Engine\Editor\UI\Panels\ViewportToolBarPanel.cpp" />

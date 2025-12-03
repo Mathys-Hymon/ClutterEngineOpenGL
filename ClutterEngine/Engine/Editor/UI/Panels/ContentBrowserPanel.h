@@ -42,6 +42,8 @@ namespace clt
 		public:
 			ContentBrowserPanel(EditorContext* context);
 			const char* GetName() const override;
+			DockPosition GetDockingPos() const override;
+			
 			void Draw() override;
 		};
 	}

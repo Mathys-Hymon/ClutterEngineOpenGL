@@ -329,6 +329,11 @@ const char* clt::editor::ContentBrowserPanel::GetName() const
     return "Content Browser";
 }
 
+clt::editor::DockPosition clt::editor::ContentBrowserPanel::GetDockingPos() const
+{
+    return DockPosition::bottom;
+}
+
 void clt::editor::ContentBrowserPanel::Draw()
 {
     static float mHierarchyWidth = 250.0f;

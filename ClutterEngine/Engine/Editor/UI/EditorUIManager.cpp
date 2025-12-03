@@ -46,20 +46,24 @@ void clt::editor::EditorUIManager::Draw()
         ImGui::DockBuilderSetNodeSize(dockSpaceID, viewport->Size);
         
         ImGuiID dock_main_id   = dockSpaceID;
-        ImGuiID dock_id_bottom = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.25f, nullptr, &dock_main_id);
-        ImGuiID dock_toolbar   = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Up, 0.07f, nullptr, &dock_main_id);
-        ImGuiID dock_id_left   = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Left, 0.20f, nullptr, &dock_main_id);
-        ImGuiID dock_id_right  = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.25f, nullptr, &dock_main_id);
         
-        ImGui::DockBuilderDockWindow("Viewport ToolBar", dock_toolbar);
-        ImGui::DockBuilderDockWindow("Viewport", dock_main_id);
-        ImGui::DockBuilderDockWindow("Outliner", dock_id_left);
-        ImGui::DockBuilderDockWindow("Inspector", dock_id_right);
-        ImGui::DockBuilderDockWindow("Content Browser", dock_id_bottom);
-        ImGui::DockBuilderDockWindow("Console", dock_id_bottom);
+        std::unordered_map<DockPosition, ImGuiID> dockingPos;
+        dockingPos[DockPosition::bottom] = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.25f, nullptr, &dock_main_id);
+        dockingPos[DockPosition::top]   = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Up, 0.07f, nullptr, &dock_main_id);
+        dockingPos[DockPosition::left]   = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Left, 0.20f, nullptr, &dock_main_id);
+        dockingPos[DockPosition::right] = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.25f, nullptr, &dock_main_id);
+        dockingPos[DockPosition::center] = dock_main_id;
         
-        ImGui::DockBuilderGetNode(dock_toolbar)->LocalFlags |= ImGuiDockNodeFlags_NoResize;
-        ImGui::DockBuilderGetNode(dock_toolbar)->LocalFlags |= ImGuiDockNodeFlags_NoTabBar;
+        for (auto panel : mEditorContext->panels->GetPanels())
+        {
+            auto dock = panel->GetDockingPos();
+            if (dock == DockPosition::none) continue;
+            
+            ImGui::DockBuilderDockWindow(panel->GetName(), dockingPos[dock]);
+        }
+        
+        ImGui::DockBuilderGetNode(dockingPos[DockPosition::top])->LocalFlags |= ImGuiDockNodeFlags_NoResize;
+        ImGui::DockBuilderGetNode(dockingPos[DockPosition::top])->LocalFlags |= ImGuiDockNodeFlags_NoTabBar;
         ImGui::DockBuilderFinish(dockSpaceID);
     }
     
@@ -89,7 +93,6 @@ void clt::editor::EditorUIManager::Draw()
                             pannel->Toggle();
                         }
                     }
-                
                     ImGui::EndMenu();
                 }
             

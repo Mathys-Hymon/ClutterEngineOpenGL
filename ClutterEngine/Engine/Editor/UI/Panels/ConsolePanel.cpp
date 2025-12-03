@@ -11,6 +11,11 @@ const char* clt::editor::ConsolePanel::GetName() const
     return "Console";
 }
 
+clt::editor::DockPosition clt::editor::ConsolePanel::GetDockingPos() const
+{
+    return DockPosition::bottom;
+}
+
 void clt::editor::ConsolePanel::Draw()
 {
     const ImVec4 infoColor(0.4f, 1.0f, 0.4f, 1.0f);

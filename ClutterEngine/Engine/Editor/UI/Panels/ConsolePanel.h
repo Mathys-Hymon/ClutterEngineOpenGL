@@ -18,6 +18,7 @@ namespace clt
 		public:
 			ConsolePanel(EditorContext* context);
 			const char* GetName() const override;
+			DockPosition GetDockingPos() const override;
 			void Draw() override;
 		};
 	}
