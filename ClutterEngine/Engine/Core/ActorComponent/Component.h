@@ -1,13 +1,14 @@
 #pragma once
 #include <Core/CCommon.h>
 #include <Core/ActorComponent/Actor.h>
+#include <Core/Reflection/Reflectable.h>
 
 namespace clt
 {
     /**
      * @brief Base class for all components attached to an Actor.
      */
-    class CLUTTER_API Component
+    class CLUTTER_API Component : public Reflectable
     {
 
     protected:
@@ -44,11 +45,31 @@ namespace clt
          */
         Component(int pUpdateOrder = 0) : mUpdateOrder(pUpdateOrder), mOwner(nullptr) {};
 
+        Component() : mUpdateOrder(0), mOwner(nullptr) {}
         /**
          * @brief Virtual destructor for Component.
          */
         virtual ~Component() = default;
 
+        nlohmann::json ToJson() override
+        {
+            nlohmann::json j = Reflectable::ToJson();
+            j["Active"] = mIsActive;
+            j["RelativeTransform"]["Location"] = { mRelativeTransform.Location().x, mRelativeTransform.Location().y, mRelativeTransform.Location().z };
+            j["RelativeTransform"]["Rotation"] = { mRelativeTransform.Rotation().x, mRelativeTransform.Rotation().y, mRelativeTransform.Rotation().z, mRelativeTransform.Rotation().w };
+            j["RelativeTransform"]["Scale"] = { mRelativeTransform.Scale().x, mRelativeTransform.Scale().y, mRelativeTransform.Scale().z };
+            
+            return j;
+        }
+        
+        void FromJson(const nlohmann::json& j) override
+        {
+            Reflectable::FromJson(j);
+            if (j.contains("Active")) mIsActive = j["Active"];
+            
+            // TODO : Add Relative
+        }
+        
         /**
          * @brief Called when the component is started.
          */

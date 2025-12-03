@@ -3,6 +3,8 @@
 
 using namespace clt;
 
+REGISTER_COMPONENT_CLASS(SoundComponent);
+
 SoundComponent::SoundComponent(std::weak_ptr<Sound> audio, bool isLooping, bool playOnSpawn, int updateOrder) : Component(updateOrder), mSound(nullptr), mRigidbody(nullptr)
 {
 	mSound = Audio::Get().SpawnSoundComponent(audio);
@@ -41,7 +43,7 @@ void SoundComponent::Update()
 {
 	if (mSound)
 	{
-		if(!mRigidbody) mRigidbody = GetOwner()->GetComponentOfType<RigidBody>();
+		if(!mRigidbody) mRigidbody = GetOwner()->GetComponentOfType<IRigidbody>();
 
 		Vector3 vel = mRigidbody ? mRigidbody->GetVelocity() : Vector3{ 0,0,0 };
 

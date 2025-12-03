@@ -1,6 +1,7 @@
 #pragma once
 #include <Core/CCommon.h>
 #include <Core/Maths/Transforms/Transform.h>
+#include <Core/Reflection/Reflectable.h>
 #include <Physics/HitResult.h>
 #include <Core/Timer.h>
 #include <unordered_map>
@@ -25,7 +26,7 @@ namespace clt
      * The Actor class is the base class for all objects that can be placed or spawned in a level.
      * It manages its own transform, state, and a collection of components that define its behavior.
      */
-    class CLUTTER_API Actor
+    class CLUTTER_API Actor : public Reflectable
     {
         /**
          * @brief Internal method to update the actor and its components.
@@ -56,6 +57,8 @@ namespace clt
         std::vector<size_t> mComponentsToRemove; ///< Components to be removed after update.
 
     public:
+        CLUTTER_CLASS(Actor);
+        
         /**
          * @brief Constructor for the Actor class.
          * @param pLevel The level to which this actor belongs.
@@ -68,6 +71,10 @@ namespace clt
          */
         ~Actor();
 
+        void SetupProperties() override;
+        
+        nlohmann::json ToJson() override;
+        void FromJson(const nlohmann::json& j) override;
         /**
          * @brief Called when the actor is first created or spawned.
          * 

@@ -4,11 +4,14 @@
 #include "Core/Levels/Level.h"
 #include <Physics/IPhysics.h>
 
+#include "Core/Reflection/ObjectRegistry.h"
+
 using namespace clt;                                  // Use clt namespace
 
 // Constructor
 Actor::Actor(Level* pLevel, std::string pName) :mLevel(pLevel), mState(ActorState::Active), mIsUpdatingComponents(false), mName(pName)
 {
+    SetupProperties();
 }
 
 // Destructor
@@ -28,6 +31,68 @@ Actor::~Actor()
    mComponentsToAdd.clear();
    mComponentsToRemove.clear();
 }
+
+void Actor::SetupProperties()
+{
+    Reflectable::SetupProperties();
+}
+
+nlohmann::json Actor::ToJson()
+{
+    nlohmann::json j = Reflectable::ToJson();
+    
+    j["Name"] = mName;
+    
+    j["Transform"]["Location"] = { mTransform.Location().x, mTransform.Location().y, mTransform.Location().z };
+    j["Transform"]["Rotation"] = { mTransform.Rotation().x, mTransform.Rotation().y, mTransform.Rotation().z, mTransform.Rotation().w };
+    j["Transform"]["Scale"] = { mTransform.Scale().x, mTransform.Scale().y, mTransform.Scale().z };
+    
+    nlohmann::json componentsArray = nlohmann::json::array();
+    
+    for (auto comp : mComponentsByUpdateOrder)
+    {
+        componentsArray.push_back(comp->ToJson());
+    }
+    j["Components"] = componentsArray;
+    
+    return j;
+}
+
+void Actor::FromJson(const nlohmann::json& j)
+{
+    Reflectable::FromJson(j);
+    
+    if (j.contains("Name")) mName = j["Name"];
+    
+    if (j.contains("Transform"))
+    {
+        
+    }
+    
+    if (j.contains("Components"))
+    {
+        for (const auto& compJson : j["Components"])
+        {
+            std::string typeName = compJson["Type"];
+            
+            Component* newComp = ObjectRegistry::CreateComponent(typeName);
+            
+            if (newComp)
+            {
+                AddComponentInternal(newComp);
+                newComp->SetOwner(this);
+                
+                newComp->FromJson(compJson);
+                newComp->Start();
+            }
+            else
+            {
+                CLUTTER_ERROR("UNKNOWN ERROR WHEN LOADING COMPONENT " + typeName);
+            }
+        }
+    }
+}
+
 bool Actor::LineTrace(const Vector3& start, const Vector3& direction, float maxDistance, RaycastHit& outHit, const TraceParams& params)
 {
     Actor* temp = nullptr;

@@ -19,6 +19,7 @@ namespace clt
 		void SyncToBullet();
 
 	public:
+		
 		BulletRigidBody(rbState state = rbState::Dynamic, float mass = 1);
 		~BulletRigidBody();
 
