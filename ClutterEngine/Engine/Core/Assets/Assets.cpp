@@ -244,13 +244,13 @@ std::shared_ptr<Mesh> Assets::GetMesh(const std::string& name, bool tesselate)
 
 std::shared_ptr<Font> Assets::GetFont(const std::string& name)
 {
-    auto it = mFonts.find(name);
-    if (it == mFonts.end())
+    for (auto [path, fontPtr] : mFonts)
     {
-        CLUTTER_WARNING(("Unable to find Font: " + name).c_str());
-        return nullptr;
+        if (fontPtr->mName == name) return fontPtr;
     }
-    return it->second;
+    
+    CLUTTER_WARNING(("Unable to find Font: " + name).c_str());
+    return nullptr;
 }
 
 std::shared_ptr<Sound> Assets::GetAudio(const std::string& pName)
@@ -350,9 +350,10 @@ std::shared_ptr<Mesh> Assets::LoadMesh(const std::string& pPath, const std::stri
     return mesh;
 }
 
+
 std::shared_ptr<Font> Assets::LoadFont(const std::string& pPath, const std::string& pName, GLuint pFontSize)
 {
-    if (mFonts.find(pName) != mFonts.end()) return mFonts[pName];
+    if (mFonts.find(pPath) != mFonts.end()) return mFonts[pPath];
 
     FT_Face face;
     if (FT_New_Face(mFTLibrary, pPath.c_str(), 0, &face))
@@ -365,6 +366,8 @@ std::shared_ptr<Font> Assets::LoadFont(const std::string& pPath, const std::stri
     glPixelStoref(GL_UNPACK_ALIGNMENT, 1);
 
     std::shared_ptr<Font> font = std::make_shared<Font>();
+    font->mName = pName;
+    font->mPath = pPath;
 
     for (unsigned char c = 0; c < 128; c++)
     {
@@ -407,7 +410,7 @@ std::shared_ptr<Font> Assets::LoadFont(const std::string& pPath, const std::stri
     glBindTexture(GL_TEXTURE_2D, 0);
     FT_Done_Face(face);
 
-    mFonts[pName] = font;
+    mFonts[pPath] = font;
 
     return font;
 }

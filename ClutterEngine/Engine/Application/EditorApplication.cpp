@@ -86,6 +86,17 @@ void EditorApplication::SetupEditor()
 	Inputs::Get().RegisterActionCallback("wireframe", [this] { GetRenderer()->WireframeMode(true); });
 
 	Inputs::Get().RegisterActionCallback("lit", [this] { GetRenderer()->WireframeMode(false); });
+
+	
+	mEditorCtx->themes->SetAssetIcon(AssetType::Mesh, Assets::Get().LoadTexture("../ClutterEngine/EngineContent/Resources/Textures/meshFile.png", "mesh Icon", TextureFilter::LINEAR, false, false));
+	mEditorCtx->themes->SetAssetIcon(AssetType::Font, Assets::Get().LoadTexture("../ClutterEngine/EngineContent/Resources/Textures/fontFile.png", "font Icon", TextureFilter::LINEAR, false, false));
+	mEditorCtx->themes->SetAssetIcon(AssetType::Shader, Assets::Get().LoadTexture("../ClutterEngine/EngineContent/Resources/Textures/shaderFile.png", "shader Icon", TextureFilter::LINEAR, false, false));
+	mEditorCtx->themes->SetAssetIcon(AssetType::Sound, Assets::Get().LoadTexture("../ClutterEngine/EngineContent/Resources/Textures/audioFile.png", "audio Icon", TextureFilter::LINEAR, false, false));
+	mEditorCtx->themes->SetAssetIcon(AssetType::Script, Assets::Get().LoadTexture("../ClutterEngine/EngineContent/Resources/Textures/scriptFile.png", "script Icon", TextureFilter::LINEAR, false, false));
+
+	mEditorCtx->themes->SetFont(editor::TextType::classic, "../ClutterEngine/EngineContent/Resources/Font/Rubik.ttf", 15.0f);
+	mEditorCtx->themes->SetFont(editor::TextType::title, "../ClutterEngine/EngineContent/Resources/Font/Rubik.ttf", 18.0f);
+	mEditorCtx->themes->SetFont(editor::TextType::console, "../ClutterEngine/EngineContent/Resources/Font/JetBrains.ttf", 15.0f);
 	
 	RegisterDefaultPanels();
 }
@@ -127,7 +138,6 @@ void EditorApplication::Update()
 
 void EditorApplication::Render()
 {
-	//mEditorCtx->sceneFrameBuffer->Bind();
 	mUIManager->BeginFrame();
 
 	mEditorCtx->sceneFrameBuffer->Bind();
@@ -139,7 +149,6 @@ void EditorApplication::Render()
 
 	GetRenderer()->EndDraw();
 	mUIManager->EndFrame();
-	//mEditorCtx->sceneFrameBuffer->Unbind();
 }
 
 void EditorApplication::SetMode(EditorMode mode)

@@ -8,8 +8,6 @@ namespace clt
     {
         class CLUTTER_API ViewportToolBarPanel : public EditorPanel
         {
-            EditorContext* ctx;
-
         public :
             ViewportToolBarPanel(EditorContext* context);
             const char* GetName() const override;

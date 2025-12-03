@@ -1,11 +1,16 @@
 #include "pch.h"
 #include "ThemeManager.h"
-
-#include <json/json.hpp>
-
 #include "imgui.h"
+
+#include <Core/Assets/Assets.h>
 #include "Core/JsonUtility.h"
-#include <cstdlib>
+
+void clt::editor::ThemeManager::SetFont(TextType type, const char* newFontPath, float fontSize)
+{
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    
+    mEditorFonts[type] = io.Fonts->AddFontFromFileTTF(newFontPath, fontSize);
+}
 
 clt::editor::ThemeManager::ThemeManager()
 {
@@ -32,38 +37,39 @@ clt::editor::ThemeManager::ThemeManager()
 
 void clt::editor::ThemeManager::ApplyDefaultTheme()
 {
-        ImGuiStyle& style = ImGui::GetStyle();
-        ImVec4* colors = style.Colors;
+    ImGuiStyle& style = ImGui::GetStyle();
+    ImVec4* colors = style.Colors;
 
-        // Base palette
-        ImVec4 bgColor(0.157f, 0.149f, 0.176f, 1.0f);
-        ImVec4 textColor(0.682f, 0.651f, 0.647f, 1.0f);
+    // Base palette
+    ImVec4 bgColor(0.157f, 0.149f, 0.176f, 1.0f);
+    ImVec4 textColor(0.682f, 0.651f, 0.647f, 1.0f);
 
-        colors[ImGuiCol_WindowBg] = bgColor;
-        colors[ImGuiCol_ChildBg] = ImVec4(bgColor.x * 0.9f, bgColor.y * 0.9f, bgColor.z * 0.9f, 1.0f);
-        colors[ImGuiCol_PopupBg] = bgColor;
-        colors[ImGuiCol_Text] = textColor;
-        colors[ImGuiCol_TextDisabled] = ImVec4(textColor.x * 0.7f, textColor.y * 0.7f, textColor.z * 0.7f, 1.0f);
-        colors[ImGuiCol_Header] = ImVec4(bgColor.x * 1.2f, bgColor.y * 1.2f, bgColor.z * 1.2f, 1.0f);
-        colors[ImGuiCol_HeaderHovered] = ImVec4(bgColor.x * 1.4f, bgColor.y * 1.4f, bgColor.z * 1.4f, 1.0f);
-        colors[ImGuiCol_HeaderActive] = ImVec4(bgColor.x * 0.8f, bgColor.y * 0.8f, bgColor.z * 0.8f, 1.0f);
-        colors[ImGuiCol_Button] = ImVec4(bgColor.x * 1.1f, bgColor.y * 1.1f, bgColor.z * 1.1f, 1.0f);
-        colors[ImGuiCol_ButtonHovered] = ImVec4(bgColor.x * 1.3f, bgColor.y * 1.3f, bgColor.z * 1.3f, 1.0f);
-        colors[ImGuiCol_ButtonActive] = ImVec4(bgColor.x * 0.9f, bgColor.y * 0.9f, bgColor.z * 0.9f, 1.0f);
-        colors[ImGuiCol_Border] = ImVec4(bgColor.x * 0.6f, bgColor.y * 0.6f, bgColor.z * 0.6f, 1.0f);
-        colors[ImGuiCol_BorderShadow] = ImVec4(0, 0, 0, 0);
-        colors[ImGuiCol_ScrollbarBg] = ImVec4(bgColor.x * 0.9f, bgColor.y * 0.9f, bgColor.z * 0.9f, 1.0f);
-        colors[ImGuiCol_ScrollbarGrab] = ImVec4(bgColor.x * 1.2f, bgColor.y * 1.2f, bgColor.z * 1.2f, 1.0f);
-        colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(bgColor.x * 1.4f, bgColor.y * 1.4f, bgColor.z * 1.4f, 1.0f);
-        colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(bgColor.x * 1.1f, bgColor.y * 1.1f, bgColor.z * 1.1f, 1.0f);
-        colors[ImGuiCol_Tab] = ImVec4(bgColor.x * 0.9f, bgColor.y * 0.9f, bgColor.z * 0.9f, 1.0f);
-        colors[ImGuiCol_TabHovered] = ImVec4(bgColor.x * 1.2f, bgColor.y * 1.2f, bgColor.z * 1.2f, 1.0f);
-        colors[ImGuiCol_TabActive] = ImVec4(bgColor.x * 1.1f, bgColor.y * 1.1f, bgColor.z * 1.1f, 1.0f);
-        colors[ImGuiCol_TabUnfocused] = ImVec4(bgColor.x * 0.8f, bgColor.y * 0.8f, bgColor.z * 0.8f, 1.0f);
-        colors[ImGuiCol_TabUnfocusedActive] = ImVec4(bgColor.x * 0.9f, bgColor.y * 0.9f, bgColor.z * 0.9f, 1.0f);
-        colors[ImGuiCol_CheckMark] = textColor;
-        colors[ImGuiCol_SliderGrab] = ImVec4(bgColor.x * 1.2f, bgColor.y * 1.2f, bgColor.z * 1.2f, 1.0f);
-        colors[ImGuiCol_SliderGrabActive] = ImVec4(bgColor.x * 1.4f, bgColor.y * 1.4f, bgColor.z * 1.4f, 1.0f);
+    colors[ImGuiCol_WindowBg] = bgColor;
+    colors[ImGuiCol_ChildBg] = ImVec4(bgColor.x * 0.9f, bgColor.y * 0.9f, bgColor.z * 0.9f, 1.0f);
+    colors[ImGuiCol_PopupBg] = bgColor;
+    colors[ImGuiCol_Text] = textColor;
+    colors[ImGuiCol_TextDisabled] = ImVec4(textColor.x * 0.7f, textColor.y * 0.7f, textColor.z * 0.7f, 1.0f);
+    colors[ImGuiCol_Header] = ImVec4(bgColor.x * 1.2f, bgColor.y * 1.2f, bgColor.z * 1.2f, 1.0f);
+    colors[ImGuiCol_HeaderHovered] = ImVec4(bgColor.x * 1.4f, bgColor.y * 1.4f, bgColor.z * 1.4f, 1.0f);
+    colors[ImGuiCol_HeaderActive] = ImVec4(bgColor.x * 0.8f, bgColor.y * 0.8f, bgColor.z * 0.8f, 1.0f);
+    colors[ImGuiCol_Button] = ImVec4(bgColor.x * 1.1f, bgColor.y * 1.1f, bgColor.z * 1.1f, 1.0f);
+    colors[ImGuiCol_ButtonHovered] = ImVec4(bgColor.x * 1.3f, bgColor.y * 1.3f, bgColor.z * 1.3f, 1.0f);
+    colors[ImGuiCol_ButtonActive] = ImVec4(bgColor.x * 0.9f, bgColor.y * 0.9f, bgColor.z * 0.9f, 1.0f);
+    colors[ImGuiCol_Border] = ImVec4(bgColor.x * 0.6f, bgColor.y * 0.6f, bgColor.z * 0.6f, 1.0f);
+    colors[ImGuiCol_BorderShadow] = ImVec4(0, 0, 0, 0);
+    colors[ImGuiCol_ScrollbarBg] = ImVec4(bgColor.x * 0.9f, bgColor.y * 0.9f, bgColor.z * 0.9f, 1.0f);
+    colors[ImGuiCol_ScrollbarGrab] = ImVec4(bgColor.x * 1.2f, bgColor.y * 1.2f, bgColor.z * 1.2f, 1.0f);
+    colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(bgColor.x * 1.4f, bgColor.y * 1.4f, bgColor.z * 1.4f, 1.0f);
+    colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(bgColor.x * 1.1f, bgColor.y * 1.1f, bgColor.z * 1.1f, 1.0f);
+    colors[ImGuiCol_Tab] = ImVec4(bgColor.x * 0.9f, bgColor.y * 0.9f, bgColor.z * 0.9f, 1.0f);
+    colors[ImGuiCol_TabHovered] = ImVec4(bgColor.x * 1.2f, bgColor.y * 1.2f, bgColor.z * 1.2f, 1.0f);
+    colors[ImGuiCol_TabActive] = ImVec4(bgColor.x * 1.1f, bgColor.y * 1.1f, bgColor.z * 1.1f, 1.0f);
+    colors[ImGuiCol_TabUnfocused] = ImVec4(bgColor.x * 0.8f, bgColor.y * 0.8f, bgColor.z * 0.8f, 1.0f);
+    colors[ImGuiCol_TabUnfocusedActive] = ImVec4(bgColor.x * 0.9f, bgColor.y * 0.9f, bgColor.z * 0.9f, 1.0f);
+    colors[ImGuiCol_CheckMark] = textColor;
+    colors[ImGuiCol_SliderGrab] = ImVec4(bgColor.x * 1.2f, bgColor.y * 1.2f, bgColor.z * 1.2f, 1.0f);
+    colors[ImGuiCol_SliderGrabActive] = ImVec4(bgColor.x * 1.4f, bgColor.y * 1.4f, bgColor.z * 1.4f, 1.0f);
+    SaveTheme();
 }
 
 void clt::editor::ThemeManager::SaveTheme()
@@ -71,28 +77,28 @@ void clt::editor::ThemeManager::SaveTheme()
     nlohmann::json root;
     ImGuiStyle& stype = ImGui::GetStyle();
     
+    std::filesystem::path path(mFilePath);
+    if (path.has_parent_path())
+    {
+        try
+        {
+            std::filesystem::create_directories(path.parent_path());
+        } catch (const std::exception& e)
+        {
+            CLUTTER_ERROR("[ThemeManager::SaveTheme] Failed to create parent directory");
+            return;
+        }
+    }
+    
     for (int i = 0; i < ImGuiCol_COUNT; i++)
     {
         const ImVec4& col = stype.Colors[i];
         root["colors"][i] = { col.x, col.y, col.z, col.w};
-        
-        std::filesystem::path path(mFilePath);
-        if (path.has_parent_path())
-        {
-            try
-            {
-                std::filesystem::create_directories(path.parent_path());
-            } catch (const std::exception& e)
-            {
-                CLUTTER_ERROR("[ThemeManager::SaveTheme] Failed to create parent directory");
-                return;
-            }
-        }
-        
-        if (JsonUtility::SaveToFile(mFilePath, root))
-        {
-            CLUTTER_INFO("[ThemeManager::SaveTheme] Theme saved successfully to " + mFilePath);
-        }
+    }
+    
+    if (JsonUtility::SaveToFile(mFilePath, root))
+    {
+        CLUTTER_INFO("[ThemeManager::SaveTheme] Theme saved successfully to " + mFilePath);
     }
 }
 
@@ -131,8 +137,55 @@ bool clt::editor::ThemeManager::LoadTheme()
                 }
             }
         }
-        
-        CLUTTER_INFO("[ThemeManager::LoadTheme] Theme loaded.");
-        return true;
     }
+    
+    if (root.contains("fonts"))
+    {
+        for (int i = 0; i < ImGuiCol_COUNT; i++)
+        {
+            if (i < root["fonts"].size())
+            {
+                auto colorArr = root["fonts"][i];
+                if (colorArr.size() == 4)
+                {
+                    style.Colors[i] = ImVec4(
+                        colorArr[0].get<float>(),
+                        colorArr[1].get<float>(),
+                        colorArr[2].get<float>(),
+                        colorArr[3].get<float>()
+                    );
+                }
+            }
+        }
+    }
+    
+    CLUTTER_INFO("[ThemeManager::LoadTheme] Theme loaded.");
+    return true;
+}
+
+void clt::editor::ThemeManager::BindFont(TextType type)
+{
+    ImGui::PopFont();
+    ImGui::PushFont(mEditorFonts[type]);
+}
+
+Color clt::editor::ThemeManager::GetThemeData(ImGuiCol_ data)
+{
+    ImGuiStyle& style = ImGui::GetStyle();
+    ImVec4* colors = style.Colors;
+    
+    return Color{ colors[data].x, colors[data].y, colors[data].z, colors[data].w };
+}
+
+void clt::editor::ThemeManager::SetAssetIcon(AssetType type, std::weak_ptr<Texture> icon)
+{
+    mAssetIcons[type] = icon.lock().get();
+}
+
+clt::Texture* clt::editor::ThemeManager::GetAssetIcon(AssetType type)
+{
+    auto temp = mAssetIcons[type];
+    if (!temp) return nullptr;
+    
+    return temp;
 }

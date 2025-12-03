@@ -4,7 +4,7 @@
 #include "imgui.h"
 #include "Graphics/FrameBuffer/FrameBuffer.h"
 
-clt::editor::ViewportPanel::ViewportPanel(EditorContext* context) : ctx(context)
+clt::editor::ViewportPanel::ViewportPanel(EditorContext* context) : EditorPanel(context)
 {
     moveIconID = Assets::Get()
         .LoadTexture("../ClutterEngine/EngineContent/Resources/Textures/moveGizmoIcon.png", "moveIcon", TextureFilter::LINEAR, true, false)

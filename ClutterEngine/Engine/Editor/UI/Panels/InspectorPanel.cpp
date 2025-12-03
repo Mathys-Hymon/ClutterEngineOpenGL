@@ -2,7 +2,7 @@
 #include "InspectorPanel.h"
 #include "imgui.h"
 
-clt::editor::InspectorPanel::InspectorPanel(EditorContext* context)
+clt::editor::InspectorPanel::InspectorPanel(EditorContext* context) : EditorPanel(context)
 {
 }
 

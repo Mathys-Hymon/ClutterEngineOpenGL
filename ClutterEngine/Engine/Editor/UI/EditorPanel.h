@@ -9,23 +9,42 @@ namespace clt
 		class CLUTTER_API EditorPanel
 		{
 			bool mIsOpen{true};
+			bool mWasOpen{false};
+			bool mIsDocked{false};
 			
+		protected:
+			EditorContext* ctx{nullptr};
+			
+			bool Begin();
+			void End();
 		public:
+			EditorPanel(EditorContext* Context) : ctx(Context) {};
 			// label visible in UI ("Console")
 			virtual const char* GetName() const = 0;
 
+			// draw content only (NO ImGui::Begin/End here)
+			virtual void Draw() = 0;
+			
 			// stable internal id ("clt.panel.console") - used for layout / collisions / serialization
 			virtual std::string GetID() const { return std::string(GetName()); }
 
 			// ImGui window flags for this panel
-			virtual int GetWindowFlags() const { return 0; }
+			virtual int GetPanelFlags() const { return 0; }
 
-			void Toggle() { mIsOpen = !mIsOpen; }
-			void SetOpen(bool newOpen) { mIsOpen = newOpen; }
+			void Open() { mIsOpen = true; }
+			void Close()
+			{
+				mIsOpen = false;
+				mWasOpen = false;
+			}
+			void Toggle()
+			{
+				mIsOpen = !mIsOpen;
+				mWasOpen = mIsOpen;
+			}
 			bool IsOpen() const { return mIsOpen; }
 			
-			// draw content only (NO ImGui::Begin/End here)
-			virtual void Draw() = 0;
+			friend class EditorUIManager;
 		};
 	}
 }

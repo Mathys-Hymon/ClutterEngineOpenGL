@@ -9,8 +9,6 @@ namespace clt
 	{
 		class CLUTTER_API ViewportPanel : public EditorPanel
 		{
-			EditorContext* ctx;
-			
 			Gizmo* mActorGizmo{nullptr};
 
 			GLuint moveIconID;

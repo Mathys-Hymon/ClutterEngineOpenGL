@@ -2,7 +2,7 @@
 #include "ViewportToolBarPanel.h"
 #include "imgui.h"
 
-clt::editor::ViewportToolBarPanel::ViewportToolBarPanel(EditorContext* context)
+clt::editor::ViewportToolBarPanel::ViewportToolBarPanel(EditorContext* context) : EditorPanel(context)
 {
 }
 

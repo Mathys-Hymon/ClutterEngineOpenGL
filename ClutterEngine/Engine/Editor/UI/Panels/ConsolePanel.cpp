@@ -2,7 +2,7 @@
 #include "ConsolePanel.h"
 #include "imgui.h"
 
-clt::editor::ConsolePanel::ConsolePanel(EditorContext* context)
+clt::editor::ConsolePanel::ConsolePanel(EditorContext* context) : EditorPanel(context)
 {
 }
 

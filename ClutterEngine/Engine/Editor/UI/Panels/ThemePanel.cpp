@@ -2,9 +2,9 @@
 #include "ThemePanel.h"
 #include "imgui.h"
 
-clt::editor::ThemePanel::ThemePanel(EditorContext* context) : ctx(context)
+clt::editor::ThemePanel::ThemePanel(EditorContext* context) : EditorPanel(context)
 {
-    SetOpen(false);
+    Close();
 }
 
 const char* clt::editor::ThemePanel::GetName() const

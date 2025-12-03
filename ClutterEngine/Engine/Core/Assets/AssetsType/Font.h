@@ -16,6 +16,8 @@ namespace clt
 	class CLUTTER_API Font
 	{
 	public:
+		std::string mName;
+		std::string mPath;
 		std::map<GLchar, Character> mCharacters;
 
 		Font() {};

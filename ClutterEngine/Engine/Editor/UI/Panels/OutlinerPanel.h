@@ -8,8 +8,6 @@ namespace clt
 	{
 		class CLUTTER_API OutlinerPanel : public EditorPanel
 		{
-			EditorContext* ctx;
-
 		public :
 			OutlinerPanel(EditorContext* context);
 			const char* GetName() const override;

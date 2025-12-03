@@ -67,6 +67,7 @@ void clt::editor::EditorUIManager::Draw()
      * TODO : Open, Edit & Save Projects
      */
     
+    mEditorContext->themes->BindFont(TextType::classic);
     if (ImGui::BeginMenuBar())
     {
         if (ImGui::BeginMenu("File")) 
@@ -77,8 +78,21 @@ void clt::editor::EditorUIManager::Draw()
             if (ImGui::MenuItem("Appearances"))
             {
                 auto panel = mEditorContext->panels->FindByID("Editor Appearance");
-                panel->SetOpen(true);
+                panel->Open();
             }
+                if (ImGui::BeginMenu("Windows"))
+                {
+                    for (auto& pannel : mEditorContext->panels->GetPanels())
+                    {
+                        if (ImGui::MenuItem(pannel->GetName(), nullptr, pannel->IsOpen()))
+                        {
+                            pannel->Toggle();
+                        }
+                    }
+                
+                    ImGui::EndMenu();
+                }
+            
             ImGui::EndMenu();
         }
         ImGui::EndMenuBar();
@@ -89,11 +103,13 @@ void clt::editor::EditorUIManager::Draw()
     for (const auto& ptr : mEditorContext->panels->GetPanels())
     {
         EditorPanel* panel = ptr.get();
-        if (!panel || !panel->IsOpen()) continue;
+        if (!panel) continue;
         
-        ImGui::Begin(panel->GetName(), nullptr, panel->GetWindowFlags());
+        if (panel->Begin())
+        {
         panel->Draw();
-        ImGui::End();
+        }
+        panel->End();
     }
 }
 

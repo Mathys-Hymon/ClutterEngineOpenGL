@@ -506,6 +506,7 @@ xcopy /y/d "$(SolutionDir)ClutterEngine\Libraries\lib\FMOD\Studio\x64\*.dll" "$(
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
     <ClCompile Include="Engine\Editor\Services\SelectionService.cpp" />
+    <ClCompile Include="Engine\Editor\UI\EditorPanel.cpp" />
     <ClCompile Include="Engine\Editor\UI\EditorUIManager.cpp" />
     <ClCompile Include="Engine\Editor\UI\PanelManager.cpp" />
     <ClCompile Include="Engine\Editor\UI\Panels\ConsolePanel.cpp" />

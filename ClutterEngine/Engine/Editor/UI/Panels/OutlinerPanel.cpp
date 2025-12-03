@@ -2,7 +2,7 @@
 #include "OutlinerPanel.h"
 #include "imgui.h"
 
-clt::editor::OutlinerPanel::OutlinerPanel(EditorContext* context)
+clt::editor::OutlinerPanel::OutlinerPanel(EditorContext* context) : EditorPanel(context)
 {
 }
 
