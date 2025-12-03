@@ -11,6 +11,9 @@ namespace clt
 		UIPanel* mCurrentWidget;
 
 	public:
+		
+		CLUTTER_CLASS(HUDComponent);
+		
 		HUDComponent() : mCurrentWidget(nullptr), Component() {};
 		~HUDComponent();
 

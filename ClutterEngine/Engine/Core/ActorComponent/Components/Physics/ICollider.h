@@ -12,6 +12,14 @@ enum class CLUTTER_API ColliderShapeType
 	Plane
 };
 
+NLOHMANN_JSON_SERIALIZE_ENUM(ColliderShapeType, {
+		{ColliderShapeType::Box, "Box"},
+		{ColliderShapeType::Sphere, "Sphere"},
+		{ColliderShapeType::Capsule, "Capsule"},
+		{ColliderShapeType::Plane, "Plane"},
+		{ColliderShapeType::Mesh, "Mesh"}
+	})
+
 namespace clt
 {
 	class CLUTTER_API ICollider : public Component

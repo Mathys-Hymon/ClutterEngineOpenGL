@@ -6,8 +6,9 @@
 
 using namespace clt;
 
-CameraComponent* CameraComponent::ACTIVE_CAMERA = nullptr;
+REGISTER_COMPONENT_CLASS(CameraComponent);
 
+CameraComponent* CameraComponent::ACTIVE_CAMERA = nullptr;
 
 CameraComponent::CameraComponent(float pFOV, ProjectionMode pMode, float pNearPlane, float pFarPlane) : Component(), mProjectionMode(pMode), mFov(pFOV), mNearPlane(pNearPlane), mFarPlane(pFarPlane), mOrthoHeight(10) { mDirty = true; }
 

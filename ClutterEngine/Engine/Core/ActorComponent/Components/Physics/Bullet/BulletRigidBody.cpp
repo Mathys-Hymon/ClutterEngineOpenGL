@@ -7,6 +7,8 @@
 
 using namespace clt;
 
+REGISTER_COMPONENT_CLASS(BulletRigidBody);
+
 BulletRigidBody::BulletRigidBody(rbState state, float mass) :IRigidbody(0),
     mWorld(nullptr), mBody(nullptr), mMotionState(nullptr), mShapes(nullptr), mMass(mass), mState(state)
 {
@@ -31,8 +33,8 @@ BulletRigidBody::~BulletRigidBody()
         if(mWorld) mWorld->GetWorld()->removeRigidBody(mBody);
         delete mBody;
     }
-    delete mMotionState;
-    delete mShapes;
+    if (mMotionState) delete mMotionState;
+    if (mShapes) delete mShapes;
 }
 
 void BulletRigidBody::Start()
@@ -47,9 +49,19 @@ void BulletRigidBody::Start()
     transform.setOrigin(btVector3(worldPos.x, worldPos.y, worldPos.z));
     transform.setRotation(btQuaternion(worldRot.x, worldRot.y, worldRot.z, worldRot.w));
 
-    mBody->setWorldTransform(transform);
-    mBody->getMotionState()->setWorldTransform(transform);
+    if (mBody)
+    {
+        mBody->setWorldTransform(transform);
+        mBody->getMotionState()->setWorldTransform(transform);
+        
+        btVector3 localInertia(0, 0, 0);
+        if (mState == rbState::Dynamic && mMass > 0) mShapes->calculateLocalInertia(mMass, localInertia);
+        mBody->setMassProps(mMass, localInertia);
 
+        LockPosition(mLockPosition.x > 0.5f, mLockPosition.y > 0.5f, mLockPosition.z > 0.5f);
+        LockRotation(mLockRotation.x > 0.5f, mLockRotation.y > 0.5f, mLockRotation.z > 0.5f);
+    }
+    
     mOwner->GetLevel()->GetPhysics().AddRigidbody(this);
     SetState(mState);
 }
@@ -211,13 +223,16 @@ void BulletRigidBody::RemoveCollider(ICollider* collider)
 
 void BulletRigidBody::LockRotation(bool x, bool y, bool z)
 {
-    btVector3 lock(x ? 0 : 1, y ? 0 : 1, z ? 0 : 1);
+    mLockRotation = Vector3{x ? 1.f : 0.f, y ? 1.f : 0.f, z ? 1.f : 0.f};
+    btVector3 lock(mLockRotation.x, mLockRotation.y, mLockRotation.z);
 
-    mBody->setAngularFactor(lock);
+    if (mBody) mBody->setAngularFactor(lock);
 }
 
 void BulletRigidBody::LockPosition(bool x, bool y, bool z)
 {
-    btVector3 lock(x ? 0 : 1, y ? 0 : 1, z ? 0 : 1);
-    mBody->setLinearFactor(lock);
+    mLockPosition = Vector3{x ? 1.f : 0.f, y ? 1.f : 0.f, z ? 1.f : 0.f};
+    
+    btVector3 lock(mLockPosition.x, mLockPosition.y, mLockPosition.z);
+    if (mBody) mBody->setLinearFactor(lock);
 }

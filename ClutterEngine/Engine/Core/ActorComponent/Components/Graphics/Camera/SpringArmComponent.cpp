@@ -4,6 +4,8 @@
 
 using namespace clt;
 
+REGISTER_COMPONENT_CLASS(SpringArmComponent);
+
 SpringArmComponent::SpringArmComponent(Actor* pCamera,float pLagSpeed, int pUpdateOrder) : Component(pUpdateOrder), mCameraActor(pCamera), mLagSpeed(pLagSpeed), mLagMaxDistance(0), mRotationLagSpeed(0), mArmLength(0), mCameraOffset(0), mCameraComponent(nullptr)
 {
 }

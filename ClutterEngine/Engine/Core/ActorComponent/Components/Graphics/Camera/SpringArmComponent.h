@@ -10,6 +10,18 @@ namespace clt
 		CameraComponent* mCameraComponent;
 
 	public:
+		
+		CLUTTER_CLASS(SpringArmComponent);
+		
+		void SetupProperties() override 
+		{
+			CPROPERTY(mLagSpeed, clt::PropMode::ReadWrite);
+			CPROPERTY(mLagMaxDistance, clt::PropMode::ReadWrite);
+			CPROPERTY(mRotationLagSpeed, clt::PropMode::ReadWrite);
+			CPROPERTY(mCameraOffset, clt::PropMode::ReadWrite);
+			CPROPERTY(mArmLength, clt::PropMode::ReadWrite);
+		}
+		
 		float mLagSpeed;
 		float mLagMaxDistance;
 

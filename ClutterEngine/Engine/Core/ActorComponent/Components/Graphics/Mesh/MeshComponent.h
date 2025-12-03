@@ -13,7 +13,17 @@ namespace clt
 		bool mTesselate;
 
 	public:
+		
+		CLUTTER_CLASS(MeshComponent);
+		
+		void SetupProperties() override 
+		{
+			CPROPERTY(mMesh, clt::PropMode::ReadWrite);
+			CPROPERTY(mMaterial, clt::PropMode::ReadWrite);
+		}
 
+		MeshComponent() : Component() {};
+		
 		MeshComponent(std::weak_ptr<Mesh> pMesh, Vector2 pTextureTiling = { 5,5 }, int pDrawOrder = 0);
 		MeshComponent(const std::string& pMesh, Vector2 pTextureTiling = { 5,5 }, int pDrawOrder = 0);
 

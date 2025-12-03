@@ -8,10 +8,18 @@ namespace clt
 		std::unordered_map<std::string, FlipbookComponent*> mAnims;
 
 	public:
+		
+		CLUTTER_CLASS(AnimatorComponent);
+		
+		void SetupProperties() override 
+		{
+			CPROPERTY(mAnims, clt::PropMode::ReadWrite);
+		}
+		
 		AnimatorComponent(std::string pAnimName, const std::vector<std::weak_ptr<Texture>>& pTextures, bool pLooping = true, int pDrawOrder = 100);
 
 		AnimatorComponent(std::string pAnimName,std::weak_ptr<Texture> pTexture, bool pLooping = true, int pDrawOrder = 100);
-		AnimatorComponent() = delete;
+		AnimatorComponent() : FlipbookComponent() {};
 		AnimatorComponent(const FlipbookComponent&) = delete;
 		AnimatorComponent& operator = (const FlipbookComponent&) = delete;
 

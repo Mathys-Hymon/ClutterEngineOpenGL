@@ -4,14 +4,21 @@
 
 namespace clt
 {
+	
 	class CLUTTER_API BulletRigidBody : public IRigidbody
 	{
 		class BulletPhysics* mWorld;
 		btRigidBody* mBody;
 		btMotionState* mMotionState;
 		btCompoundShape* mShapes;
+		
+		// Serialized Variables
+		
 		float mMass;
 		rbState mState;
+		
+		Vector3 mLockPosition{0,0,0}; // 1 = locked, 0 = free
+		Vector3 mLockRotation{0,0,0};
 
 	protected:
 
@@ -19,15 +26,26 @@ namespace clt
 		void SyncToBullet();
 
 	public:
+		CLUTTER_CLASS(BulletRigidBody);
 		
 		BulletRigidBody(rbState state = rbState::Dynamic, float mass = 1);
 		~BulletRigidBody();
+		
+		void SetupProperties() override 
+		{
+			CPROPERTY(mState, PropMode::ReadWrite);
+          
+			CPROPERTY_COND(mMass, PropMode::ReadWrite, this->mState == rbState::Dynamic);
+
+			CPROPERTY(mLockPosition, PropMode::ReadWrite);
+			CPROPERTY(mLockRotation, PropMode::ReadWrite);
+		}
+		
+		void SetWorld(class BulletPhysics* world);
+		void Start() override;
 
 		virtual void SetState(rbState state) override;
 		virtual rbState GetState() override { return mState; };
-
-		void SetWorld(class BulletPhysics* world);
-		void Start() override;
 
 		void SetMass(float mass) override;
 		float GetMass() const override;
@@ -48,7 +66,7 @@ namespace clt
 
 		void AttachCollider(ICollider* collider) override;
 		void RemoveCollider(ICollider* collider) override;
-
+		
 		btRigidBody* GetInternalBody() { return mBody; }
 
 		friend BulletPhysics;

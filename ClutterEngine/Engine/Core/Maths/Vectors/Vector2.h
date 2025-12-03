@@ -11,6 +11,7 @@
 #include <algorithm>
 #include "cmath"
 #include <glm/glm.hpp>
+#include <json/json.hpp>
 #include "string"
 #include <glad/glad.h>
 
@@ -275,6 +276,17 @@ struct CLUTTER_API Vector2
         return { left.x / right.x, left.y / right.y };
     }
 
+    inline void to_json(nlohmann::json& j, const Vector2& v) 
+    {
+        j = nlohmann::json{{"x", v.x}, {"y", v.y}};
+    }
+
+    inline void from_json(const nlohmann::json& j, Vector2& v) 
+    {
+        j.at("x").get_to(v.x);
+        j.at("y").get_to(v.y);
+    }
+    
     /**
      * @brief Calculates the length of the vector.
      * @return The length of the vector.

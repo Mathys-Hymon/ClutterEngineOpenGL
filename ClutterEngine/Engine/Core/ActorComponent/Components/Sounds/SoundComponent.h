@@ -12,19 +12,26 @@ namespace clt
 		std::shared_ptr<SoundInstance> mSound;
 		IRigidbody* mRigidbody{nullptr};
 
-	public:
-		CLUTTER_CLASS(SoundComponent);
+		std::string mSoundName;
+		bool mPlayOnSpawn{true};
+		bool mIsLooping{false};
 		
-		SoundComponent(std::weak_ptr<Sound> audio, bool playOnSpawn = true, bool isLooping = false, int updateOrder = 0);
+	public:
+		CLUTTER_CLASS(SoundComponent)
+		
 		SoundComponent(const std::string& soundName, bool playOnSpawn = true, bool isLooping = false, int updateOrder = 0);
-		SoundComponent() {};
+		SoundComponent();
 
-		void SetSound(std::weak_ptr<Sound> audio, bool playOnSpawn = true, bool isLooping = false);
-		void SetSound(const std::string& soundName, bool playOnSpawn = true, bool isLooping = false);
-
-		void SetupProperties() override {
-			CPROPERTY(mSound, clt::PropMode::ReadWrite);
+		void SetupProperties() override 
+		{
+			CPROPERTY(mSoundName, PropMode::ReadWrite)
+			CPROPERTY(mPlayOnSpawn, PropMode::ReadWrite)
+			CPROPERTY(mIsLooping, PropMode::ReadWrite)
 		}
+		
+		void Start() override;
+		
+		void SetSound(const std::string& soundName, bool playOnSpawn = true, bool isLooping = false);
 		
 		SoundInstance& GetSound() const { return *mSound; };
 

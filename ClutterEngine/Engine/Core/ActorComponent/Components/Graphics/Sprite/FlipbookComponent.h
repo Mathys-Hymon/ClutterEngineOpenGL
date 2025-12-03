@@ -13,8 +13,20 @@ namespace clt
 		float mAnimFps;
 
 	public:
+		
+		CLUTTER_CLASS(FlipbookComponent);
+		
+		void SetupProperties() override 
+		{
+			CPROPERTY(mLooping, clt::PropMode::ReadWrite);
+			CPROPERTY(mIsPaused, clt::PropMode::ReadWrite);
+			CPROPERTY(mCurrentFrame, clt::PropMode::ReadOnly);
+			CPROPERTY(mAnimFps, clt::PropMode::ReadWrite);
+			CPROPERTY(mFlipbookTextures, clt::PropMode::ReadWrite);
+		}
+		
 		FlipbookComponent(const std::vector<std::weak_ptr<Texture>>& pTexture, bool pLooping = true, int pDrawOrder = 100);
-		FlipbookComponent() = delete;
+		FlipbookComponent() : SpriteComponent() {};
 		FlipbookComponent(const FlipbookComponent&) = delete;
 		FlipbookComponent& operator = (const FlipbookComponent&) = delete;
 

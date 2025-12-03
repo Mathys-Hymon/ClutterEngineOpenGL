@@ -20,7 +20,21 @@ namespace clt
 	class CLUTTER_API PlayerController : public Component, public ICollisionListener
 	{
     public:
-
+	    CLUTTER_CLASS(PlayerController);
+		
+	    void SetupProperties() override 
+	    {
+	        CPROPERTY(mJumpHeight, clt::PropMode::ReadWrite);
+	    	CPROPERTY(mJumpAmount, clt::PropMode::ReadWrite);
+	    	CPROPERTY(mAirControl, clt::PropMode::ReadWrite);
+	    	
+	    	CPROPERTY(mMaxWalkSpeed, clt::PropMode::ReadWrite);
+	    	CPROPERTY(mMaxSprintSpeed, clt::PropMode::ReadWrite);
+	    	CPROPERTY(mMaxAcceleration, clt::PropMode::ReadWrite);
+	    	
+	    	CPROPERTY(mMouseSpeed, clt::PropMode::ReadWrite);
+	    }
+		
         PlayerController(float pSpeed = 2);
         ~PlayerController() = default;
 

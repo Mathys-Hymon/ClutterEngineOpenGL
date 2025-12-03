@@ -31,7 +31,18 @@ namespace clt
 		static CameraComponent* ACTIVE_CAMERA;
 
 	public:
-
+		CLUTTER_CLASS(CameraComponent);
+		
+		void SetupProperties() override 
+		{
+			CPROPERTY(mFov, clt::PropMode::ReadWrite);
+			CPROPERTY(mProjectionMode, clt::PropMode::ReadWrite);
+			CPROPERTY(mOrthoHeight, clt::PropMode::ReadWrite);
+			CPROPERTY(mNearPlane, clt::PropMode::ReadWrite);
+			CPROPERTY(mFarPlane, clt::PropMode::ReadWrite);
+			CPROPERTY(mViewSize, clt::PropMode::ReadWrite);
+		}
+		
 		CameraComponent(float pFOV = 70.0f, ProjectionMode pProjectionMode = ProjectionMode::Perspective, float pNearPlane = 0.1f, float pFarPlane = 10000.0f);
 
 		~CameraComponent();

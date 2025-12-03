@@ -1,9 +1,10 @@
 #include "pch.h"
 #include  <Sound/Audio.h>
 #include <Core/ActorComponent/Components/Graphics/Camera/CameraComponent.h>
-#include <Core/ActorComponent/Components/Physics/RigidBody.h>
+#include "Core/ActorComponent/Components/Physics/IRigidBody.h"
 #include <Sound/SoundInstance.h>
 #include <Core/Assets/Assets.h>
+
 
 using namespace clt;
 
@@ -48,7 +49,7 @@ void Audio::Update()
 
 	FMOD_VECTOR listenerVel = { 0,0,0 };
 
-	auto* rb = camera->GetOwner()->GetComponentOfType<RigidBody>();
+	auto* rb = camera->GetOwner()->GetComponentOfType<IRigidbody>();
 
 	if (rb)
 	{

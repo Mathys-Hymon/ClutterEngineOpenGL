@@ -5,6 +5,8 @@
 
 using namespace clt;
 
+REGISTER_COMPONENT_CLASS(FlipbookComponent);
+
 FlipbookComponent::FlipbookComponent(const std::vector< std::weak_ptr<Texture>>& pTexture, bool pLooping, int pDrawOrder) 
    : SpriteComponent(pTexture.empty() ? nullptr : pTexture[0].lock(), pDrawOrder), // Adjust constructor to handle weak_ptr
      mCurrentFrame(0.0f), 

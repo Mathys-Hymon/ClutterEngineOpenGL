@@ -3,6 +3,8 @@
 
 using namespace clt;
 
+REGISTER_COMPONENT_CLASS(SpriteComponent);
+
 SpriteComponent::SpriteComponent(std::weak_ptr<Texture> pTexture, int DrawOrder) 
     : Component(DrawOrder), 
       mTexture(pTexture), 

@@ -4,7 +4,9 @@
 
 using namespace clt;
 
-BulletCollider::BulletCollider(ColliderShapeType shape, Vector3 bounds) : ICollider(0), mShape(nullptr), mType(shape), mIsTrigger(false)
+REGISTER_COMPONENT_CLASS(BulletCollider);
+
+BulletCollider::BulletCollider(ColliderShapeType shape, Vector3 bounds) : ICollider(0), mShape(nullptr), mType(shape), mIsTrigger(false), mbounds(bounds)
 {
     SetShape(shape, bounds);
 }
@@ -24,8 +26,10 @@ void BulletCollider::Start()
 void BulletCollider::SetShape(ColliderShapeType shape, Vector3 bounds)
 {
     if (mShape) delete mShape;
+    
     mType = shape;
-
+    mbounds = bounds;
+    
     Vector3 bulletBounds = bounds * 2;
 
     switch (mType)
@@ -48,7 +52,7 @@ void BulletCollider::SetShape(ColliderShapeType shape, Vector3 bounds)
 
     case ColliderShapeType::Mesh:
 
-        mShape = nullptr; // temporary
+        mShape = nullptr; // TODO: Load mesh
         break;
 
     case ColliderShapeType::Plane:

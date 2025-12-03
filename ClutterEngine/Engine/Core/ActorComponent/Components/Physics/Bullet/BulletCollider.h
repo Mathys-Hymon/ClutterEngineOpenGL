@@ -7,10 +7,22 @@ namespace clt
 	class CLUTTER_API BulletCollider :public ICollider
 	{
 		ColliderShapeType mType;
+		Vector3 mbounds;
 		btCollisionShape* mShape;
 		bool mIsTrigger;
 
 	public:
+		CLUTTER_CLASS(BulletCollider);
+		
+		void SetupProperties() override 
+		{
+			CPROPERTY(mType, clt::PropMode::ReadWrite);
+			CPROPERTY(mbounds, clt::PropMode::ReadWrite);
+			RegisterProperty("Bounds", &mBounds, clt::PropMode::ReadWrite);
+			CPROPERTY(mIsTrigger, clt::PropMode::ReadWrite);
+		}
+		
+		
 		BulletCollider(ColliderShapeType shape = ColliderShapeType::Box, Vector3 bounds = {1,1,1});
 		~BulletCollider();
 

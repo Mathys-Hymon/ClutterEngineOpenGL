@@ -10,6 +10,12 @@ namespace clt
 		Kinematic
 	};
 
+	NLOHMANN_JSON_SERIALIZE_ENUM(rbState, {
+		{rbState::Dynamic, "Dynamic"},
+		{rbState::Static, "Static"},
+		{rbState::Kinematic, "Kinematic"}
+	})
+	
 	class CLUTTER_API IRigidbody : public Component
 	{
 	public:

@@ -5,33 +5,42 @@ using namespace clt;
 
 REGISTER_COMPONENT_CLASS(SoundComponent);
 
-SoundComponent::SoundComponent(std::weak_ptr<Sound> audio, bool isLooping, bool playOnSpawn, int updateOrder) : Component(updateOrder), mSound(nullptr), mRigidbody(nullptr)
-{
-	mSound = Audio::Get().SpawnSoundComponent(audio);
-
-	if (!playOnSpawn) mSound->Pause();
-	mSound->SetLooping(isLooping);
-}
-
-SoundComponent::SoundComponent(const std::string& soundName, bool isLooping, bool playOnSpawn, int updateOrder) : Component(updateOrder), mSound(nullptr), mRigidbody(nullptr)
+SoundComponent::SoundComponent(const std::string& soundName, bool isLooping, bool playOnSpawn, int updateOrder) 
+	: Component(0), mSoundName(soundName), mPlayOnSpawn(playOnSpawn), mIsLooping(isLooping)
 {
 	mSound = Audio::Get().SpawnSoundComponent(soundName);
+	mPlayOnSpawn = playOnSpawn;
+	mIsLooping = isLooping;
+	mSoundName = soundName;
 
 	if (!playOnSpawn) mSound->Pause();
 	mSound->SetLooping(isLooping);
+	
+	SetupProperties();
 }
 
-void SoundComponent::SetSound(std::weak_ptr<Sound> audio, bool playOnSpawn, bool isLooping)
+SoundComponent::SoundComponent() 
+	: Component(0), mSoundName(""), mPlayOnSpawn(true), mIsLooping(false)
 {
-	if (mSound) mSound->Stop();
-	mSound = Audio::Get().SpawnSoundComponent(audio, GetWorldLocation());
+	SetupProperties();
+}
 
-	if (!playOnSpawn) mSound->Pause();
-	mSound->SetLooping(isLooping);
+void SoundComponent::Start()
+{
+	Component::Start();
+	
+	if (!mSoundName.empty())
+	{
+		SetSound(mSoundName, mIsLooping, mPlayOnSpawn);
+	}
 }
 
 void SoundComponent::SetSound(const std::string& soundName, bool playOnSpawn, bool isLooping)
 {
+	mSoundName = soundName;
+	mPlayOnSpawn = playOnSpawn;
+	mIsLooping = isLooping;
+	
 	if (mSound) mSound->Stop();
 	mSound = Audio::Get().SpawnSoundComponent(soundName, GetWorldLocation());
 

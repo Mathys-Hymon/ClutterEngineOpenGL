@@ -5,6 +5,8 @@
 
 using namespace clt;
 
+REGISTER_COMPONENT_CLASS(MeshComponent);
+
 MeshComponent::MeshComponent(std::weak_ptr<Mesh> pMesh, Vector2 pTextureTiling, int pDrawOrder) : Component(pDrawOrder), mMesh(pMesh)
 {
     if (mMesh.lock())   mMesh.lock()->GetMaterialRef().SetVec2("uTiling", pTextureTiling);

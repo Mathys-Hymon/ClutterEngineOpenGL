@@ -3,6 +3,7 @@
 #include <Core/Maths/Maths.h>
 #include <glm/gtx/quaternion.hpp> 
 #include <Core/Maths/Vectors/Vector3.h>
+#include <json/json.hpp>
 
 class Matrix4Row;
 struct CLUTTER_API Quaternion
@@ -56,6 +57,18 @@ struct CLUTTER_API Quaternion
 		return x != other.x || y != other.y || z != other.z || w != other.w;
 	}
 
+	inline void toJson(nlohmann::json& j, const Quaternion& q) 
+	{
+		j = nlohmann::json{{"x", q.x}, {"y", q.y}, {"z", q.z}, {"w", q.w}};
+	}
+
+	inline void fromJson(const nlohmann::json& j, Quaternion& q) 
+	{
+		j.at("x").get_to(q.x);
+		j.at("y").get_to(q.y);
+		j.at("z").get_to(q.z);
+		j.at("w").get_to(q.w);
+	}
 
 	float LengthSqr() const
 	{

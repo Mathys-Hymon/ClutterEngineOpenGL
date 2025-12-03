@@ -3,6 +3,7 @@
 #include "cmath"
 #include "string"
 #include <Core/Maths/Vectors/Vector3.h>
+#include <json/json.hpp>
 
 struct CLUTTER_API Color
 {
@@ -87,6 +88,19 @@ struct CLUTTER_API Color
 		a = right.a;
 
 		(*this).clamp(0, 255);
+	}
+	
+	inline void to_json(nlohmann::json& j, const Color& c) 
+	{
+		j = nlohmann::json{{"r", c.r}, {"g", c.g}, {"b", c.b}, {"a", c.a}};
+	}
+
+	inline void from_json(const nlohmann::json& j, Color& c) 
+	{
+		j.at("r").get_to(c.r);
+		j.at("g").get_to(c.g);
+		j.at("b").get_to(c.b);
+		j.at("a").get_to(c.a);
 	}
 
 	inline void clamp(float minValue, float maxValue) // Clamps the color values between the min and max values.

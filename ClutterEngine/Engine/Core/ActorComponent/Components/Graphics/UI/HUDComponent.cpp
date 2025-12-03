@@ -5,6 +5,8 @@
 
 using namespace clt;
 
+REGISTER_COMPONENT_CLASS(HUDComponent);
+
 HUDComponent::~HUDComponent()
 {
 	mOwner->GetLevel()->GetRenderer().RemoveHUDComponent(this);

@@ -3,6 +3,8 @@
 
 using namespace clt;
 
+REGISTER_COMPONENT_CLASS(AnimatorComponent);
+
 AnimatorComponent::AnimatorComponent(std::string pAnimName, const std::vector<std::weak_ptr<Texture>>& pTextures, bool pLooping, int pDrawOrder)
 	: FlipbookComponent(pTextures, pLooping, pDrawOrder)
 {

@@ -14,8 +14,19 @@ namespace clt
 		std::weak_ptr<Texture> mTexture;
 
 	public:
+		CLUTTER_CLASS(SpriteComponent);
+		
+		void SetupProperties() override 
+		{
+			CPROPERTY(mTexWidth, clt::PropMode::ReadWrite);
+			CPROPERTY(mTexHeight, clt::PropMode::ReadWrite);
+			CPROPERTY(mFlipX, clt::PropMode::ReadWrite);
+			CPROPERTY(mFlipY, clt::PropMode::ReadWrite);
+			CPROPERTY(mTexture, clt::PropMode::ReadWrite);
+		}
+		
 		SpriteComponent(std::weak_ptr<Texture> pTexture, int DrawOrder = 0);
-		SpriteComponent() = delete;
+		SpriteComponent(int DrawOrder = 0) : Component(DrawOrder) {};
 		SpriteComponent(const SpriteComponent&) = delete;
 		SpriteComponent& operator = (const SpriteComponent&) = delete;
 
