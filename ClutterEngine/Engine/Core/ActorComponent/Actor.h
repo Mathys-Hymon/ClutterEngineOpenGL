@@ -66,6 +66,7 @@ namespace clt
          */
         Actor(Level* pLevel, std::string pName = "Actor");
 
+        Actor() {};
         /**
          * @brief Destructor for the Actor class.
          */

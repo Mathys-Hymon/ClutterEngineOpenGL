@@ -2,27 +2,35 @@
 #include <Core/Levels/LevelManager.h>
 #include <Sound/Audio.h>
 
+#include "Core/JsonUtility.h"
+
 using namespace clt;
 
-LevelManager::LevelManager(std::vector<Level*>& pLevels, IRenderer* pRenderer, IPhysics* pPhysics) : mCurrentLevel(pLevels[0]), mLevels({})
+LevelManager::LevelManager(std::vector<const std::string&> pLevelsPath, std::vector<Level*>& pLevels, IRenderer* pRenderer, IPhysics* pPhysics) : mLevelsPath({}), mCurrentLevel(pLevels[0])
 {
-	for (Level* level : pLevels)
+	mCurrentLevel->SetManager(pRenderer, pPhysics, this);
+	for (const std::string& levelPath : pLevelsPath)
 	{
-		level->SetManager(pRenderer, pPhysics, this);
-		mLevels.emplace(level->mTitle, level);
+		nlohmann::json j;
+		if (!JsonUtility::LoadFromFile(levelPath, j)) continue;
+		
+		mLevelsPath[j["Title"]] = levelPath;
 	}
+	
 	mCurrentLevel->Load();
+	
+	LoadLevel(pLevelsPath[0]);
 }
 
 LevelManager::~LevelManager()
 {
 	mCurrentLevel->Close();
 
-    for (auto& pair : mLevels)
+    for (auto& pair : mLevelsPath)
     {
 		delete pair.second;
     }
-	mLevels.clear();
+	mLevelsPath.clear();
 }
 
 void LevelManager::Update()
@@ -40,17 +48,43 @@ void LevelManager::Update()
 	if(mCurrentLevel)	mCurrentLevel->InternalUpdate();
 }
 
-void LevelManager::LoadLevel(const std::string& levelName)
+void LevelManager::SaveLevel(const std::string& filePath)
 {
-	auto* newLevel = mLevels[levelName];
+	nlohmann::json j;
+	j["Title"] = mCurrentLevel->mTitle;
+	
+	nlohmann::json actorArray = nlohmann::json::array();
+	
+	auto actors = mCurrentLevel->GetAllActors();
+	
+	for (auto* actor : actors)
+	{
+		actorArray.push_back(actor->ToJson());
+	}
+	
+	j["Actors"] = actorArray;
+	
+	JsonUtility::SaveToFile(filePath, j);
+}
 
-	if (!newLevel)
+bool LevelManager::LoadLevel(const std::string& filePath)
+{
+	nlohmann::json j;
+	if (!JsonUtility::LoadFromFile(filePath, j))
 	{
-		CLUTTER_WARNING("Cannot find level : " + levelName);
-		return;
+		if (!JsonUtility::LoadFromFile(mLevelsPath[filePath], j)) return false;
 	}
-	else
+	
+	Level* newLevel = new Level(j["Title"]);
+	
+	if (j.contains("Actors") && j["Actors"].is_array())
 	{
-		mLevelToLoad = newLevel;
+		for (const auto& actorJson : j["Actors"])
+		{
+			auto newActor = newLevel->AddActor<Actor>();
+			newActor->FromJson(actorJson);
+		}
 	}
+	
+	return true;
 }

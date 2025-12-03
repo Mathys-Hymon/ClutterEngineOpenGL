@@ -28,7 +28,7 @@ namespace clt
         virtual void SetupProperties() {};
         
         virtual std::string GetTypeName() const = 0;
-        std::vector<Property>& GetProperties() const { return mProperties; }
+        const std::vector<Property>& GetProperties() { return mProperties; }
         
         template <typename T>
         void RegisterProperty(const std::string& name,T* varPtr, PropMode mode, std::function<bool()> cond = []{return true;})

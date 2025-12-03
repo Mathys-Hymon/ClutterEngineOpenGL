@@ -21,7 +21,7 @@ CEngine::CEngine()
 	};
 }
 
-void CEngine::Init(const std::string& path, std::vector<Level*> pLevels)
+void CEngine::Init(const std::string& path, std::vector<const std::string&> levelPath, std::vector<Level*> pLevels)
 {
 	std::ifstream file(path);
 	if (!file.is_open()) {
@@ -52,7 +52,7 @@ void CEngine::Init(const std::string& path, std::vector<Level*> pLevels)
 	}
 	else CLUTTER_ERROR("Unknown physics engine: " + physic);
 
-	mLevelManager = std::make_unique<LevelManager>(pLevels, mRenderer.get(), mPhysics.get());
+	mLevelManager = std::make_unique<LevelManager>({levelPath}, mRenderer.get(), mPhysics.get());
 	mRefreshFrameRate = 0;
 }
 

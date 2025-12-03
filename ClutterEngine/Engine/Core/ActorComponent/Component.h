@@ -45,7 +45,6 @@ namespace clt
          */
         Component(int pUpdateOrder = 0) : mUpdateOrder(pUpdateOrder), mOwner(nullptr) {};
 
-        Component() : mUpdateOrder(0), mOwner(nullptr) {}
         /**
          * @brief Virtual destructor for Component.
          */

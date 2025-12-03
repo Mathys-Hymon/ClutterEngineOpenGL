@@ -27,7 +27,7 @@ namespace clt
         virtual void Update();
         virtual void Render();
         
-        void Init(std::vector<clt::Level*> pLevels, const std::string& configFile);
+        void Init(std::vector<const std::string&> levelPath, std::vector<clt::Level*> levels, const std::string& configFile);
         void SetupEditor();
         void SetCamera(bool inGameMode);
         void RegisterDefaultPanels();
@@ -47,7 +47,9 @@ namespace clt
         CameraComponent* mInGameCam{nullptr};
         
     public:
-        EditorApplication(std::vector<clt::Level*> pLevels, const std::string& configFile = "Config/project.config.json");
+        EditorApplication(std::vector< clt::Level*> pLevels, const std::string& configFile = "Config/project.config.json");
+        EditorApplication(std::vector<const std::string&> levelPath, std::vector< clt::Level*> pLevels, const std::string& configFile = "Config/project.config.json");
+        
         virtual ~EditorApplication();
         
         void Run();

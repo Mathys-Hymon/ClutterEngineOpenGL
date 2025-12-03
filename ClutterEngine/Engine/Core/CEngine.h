@@ -38,7 +38,7 @@ namespace clt
    * @brief Initializes the engine with the specified parameters.
    * @param pLevels The levels to be managed by the level manager.
    */
-		void Init(const std::string& path, std::vector<Level*> pLevels);
+		void Init(const std::string& path, std::vector<const std::string&> levelPath, std::vector<Level*> pLevels);
 
 		/**
    * @brief Updates the engine state.

@@ -1,6 +1,5 @@
 #pragma once
 #include <Core/CCommon.h>
-#include <Core/ActorComponent/Components/Physics/Collisions/ColliderComponent.h>
 #include <Core/ActorComponent/Components/Physics/IRigidBody.h>
 #include <Physics/Collision/CollisionEvent.h>
 

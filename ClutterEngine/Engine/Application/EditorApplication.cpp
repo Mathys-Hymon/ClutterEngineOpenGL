@@ -28,17 +28,23 @@ using namespace clt;
 
 EditorApplication::EditorApplication(std::vector<clt::Level*> pLevels, const std::string& configFile)
 {
-	Init(pLevels, configFile);
+	//Init(pLevels, configFile);
 }
 
-void EditorApplication::Init(std::vector<clt::Level*> pLevels, const std::string& configFile)
+EditorApplication::EditorApplication(std::vector<const std::string&> levelPath, std::vector<clt::Level*> pLevels,
+	const std::string& configFile)
+{
+	Init(levelPath, pLevels, configFile);
+}
+
+void EditorApplication::Init(std::vector<const std::string&> filePath, std::vector<clt::Level*> pLevels, const std::string& configFile)
 {
 	mEngine = std::make_unique<clt::CEngine>();
 	mPanelManager = std::make_unique<editor::PanelManager>();
 
 	if (pLevels.empty()) pLevels.push_back(new clt::TemplateLevel());
 
-	mEngine->Init(configFile, pLevels);
+	mEngine->Init(configFile,filePath, pLevels);
 	
 	CLUTTER_INFO("Application created");
 

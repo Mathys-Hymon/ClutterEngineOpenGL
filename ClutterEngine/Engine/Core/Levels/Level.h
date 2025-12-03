@@ -31,7 +31,7 @@ namespace clt
         /**
          * @brief Updates the level. Must be implemented by derived classes.
          */
-        virtual void Update() = 0;
+        virtual void Update() {};
 
     public:
 
@@ -54,7 +54,7 @@ namespace clt
         /**
          * @brief Loads the level. Must be implemented by derived classes.
          */
-        virtual void Load() = 0;
+        virtual void Load() {};
 
         /**
          * @brief Sets the renderer for the level.
@@ -78,13 +78,13 @@ namespace clt
         /**
          * @brief Closes the level. Must be implemented by derived classes.
          */
-        virtual void Close() = 0;
+        virtual void Close() {};
 
         /**
          * @brief Unloads the level and cleans up resources.
          */
         void Unload();
-
+        
         template<typename T, typename... Args>
         T* AddActor(Args&&... args);
         /**

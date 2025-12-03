@@ -5,7 +5,7 @@
 int main()
 {
 
-    clt::EditorApplication app({ new LevelMap});
+    clt::EditorApplication app({"Maps/LevelMap.h"}, { new LevelMap} );
 
     return 0;
 }
