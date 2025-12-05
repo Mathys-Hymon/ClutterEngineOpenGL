@@ -63,6 +63,9 @@ void Shader::Load(std::string pFileName, ShaderType pShaderType, bool pPath)
     case ShaderType::GEOMETRY:
         mID = glCreateShader(GL_GEOMETRY_SHADER);
         break;
+        
+        case ShaderType::COMPUTE_SHADER:
+        mID = glCreateShader(GL_COMPUTE_SHADER);
 
     default:
         CLUTTER_WARNING("This shader type has not yet been implemented.");

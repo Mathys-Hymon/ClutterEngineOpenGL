@@ -253,6 +253,11 @@
   <ItemGroup>
     <Image Include="..\..\EngineAssets\clutterLogoDark.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Resources\Shaders\Particle\particle.comp" />
+    <Content Include="Content\Resources\Shaders\Particle\particle.frag" />
+    <Content Include="Content\Resources\Shaders\Particle\particle.vert" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

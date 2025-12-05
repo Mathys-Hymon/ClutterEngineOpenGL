@@ -63,7 +63,7 @@ void EditorApplication::Init(std::vector<clt::Level*> pLevels, const std::string
 	
 	SetupEditor();
 	
-	SetMode(EditorMode::InEditor);
+	SetMode(EditorMode::InGame);
 
 	Run();
 }

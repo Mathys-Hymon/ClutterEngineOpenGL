@@ -1,0 +1,63 @@
+#version 450
+layout(local_size_x = 128, local_size_y = 1, local_size_z = 1) in;
+
+struct Particle 
+{
+    vec4 position; // .w = lifetime
+    vec4 velocity;
+    vec4 color;
+};
+
+layout(std430, binding = 0) buffer ParticleBuffer 
+{
+    Particle particles[];
+};
+
+uniform float deltaTime;
+uniform vec3 emitterPos;
+uniform float time;
+uniform int shouldSpawn;
+uniform float randomSeed;
+
+float rand(vec2 co)
+{
+    return fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453);
+}
+
+void main() 
+{
+    uint id = gl_GlobalInvocationID.x;
+
+    vec4 pos = particles[id].position;
+    vec4 vel = particles[id].velocity;
+
+    float life = particles[id].position.w;
+    
+    if (life <= 0.0) 
+    {
+        if (shouldSpawn == 1) 
+        {
+            float r = rand(vec2(time, id * 0.001 + randomSeed));
+
+            if (r > 0.95) 
+            {
+                // RESPAWN
+                pos.xyz = emitterPos + vec3((r - 0.5), rand(vec2(r, time)) - 0.5, 0) * 0.5;
+
+                vel.xyz = vec3((r - 0.5) * 2.0, 3.0 + r, (rand(vec2(time, r)) - 0.5) * 2.0);
+
+                life = 2.0 + r;
+            }
+        }
+    } else 
+    {
+        life -= deltaTime;
+
+        vel.y -= 9.81 * 0.3 * deltaTime;
+
+        pos.xyz += vel.xyz * deltaTime;
+    }
+
+    particles[id].position = pos;
+    particles[id].velocity = vel;
+}
