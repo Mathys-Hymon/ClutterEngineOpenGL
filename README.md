@@ -10,7 +10,7 @@ It features an Entity Component System (ECS), OBB-based collision detection, a m
 
 ## 🛠️ Features
 
-- Custom ECS (Entity Component System)
+- Custom Actor Component System
 - OBB-based collision system with Rigidbody physics
 - PBR-ready material and asset pipeline
 - Tessellation shaders for animated water and displaced terrain
